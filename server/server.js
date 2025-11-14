@@ -1,6 +1,8 @@
 require('dotenv').config()
 const express = require('express')
 const http = require('http')
+const dbConnection = require('./config/database')
+const config = require('./config/config')
 
 class Server {
     constructor() {
@@ -11,22 +13,49 @@ class Server {
 
     async initialize() {
         try{
-            console.log('server initialized');
-            
+            await dbConnection.connect()
+
+            console.log('Server initialized successfully')
         }
         catch(err) {
-            console.log(err)
+            console.log('Server initialization failed',err)
+            process.exit(1)
         }
     }
 
     async start() {
         try {
-            this.initialize()
+            await this.initialize()
+
+            this.server.listen(this.port,()=>{
+                console.log(`Server running in ${config.NODE_ENV} Mode on port ${this.port}`)
+            })
             
         } catch (error) {
             console.log(error)
         }
+        this.setupGracefulShutdown()
     }
+
+    setupGracefulShutdown() {
+        const gracefulShutdown = async(signal)=>{
+            console.log(`${signal} received, Starting graceful shutdown...`)
+
+            this.server.close(async()=>{
+                console.log('HTTP server closed')
+            })
+            
+            await dbConnection.disconnect()
+            console.log('Graceful shutdown completed')
+
+            process.exit(0)
+        }
+        process.on('SIGTERM',()=>gracefulShutdown('SIGTERM'))
+        process.on('SIGINT',()=>gracefulShutdown('SIGINT'))
+    }
+
 }
 const appServer = new Server()
 appServer.start()
+
+module.exports = appServer.app
