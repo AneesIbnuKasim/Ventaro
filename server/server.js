@@ -3,6 +3,7 @@ const express = require('express')
 const http = require('http')
 const dbConnection = require('./config/database')
 const config = require('./config/config')
+const setupMiddleware = require('./middlewares/setup')
 
 class Server {
     constructor() {
@@ -14,7 +15,9 @@ class Server {
     async initialize() {
         try{
             await dbConnection.connect()
-
+            
+            setupMiddleware(this.app)
+            
             console.log('Server initialized successfully')
         }
         catch(err) {
