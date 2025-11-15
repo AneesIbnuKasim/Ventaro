@@ -4,6 +4,7 @@ const http = require('http')
 const dbConnection = require('./config/database')
 const config = require('./config/config')
 const setupMiddleware = require('./middlewares/setup')
+const { setupRoutes } = require('./routes')
 
 class Server {
     constructor() {
@@ -17,6 +18,8 @@ class Server {
             await dbConnection.connect()
             
             setupMiddleware(this.app)
+
+            setupRoutes(this.app)
             
             console.log('Server initialized successfully')
         }
