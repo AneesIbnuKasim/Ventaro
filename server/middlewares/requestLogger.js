@@ -10,4 +10,5 @@ const requestLogger = (req, res, next)=>{
         logger.info(`response completed: ${req.method} ${req.originalUrl} - ${res.statusCode}`)
         originalEnd.call(this,chunk,encoding)
     }
+    next()
 }
