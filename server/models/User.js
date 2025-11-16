@@ -50,4 +50,8 @@ const userSchema = new mongoose.Schema({
 {timestamps: true}
 )
 
+userSchema.statics.findByEmail = function(email) {
+    return this.findOne({email: email.toLowerCase()})
+}
+
 module.exports = mongoose.model('User',userSchema)

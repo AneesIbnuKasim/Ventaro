@@ -36,3 +36,9 @@ const loginValidation = Joi.object({
     email: commonPatterns.email.messages(customMessages),
     password: commonPatterns.password.messages(customMessages)
 })
+
+module.exports = {
+    registerValidation,
+    loginValidation,
+    strongPasswordValidation
+}
