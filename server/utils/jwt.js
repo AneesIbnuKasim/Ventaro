@@ -12,3 +12,7 @@ const generateUserToken = (payload)=>{
         throw new Error('Token generation failed')
     }
 }
+
+module.exports = {
+    generateUserToken
+}

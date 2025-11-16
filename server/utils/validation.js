@@ -5,8 +5,8 @@ const commonPatterns = {
     email: Joi.string().email().lowercase().trim().required(),
     password: Joi.string().min(8).max(128).required(),
     objectId: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
-    status: Joi.string().valid(['active', 'banned', 'inactive']),
-    role: Joi.string().valid(['user', 'admin'])
+    status: Joi.string().valid('active', 'banned', 'inactive'),
+    role: Joi.string().valid('user', 'admin')
 }
 
 const customMessages = {

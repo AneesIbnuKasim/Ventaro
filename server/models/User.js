@@ -50,6 +50,12 @@ const userSchema = new mongoose.Schema({
 {timestamps: true}
 )
 
+userSchema.methods.getPublicProfile = function() {
+    const userObject = this.toObject()
+    delete userObject.password
+    return userObject
+}
+
 userSchema.statics.findByEmail = function(email) {
     return this.findOne({email: email.toLowerCase()})
 }

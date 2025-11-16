@@ -9,13 +9,13 @@ class DatabaseConnection {
     async connect() {
         try {
           if (this.isConnected) {
-            console.log('db connected already')
+            logger.info('db connected already')
             return
         }
 
         const options = {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
+            // useNewUrlParser: true,
+            // useUnifiedTopology: true,
             maxPoolSize: 10,
             serverSelectionTimeoutMs: 5000,
             socketTimeoutMs: 45000,
@@ -25,23 +25,23 @@ class DatabaseConnection {
         await mongoose.connect(config.MONGODB_URI,options)
 
         this.isConnected = true
-        console.log(`mongodb connected successfully`)
+        logger.info(`mongodb connected successfully`)
         mongoose.connection.on('error',(err)=>{
-          console.log('db connection error:',err)
+        logger.error('db connection error:',err)
         })
 
         mongoose.connection.on('disconnect',()=>{
-          console.warn('DB connection disconnected')
+          logger.warn('DB connection disconnected')
           this.isConnected = false
         })
 
         mongoose.connection.on('reconnect',()=>{
-          console.log('DB connection reconnected')
+          logger.info('DB connection reconnected')
           this.isConnected = true
         })
     }
        catch (error) {
-            console.log('db connection failed: ',error)
+            logger.error('db connection failed: ',error)
         }
 }
 
@@ -49,10 +49,10 @@ class DatabaseConnection {
      try {
        await mongoose.connection.close()
       this.isConnected = false
-      console.log('db disconnected gracefully')
+      logger.info('db disconnected gracefully')
     }
      catch (error) {
-      console.log('Error during mongoDb disconnection', error) 
+      logger.error('Error during mongoDb disconnection', error) 
      }
  }
 

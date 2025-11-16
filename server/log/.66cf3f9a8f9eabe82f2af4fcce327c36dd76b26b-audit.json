@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "/Users/macair/Desktop/Mentor/ventaro/server/log/.66cf3f9a8f9eabe82f2af4fcce327c36dd76b26b-audit.json",
+    "files": [
+        {
+            "date": 1763281183730,
+            "name": "/Users/macair/Desktop/Mentor/ventaro/server/log/error-2025-11-16.log",
+            "hash": "f38273467759533e0595c738fa50be2b18a08ca3d2a16395f8fa06f2667303c5"
+        }
+    ],
+    "hashType": "sha256"
+}

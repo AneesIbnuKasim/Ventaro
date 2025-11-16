@@ -7,8 +7,10 @@ const requestLogger = (req, res, next)=>{
     const originalEnd = res.end
     res.end = function(chunk,encoding) {
         const duration = Date.now() - startTime
-        logger.info(`response completed: ${req.method} ${req.originalUrl} - ${res.statusCode}`)
+        logger.info(`response completed: ${req.method} ${req.originalUrl} - ${res.statusCode} ${duration}`)
         originalEnd.call(this,chunk,encoding)
     }
     next()
 }
+
+module.exports = requestLogger

@@ -3,10 +3,15 @@ const { sendValidationError, sendSuccess, sendError } = require('../utils/respon
 
 class BaseController {
     static asyncHandler(fn) {
-        Promise.resolve(fn(req, res, next).catch(next))
+        return (req, res, next)=>{
+            Promise.resolve(fn(req, res, next).catch(next))
+        }
     }
     static validateRequest(schema, data) {
-        const { error, value } = schema.validate(data,{abortEarly: false})
+        const { error, value } = schema.validate(data, {abortEarly: false})
+
+        console.log('error:',error);
+        
 
         if(error) {
             throw {

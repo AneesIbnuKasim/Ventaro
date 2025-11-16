@@ -4,6 +4,7 @@ const http = require('http')
 const dbConnection = require('./config/database')
 const config = require('./config/config')
 const setupMiddleware = require('./middlewares/setup')
+const logger = require('./utils/logger')
 const { setupRoutes } = require('./routes')
 
 class Server {
@@ -21,10 +22,10 @@ class Server {
 
             setupRoutes(this.app)
             
-            console.log('Server initialized successfully')
+            logger.info('Server initialized successfully')
         }
         catch(err) {
-            console.log('Server initialization failed',err)
+           logger.error('Server initialization failed',err)
             process.exit(1)
         }
     }
@@ -34,7 +35,7 @@ class Server {
             await this.initialize()
 
             this.server.listen(this.port,()=>{
-                console.log(`Server running in ${config.NODE_ENV} Mode on port ${this.port}`)
+                logger.info(`Server running in ${config.NODE_ENV} Mode on port ${this.port}`)
             })
             
         } catch (error) {

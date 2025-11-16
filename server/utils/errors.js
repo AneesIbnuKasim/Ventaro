@@ -1,4 +1,3 @@
-const { error } = require("winston")
 
 // used for handling errors in the application
 class AppError extends Error {
