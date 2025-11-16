@@ -6,6 +6,7 @@ const config = require('./config/config')
 const setupMiddleware = require('./middlewares/setup')
 const logger = require('./utils/logger')
 const { setupRoutes } = require('./routes')
+const { notFound, errorHandler } = require('./middlewares/errorHandler')
 
 class Server {
     constructor() {
@@ -21,6 +22,9 @@ class Server {
             setupMiddleware(this.app)
 
             setupRoutes(this.app)
+
+            this.app.use(notFound);
+            this.app.use(errorHandler);
             
             logger.info('Server initialized successfully')
         }

@@ -134,7 +134,7 @@ class ErrorUtils {
             return 400
     }
 
-    static formattedError(error) {
+    static formatError(error) {
         const message = this.extractMessage
         const statusCode = this.getStatusCode
 

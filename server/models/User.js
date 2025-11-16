@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Password is required'],
         minlength: [6, 'Password must be at least 6 characters long'],
-        maxlength: [20, 'Password cant exceed 20 characters']
+        maxlength: [128, 'Password cant exceed 20 characters']
     },
     role: {
         type: String,
@@ -50,11 +50,28 @@ const userSchema = new mongoose.Schema({
 {timestamps: true}
 )
 
+userSchema.pre('save', async function(next) {
+  if (!this.isModified('password')) return next();
+
+  try {
+    const hashedPassword = await bcrypt.hash(this.password, 12);
+    this.password = hashedPassword;
+    next();
+  } catch (error) {
+    next(error);
+  }
+})
+
+userSchema.methods.comparePassword = async function(candidatePassword){
+    return bcrypt.compare(candidatePassword, this.password)
+}
+
 userSchema.methods.getPublicProfile = function() {
     const userObject = this.toObject()
     delete userObject.password
     return userObject
 }
+
 
 userSchema.statics.findByEmail = function(email) {
     return this.findOne({email: email.toLowerCase()})
