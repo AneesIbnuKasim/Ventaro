@@ -1,6 +1,3 @@
-const logger = require("./logger")
-
-
 const { ErrorUtils } = require('./errors')
 
 class ResponseFormatter {
