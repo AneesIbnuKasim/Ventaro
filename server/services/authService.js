@@ -35,6 +35,19 @@ class AuthService {
        }
 
     }
+
+    static login = async(userData)=>{
+        const { email, password } = userData
+        const user = User.findByEmail(email)
+        
+        if (!user) {
+            throw new Error('Email or password invalid')
+        }
+
+        console.log(user.status);
+        
+        
+    }
 }
 
 module.exports = AuthService

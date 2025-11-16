@@ -628,3 +628,326 @@
 {"level":"info","message":"New user registered: anees@emial.com"}
 {"action":"USER_REGISTER","level":"info","message":"Controller action: USER_REGISTER","timestamp":"2025-11-16T11:32:39.796Z","user":{"email":"anees@emial.com","id":"6919b657503245c541b75db5","role":"user"}}
 {"level":"info","message":"response completed: POST /api/auth/register - 201 43"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"incoming requests: POST /api/auth/login from ::1"}
+{"level":"info","message":"response completed: POST /api/auth/login - 500 17"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"incoming requests: POST /api/auth/login from ::1"}
+{"level":"info","message":"response completed: POST /api/auth/login - 500 16"}
+{"level":"info","message":"incoming requests: POST /api/auth/login from ::1"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"incoming requests: POST /api/auth/login from ::1"}
+{"level":"info","message":"incoming requests: POST /api/auth/login from ::1"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"incoming requests: POST /api/auth/login from ::1"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
