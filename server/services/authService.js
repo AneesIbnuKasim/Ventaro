@@ -30,7 +30,7 @@ class AuthService {
        })
 
        
-       const otpExp = Date.now()+5*60*1000
+       const otpExp = Date.now()+30*60*1000
 
        user.otpDetails = {
         code: otp,
@@ -38,7 +38,7 @@ class AuthService {
        }
        await user.save()
 
-       await sendOtpEmail(user.name, user.email, otp)
+       await sendOtpEmail(user.name, user.email, otp, user._id)
        }
 
        const token = generateUserToken({
@@ -59,6 +59,35 @@ class AuthService {
             throw error        
        }
 
+    }
+
+    //Email otp verification logic
+    static verifyOtp = async(query, data)=>{
+        try {
+            const { userId } = query
+            const { otp } = data
+            const user = await User.findById(userId)
+            if (!user) {
+                logger.error('User not found')
+            }
+            const now = new Date()
+            const isExpired = now > user.otpDetails.expiresAt
+            if (isExpired) return logger.error('Otp expired')
+
+            const isMatching = await user.compareOtp(otp)
+
+            if (!isMatching) {
+                return logger.error('Otp not valid')
+            }
+
+            user.otpDetails = null
+                user.isVerified = true
+                await user.save()
+                logger.info('Email verified')
+            
+        } catch (error) {
+            logger.error(error)
+        }
     }
 
     //User login logic

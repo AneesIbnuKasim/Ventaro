@@ -6,7 +6,7 @@ const commonPatterns = {
     password: Joi.string().min(8).max(128).required(),
     objectId: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
     status: Joi.string().valid('active', 'banned', 'inactive'),
-    role: Joi.string().valid('user', 'admin')
+    role: Joi.string().valid('user', 'admin'),
 }
 
 const customMessages = {
@@ -36,6 +36,7 @@ const loginValidation = Joi.object({
     email: commonPatterns.email.messages(customMessages),
     password: commonPatterns.password.messages(customMessages)
 })
+
 
 module.exports = {
     registerValidation,

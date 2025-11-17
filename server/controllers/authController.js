@@ -17,6 +17,12 @@ class AuthController extends BaseController {
         BaseController.sendSuccess(res, 'Login successful', result)
     })
 
+    static verifyOtp = BaseController.asyncHandler(async(req, res)=>{
+        const result = await AuthService.verifyOtp(req.query, req.body)
+        // BaseController.logAction('EMAIL_VERIFICATION',result.user)
+        // BaseController.sendSuccess(res, 'Email verification successful', result)
+    })
+
 }
 
 module.exports = AuthController

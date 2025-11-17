@@ -46,6 +46,10 @@ const userSchema = new mongoose.Schema({
         ref: 'User',
         default: null
     },
+    isVerified: {
+        type: String,
+        default: false
+    },
     otpDetails: {
         code: String,
         expiresAt: Date,
@@ -55,11 +59,18 @@ const userSchema = new mongoose.Schema({
 )
 
 userSchema.pre('save', async function(next) {
-  if (!this.isModified('password')) return next();
-  try {
-    const hashedPassword = await bcrypt.hash(this.password, 12)
-    this.password = hashedPassword;
-    next();
+    try {
+        //hasing password before saving
+      if (this.isModified('password')) {
+          const hashedPassword = await bcrypt.hash(this.password, 12)
+          this.password = hashedPassword;
+        }
+        //hasing otp before saving
+      if (this.isModified('otpDetails')&& this.otpDetails?.code) {
+      const hashedOtp = await bcrypt.hash(this.otpDetails.code, 12)
+      this.otpDetails.code = hashedOtp
+    }  
+        next();
     
   } catch (error) {
     next(error);
@@ -68,6 +79,10 @@ userSchema.pre('save', async function(next) {
 
 userSchema.methods.comparePassword = async function(candidatePassword){
     return bcrypt.compare(candidatePassword, this.password)
+}
+
+userSchema.methods.compareOtp = async function(candidateOtp){
+    return bcrypt.compare(candidateOtp, this.otpDetails.code)
 }
 
 userSchema.methods.getPublicProfile = function() {
