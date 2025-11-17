@@ -2,10 +2,11 @@ const logger = require('../utils/logger');
 const { sendError } = require('../utils/response');
 
 const errorHandler = (err, req, res, next) => {
+  
   let error = { ...err };
-  error.message = err.message;
+  console.log('error in er hand:',error);
 
-  logger.error(`Error ${err.message}`, {
+  logger.error(`Error ${err.name}`, {
     stack: err.stack,
     url: req.originalUrl,
     method: req.method,
@@ -25,11 +26,14 @@ const errorHandler = (err, req, res, next) => {
   }
 
   if (err.name === 'ValidationError') {
+    
     const errors = Object.values(err.errors).map(val => ({
       field: val.path,
       message: val.message
     }));
-    return sendError(res, 'Validation Error', 400, errors);
+    // console.log('inhere',errors);
+    
+    return sendError(res, 'ValidationError', 400, errors);
   }
 
   if (err.name === 'JsonWebTokenError') {

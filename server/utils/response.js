@@ -21,7 +21,10 @@ class ResponseFormatter {
   }
 
   static error(res, error, statusCode = null) {
+    
     const formattedError = ErrorUtils.formatError(error)
+    // console.log('formatted error',formattedError);
+    
     const finalStatusCode = statusCode || formattedError.error.statusCode
 
     const response = {
@@ -152,9 +155,15 @@ const sendSuccess = (res, message, data = null, statusCode = 200) => {
 };
 
 const sendError = (res, message, statusCode = 500, details = null) => {
+  // console.log('details:',details);
+  
   const error = new Error(message)
+  error.name = message
   error.statusCode = statusCode
   if (details) error.details = details
+
+  // console.log('send error to response formatter:',error);
+
   return ResponseFormatter.error(res, error, statusCode)
 }
 

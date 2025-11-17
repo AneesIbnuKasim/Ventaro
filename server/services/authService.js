@@ -1,8 +1,8 @@
 const User = require('../models/User')
 const logger = require('../utils/logger')
 const { generateUserToken } = require('../utils/jwt')
-const bcrypt = require('bcrypt')
-const { BCRYPT_ROUND } = require('../config/config')
+const { sendOtpEmail } = require('../utils/nodeMailer')
+const otpGenerator = require('otp-generator')
 
 class AuthService {
     static async register(userData) {
@@ -13,16 +13,33 @@ class AuthService {
         if(existingUser) {
         throw new Error('User with this email already exists')
        }
-       
-       const hashedPassword = await bcrypt.hash(password, BCRYPT_ROUND)
 
        const user = new User({
         name,
         email,
-        password: hashedPassword
-
+        password
        })
+
+       const newUserData = await user.save()
+
+       if (newUserData) {
+       const otp = otpGenerator.generate(6,{
+        specialChars: false,
+        lowerCaseAlphabets: false,
+        upperCaseAlphabets: false
+       })
+
+       
+       const otpExp = Date.now()+5*60*1000
+
+       user.otpDetails = {
+        code: otp,
+        expiresAt: otpExp
+       }
        await user.save()
+
+       await sendOtpEmail(user.name, user.email, otp)
+       }
 
        const token = generateUserToken({
         id: user._id,
@@ -39,11 +56,12 @@ class AuthService {
 
        } catch (error) {
             logger.error('Registration error:', error);
-            throw error;        
+            throw error        
        }
 
     }
 
+    //User login logic
     static login = async(userData)=>{
         try {
             const { email, password } = userData

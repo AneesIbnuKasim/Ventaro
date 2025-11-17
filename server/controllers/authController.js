@@ -16,6 +16,7 @@ class AuthController extends BaseController {
         BaseController.logAction('USER_LOGIN',result.user)
         BaseController.sendSuccess(res, 'Login successful', result)
     })
+
 }
 
 module.exports = AuthController

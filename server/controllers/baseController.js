@@ -9,11 +9,12 @@ class BaseController {
     }
     static validateRequest(schema, data) {
         const { error, value } = schema.validate(data, {abortEarly: false})
-
+        console.log('val error',error);
+        
         if(error) {
             throw {
-                name: 'Validation error',
-                details: error.details
+                name: 'ValidationError',
+                errors: error.details,
             }
         }
         return value

@@ -92,7 +92,10 @@ class ErrorUtils {
         if(error instanceof AppError) return error.message
         
         if(error.name === 'ValidationError') {
-            const messages = Object.values(error.errors).map(err=>err.message)
+
+            // console.log('in validationError:');
+
+            const messages = Object.values(error.details).map(err=>err.message)
             return messages.join(', ')
         }
 
@@ -135,9 +138,11 @@ class ErrorUtils {
     }
 
     static formatError(error) {
-        const message = this.extractMessage
-        const statusCode = this.getStatusCode
+        const message = this.extractMessage(error)
+        const statusCode = this.getStatusCode(error)
 
+        // console.log('format message:',message);
+        
         const formattedError = {
             success: false,
             error: {

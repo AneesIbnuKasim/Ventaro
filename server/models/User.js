@@ -46,17 +46,21 @@ const userSchema = new mongoose.Schema({
         ref: 'User',
         default: null
     },
+    otpDetails: {
+        code: String,
+        expiresAt: Date,
+    }
 },
 {timestamps: true}
 )
 
 userSchema.pre('save', async function(next) {
   if (!this.isModified('password')) return next();
-
   try {
-    const hashedPassword = await bcrypt.hash(this.password, 12);
+    const hashedPassword = await bcrypt.hash(this.password, 12)
     this.password = hashedPassword;
     next();
+    
   } catch (error) {
     next(error);
   }
