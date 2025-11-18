@@ -1,7 +1,7 @@
-
 const nodemailer = require("nodemailer");
 const config = require("../config/config");
 const logger = require("./logger");
+const otpGenerator = require('otp-generator')
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -13,16 +13,25 @@ const transporter = nodemailer.createTransport({
     pass: config.APP_PASSWORD
   },
 })
-// send email for verification
-const sendOtpEmail = async(name='User', email, otp, userId)=>{
-    console.log('email:',config.EMAIL);
-    console.log('user email:',email)
-    console.log('otp:',otp);
-    console.log('userId:',userId);
-    console.log('password:',config.APP_PASSWORD)
 
-    
-    
+const generateOtp = (userData)=>{
+      if (!userData) {
+        throw new Error('User data is missing for OTP generation')
+      }
+       const otp = otpGenerator.generate(6,{
+        specialChars: false,
+        lowerCaseAlphabets: false,
+        upperCaseAlphabets: false
+       })
+       const otpExp = Date.now()+30*60*1000
+       return {
+        code: otp,
+        expiresAt: otpExp
+  }
+}
+
+// send email for verification
+const sendOtpEmail = (userId, name, email, otp)=>{
     try {
         const mailOptions =
         {
@@ -39,15 +48,19 @@ const sendOtpEmail = async(name='User', email, otp, userId)=>{
       transporter.sendMail(mailOptions, function(error, info){
         if (error) {
             logger.error('OTP email sending failed')
-            
+            throw error
         }
-        else logger.info("Email has been sent",info.response)
+        else {
+          logger.info("Email has been sent",info.response)
+        }
       });
     } catch (error) {
         logger.error('catch:',error.message)
+        throw error
     }
 }
 
 module.exports = {
+  generateOtp,
   sendOtpEmail
 }

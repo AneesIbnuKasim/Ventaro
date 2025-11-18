@@ -14,7 +14,7 @@ const customMessages = {
     'string.max': '{#label} cannot exceed {#limit} characters',
     'string.email': 'please provide a valid email address',
     'any.required': '{#label} is required',
-    'any.only': '{#label} must be one of {#valids}',
+    'any.only': '{#label} must be one of {#valid}',
     'string.pattern.base': '{#label} format is invalid'
 }
 
@@ -29,7 +29,8 @@ const strongPasswordValidation = Joi.string()
 const registerValidation = Joi.object({
     name: commonPatterns.name.messages(customMessages),
     email: commonPatterns.email.messages(customMessages),
-    password: commonPatterns.password.messages(customMessages),
+    // password: commonPatterns.password.messages(customMessages),
+    password: strongPasswordValidation
 })
 
 const loginValidation = Joi.object({
@@ -37,9 +38,20 @@ const loginValidation = Joi.object({
     password: commonPatterns.password.messages(customMessages)
 })
 
+const changePasswordValidation = Joi.object({
+  currentPassword: commonPatterns.password.messages(customMessages),
+  newPassword: strongPasswordValidation
+});
+
+const emailValidation = Joi.object({
+    email: commonPatterns.email.messages(customMessages)
+})
+
 
 module.exports = {
     registerValidation,
     loginValidation,
-    strongPasswordValidation
+    strongPasswordValidation,
+    changePasswordValidation,
+    emailValidation
 }

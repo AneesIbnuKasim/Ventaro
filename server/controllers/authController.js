@@ -1,5 +1,5 @@
 const BaseController = require("./baseController")
-const { registerValidation, loginValidation, strongPasswordValidation } = require('../utils/validation')
+const { registerValidation, loginValidation, changePasswordValidation, emailValidation } = require('../utils/validation')
 const AuthService = require("../services/AuthService")
 
 class AuthController extends BaseController {
@@ -24,12 +24,22 @@ class AuthController extends BaseController {
     })
 
     static changePassword = BaseController.asyncHandler(async(req, res)=>{
-        const validatedData = BaseController.validateRequest(strongPasswordValidation, req.body)
+        const validatedData = BaseController.validateRequest(changePasswordValidation, req.body)
         await AuthService.changePassword(req.user._id, validatedData)
-        BaseController.logAction('PASSWORD-RESET',req.user)
+        BaseController.logAction('PASSWORD-CHANGE',req.user)
         BaseController.sendSuccess(res, 'Password changed successfully')
     })
 
+    static requestPasswordReset = BaseController.asyncHandler(async(req, res)=>{
+        const validatedData = BaseController.validateRequest(emailValidation, req.body)
+        const email = await AuthService.requestPasswordReset(validatedData)
+        BaseController.logAction('PASSWORD-RESET-OTP', email)
+        BaseController.sendSuccess(res, 'Otp has been send to email successfully')
+    })
+
+    static forgotPassword = BaseController.asyncHandler(async(req, res)=>{
+        const result = await AuthService.verifyOtp(req.query, req.body)
+    })
 
 
 }

@@ -32,7 +32,8 @@ const authenticateUser = async(req, res, next)=>{
         logger.error('User authentication failed')
         sendError(res, 'User token invalid or expired', 401)
     }
-//middleware to authenticate admin 
+}
+    //middleware to authenticate admin 
     const authenticateAdmin = async(req, res, next)=>{
         try {
             const authHeader = req.headers.authorization
@@ -74,17 +75,18 @@ const authenticateUser = async(req, res, next)=>{
             logger.error('Admin authentication error')
             sendError(res, 'Invalid or expired admin token', 401)
         }
-//middleware to verify admin privileges for admin only routes
+    }
+
+    //middleware to verify admin privileges for admin only routes
     const requireAdmin = (req, res, next)=>{
         if (!req.user || !req.user.role === 'admin') {
             return sendError(res, 'Admin privileges required', 403)
         }
         next()
         }
-    }
-}
 
 module.exports = {
     authenticateUser,
-    authenticateAdmin
+    authenticateAdmin,
+    requireAdmin
 }

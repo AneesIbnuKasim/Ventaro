@@ -1,8 +1,7 @@
 const User = require('../models/User')
 const logger = require('../utils/logger')
 const { generateUserToken } = require('../utils/jwt')
-const { sendOtpEmail } = require('../utils/nodeMailer')
-const otpGenerator = require('otp-generator')
+const { sendOtpEmail, generateOtp } = require('../utils/nodeMailer')
 
 class AuthService {
     static async register(userData) {
@@ -22,33 +21,25 @@ class AuthService {
 
        const newUserData = await user.save()
 
-       if (newUserData) {
-       const otp = otpGenerator.generate(6,{
-        specialChars: false,
-        lowerCaseAlphabets: false,
-        upperCaseAlphabets: false
-       })
-
-       
-       const otpExp = Date.now()+30*60*1000
-
-       user.otpDetails = {
-        code: otp,
-        expiresAt: otpExp
+       const otpDetails = generateOtp(newUserData)
+       if (!otpDetails) {
+        throw new Error('Otp generation failed')
        }
+
+       user.otpDetails = otpDetails
        await user.save()
 
-       await sendOtpEmail(user.name, user.email, otp, user._id)
-       }
+       sendOtpEmail(user.name, user.email, otpDetails.code, user._id)
 
        const token = generateUserToken({
         id: user._id,
         email: user.email,
         role: user.role
        })
-
+       console.log('token:',token);
+       
        logger.info(`New user registered: ${user.email}`)
-
+       
        return {
         user: user.getPublicProfile(),
         token
@@ -61,7 +52,7 @@ class AuthService {
 
     }
 
-    //otp verification logic
+    //Mail otp verification logic
     static verifyOtp = async(query, data)=>{
         try {
             const { userId } = query
@@ -72,22 +63,26 @@ class AuthService {
             }
             const now = new Date()
             const isExpired = now > user.otpDetails.expiresAt
-            if (isExpired) return logger.error('Otp expired')
+            if (isExpired) {
+                logger.error('Otp expired')
+                throw new Error('Otp expired')
+            }
 
             const isMatching = await user.compareOtp(otp)
 
             if (!isMatching) {
-                return logger.error('Otp not valid')
+                logger.error('Otp not valid')
+                throw new Error('Otp not valid')
             }
 
             user.otpDetails = null
-                user.isVerified = true
-                await user.save()
-                logger.info('Email verified')
+            user.isVerified = true
+            await user.save()
+            logger.info('Email verified')
 
             return {
-        user: user.getPublicProfile(),
-       }
+            user: user.getPublicProfile(),
+            }
             
         } catch (error) {
             logger.error(error)
@@ -164,6 +159,30 @@ class AuthService {
             logger.error('Password change error')
             throw error
         }
+    }
+
+    //Request password reset otp to reset password
+    static async requestPasswordReset(validatedData) {
+        const { email } = validatedData
+        const user = await User.findByEmail(email)
+        console.log('user',user);
+        
+        if (!user) {
+            throw new Error('User not found')
+        }
+
+        const otpDetails = generateOtp(user)
+        if (!otpDetails) {
+        throw new Error('Otp generation failed')
+       }
+
+       user.otpDetails = otpDetails
+       await user.save()
+
+       sendOtpEmail(user._id, user.name, email, otpDetails.code)
+
+       return user.email
+
     }
 
     

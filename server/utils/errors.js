@@ -182,7 +182,7 @@ class ErrorUtils {
 }
 
 module.exports = {
-    AppError,
+  AppError,
   ValidationError,
   AuthenticationError,
   AuthorizationError,
