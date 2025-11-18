@@ -42,9 +42,9 @@ class AuthService {
        
        return {
         user: user.getPublicProfile(),
-        token
-       }
-
+    }
+    
+    token
        } catch (error) {
             logger.error('Registration error:', error);
             throw error        
@@ -55,12 +55,19 @@ class AuthService {
     //Mail otp verification logic
     static verifyOtp = async(query, data)=>{
         try {
-            const { userId } = query
+            const { userId, purpose } = query
             const { otp } = data
             const user = await User.findById(userId)
             if (!user) {
                 logger.error('User not found')
+                throw new Error('Try again, user not found')
             }
+
+            if (!purpose === user.otpDetails.purpose) {
+                logger.error('purpose mismatch')
+                throw new Error('Invalid OTP type')
+            }
+
             const now = new Date()
             const isExpired = now > user.otpDetails.expiresAt
             if (isExpired) {
@@ -75,15 +82,21 @@ class AuthService {
                 throw new Error('Otp not valid')
             }
 
-            user.otpDetails = null
-            user.isVerified = true
-            await user.save()
-            logger.info('Email verified')
-
-            return {
-            user: user.getPublicProfile(),
+            if (purpose === 'EMAIL_VERIFICATION') {
+                user.otpDetails = null
+                user.isVerified = true
+                await user.save()
+                logger.info('Email verified')
+                return {
+                user: user.getPublicProfile(),
+                }
             }
-            
+
+            if (purpose === 'PASSWORD_RESET') {
+                const resetToken = gene
+
+            }
+                
         } catch (error) {
             logger.error(error)
             throw error
