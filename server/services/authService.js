@@ -19,9 +19,9 @@ class AuthService {
         password
        })
 
-       const newUserData = await user.save()
+       await user.save()
 
-       const otpDetails = generateOtp(newUserData)
+       const otpDetails = generateOtp('EMAIL_VERIFICATION')
        if (!otpDetails) {
         throw new Error('Otp generation failed')
        }
@@ -29,7 +29,7 @@ class AuthService {
        user.otpDetails = otpDetails
        await user.save()
 
-       sendOtpEmail(user.name, user.email, otpDetails.code, user._id)
+       sendOtpEmail( user._id, user.name, user.email, otpDetails.code, otpDetails.purpose)
 
        const token = generateUserToken({
         id: user._id,
@@ -171,7 +171,7 @@ class AuthService {
             throw new Error('User not found')
         }
 
-        const otpDetails = generateOtp(user)
+        const otpDetails = generateOtp('PASSWORD_RESET')
         if (!otpDetails) {
         throw new Error('Otp generation failed')
        }
@@ -182,8 +182,13 @@ class AuthService {
        sendOtpEmail(user._id, user.name, email, otpDetails.code)
 
        return user.email
-
     }
+
+    // //verify password reset otp
+    // static async verifyResetOtp(userIdQuery, data) {
+    //     this.verifyOtp(userIdQuery, data)
+        
+    // }
 
     
 }

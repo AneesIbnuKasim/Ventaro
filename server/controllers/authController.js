@@ -37,8 +37,12 @@ class AuthController extends BaseController {
         BaseController.sendSuccess(res, 'Otp has been send to email successfully')
     })
 
-    static forgotPassword = BaseController.asyncHandler(async(req, res)=>{
+    static verifyResetOtp = BaseController.asyncHandler(async(req, res)=>{
         const result = await AuthService.verifyOtp(req.query, req.body)
+    })
+
+    static forgotPassword = BaseController.asyncHandler(async(req, res)=>{
+        const result = await AuthService.resetPassword(req.query, req.body)
     })
 
 

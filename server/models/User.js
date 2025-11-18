@@ -53,6 +53,7 @@ const userSchema = new mongoose.Schema({
     otpDetails: {
         code: {type: String},
         expiresAt: {type: Date},
+        purpose: {type: String}
     },
     lastLogin: {
         type: String,

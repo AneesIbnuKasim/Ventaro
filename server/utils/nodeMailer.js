@@ -14,9 +14,9 @@ const transporter = nodemailer.createTransport({
   },
 })
 
-const generateOtp = (userData)=>{
-      if (!userData) {
-        throw new Error('User data is missing for OTP generation')
+const generateOtp = (purpose)=>{
+      if (!purpose) {
+        throw new Error('Otp purpose is missing, OTP sending failed')
       }
        const otp = otpGenerator.generate(6,{
         specialChars: false,
@@ -26,12 +26,13 @@ const generateOtp = (userData)=>{
        const otpExp = Date.now()+30*60*1000
        return {
         code: otp,
-        expiresAt: otpExp
+        expiresAt: otpExp,
+        purpose
   }
 }
 
 // send email for verification
-const sendOtpEmail = (userId, name, email, otp)=>{
+const sendOtpEmail = (userId, name, email, otp, purpose)=>{
     try {
         const mailOptions =
         {
@@ -39,8 +40,8 @@ const sendOtpEmail = (userId, name, email, otp)=>{
             to: email,
             subject: "Email verification",
             text: "Hello world?", // plain‑text body
-            html: `<b>hello ${name}! please click on the link below and enter OTP to verify 
-            <a href=http://localhost:3000/api/auth/user/verify-account?userId=${userId}>Verify Email</a><br><br><br>
+            html: `<b>hello ${name}! please click on the link below and enter OTP to ${purpose === 'EMAIL_VERIFICATION' ? 'verify Email' : 'verify Password'} 
+            <a href=http://localhost:3000/api/auth/user/${purpose === 'EMAIL_VERIFICATION' ? 'verify-email' : 'reset-password-otp'}?userId=${userId}&&purpose=${purpose}></a><br><br><br>
             <h1>${otp}</h1>
             </b>`, // HTML body
           }
@@ -53,8 +54,8 @@ const sendOtpEmail = (userId, name, email, otp)=>{
         else {
           logger.info("Email has been sent",info.response)
         }
-      });
-    } catch (error) {
+      })
+      } catch (error) {
         logger.error('catch:',error.message)
         throw error
     }
