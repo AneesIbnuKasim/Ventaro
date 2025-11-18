@@ -33,7 +33,8 @@ const authenticateUser = async(req, res, next)=>{
     }
 
     const authenticateAdmin = async(req, res, next)=>{
-        const authHeader = req.headers.authorization
+        try {
+            const authHeader = req.headers.authorization
 
         if (!authHeader || !authHeader.startsWith('Bearer')) {
             logger.error('Admin auth: Missing or invalid authorization header', authHeader)
@@ -66,6 +67,17 @@ const authenticateUser = async(req, res, next)=>{
         }
 
         req.admin = admin
+        next()
+        }
+         catch (error) {
+            logger.error('Admin authentication error')
+            sendError(res, 'Invalid or expired admin token', 401)
+        }
+
+    const requireAdmin = (req, res, next)=>{
+        if (!req.user || !req.user.role === 'admin') {
+            return sendError(res, 'Admin privileges required', 403)
+        }
         next()
     }
 }
