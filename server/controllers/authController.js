@@ -17,17 +17,20 @@ class AuthController extends BaseController {
         BaseController.sendSuccess(res, 'Login successful', result)
     })
 
-    static verifyOtp = BaseController.asyncHandler(async(req, res)=>{
+    static verifyEmail = BaseController.asyncHandler(async(req, res)=>{
         const result = await AuthService.verifyOtp(req.query, req.body)
         BaseController.logAction('EMAIL_VERIFICATION',result.user)
         BaseController.sendSuccess(res, 'Email verification successful', result)
     })
 
-    static resetPassword = BaseController.asyncHandler(async(req, res)=>{
+    static changePassword = BaseController.asyncHandler(async(req, res)=>{
         const validatedData = BaseController.validateRequest(strongPasswordValidation, req.body)
-        await AuthService.resetPassword(validatedData)
-        BaseController.logAction('PASSWORD-RESET',)
+        await AuthService.changePassword(req.user._id, validatedData)
+        BaseController.logAction('PASSWORD-RESET',req.user)
+        BaseController.sendSuccess(res, 'Password changed successfully')
     })
+
+
 
 }
 
