@@ -11,7 +11,8 @@ module.exports = {
     JWT: {
         USER_SECRET: process.env.JWT_USER_SECRET || 'your_super_secret_user_jwt_key',
         ADMIN_SECRET: process.env.JWT_ADMIN_SECRET || 'your_super_secret_admin_jwt_key',
+        RESET_SECRET: process.env.JWT_RESET_SECRET || 'your_super_secret_reset_jwt_key',
         EXPIRES_IN: process.env.JWT_EXPIRES_IN || '7d',
-
+        RESET_EXPIRES_IN: process.env.JWT_RESET_EXPIRES_IN || '10000'
     }
 }

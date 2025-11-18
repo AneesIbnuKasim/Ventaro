@@ -1,6 +1,6 @@
 const User = require('../models/User')
 const logger = require('../utils/logger')
-const { generateUserToken } = require('../utils/jwt')
+const { generateUserToken, generateResetToken, verifyResetToken } = require('../utils/jwt')
 const { sendOtpEmail, generateOtp } = require('../utils/nodeMailer')
 
 class AuthService {
@@ -74,27 +74,43 @@ class AuthService {
                 logger.error('Otp expired')
                 throw new Error('Otp expired')
             }
-
+            console.log('otp deets:',user.otpDetails);
+            
             const isMatching = await user.compareOtp(otp)
+            console.log('otp:',isMatching)
+
+            console.log('inhere new', isMatching);
 
             if (!isMatching) {
                 logger.error('Otp not valid')
                 throw new Error('Otp not valid')
             }
+            user.otpDetails = null
 
             if (purpose === 'EMAIL_VERIFICATION') {
-                user.otpDetails = null
                 user.isVerified = true
+
                 await user.save()
+
                 logger.info('Email verified')
+                
                 return {
+                message: 'Email Verified successfully',
                 user: user.getPublicProfile(),
                 }
             }
 
             if (purpose === 'PASSWORD_RESET') {
-                const resetToken = gene
+                await user.save()
+                console.log('userId: ',user._id);
+                
+                const resetToken = generateResetToken({id:user._id})
 
+                logger.info('Password reset otp verified')
+                return {
+                    message: 'Reset Token generated',
+                    resetToken
+                }
             }
                 
         } catch (error) {
@@ -189,21 +205,58 @@ class AuthService {
         throw new Error('Otp generation failed')
        }
 
+       console.log('otp details:' ,otpDetails);
+       
        user.otpDetails = otpDetails
        await user.save()
+
+       console.log('ussss',user)
+       console.log('usssseerrr',user.otpDetails)
+       
 
        sendOtpEmail(user._id, user.name, email, otpDetails.code)
 
        return user.email
     }
 
-    // //verify password reset otp
-    // static async verifyResetOtp(userIdQuery, data) {
-    //     this.verifyOtp(userIdQuery, data)
-        
-    // }
+    //Reset password
+    static async resetPassword(passwordData) {
+        try {
+            const {resetToken, newPassword, confirmPassword } = passwordData
+        const decoded = verifyResetToken(resetToken)
 
-    
+        if (!decoded) {
+            logger.error('Reset-token is not valid or expired')
+            throw new Error ('Reset-token is not valid or expired')
+        }
+
+        if (newPassword !== confirmPassword) {
+            logger.error('Password mismatch')
+            throw new Error ('Passwords are not matching')
+        }
+
+        const user = await User.findById(decoded.id)
+
+        if (!user) {
+            logger.error('User not found for the reset-token')
+            throw new Error('Cannot update password! User not found')
+        }
+
+        user.password = newPassword
+        console.log('user here:', user);
+        
+        await user.save()
+
+        logger.info('Password reset successful')
+        return true
+        } catch (error) {
+            logger.error('')
+            throw error
+        }
+    }
+
+
+  
 }
 
 module.exports = AuthService

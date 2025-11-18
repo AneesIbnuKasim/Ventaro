@@ -27,9 +27,21 @@ const generateAdminToken = (payload)=>{
    }
 }
 
+const generateResetToken = (payload)=>{
+    try {
+        return jwt.sign(payload,
+            config.JWT.RESET_SECRET,{
+            expiresIn: config.JWT.RESET_EXPIRES_IN
+            })
+    } catch (error) {
+        logger.error('Error creating reset token',error)
+        throw new Error('Token generation failed')
+    }
+}
+
 const verifyUserToken = (token)=>{
     try {
-        if (!config.JWT.USER_SECRET) {
+      if (!config.JWT.USER_SECRET) {
       throw new Error('JWT_USER_SECRET not configured');
     }
     return jwt.verify(token, config.JWT.USER_SECRET)
@@ -49,13 +61,25 @@ const verifyAdminToken = (token)=>{
         logger.error('Admin token verification failed')
         throw new Error('Admin token verification failed')
     }
+}
 
-
+const verifyResetToken = (token)=>{
+    try {
+        if (!config.JWT.RESET_SECRET) {
+            throw new Error('JWT_RESET_SECRET not configured')
+        }
+        return jwt.verify(token, config.JWT.RESET_SECRET)
+    } catch (error) {
+        logger.error('Reset token verification failed')
+        throw new Error('Token expired or not valid')
+        }
 }
 
 module.exports = {
     generateUserToken,
     generateAdminToken,
     verifyUserToken,
-    verifyAdminToken
+    verifyAdminToken,
+    generateResetToken,
+    verifyResetToken
 }

@@ -41,7 +41,13 @@ const loginValidation = Joi.object({
 const changePasswordValidation = Joi.object({
   currentPassword: commonPatterns.password.messages(customMessages),
   newPassword: strongPasswordValidation
-});
+})
+
+const resetPasswordValidation = Joi.object({
+    resetToken: Joi.string().required().messages(customMessages),
+    newPassword: strongPasswordValidation,
+    confirmPassword: strongPasswordValidation
+})
 
 const emailValidation = Joi.object({
     email: commonPatterns.email.messages(customMessages)
@@ -53,5 +59,6 @@ module.exports = {
     loginValidation,
     strongPasswordValidation,
     changePasswordValidation,
-    emailValidation
+    emailValidation,
+    resetPasswordValidation
 }

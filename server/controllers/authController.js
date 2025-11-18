@@ -1,5 +1,5 @@
 const BaseController = require("./baseController")
-const { registerValidation, loginValidation, changePasswordValidation, emailValidation } = require('../utils/validation')
+const { registerValidation, loginValidation, changePasswordValidation, emailValidation, resetPasswordValidation } = require('../utils/validation')
 const AuthService = require("../services/AuthService")
 
 class AuthController extends BaseController {
@@ -17,10 +17,10 @@ class AuthController extends BaseController {
         BaseController.sendSuccess(res, 'Login successful', result)
     })
 
-    static verifyEmail = BaseController.asyncHandler(async(req, res)=>{
+    static verifyOtp = BaseController.asyncHandler(async(req, res)=>{
         const result = await AuthService.verifyOtp(req.query, req.body)
-        BaseController.logAction('EMAIL_VERIFICATION',result.user)
-        BaseController.sendSuccess(res, 'Email verification successful', result)
+        BaseController.logAction(result.user ? 'EMAIL_VERIFICATION' : 'PASSWORD_RESET_VERIFICATION',result)
+        BaseController.sendSuccess(res, result.message , result.user ? result.user : result.resetToken)
     })
 
     static changePassword = BaseController.asyncHandler(async(req, res)=>{
@@ -37,12 +37,11 @@ class AuthController extends BaseController {
         BaseController.sendSuccess(res, 'Otp has been send to email successfully')
     })
 
-    static verifyResetOtp = BaseController.asyncHandler(async(req, res)=>{
-        const result = await AuthService.verifyOtp(req.query, req.body)
-    })
-
-    static forgotPassword = BaseController.asyncHandler(async(req, res)=>{
-        const result = await AuthService.resetPassword(req.query, req.body)
+    static resetPassword = BaseController.asyncHandler(async(req, res)=>{
+        const validatedData = BaseController.validateRequest(resetPasswordValidation, req.body)
+        const user = await AuthService.resetPassword(validatedData)
+        BaseController.logAction('PASSWORD-RESET', user)
+        BaseController.sendSuccess(res, 'Password has been reset successfully')
     })
 
 
