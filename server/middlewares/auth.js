@@ -1,4 +1,5 @@
-const { verifyUserToken } = require('../utils/jwt')
+const User = require('../models/User')
+const { verifyUserToken, verifyAdminToken } = require('../utils/jwt')
 const logger = require('../utils/logger')
 const { sendError } = require('../utils/response')
 
@@ -30,4 +31,46 @@ const authenticateUser = async(req, res, next)=>{
         logger.error('User authentication failed')
         sendError(res, 'User token invalid or expired', 401)
     }
+
+    const authenticateAdmin = async(req, res, next)=>{
+        const authHeader = req.headers.authorization
+
+        if (!authHeader || !authHeader.startsWith('Bearer')) {
+            logger.error('Admin auth: Missing or invalid authorization header', authHeader)
+            return sendError(res, 'Access token required')
+        }
+
+        const token = authHeader.substring(7)
+
+        if (!token) {
+        logger.warn('Admin auth: Empty token after Bearer prefix');
+        return sendError(res, 'Access token required', 401);
+        }
+
+        const decoded = verifyAdminToken(token)
+        logger.info('Admin token verified successfully', { adminId: decoded.id });
+
+        const admin = await User.findById(decoded.id)
+        if (!admin || admin.role === 'admin') {
+            logger.warn('Admin auth: Admin not found or not an admin',{
+                userId: decoded.id,
+                userExists: !!admin,
+                role: decoded.role
+            })
+            return sendError(res, 'Admin not found', 403)
+        }
+
+        if (admin.status === 'banned') {
+            logger.warn('Admin auth: admin account is banned', { adminId : admin._id})
+            sendError(res, 'Admin has been banned', 403)
+        }
+
+        req.admin = admin
+        next()
+    }
+}
+
+module.exports = {
+    authenticateUser,
+    authenticateAdmin
 }
