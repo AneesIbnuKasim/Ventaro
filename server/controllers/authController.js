@@ -1,6 +1,6 @@
 const BaseController = require("./baseController")
 const { registerValidation, loginValidation, strongPasswordValidation } = require('../utils/validation')
-const AuthService = require("../services/authService")
+const AuthService = require("../services/AuthService")
 
 class AuthController extends BaseController {
     static register = BaseController.asyncHandler(async(req, res)=>{
@@ -19,8 +19,14 @@ class AuthController extends BaseController {
 
     static verifyOtp = BaseController.asyncHandler(async(req, res)=>{
         const result = await AuthService.verifyOtp(req.query, req.body)
-        // BaseController.logAction('EMAIL_VERIFICATION',result.user)
-        // BaseController.sendSuccess(res, 'Email verification successful', result)
+        BaseController.logAction('EMAIL_VERIFICATION',result.user)
+        BaseController.sendSuccess(res, 'Email verification successful', result)
+    })
+
+    static resetPassword = BaseController.asyncHandler(async(req, res)=>{
+        const validatedData = BaseController.validateRequest(strongPasswordValidation, req.body)
+        await AuthService.resetPassword(validatedData)
+        BaseController.logAction('PASSWORD-RESET',)
     })
 
 }

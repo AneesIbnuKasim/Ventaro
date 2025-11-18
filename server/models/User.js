@@ -51,8 +51,13 @@ const userSchema = new mongoose.Schema({
         default: false
     },
     otpDetails: {
-        code: String,
-        expiresAt: Date,
+        code: {type: String},
+        expiresAt: {type: Date},
+        default: null
+    },
+    lastLogin: {
+        type: string,
+        default: null
     }
 },
 {timestamps: true}
@@ -60,12 +65,12 @@ const userSchema = new mongoose.Schema({
 
 userSchema.pre('save', async function(next) {
     try {
-        //hasing password before saving
+        //hashing password before saving
       if (this.isModified('password')) {
           const hashedPassword = await bcrypt.hash(this.password, 12)
           this.password = hashedPassword;
         }
-        //hasing otp before saving
+        //hashing otp before saving
       if (this.isModified('otpDetails')&& this.otpDetails?.code) {
       const hashedOtp = await bcrypt.hash(this.otpDetails.code, 12)
       this.otpDetails.code = hashedOtp

@@ -84,9 +84,14 @@ class AuthService {
                 user.isVerified = true
                 await user.save()
                 logger.info('Email verified')
+
+            return {
+        user: user.getPublicProfile(),
+       }
             
         } catch (error) {
             logger.error(error)
+            throw error
         }
     }
 
