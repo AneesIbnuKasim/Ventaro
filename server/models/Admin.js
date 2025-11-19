@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const jwt = require('jwt')
+const bcrypt = required('bcrypt')
 
 const adminSchema = new mongoose.Schema({
     name: {
@@ -55,6 +55,19 @@ const adminSchema = new mongoose.Schema({
     },
 }, {timestamps: true})
 
+adminSchema.pre('save', async function(next) {
+    if (!this.isModified('password')) return next()
 
+    const hashedPassword = await bcrypt.hash(this.password, 12)
+    this.password = hashedPassword
+})
+
+adminSchema.methods.comparePassword = async function() {
+    return await bcrypt.compare(candidatePassword, this.password)
+}
+
+adminSchema.statics.fundByEmail = function(email) {
+    return this.findOne({email: email.toLowerCase()})
+}
 
 module.exports = mongoose.model('Admin', adminSchema)
