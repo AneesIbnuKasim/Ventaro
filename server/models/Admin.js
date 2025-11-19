@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const bcrypt = required('bcrypt')
+const bcrypt = require('bcrypt')
 
 const adminSchema = new mongoose.Schema({
     name: {
@@ -23,7 +23,7 @@ const adminSchema = new mongoose.Schema({
         minlength: [8, 'Password must be at least 8 characters long']
     },
     role: {
-        type: true,
+        type: String,
         enum: ['admin'],
         default: 'admin'
     },
@@ -66,7 +66,7 @@ adminSchema.methods.comparePassword = async function() {
     return await bcrypt.compare(candidatePassword, this.password)
 }
 
-adminSchema.statics.fundByEmail = function(email) {
+adminSchema.statics.findByEmail = function(email) {
     return this.findOne({email: email.toLowerCase()})
 }
 

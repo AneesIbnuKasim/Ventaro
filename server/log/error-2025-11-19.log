@@ -48,3 +48,70 @@
 {"ip":"::1","level":"error","message":"Error TypeError","method":"PUT","stack":"TypeError: user.save is not a function\n    at AuthService.resetPassword (/Users/macair/Desktop/Mentor/ventaro/server/services/AuthService.js:248:20)\n    at /Users/macair/Desktop/Mentor/ventaro/server/controllers/authController.js:42:40\n    at /Users/macair/Desktop/Mentor/ventaro/server/controllers/baseController.js:7:29\n    at Layer.handleRequest (/Users/macair/Desktop/Mentor/ventaro/server/node_modules/router/lib/layer.js:152:17)\n    at next (/Users/macair/Desktop/Mentor/ventaro/server/node_modules/router/lib/route.js:157:13)\n    at Route.dispatch (/Users/macair/Desktop/Mentor/ventaro/server/node_modules/router/lib/route.js:117:3)\n    at handle (/Users/macair/Desktop/Mentor/ventaro/server/node_modules/router/index.js:435:11)\n    at Layer.handleRequest (/Users/macair/Desktop/Mentor/ventaro/server/node_modules/router/lib/layer.js:152:17)\n    at /Users/macair/Desktop/Mentor/ventaro/server/node_modules/router/index.js:295:15\n    at processParams (/Users/macair/Desktop/Mentor/ventaro/server/node_modules/router/index.js:582:12)","url":"/api/auth/reset-password","userAgent":"PostmanRuntime/7.49.1"}
 {"level":"error","message":"Login error Invalid email or password","stack":"Error: Invalid email or password\n    at AuthService.login (/Users/macair/Desktop/Mentor/ventaro/server/services/AuthService.js:139:19)\n    at async /Users/macair/Desktop/Mentor/ventaro/server/controllers/authController.js:15:24"}
 {"ip":"::1","level":"error","message":"Error Error","method":"POST","stack":"Error: Invalid email or password\n    at AuthService.login (/Users/macair/Desktop/Mentor/ventaro/server/services/AuthService.js:139:19)\n    at async /Users/macair/Desktop/Mentor/ventaro/server/controllers/authController.js:15:24","url":"/api/auth/login","userAgent":"PostmanRuntime/7.49.1"}
+{"level":"error","message":"Server initialization failed runSeeders is not defined","stack":"ReferenceError: runSeeders is not defined\n    at Server.initialize (/Users/macair/Desktop/Mentor/ventaro/server/server.js:26:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Server.start (/Users/macair/Desktop/Mentor/ventaro/server/server.js:41:13)"}
+{"level":"error","message":"Server initialization failed runSeeders is not defined","stack":"ReferenceError: runSeeders is not defined\n    at Server.initialize (/Users/macair/Desktop/Mentor/ventaro/server/server.js:26:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Server.start (/Users/macair/Desktop/Mentor/ventaro/server/server.js:41:13)"}
+{"level":"error","message":"Server initialization failed runSeeders is not defined","stack":"ReferenceError: runSeeders is not defined\n    at Server.initialize (/Users/macair/Desktop/Mentor/ventaro/server/server.js:26:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Server.start (/Users/macair/Desktop/Mentor/ventaro/server/server.js:41:13)"}
+{"level":"error","message":"Server initialization failed runSeeders is not defined","stack":"ReferenceError: runSeeders is not defined\n    at Server.initialize (/Users/macair/Desktop/Mentor/ventaro/server/server.js:26:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Server.start (/Users/macair/Desktop/Mentor/ventaro/server/server.js:41:13)"}
+{"level":"error","message":"Server initialization failed runSeeders is not defined","stack":"ReferenceError: runSeeders is not defined\n    at Server.initialize (/Users/macair/Desktop/Mentor/ventaro/server/server.js:26:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Server.start (/Users/macair/Desktop/Mentor/ventaro/server/server.js:41:13)"}
+{"level":"error","message":"Server initialization failed runSeeders is not defined","stack":"ReferenceError: runSeeders is not defined\n    at Server.initialize (/Users/macair/Desktop/Mentor/ventaro/server/server.js:26:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Server.start (/Users/macair/Desktop/Mentor/ventaro/server/server.js:41:13)"}
+{"level":"error","message":"Server initialization failed runSeeders is not defined","stack":"ReferenceError: runSeeders is not defined\n    at Server.initialize (/Users/macair/Desktop/Mentor/ventaro/server/server.js:26:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Server.start (/Users/macair/Desktop/Mentor/ventaro/server/server.js:41:13)"}
+{"level":"error","message":"Server initialization failed runSeeders is not defined","stack":"ReferenceError: runSeeders is not defined\n    at Server.initialize (/Users/macair/Desktop/Mentor/ventaro/server/server.js:26:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Server.start (/Users/macair/Desktop/Mentor/ventaro/server/server.js:41:13)"}
+{"level":"error","message":"Server initialization failed runSeeders is not defined","stack":"ReferenceError: runSeeders is not defined\n    at Server.initialize (/Users/macair/Desktop/Mentor/ventaro/server/server.js:26:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Server.start (/Users/macair/Desktop/Mentor/ventaro/server/server.js:41:13)"}
+{"level":"error","message":"Server initialization failed runSeeders is not defined","stack":"ReferenceError: runSeeders is not defined\n    at Server.initialize (/Users/macair/Desktop/Mentor/ventaro/server/server.js:26:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Server.start (/Users/macair/Desktop/Mentor/ventaro/server/server.js:41:13)"}
+{"level":"error","message":"Server initialization failed runSeeders is not defined","stack":"ReferenceError: runSeeders is not defined\n    at Server.initialize (/Users/macair/Desktop/Mentor/ventaro/server/server.js:26:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Server.start (/Users/macair/Desktop/Mentor/ventaro/server/server.js:41:13)"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Error seeding admin data"}
+{"level":"error","message":"Database seeding failed"}
+{"level":"error","message":"Database seeding failed"}
+{"level":"error","message":"Database seeding failed"}
+{"level":"error","message":"Database seeding failed"}
+{"level":"error","message":"Database seeding failed"}
+{"level":"error","message":"Database seeding failed"}
+{"level":"error","message":"Database seeding failed"}
+{"level":"error","message":"Database seeding failed"}
+{"level":"error","message":"Database seeding failed"}
+{"level":"error","message":"Database seeding failed"}
+{"level":"error","message":"Database seeding failed"}
+{"level":"error","message":"Database seeding failed"}
+{"level":"error","message":"Database seeding failed"}
+{"level":"error","message":"Database seeding failed"}
+{"level":"error","message":"Database seeding failed"}

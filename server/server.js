@@ -7,6 +7,7 @@ const setupMiddleware = require('./middlewares/setup')
 const logger = require('./utils/logger')
 const { setupRoutes } = require('./routes')
 const { notFound, errorHandler } = require('./middlewares/errorHandler')
+const { runSeeders } = require('./utils/seeder')
 
 class Server {
     constructor() {
@@ -22,6 +23,8 @@ class Server {
             setupMiddleware(this.app)
 
             setupRoutes(this.app)
+
+            runSeeders()
 
             this.app.use(notFound);
             this.app.use(errorHandler);
@@ -40,6 +43,10 @@ class Server {
 
             this.server.listen(this.port,()=>{
                 logger.info(`Server running in ${config.NODE_ENV} Mode on port ${this.port}`)
+
+                setTimeout(async () => {
+                await runSeeders()
+                }, 2000)
             })
             
         } catch (error) {
