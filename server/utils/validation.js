@@ -62,5 +62,6 @@ module.exports = {
     strongPasswordValidation,
     changePasswordValidation,
     emailValidation,
-    resetPasswordValidation
+    resetPasswordValidation,
+    adminLoginValidation
 }

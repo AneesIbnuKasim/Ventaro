@@ -50,7 +50,6 @@ class AuthService {
             logger.error('Registration error:', error);
             throw error        
        }
-
     }
 
     //Mail otp verification logic

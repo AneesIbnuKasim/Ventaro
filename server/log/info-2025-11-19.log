@@ -5528,3 +5528,2839 @@
 {"level":"info","message":"Sample users already exists"}
 {"level":"info","message":"Sample users already exists"}
 {"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"incoming requests: GET /api/auth/registers from ::1"}
+{"ip":"::1","level":"warn","message":"Route /api/auth/registers not found","method":"GET","url":"/api/auth/registers"}
+{"level":"info","message":"response completed: GET /api/auth/registers - 404 24"}
+{"level":"info","message":"incoming requests: GET /api/admin/login from ::1"}
+{"ip":"::1","level":"warn","message":"Route /api/admin/login not found","method":"GET","url":"/api/admin/login"}
+{"level":"info","message":"response completed: GET /api/admin/login - 404 3"}
+{"level":"info","message":"incoming requests: POST /api/admin/login from ::1"}
+{"level":"error","message":"adminLoginValidation is not defined","stack":"ReferenceError: adminLoginValidation is not defined\n    at /Users/macair/Desktop/Mentor/ventaro/server/controllers/adminController.js:6:62\n    at /Users/macair/Desktop/Mentor/ventaro/server/controllers/baseController.js:7:29\n    at Layer.handleRequest (/Users/macair/Desktop/Mentor/ventaro/server/node_modules/router/lib/layer.js:152:17)\n    at next (/Users/macair/Desktop/Mentor/ventaro/server/node_modules/router/lib/route.js:157:13)\n    at Route.dispatch (/Users/macair/Desktop/Mentor/ventaro/server/node_modules/router/lib/route.js:117:3)\n    at handle (/Users/macair/Desktop/Mentor/ventaro/server/node_modules/router/index.js:435:11)\n    at Layer.handleRequest (/Users/macair/Desktop/Mentor/ventaro/server/node_modules/router/lib/layer.js:152:17)\n    at /Users/macair/Desktop/Mentor/ventaro/server/node_modules/router/index.js:295:15\n    at processParams (/Users/macair/Desktop/Mentor/ventaro/server/node_modules/router/index.js:582:12)\n    at next (/Users/macair/Desktop/Mentor/ventaro/server/node_modules/router/index.js:291:5)"}
+{"level":"info","message":"response completed: POST /api/admin/login - 400 6"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"incoming requests: POST /api/admin/login from ::1"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"incoming requests: POST /api/admin/login from ::1"}
+{"level":"info","message":"incoming requests: POST /api/admin/login from ::1"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"incoming requests: POST /api/admin/login from ::1"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"incoming requests: POST /api/admin/login from ::1"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"incoming requests: POST /api/admin/login from ::1"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"incoming requests: POST /api/admin/login from ::1"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"incoming requests: POST /api/auth/registers from ::1"}
+{"ip":"::1","level":"warn","message":"Route /api/auth/registers not found","method":"POST","url":"/api/auth/registers"}
+{"level":"info","message":"response completed: POST /api/auth/registers - 404 16"}
+{"level":"info","message":"incoming requests: POST /api/auth/registers from ::1"}
+{"ip":"::1","level":"warn","message":"Route /api/auth/registers not found","method":"POST","url":"/api/auth/registers"}
+{"level":"info","message":"response completed: POST /api/auth/registers - 404 4"}
+{"level":"info","message":"incoming requests: POST /api/auth/register from ::1"}
+{"level":"error","message":"Registration error: NotFoundError is not defined","stack":"ReferenceError: NotFoundError is not defined\n    at AuthService.register (/Users/macair/Desktop/Mentor/ventaro/server/services/AuthService.js:16:9)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async /Users/macair/Desktop/Mentor/ventaro/server/controllers/authController.js:8:24"}
+{"level":"error","message":"NotFoundError is not defined","stack":"ReferenceError: NotFoundError is not defined\n    at AuthService.register (/Users/macair/Desktop/Mentor/ventaro/server/services/AuthService.js:16:9)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async /Users/macair/Desktop/Mentor/ventaro/server/controllers/authController.js:8:24"}
+{"level":"info","message":"response completed: POST /api/auth/register - 400 24"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"incoming requests: POST /api/auth/register from ::1"}
+{"code":"NOT_FOUND","isOperational":true,"level":"error","message":"Registration error: Admin does not exist","name":"NotFoundError","stack":"NotFoundError: Admin does not exist\n    at AuthService.register (/Users/macair/Desktop/Mentor/ventaro/server/services/AuthService.js:16:15)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async /Users/macair/Desktop/Mentor/ventaro/server/controllers/authController.js:8:24","statusCode":404}
+{"level":"error","message":"Admin does not exist","stack":"NotFoundError: Admin does not exist\n    at AuthService.register (/Users/macair/Desktop/Mentor/ventaro/server/services/AuthService.js:16:15)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async /Users/macair/Desktop/Mentor/ventaro/server/controllers/authController.js:8:24"}
+{"level":"info","message":"response completed: POST /api/auth/register - 404 36"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"incoming requests: POST /api/admin/login from ::1"}
+{"level":"error","message":"Admin does not exist","stack":"NotFoundError: Admin does not exist\n    at AdminService.login (/Users/macair/Desktop/Mentor/ventaro/server/services/AdminService.js:11:19)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async /Users/macair/Desktop/Mentor/ventaro/server/controllers/adminController.js:8:24"}
+{"level":"info","message":"response completed: POST /api/admin/login - 404 29"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"incoming requests: POST /api/admin/login from ::1"}
+{"level":"error","message":"Admin does not exist","stack":"NotFoundError: Admin does not exist\n    at AdminService.login (/Users/macair/Desktop/Mentor/ventaro/server/services/AdminService.js:11:19)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async /Users/macair/Desktop/Mentor/ventaro/server/controllers/adminController.js:8:24"}
+{"level":"info","message":"response completed: POST /api/admin/login - 404 30"}
+{"level":"info","message":"incoming requests: POST /api/admin/login from ::1"}
+{"level":"error","message":"candidatePassword is not defined","stack":"ReferenceError: candidatePassword is not defined\n    at adminSchema.methods.comparePassword (/Users/macair/Desktop/Mentor/ventaro/server/models/Admin.js:66:33)\n    at AdminService.login (/Users/macair/Desktop/Mentor/ventaro/server/services/AdminService.js:14:48)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async /Users/macair/Desktop/Mentor/ventaro/server/controllers/adminController.js:8:24"}
+{"level":"info","message":"response completed: POST /api/admin/login - 400 10"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"incoming requests: POST /api/admin/login from ::1"}
+{"level":"error","message":"Invalid email or password","stack":"ConflictError: Invalid email or password\n    at AdminService.login (/Users/macair/Desktop/Mentor/ventaro/server/services/AdminService.js:15:40)\n    at async /Users/macair/Desktop/Mentor/ventaro/server/controllers/adminController.js:8:24"}
+{"level":"info","message":"response completed: POST /api/admin/login - 409 460"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"incoming requests: POST /api/admin/login from ::1"}
+{"level":"error","message":"Invalid password"}
+{"code":"AUTHENTICATION_ERROR","isOperational":true,"level":"error","message":"Admin login error Invalid email or password","name":"AuthenticationError","stack":"AuthenticationError: Invalid email or password\n    at AdminService.login (/Users/macair/Desktop/Mentor/ventaro/server/services/AdminService.js:19:19)\n    at async /Users/macair/Desktop/Mentor/ventaro/server/controllers/adminController.js:8:24","statusCode":401}
+{"level":"error","message":"Invalid email or password","stack":"AuthenticationError: Invalid email or password\n    at AdminService.login (/Users/macair/Desktop/Mentor/ventaro/server/services/AdminService.js:19:19)\n    at async /Users/macair/Desktop/Mentor/ventaro/server/controllers/adminController.js:8:24"}
+{"level":"info","message":"response completed: POST /api/admin/login - 401 510"}
+{"level":"info","message":"incoming requests: POST /api/admin/login from ::1"}
+{"level":"error","message":"Invalid password"}
+{"code":"AUTHENTICATION_ERROR","isOperational":true,"level":"error","message":"Admin login error Invalid email or password","name":"AuthenticationError","stack":"AuthenticationError: Invalid email or password\n    at AdminService.login (/Users/macair/Desktop/Mentor/ventaro/server/services/AdminService.js:19:19)\n    at async /Users/macair/Desktop/Mentor/ventaro/server/controllers/adminController.js:8:24","statusCode":401}
+{"level":"error","message":"Invalid email or password","stack":"AuthenticationError: Invalid email or password\n    at AdminService.login (/Users/macair/Desktop/Mentor/ventaro/server/services/AdminService.js:19:19)\n    at async /Users/macair/Desktop/Mentor/ventaro/server/controllers/adminController.js:8:24"}
+{"level":"info","message":"response completed: POST /api/admin/login - 401 597"}
+{"level":"info","message":"incoming requests: POST /api/admin/login from ::1"}
+{"level":"error","message":"Invalid password"}
+{"code":"AUTHENTICATION_ERROR","isOperational":true,"level":"error","message":"Admin login error Invalid email or password","name":"AuthenticationError","stack":"AuthenticationError: Invalid email or password\n    at AdminService.login (/Users/macair/Desktop/Mentor/ventaro/server/services/AdminService.js:19:19)\n    at async /Users/macair/Desktop/Mentor/ventaro/server/controllers/adminController.js:8:24","statusCode":401}
+{"level":"error","message":"Invalid email or password","stack":"AuthenticationError: Invalid email or password\n    at AdminService.login (/Users/macair/Desktop/Mentor/ventaro/server/services/AdminService.js:19:19)\n    at async /Users/macair/Desktop/Mentor/ventaro/server/controllers/adminController.js:8:24"}
+{"level":"info","message":"response completed: POST /api/admin/login - 401 450"}
+{"level":"info","message":"incoming requests: POST /api/admin/login from ::1"}
+{"level":"error","message":"Invalid password"}
+{"code":"AUTHENTICATION_ERROR","isOperational":true,"level":"error","message":"Admin login error Invalid email or password","name":"AuthenticationError","stack":"AuthenticationError: Invalid email or password\n    at AdminService.login (/Users/macair/Desktop/Mentor/ventaro/server/services/AdminService.js:19:19)\n    at async /Users/macair/Desktop/Mentor/ventaro/server/controllers/adminController.js:8:24","statusCode":401}
+{"level":"error","message":"Invalid email or password","stack":"AuthenticationError: Invalid email or password\n    at AdminService.login (/Users/macair/Desktop/Mentor/ventaro/server/services/AdminService.js:19:19)\n    at async /Users/macair/Desktop/Mentor/ventaro/server/controllers/adminController.js:8:24"}
+{"level":"info","message":"response completed: POST /api/admin/login - 401 450"}
+{"level":"info","message":"incoming requests: POST /api/admin/login from ::1"}
+{"level":"error","message":"Invalid password"}
+{"code":"AUTHENTICATION_ERROR","isOperational":true,"level":"error","message":"Admin login error Invalid email or password","name":"AuthenticationError","stack":"AuthenticationError: Invalid email or password\n    at AdminService.login (/Users/macair/Desktop/Mentor/ventaro/server/services/AdminService.js:19:19)\n    at async /Users/macair/Desktop/Mentor/ventaro/server/controllers/adminController.js:8:24","statusCode":401}
+{"level":"error","message":"Invalid email or password","stack":"AuthenticationError: Invalid email or password\n    at AdminService.login (/Users/macair/Desktop/Mentor/ventaro/server/services/AdminService.js:19:19)\n    at async /Users/macair/Desktop/Mentor/ventaro/server/controllers/adminController.js:8:24"}
+{"level":"info","message":"response completed: POST /api/admin/login - 401 451"}
+{"level":"info","message":"incoming requests: POST /api/admin/login from ::1"}
+{"level":"info","message":"Admin logged in: admin@gmail.com"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"incoming requests: POST /api/admin/login from ::1"}
+{"level":"info","message":"Admin logged in: admin@gmail.com"}
+{"action":"ADMIN_LOGIN","level":"info","message":"Controller action: ADMIN_LOGIN","timestamp":"2025-11-19T09:11:43.631Z","user":{}}
+{"level":"error","message":"Cannot read properties of undefined (reading 'requestId')","stack":"TypeError: Cannot read properties of undefined (reading 'requestId')\n    at ResponseFormatter.success (/Users/macair/Desktop/Mentor/ventaro/server/utils/response.js:9:29)\n    at sendSuccess (/Users/macair/Desktop/Mentor/ventaro/server/utils/response.js:154:28)\n    at BaseController.sendSuccess (/Users/macair/Desktop/Mentor/ventaro/server/controllers/baseController.js:29:16)\n    at /Users/macair/Desktop/Mentor/ventaro/server/controllers/adminController.js:10:24"}
+{"level":"info","message":"response completed: POST /api/admin/login - 400 474"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"mongodb connected successfully"}
+{"level":"info","message":"Server initialized successfully"}
+{"level":"info","message":"Server running in development Mode on port 5001"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"incoming requests: POST /api/admin/login from ::1"}
+{"level":"info","message":"Admin user already exist"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Sample users already exists"}
+{"level":"info","message":"Database seeding completed"}
+{"level":"info","message":"Admin logged in: admin@gmail.com"}
+{"action":"ADMIN_LOGIN","level":"info","message":"Controller action: ADMIN_LOGIN","timestamp":"2025-11-19T09:13:36.380Z","user":{}}
+{"level":"info","message":"response completed: POST /api/admin/login - 200 530"}

@@ -12,6 +12,7 @@ const notFound = (req, res, next) => {
 }
 
 const errorHandler = (err, req, res, next) => {
+  console.log('inhere');
   
   logger.error(err.message, { stack: err.stack });
 

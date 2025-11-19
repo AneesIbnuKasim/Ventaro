@@ -62,8 +62,14 @@ adminSchema.pre('save', async function(next) {
     this.password = hashedPassword
 })
 
-adminSchema.methods.comparePassword = async function() {
+adminSchema.methods.comparePassword = async function(candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.password)
+}
+
+adminSchema.methods.getPublicProfile = async function() {
+    const adminObject = this.toObject()
+    delete adminObject.password
+    return adminObject
 }
 
 adminSchema.statics.findByEmail = function(email) {

@@ -1,9 +1,13 @@
 const BaseController = require('../controllers/baseController')
+const AdminService = require('../services/AdminService')
+const { adminLoginValidation } = require('../utils/validation')
 
 class AdminController extends BaseController {
     static login = BaseController.asyncHandler(async(req, res)=>{
         const validatedData = BaseController.validateRequest(adminLoginValidation, req.body)
-        const result = Admin
+        const adminData = await AdminService.login(validatedData)
+        BaseController.logAction('ADMIN_LOGIN',adminData.admin)
+        BaseController.sendSuccess(res, 'Admin has been logged in successfully', adminData)
     })
 }
 

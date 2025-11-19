@@ -161,7 +161,7 @@ const sendError = (res, message, statusCode = 500, details = null) => {
   error.name = message
   error.statusCode = statusCode
   if (details) error.details = details
-
+  
   // console.log('send error to response formatter:',error);
 
   return ResponseFormatter.error(res, error, statusCode)
