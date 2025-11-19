@@ -44,7 +44,7 @@ class ConflictError extends AppError {
 }
 
 class RateLimitError extends AppError {
-    constructor(message = 'Too may requests') {
+    constructor(message = 'Too many requests') {
         super(message, 401, 'RATE_LIMIT_EXCEEDED')
     }
 }

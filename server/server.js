@@ -26,8 +26,8 @@ class Server {
 
             runSeeders()
 
-            this.app.use(notFound);
-            this.app.use(errorHandler);
+            this.app.use(notFound)
+            this.app.use(errorHandler)
             
             logger.info('Server initialized successfully')
         }

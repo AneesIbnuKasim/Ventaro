@@ -38,6 +38,8 @@ const loginValidation = Joi.object({
     password: commonPatterns.password.messages(customMessages)
 })
 
+const adminLoginValidation = loginValidation
+
 const changePasswordValidation = Joi.object({
   currentPassword: commonPatterns.password.messages(customMessages),
   newPassword: strongPasswordValidation

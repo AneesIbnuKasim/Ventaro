@@ -2,6 +2,8 @@ const User = require('../models/User')
 const logger = require('../utils/logger')
 const { generateUserToken, generateResetToken, verifyResetToken } = require('../utils/jwt')
 const { sendOtpEmail, generateOtp } = require('../utils/nodeMailer')
+const { sendError } = require('../utils/response')
+const { ConflictError } = require('../utils/errors')
 
 class AuthService {
     static async register(userData) {
@@ -10,7 +12,7 @@ class AuthService {
         const existingUser = await User.findByEmail(userData.email)
         
         if(existingUser) {
-        throw new Error('User with this email already exists')
+        throw new ConflictError('User already exist')
        }
 
        const user = new User({
@@ -36,7 +38,6 @@ class AuthService {
         email: user.email,
         role: user.role
        })
-       console.log('token:',token);
        
        logger.info(`New user registered: ${user.email}`)
        
@@ -74,12 +75,8 @@ class AuthService {
                 logger.error('Otp expired')
                 throw new Error('Otp expired')
             }
-            console.log('otp deets:',user.otpDetails);
-            
-            const isMatching = await user.compareOtp(otp)
-            console.log('otp:',isMatching)
 
-            console.log('inhere new', isMatching);
+            const isMatching = await user.compareOtp(otp)
 
             if (!isMatching) {
                 logger.error('Otp not valid')
@@ -102,7 +99,6 @@ class AuthService {
 
             if (purpose === 'PASSWORD_RESET') {
                 await user.save()
-                console.log('userId: ',user._id);
                 
                 const resetToken = generateResetToken({id:user._id})
 
@@ -158,9 +154,7 @@ class AuthService {
         } catch (error) {
             logger.error('Login error',error)
             throw error
-        }
-        
-        
+        } 
     }
 
     static async changePassword (userId, passwordData) {
@@ -194,7 +188,6 @@ class AuthService {
     static async requestPasswordReset(validatedData) {
         const { email } = validatedData
         const user = await User.findByEmail(email)
-        console.log('user',user);
         
         if (!user) {
             throw new Error('User not found')
@@ -205,14 +198,8 @@ class AuthService {
         throw new Error('Otp generation failed')
        }
 
-       console.log('otp details:' ,otpDetails);
-       
        user.otpDetails = otpDetails
        await user.save()
-
-       console.log('ussss',user)
-       console.log('usssseerrr',user.otpDetails)
-       
 
        sendOtpEmail(user._id, user.name, email, otpDetails.code)
 
@@ -243,7 +230,6 @@ class AuthService {
         }
 
         user.password = newPassword
-        console.log('user here:', user);
         
         await user.save()
 
