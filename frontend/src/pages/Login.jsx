@@ -1,6 +1,14 @@
 import React from "react";
 
 export default function Login() {
+
+
+
+
+  
+
+
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-indigo-600 to-purple-600 p-6">
       <div className="bg-white rounded-3xl shadow-xl flex w-full max-w-5xl overflow-hidden">

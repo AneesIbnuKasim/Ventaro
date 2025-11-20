@@ -1,3 +1,4 @@
+const { ValidationError, ErrorFactory } = require('../utils/errors')
 const logger = require('../utils/logger')
 const { sendValidationError, sendSuccess, sendError } = require('../utils/response')
 
@@ -13,10 +14,7 @@ class BaseController {
         console.log('validated value: ',value)
         
         if(error) {
-            throw {
-                name: 'ValidationError',
-                errors: error.details,
-            }
+            throw ErrorFactory.validation("Validation failed", error.details)
         }
         return value
     }

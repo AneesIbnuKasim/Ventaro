@@ -7,12 +7,12 @@ const notFound = (req, res, next) => {
     url: req.originalUrl,
     method: req.method,
     ip: req.ip
-  });
+  })
   sendError(res, message, 404)
 }
 
 const errorHandler = (err, req, res, next) => {
-  console.log('inhere');
+  console.log('error handler: ',err);
   
   logger.error(err.message, { stack: err.stack });
 
