@@ -56,9 +56,7 @@ const emailValidation = Joi.object({
     email: commonPatterns.email.messages(customMessages)
 })
 
-//category validations
-
-const addCategoryValidation = Joi.object({
+const categoryValidation = Joi.object({
     name: commonPatterns.name.messages(customMessages),
     description: commonPatterns.description.messages(customMessages)
 })
@@ -72,5 +70,5 @@ module.exports = {
     emailValidation,
     resetPasswordValidation,
     adminLoginValidation,
-    addCategoryValidation
+    categoryValidation
 }

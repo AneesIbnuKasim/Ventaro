@@ -19,6 +19,8 @@ class ValidationError extends AppError {
     }
 }
 
+
+
 class AuthenticationError extends AppError {
     constructor(message = 'Authentication failed') {
         super(message, 401, 'AUTHENTICATION_ERROR')

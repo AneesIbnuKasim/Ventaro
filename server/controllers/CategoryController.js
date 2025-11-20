@@ -1,5 +1,5 @@
 const CategoryService = require("../services/CategoryService");
-const { addCategoryValidation } = require("../utils/validation");
+const { addCategoryValidation, categoryValidation } = require("../utils/validation");
 const BaseController = require("./baseController");
 
 class CategoryController extends BaseController {
@@ -9,10 +9,18 @@ class CategoryController extends BaseController {
     })
 
     static addCategory = BaseController.asyncHandler(async (req, res)=>{
-        const validatedData = BaseController.validateRequest(addCategoryValidation, req.body)
+        const validatedData = BaseController.validateRequest(categoryValidation, req.body)
         const category = await CategoryService.addCategory(validatedData)
         BaseController.sendSuccess(res,'Category added successfully', category, 201)
     })
+
+    static updateCategory = BaseController.asyncHandler(async(req, res)=>{
+        const validatedData = BaseController.validateRequest(categoryValidation, req.body)
+        const updated = await CategoryService.updateCategory(req.params.id, validatedData)
+        BaseController.sendSuccess(res, 'Category updated successfully', updated)
+    })
+
+    
 }
 
 
