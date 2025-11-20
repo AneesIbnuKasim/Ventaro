@@ -9,6 +9,12 @@ class ProductController extends BaseController {
         BaseController.sendSuccess(res, 'Products fetched successfully', products, 200)
     })
 
+    static getProduct = BaseController.asyncHandler(async(req, res)=>{
+        const product = await ProductService.getProduct(req.params.id)
+        BaseController.logAction('GET_PRODUCT', product)
+        BaseController.sendSuccess(res, 'Product fetched successfully', product, 200)
+    })
+
     static addProduct = BaseController.asyncHandler(async(req, res)=>{
         const validatedData = BaseController.validateRequest(productValidation, req.body)
         const product = await ProductService.addProduct(validatedData)

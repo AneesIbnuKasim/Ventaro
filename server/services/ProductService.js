@@ -13,6 +13,16 @@ class ProductService {
         }
     }
 
+    static getProduct = async(productId)=>{
+        try {
+            const product = await Product.findById(productId)
+            return product
+        } catch (error) {
+            logger.error('Error fetching product') 
+            throw error
+        }
+    }
+
     static addProduct = async(productData)=>{
         try {
             if (!productData) {
