@@ -3,6 +3,12 @@ const { productValidation } = require("../utils/validation");
 const BaseController = require("./baseController");
 
 class ProductController extends BaseController {
+    static getProducts = BaseController.asyncHandler(async(req, res)=>{
+        const products = await ProductService.getProducts()
+        BaseController.logAction('GET_PRODUCTS', products)
+        BaseController.sendSuccess(res, 'Products fetched successfully', products, 200)
+    })
+
     static addProduct = BaseController.asyncHandler(async(req, res)=>{
         const validatedData = BaseController.validateRequest(productValidation, req.body)
         const product = await ProductService.addProduct(validatedData)

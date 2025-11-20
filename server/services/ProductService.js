@@ -3,6 +3,16 @@ const { ConflictError, NotFoundError } = require("../utils/errors")
 const logger = require("../utils/logger")
 
 class ProductService {
+    static getProducts = async()=>{
+        try {
+            const products = await Product.find({})
+            return products
+        } catch (error) {
+            logger.error('Error fetching products') 
+            throw error
+        }
+    }
+
     static addProduct = async(productData)=>{
         try {
             if (!productData) {
