@@ -1,3 +1,4 @@
+const Admin = require('../models/Admin')
 const User = require('../models/User')
 const { verifyUserToken, verifyAdminToken } = require('../utils/jwt')
 const logger = require('../utils/logger')
@@ -44,17 +45,22 @@ const authenticateUser = async(req, res, next)=>{
         }
 
         const token = authHeader.substring(7)
-
+        
+        
         if (!token) {
-        logger.warn('Admin auth: Empty token after Bearer prefix');
-        return sendError(res, 'Access token required', 401);
+            logger.warn('Admin auth: Empty token after Bearer prefix');
+            return sendError(res, 'Access token required', 401);
         }
-
+        
         const decoded = verifyAdminToken(token)
         logger.info('Admin token verified successfully', { adminId: decoded.id });
 
-        const admin = await User.findById(decoded.id)
-        if (!admin || admin.role === 'admin') {
+        
+
+        const admin = await Admin.findById(decoded.id)
+        console.log('admin:',admin);
+        
+        if (!admin || admin.role !== 'admin') {
             logger.warn('Admin auth: Admin not found or not an admin',{
                 userId: decoded.id,
                 userExists: !!admin,

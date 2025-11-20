@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken')
 const logger = require('../utils/logger')
 const config = require('../config/config')
+const { AuthorizationError } = require('./errors')
 
 const generateUserToken = (payload)=>{
     try {
@@ -53,13 +54,14 @@ const verifyUserToken = (token)=>{
 
 const verifyAdminToken = (token)=>{
     try {
-        if (!config.JWT_ADMIN_SECRET) {
-      throw new Error('JWT_ADMIN_SECRET not configured');
-    }
+        if (!config.JWT.ADMIN_SECRET) {
+            throw new Error('JWT_ADMIN_SECRET not configured');
+        }
+        
     return jwt.verify(token, config.JWT.ADMIN_SECRET)
     } catch (error) {
         logger.error('Admin token verification failed')
-        throw new Error('Admin token verification failed')
+        throw new AuthorizationError('Admin token verification failed')
     }
 }
 

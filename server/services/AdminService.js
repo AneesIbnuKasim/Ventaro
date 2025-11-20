@@ -30,10 +30,9 @@ class AdminService {
             role: admin.role,
         })
         logger.info(`Admin logged in: ${email}`)
-
         return {
             token,
-            admin: admin.getPublicProfile()
+            admin: await admin.getPublicProfile()
             }
         } catch (error) {
             logger.error('Admin login error',error)

@@ -5,7 +5,8 @@ const BaseController = require("./baseController");
 class CategoryController extends BaseController {
     static getAllCategories = BaseController.asyncHandler(async(req, res)=>{
         const categories = await CategoryService.getAllCategories(req, res)
-        BaseController.sendSuccess(categories)
+        BaseController.logAction('ALL-CATEGORY',categories)
+        BaseController.sendSuccess(res,'Category fetched',categories)
     })
 
     static addCategory = BaseController.asyncHandler(async (req, res)=>{

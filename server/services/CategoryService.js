@@ -3,8 +3,14 @@ const { NotFoundError, AppError, ConflictError } = require("../utils/errors")
 const logger = require("../utils/logger")
 
 class CategoryService {
-    static getAllCategories = (req, res)=>{
-
+    static getAllCategories = async(req, res)=>{
+        try {
+            const categories = await Category.find({})
+            return categories
+        } catch (error) {
+            logger.error('Failed fetching categories')
+            throw error
+        }
     }
 
     static addCategory = async (categoryData)=>{
