@@ -25,19 +25,30 @@ const ProductSchema = mongoose.Schema({
         ref: 'Category',
         required: true
     },
-    sizes: {
-        type: [String],
-        required: true
-    },
-    stock: {
+    // // variant: [
+    // //     {
+    // //         size: {
+    // //             type: String,
+    // //         },
+    // //         stock: {
+    // //             type: Number,
+    // //             default: 0
+    // //         }
+    // //     }
+    // ],
+    discount: {
         type: Number,
-        required: true,
-        min: 0
+        default: 0
     },
-    images: {
-        type: [String],
-        required: true
-    }
+    // stock: {
+    //     type: Number,
+    //     required: true,
+    //     min: 0
+    // },
+    // images: {
+    //     type: [String],
+    //     required: true
+    // }
 },{timestamps: true})
 
-module.exports = mongoose.Model('Products', ProductSchema)
+module.exports = mongoose.model('Products', ProductSchema)

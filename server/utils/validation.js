@@ -5,6 +5,9 @@ const commonPatterns = {
     email: Joi.string().email().lowercase().trim().required(),
     password: Joi.string().min(8).max(128).required(),
     objectId: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
+    price: Joi.number().required(),
+    sizes: Joi.array().items(Joi.string()).optional(),
+    images: Joi.array().items(Joi.string().uri()).min(1),
     status: Joi.string().valid('active', 'banned', 'inactive'),
     role: Joi.string().valid('user', 'admin'),
     description: Joi.string().min(2).required(),
@@ -61,6 +64,17 @@ const categoryValidation = Joi.object({
     description: commonPatterns.description.messages(customMessages)
 })
 
+const productValidation = Joi.object({
+    name: commonPatterns.name.messages(customMessages),
+    description: commonPatterns.description.messages(customMessages),
+    brandName: commonPatterns.name.messages(customMessages) ,
+    price: commonPatterns.price.messages(customMessages),
+    categoryId: commonPatterns.objectId.messages(customMessages),
+    discount: Joi.number().optional().messages(customMessages),
+    sizes: commonPatterns.sizes.messages(customMessages),
+    images: commonPatterns.images.messages(customMessages)
+})
+
 
 module.exports = {
     registerValidation,
@@ -70,5 +84,6 @@ module.exports = {
     emailValidation,
     resetPasswordValidation,
     adminLoginValidation,
-    categoryValidation
+    categoryValidation,
+    productValidation
 }

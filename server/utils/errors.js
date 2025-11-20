@@ -95,9 +95,9 @@ class ErrorUtils {
         
         if(error.name === 'ValidationError') {
 
-            // console.log('in validationError:');
-
-            const messages = Object.values(error.details).map(err=>err.message)
+            // console.log('in validationError:', error.errors);
+            
+            const messages = Object.values(error.errors).map(err=>err.message)
             return messages.join(', ')
         }
 
