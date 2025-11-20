@@ -20,6 +20,12 @@ class CategoryController extends BaseController {
         BaseController.sendSuccess(res, 'Category updated successfully', updated)
     })
 
+    static deleteCategory = BaseController.asyncHandler(async(req, res)=>{
+        const deleted = await CategoryService.deleteCategory(req.params.id)
+        BaseController.logAction('DELETE_CATEGORY', deleted)
+        BaseController.sendSuccess(res, 'Category deleted successfully')
+    })
+
     
 }
 

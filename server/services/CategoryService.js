@@ -18,7 +18,7 @@ class CategoryService {
         
         await category.save()
 
-        return {category}
+        return category
         } catch (error) {
             logger.error('Error adding category')
             throw error
@@ -44,7 +44,7 @@ class CategoryService {
 
         await category.save()
 
-        return {category}
+        return category
 
         } catch (error) {
             logger.error('Category updating failed')
@@ -52,8 +52,19 @@ class CategoryService {
         }
     }
 
-    static deleteCategory = ()=>{
+    static deleteCategory = async(categoryId)=>{
+        try {
+            const category = await Category.findById(categoryId)
+            if (!category) throw new NotFoundError('Category not found')
+            
+            await Category.findByIdAndDelete(categoryId)
 
+            logger.info('Category deleted successfully')
+            return category
+        } catch (error) {
+            logger.error('Category deletion failed')
+            throw error
+        }
     }
 }
 

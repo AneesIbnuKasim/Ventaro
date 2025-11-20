@@ -9,6 +9,7 @@ router.post('/login', AdminController.login)
 
 //category api handlers
 router.post('/category', CategoryController.addCategory)
-router.put('/category/:id', CategoryController.updateCategory)
+router.put('/category/:id',authenticateAdmin ,CategoryController.updateCategory)
+router.delete('/category/:id', authenticateAdmin, CategoryController.deleteCategory)
 
 module.exports = router
