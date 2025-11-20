@@ -16,6 +16,6 @@ router.delete('/category/:id', authenticateAdmin, CategoryController.deleteCateg
 //products api
 router.post('/products', authenticateAdmin, ProductController.addProduct)
 router.put('/products/:id',authenticateAdmin , ProductController.editProduct)
-router.delete('/category/:id', authenticateAdmin, ProductController.deleteProduct)
+router.delete('/products/:id', authenticateAdmin, ProductController.deleteProduct)
 
 module.exports = router
