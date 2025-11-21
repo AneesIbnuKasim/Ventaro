@@ -23,8 +23,11 @@ class ProductService {
         }
     }
 
-    static addProduct = async(productData)=>{
+    static addProduct = async(req)=>{
         try {
+            console.log('image:', req.files);
+            console.log('data:', req.body);
+            const productData = req.body
             if (!productData) {
             throw new NotFoundError('No product to add')
         }        
@@ -37,11 +40,17 @@ class ProductService {
             logger.error('Product already exist')
             throw new ConflictError('Product already exist')
         }
-        
-        const product = new Product({
-            ...productData
-        })
 
+        if (!req.files.length>0) {
+            logger.error('No images selected to upload')
+            throw NotFoundError('No images selected to upload')
+        }
+
+        const product = new Product({
+            ...productData,
+            images: req.files?.map(file=>`/uploads/${file.filename}`)
+        })
+        
         await product.save()
 
         return product
