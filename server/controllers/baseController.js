@@ -15,7 +15,10 @@ class BaseController {
         console.log('validated value: ',value)
         
         if(error) {
-            // throw new ValidationError(error)
+            throw {
+                name: 'ValidationError',
+                error: error.details
+            }
         }
         return value
     }

@@ -33,7 +33,6 @@ const strongPasswordValidation = Joi.string()
 const registerValidation = Joi.object({
     name: commonPatterns.name.messages(customMessages),
     email: commonPatterns.email.messages(customMessages),
-    // password: commonPatterns.password.messages(customMessages),
     password: strongPasswordValidation
 })
 
@@ -75,6 +74,9 @@ const productValidation = Joi.object({
     images: commonPatterns.images.messages(customMessages)
 })
 
+const updateProfileValidation = Joi.object({
+    name: commonPatterns.name.messages(customMessages)
+})
 
 module.exports = {
     registerValidation,
@@ -85,5 +87,6 @@ module.exports = {
     resetPasswordValidation,
     adminLoginValidation,
     categoryValidation,
-    productValidation
+    productValidation,
+    updateProfileValidation
 }

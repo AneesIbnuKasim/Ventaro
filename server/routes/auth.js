@@ -12,7 +12,4 @@ router.post('/verify-reset-otp', AuthController.verifyOtp)
 router.put('/reset-password', AuthController.resetPassword)
 router.put('/change-password', authenticateUser, AuthController.changePassword)
 
-
-
-
 module.exports = router

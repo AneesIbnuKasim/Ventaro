@@ -23,11 +23,21 @@ const userSchema = new mongoose.Schema({
         minlength: [6, 'Password must be at least 6 characters long'],
         maxlength: [128, 'Password cant exceed 20 characters']
     },
+    avatar: {
+        type: String,
+        default: null
+    },
     role: {
         type: String,
         enum: ['user', 'admin'],
         default: 'user'
     },
+    addresses: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Address'
+        }
+    ],
     status: {
         type: String,
         enum: ['active', 'banned'],
