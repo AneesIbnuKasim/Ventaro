@@ -11,9 +11,15 @@ class UserController extends BaseController {
 
     static updateProfile = BaseController.asyncHandler(async(req, res)=>{
         const validatedData = BaseController.validateRequest(updateProfileValidation, req.body)
-        const user = await UserService.updateProfile(req.user.id, req.body)
+        const user = await UserService.updateProfile(req.user.id, validatedData)
         BaseController.logAction('PROFILE_UPDATE', user)
         BaseController.sendSuccess(res, 'Profile updated successfully', 200)
+    })
+
+    static updateAvatar = BaseController.asyncHandler(async(req, res)=>{
+        const user = await UserService.updateAvatar(req)
+        BaseController.logAction('AVATAR_UPDATE', 'Avatar updated successfully', user)
+        BaseController.sendSuccess(res, 'Avatar updated successfully', user, 200)
     })
 
 }

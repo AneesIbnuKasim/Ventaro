@@ -2,6 +2,8 @@ const User = require("../models/User")
 const { NotFoundError } = require("../utils/errors")
 const logger = require("../utils/logger")
 const { sendError } = require("../utils/response")
+const path = require('path')
+const fs = require('fs')
 
 
 class UserService {
@@ -44,6 +46,33 @@ class UserService {
             
         } catch (error) {
             logger.error('Profile update failed')
+            throw error
+        }
+    }
+
+    static updateAvatar = async(req)=>{
+        try {
+            if (!req.file) {
+            logger.error('No file uploaded')
+            throw new Error('No file uploaded')
+        }
+        const userId = req.user._id.toString()
+        const user = await User.findById(userId)
+
+        if (user.avatar) {
+            const oldPath = path.join('uploads/avatars', user.avatar)
+
+            if (fs.existsSync(oldPath)) {
+                fs.unlinkSync(oldPath)
+            }
+        }
+        
+        user.avatar = req.file.filename
+        await user.save()
+        
+        return {user:user}
+        } catch (error) {
+            logger.error('Avatar updating failed')
             throw error
         }
     }
