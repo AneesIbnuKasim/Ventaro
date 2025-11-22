@@ -63,9 +63,7 @@ class ProductService {
     static editProduct = async(productId, productData)=>{
         try {
 
-            logger.warn('product: ', productId)
             const product = await Product.findById(productId)
-            logger.warn('product: ', product)
 
         if (!product) {
             logger.error('Product not found')

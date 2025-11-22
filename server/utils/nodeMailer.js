@@ -56,7 +56,7 @@ const sendOtpEmail = (userId, name, email, otp, purpose)=>{
         }
       })
       } catch (error) {
-        logger.error('catch:',error.message)
+        logger.error(`Sending otp has failed: ${error.message}`)
         throw error
     }
 }

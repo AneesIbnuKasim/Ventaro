@@ -1,5 +1,5 @@
 const UserService = require("../services/UserService");
-const { updateProfileValidation } = require("../utils/validation");
+const { updateProfileValidation, addressValidation } = require("../utils/validation");
 const BaseController = require("./baseController");
 
 class UserController extends BaseController {
@@ -20,6 +20,13 @@ class UserController extends BaseController {
         const user = await UserService.updateAvatar(req)
         BaseController.logAction('AVATAR_UPDATE', 'Avatar updated successfully', user)
         BaseController.sendSuccess(res, 'Avatar updated successfully', user, 200)
+    })
+
+    static addAddress = BaseController.asyncHandler(async(req, res)=>{
+        const validatedData = BaseController.validateRequest(addressValidation, req.body)
+        const address = await UserService.addAddress(req, validatedData)
+        BaseController.logAction('ADDRESS_ADD', address)
+        BaseController.sendSuccess(res, 'Address added successfully', address)
     })
 
 }

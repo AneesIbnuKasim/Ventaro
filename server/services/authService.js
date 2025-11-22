@@ -119,7 +119,7 @@ class AuthService {
         try {
             const { email, password } = userData
         const user = await User.findByEmail(email)
-        
+
         if (!user) {
             throw new Error('Invalid email or password')
         }
@@ -142,6 +142,7 @@ class AuthService {
             email: user.email,
             role: user.role
         })
+
 
         logger.info(`User logged in: ${email}`)
 
@@ -235,7 +236,7 @@ class AuthService {
         logger.info('Password reset successful')
         return true
         } catch (error) {
-            logger.error('')
+            logger.error('Password reset failed')
             throw error
         }
     }

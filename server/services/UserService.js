@@ -4,6 +4,7 @@ const logger = require("../utils/logger")
 const { sendError } = require("../utils/response")
 const path = require('path')
 const fs = require('fs')
+const Address = require("../models/Address")
 
 
 class UserService {
@@ -16,7 +17,6 @@ class UserService {
                 throw sendError(res, 'User not found', 404)
             }
             const profileData = user.getPublicProfile()
-            logger.info('profile:', profileData)
             return profileData
             
         } catch (error) {
@@ -73,6 +73,33 @@ class UserService {
         return {user:user}
         } catch (error) {
             logger.error('Avatar updating failed')
+            throw error
+        }
+    }
+
+    static addAddress = async(req, addressData)=>{
+        try {
+            const userId = req.user._id
+            const user = await User.findById(userId)
+            if (!user) {
+                logger.error('User not found')
+                throw new NotFoundError('User not found')
+            }
+            
+            const data = {...addressData, userId}
+        
+        if (data.isDefault) {
+            await Address.updateMany({userId, isDefault: true},{$set: {isDefault: false}})
+        }
+            
+        const address = await Address.create(data)
+
+        await user.updateOne({$push: {addresses: address._id}}, {new: true})
+
+        logger.info('Address added successfully')
+        return address
+        } catch (error) {
+            logger.error('Adding address failed')
             throw error
         }
     }

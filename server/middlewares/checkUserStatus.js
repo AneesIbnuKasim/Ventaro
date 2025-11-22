@@ -9,36 +9,33 @@ const checkUserStatus = async(req, res, next)=>{
         const authHeader = req.headers.authorization
 
         if (!authHeader || !authHeader.startsWith('Bearer')) {
-            next()
+            return next()
         }
 
+        const token = authHeader.substring(7)
+
         let decoded
+        let account
         try {
-            decoded = verifyUserToken
+            decoded = verifyUserToken(token)
+            account = await User.findById(decoded.id)
         } catch (error) {
             try {
-            decoded = verifyAdminToken
+            decoded = verifyAdminToken(token)
+            account = await Admin.findById(decoded.id)
             } catch (error) {
-                next()
+                return next()
             }
         }
 
-        const user = await User.findById(decoded.id)
-        const admin = await Admin.findById(decoded.id)
-
-        if (!user) {
+        if (!account) {
             logger.error('User not found')
             throw NotFoundError('User not found')
         }
 
-        if (!admin) {
-            logger.error('Admin not found')
-            throw NotFoundError('Admin not found')
-        }
-
-        if (user.status === 'banned' || AdminController.status === 'banned') {
+        if (account.status === 'banned') {
             logger.error('User account is banned, Contact support')
-            throw AuthorizationError('User account is banned, Contact support')
+            throw new AuthorizationError('Your account is banned, Please contact support')
         }
 
         next()
@@ -47,3 +44,5 @@ const checkUserStatus = async(req, res, next)=>{
         throw error
     }
 }
+
+module.exports = checkUserStatus

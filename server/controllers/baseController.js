@@ -10,14 +10,10 @@ class BaseController {
     }
     static validateRequest(schema, data) {
         const { error, value } = schema.validate(data, {abortEarly: false})
-        console.log('validate error',error)
-        console.log('validated value: ',value)
-        
+        // console.log('validated value: ',value)
+
         if(error) {
-            throw {
-                name: 'ValidationError',
-                error: error.details
-            }
+            throw new ValidationError('Validation Error', error.details)
         }
         return value
     }

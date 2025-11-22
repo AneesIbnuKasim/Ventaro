@@ -4,6 +4,8 @@ const config = require('../config/config')
 const { AuthorizationError } = require('./errors')
 
 const generateUserToken = (payload)=>{
+    logger.warn('payload:',payload.role)
+    
     try {
         return jwt.sign(payload,
             config.JWT.USER_SECRET,{

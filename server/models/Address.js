@@ -5,11 +5,15 @@ const addressSchema = new mongoose.Schema({
     type: String, 
     required: true 
     },
+  userId: {
+    type: String,
+    required: true
+  },
   phone: { 
     type: String, 
     required: true 
     },
-  pincode: { 
+  pinCode: { 
     type: String, 
     required: true 
     },
@@ -36,5 +40,9 @@ const addressSchema = new mongoose.Schema({
     default: false 
     }
     }, { timestamps: true });
+
+    addressSchema.index({fullName:1, phone:1, pinCode:1, city:1, state:1, addressLine:1},
+      {unique: true}
+    )
 
 module.exports = mongoose.model('Address',addressSchema)

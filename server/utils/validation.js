@@ -78,6 +78,44 @@ const updateProfileValidation = Joi.object({
     name: commonPatterns.name.messages(customMessages)
 })
 
+const phoneValidation = Joi.string()
+    .pattern(/^[0-9]{10}$/)
+    .required()
+    .messages({
+      'string.pattern.base': 'Phone must be a valid 10-digit number',
+      ...customMessages
+    })
+
+const pinCodeValidation = Joi.string()
+    .pattern(/^[0-9]{6}$/)
+    .required()
+    .messages({
+      'string.pattern.base': 'Pin Code must be a valid 6-digit number',
+      ...customMessages
+    })
+
+
+// const addressValidation = Joi.object({
+//     fullName: commonPatterns.name.messages(customMessages),
+//     phone: phoneValidation,
+//     pinCode: pinCodeValidation,
+//     state: Joi.string().required().messages(customMessages),
+//     city: commonPatterns.name.messages(customMessages),
+//     addressLine: commonPatterns.name.messages(customMessages),
+//     label: Joi.string().optional().valid('Home','Work','Other').messages(customMessages),
+//     isDefault: Joi.boolean().optional().messages(customMessages)
+// })
+const addressValidation = Joi.object({
+    fullName: Joi.string().required().messages({'string.pattern.base':'Full name is required', ...customMessages}),
+    phone: phoneValidation,
+    pinCode: pinCodeValidation,
+    state: Joi.string().required().messages(customMessages),
+    city: commonPatterns.name.messages(customMessages),
+    addressLine: commonPatterns.name.messages(customMessages),
+    label: Joi.string().optional().valid('Home','Work','Other').messages(customMessages),
+    isDefault: Joi.boolean().optional().messages(customMessages)
+})
+
 module.exports = {
     registerValidation,
     loginValidation,
@@ -88,5 +126,6 @@ module.exports = {
     adminLoginValidation,
     categoryValidation,
     productValidation,
-    updateProfileValidation
+    updateProfileValidation,
+    addressValidation
 }
