@@ -86,11 +86,15 @@ class UserService {
                 throw new NotFoundError('User not found')
             }
             
-            const data = {...addressData, userId}
+        const data = {...addressData, userId}
         
-        if (data.isDefault) {
-            await Address.updateMany({userId, isDefault: true},{$set: {isDefault: false}})
+        if (user.addresses.length === 0) {
+            
+            data.isDefault = true
         }
+
+        console.log('dta: ', data);
+        
             
         const address = await Address.create(data)
 
@@ -102,6 +106,33 @@ class UserService {
             logger.error('Adding address failed')
             throw error
         }
+    }
+
+    static updateAddress = async(req, updateData)=>{
+        try {
+        const addressId = req.params.id
+
+        const updatedAddress = await Address.findByIdAndUpdate(addressId, updateData, {
+            new: true
+        })
+
+        logger.info('Address updated successfully')
+
+        return updatedAddress
+        } catch (error) {
+            logger.error('Address updating failed')
+            throw error
+        }
+    }
+
+    static deleteAddress = async(req)=>{
+        const addressId = req.params.id
+        
+        await User.findOneAndUpdate({addresses: addressId},{$pull:{addresses: addressId}},{new: true})
+
+        await Address.findOneAndDelete({_id: addressId})
+
+        return true
     }
 }
 

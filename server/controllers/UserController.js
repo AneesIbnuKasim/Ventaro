@@ -5,8 +5,8 @@ const BaseController = require("./baseController");
 class UserController extends BaseController {
     static getProfile = BaseController.asyncHandler(async(req, res)=>{
         const user = BaseController.sanitizeUser(req.user)
-        BaseController.logAction('PROFAIL', user)
-        BaseController.sendSuccess(res, 'Profile retrival successful', user, 200)
+        BaseController.logAction('GET_PROFILE', user)
+        BaseController.sendSuccess(res, 'Profile retrived successfully', user, 200)
     })
 
     static updateProfile = BaseController.asyncHandler(async(req, res)=>{
@@ -25,9 +25,24 @@ class UserController extends BaseController {
     static addAddress = BaseController.asyncHandler(async(req, res)=>{
         const validatedData = BaseController.validateRequest(addressValidation, req.body)
         const address = await UserService.addAddress(req, validatedData)
-        BaseController.logAction('ADDRESS_ADD', address)
-        BaseController.sendSuccess(res, 'Address added successfully', address)
+        BaseController.logAction('ADD_ADDRESS', address)
+        BaseController.sendSuccess(res, 'Address added successfully', address, 201)
     })
+
+    static updateAddress = BaseController.asyncHandler(async(req, res)=>{
+        const validatedData = BaseController.validateRequest(addressValidation, req.body)
+        const address = await UserService.updateAddress(req, validatedData)
+        BaseController.logAction('UPDATE_ADDRESS', address)
+        BaseController.sendSuccess(res, 'Address updated successfully', address)
+    })
+
+    static deleteAddress = BaseController.asyncHandler(async(req, res)=>{
+        const address = await UserService.deleteAddress(req)
+        BaseController.logAction('DELETE_ADDRESS', address)
+        BaseController.sendSuccess(res, 'Address deleted successfully')
+    })
+
+    
 
 }
 

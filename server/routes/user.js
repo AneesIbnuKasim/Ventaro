@@ -8,7 +8,9 @@ const router = express.Router()
 
 router.get('/me', checkUserStatus, authenticateUser, UserController.getProfile)
 router.put('/profile', checkUserStatus, authenticateUser, UserController.updateProfile)
-router.put('/profile/avatar', upload.single('avatar'), checkUserStatus, authenticateUser, UserController.updateAvatar)
-router.post('/profile/address', checkUserStatus, authenticateUser, UserController.addAddress)
+router.put('/avatar', upload.single('avatar'), checkUserStatus, authenticateUser, UserController.updateAvatar)
+router.post('/addresses', checkUserStatus, authenticateUser, UserController.addAddress)
+router.put('/addresses/:id', checkUserStatus, authenticateUser, UserController.updateAddress)
+router.delete('/addresses/:id', checkUserStatus, authenticateUser, UserController.deleteAddress)
 
 module.exports = router
