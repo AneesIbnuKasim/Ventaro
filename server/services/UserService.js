@@ -5,7 +5,7 @@ const { sendError } = require("../utils/response")
 const path = require('path')
 const fs = require('fs')
 const Address = require("../models/Address")
-
+const mongoose = require('mongoose')
 
 class UserService {
     static getProfile = async(req)=>{
@@ -128,7 +128,7 @@ class UserService {
     static deleteAddress = async(req)=>{
         const addressId = req.params.id
         
-        await User.findOneAndUpdate({addresses: addressId},{$pull:{addresses: addressId}},{new: true})
+        await User.findOneAndUpdate({addresses: new mongoose.Types.ObjectId(addressId)},{$pull:{addresses: addressId}},{new: true})
 
         await Address.findOneAndDelete({_id: addressId})
 
