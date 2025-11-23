@@ -2,7 +2,6 @@ const User = require('../models/User')
 const logger = require('../utils/logger')
 const { generateUserToken, generateResetToken, verifyResetToken } = require('../utils/jwt')
 const { sendOtpEmail, generateOtp } = require('../utils/nodeMailer')
-const { sendError } = require('../utils/response')
 const { ConflictError } = require('../utils/errors')
 
 class AuthService {
@@ -240,8 +239,6 @@ class AuthService {
             throw error
         }
     }
-
-
   
 }
 

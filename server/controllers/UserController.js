@@ -1,6 +1,7 @@
+const AuthService = require("../services/authService");
 const UserService = require("../services/UserService");
 const { updateProfileValidation, addressValidation } = require("../utils/validation");
-const BaseController = require("./baseController");
+const BaseController = require("./baseController")
 
 class UserController extends BaseController {
     static getProfile = BaseController.asyncHandler(async(req, res)=>{
@@ -41,8 +42,6 @@ class UserController extends BaseController {
         BaseController.logAction('DELETE_ADDRESS','Address deleted successfully')
         BaseController.sendSuccess(res, 'Address deleted successfully')
     })
-
-
 
 }
 

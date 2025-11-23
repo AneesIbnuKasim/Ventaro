@@ -13,4 +13,5 @@ router.post('/addresses', checkUserStatus, authenticateUser, UserController.addA
 router.put('/addresses/:id', checkUserStatus, authenticateUser, UserController.updateAddress)
 router.delete('/addresses/:id', checkUserStatus, authenticateUser, UserController.deleteAddress)
 
+
 module.exports = router
