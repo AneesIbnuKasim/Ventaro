@@ -1,7 +1,9 @@
 import React, { memo, useMemo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { BUTTON_VARIANTS } from '../../constants/ui';
+import { BUTTON_VARIANTS, BUTTON_SIZE } from '../../constants/ui'
+import { ImSpinner } from "react-icons/im"
 
+// 'radial-gradient(circle,#3F4DBC_33%,#A24FBC_91%)'
 const Button = memo(({
   children,
   variant = 'primary',
@@ -21,16 +23,22 @@ const Button = memo(({
   block = false,
   ...props
 }) => {
+
+  /** Generate button classes dynamically */
   const buttonClasses = useMemo(() => {
-    const baseClasses = 'btn';
-    const variantClass = variant.includes('outline-') 
-      ? BUTTON_VARIANTS.outline?.[variant.replace('outline-', '')] || BUTTON_VARIANTS.primary
+    const baseClasses =
+      `inline-flex items-center justify-center font-medium transition-all duration-200
+       min-h-[44px] disabled:opacity-50 disabled:cursor-not-allowed`;
+
+    const variantClass = variant.includes('outline-')
+      ? BUTTON_VARIANTS.outline?.[variant.replace('outline-', '')] ||
+        BUTTON_VARIANTS.primary
       : BUTTON_VARIANTS[variant] || BUTTON_VARIANTS.primary;
-    
-    const sizeClass = size !== 'md' ? `btn-${size}` : '';
-    const pillClass = pill ? 'rounded-pill' : '';
-    const blockClass = block ? 'w-100' : '';
-    
+
+    const sizeClass = BUTTON_SIZE[size] || BUTTON_SIZE.md;
+    const pillClass = pill ? 'rounded-full' : 'rounded-md';
+    const blockClass = block ? 'w-full' : '';
+
     return [
       baseClasses,
       variantClass,
@@ -41,6 +49,8 @@ const Button = memo(({
     ].filter(Boolean).join(' ');
   }, [variant, size, pill, block, className]);
 
+
+  /** Handle click with disabled + loading protection */
   const handleClick = useCallback((e) => {
     if (disabled || loading) {
       e.preventDefault();
@@ -49,40 +59,33 @@ const Button = memo(({
     onClick?.(e);
   }, [onClick, disabled, loading]);
 
+
+  /** UI content logic for icons + spinner */
   const content = useMemo(() => {
-    const iconElement = icon && (
-      <i className={`${icon} ${loading ? 'spinner-border spinner-border-sm' : ''}`}></i>
+    const iconEl = icon && (
+      <i className={`${icon} ${loading ? <ImSpinner /> : ''}`} />
     );
-    
+
     if (loading) {
       return (
         <>
-          <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+          <span className="animate-spin mr-2 border-2 border-white border-t-transparent w-4 h-4 rounded-full"></span>
           {children}
         </>
       );
     }
 
-    if (icon && iconPosition === 'left') {
-      return (
-        <>
-          {iconElement}
-          {children && <span className="ms-2">{children}</span>}
-        </>
-      );
-    }
-
-    if (icon && iconPosition === 'right') {
-      return (
-        <>
-          {children && <span className="me-2">{children}</span>}
-          {iconElement}
-        </>
-      );
+    if (icon) {
+      return iconPosition === 'left'
+        ? <><span className="mr-2">{icon}</span>{children}</>
+        : <>{children}<span className="ml-2">{icon}</span></>;
     }
 
     return children;
   }, [icon, loading, children, iconPosition]);
+
+
+  // ---- Routing Smart Rendering ----
   if (to) {
     return (
       <Link

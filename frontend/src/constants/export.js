@@ -29,7 +29,7 @@ export const
   --small_secondary_color: rgba(33, 37, 41, 0.75); 
   --Admin-button-color: rgba(243, 114, 54, 1); 
   --Link-text-color: rgba(13, 110, 253, 1); 
-  --White-secondary-color: rgba(194, 20'\7, 221, 0.75); 
+  --White-secondary-color: rgba(194, 207, 221, 0.75); 
   --Admin-dashbord-button-color: rgba(53, 118, 223, 1); 
   --button--unselected: rgba(166, 171, 175, 0.75); 
   --table--head: rgba(17, 17, 17, 1); 

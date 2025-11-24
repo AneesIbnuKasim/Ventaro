@@ -23,16 +23,16 @@ const FormInput = memo(
           props.name ||
           `input-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`,
         [props.id, props.name]
-      );
+      )
 
       const inputClassName = useMemo(() => {
         const baseClasses =
-          'block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500';
+          'block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500'
         const errorClasses = error
           ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
-          : '';
+          : ''
         return `${baseClasses} ${errorClasses}`;
-      }, [error]);
+      }, [error])
 
       const containerClassName = useMemo(() => `mb-4 ${className}`, [className]);
 
@@ -40,10 +40,10 @@ const FormInput = memo(
         () =>
           `flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 focus-within:ring-1 focus-within:ring-blue-500 focus-within:border-blue-500 ${inputGroupClassName}`,
         [inputGroupClassName]
-      );
+      )
 
       const labelElement = useMemo(() => {
-        if (!label) return null;
+        if (!label) return null
         return (
           <label
             htmlFor={inputId}
@@ -52,8 +52,8 @@ const FormInput = memo(
             {label}
             {required && <span className="text-red-600 ml-1">*</span>}
           </label>
-        );
-      }, [label, inputId, required]);
+        )
+      }, [label, inputId, required])
 
       const inputElement = useMemo(() => {
         if (icon) {
@@ -68,7 +68,7 @@ const FormInput = memo(
               required={required}
               {...props}
             />
-          );
+          )
         }
 
         // Plain input without icon
@@ -82,37 +82,36 @@ const FormInput = memo(
             required={required}
             {...props}
           />
-        );
-      }, [ref, type, inputClassName, inputId, placeholder, required, props, icon]);
+        )
+      }, [ref, type, inputClassName, inputId, placeholder, required, props, icon])
 
       const errorElement = useMemo(() => {
-        if (!error) return null;
+        if (!error) return null
         return (
           <p className="mt-1 text-sm text-red-600" role="alert">
             {error}
           </p>
-        );
-      }, [error]);
+        )
+      }, [error])
 
       const helpElement = useMemo(() => {
-        if (!helpText || error) return null;
-        return <p className="mt-1 text-sm text-gray-500">{helpText}</p>;
-      }, [helpText, error]);
+        if (!helpText || error) return null
+        return <p className="mt-1 text-sm text-gray-500">{helpText}</p>
+      }, [helpText, error])
 
       const iconElement = icon ? (
-        <span className="mr-2 text-gray-400">
-          <i className={icon}></i>
+        <span className=" text-gray-400">
+          {icon}
         </span>
-      ) : null;
+      ) : null
 
       return (
         <div className={containerClassName}>
           {labelElement}
-
           {icon ? (
             <div className={groupClassName}>
-              {iconElement}
-              {inputElement}
+              <span className={`mr-2 `}>{iconElement}</span>
+              <span>{inputElement}</span>
             </div>
           ) : (
             <>
@@ -128,6 +127,6 @@ const FormInput = memo(
   )
 );
 
-FormInput.displayName = 'FormInput';
+FormInput.displayName = 'FormInput'
 
-export default FormInput;
+export default FormInput

@@ -1,52 +1,47 @@
 export const GRADIENTS = {
-  primary: {
-    light: 'radial-gradient(circle, #3F4DBC 33%, #A24FBC 91%)',
-    dark: 'radial-gradient(circle, #24243e 30%, #302b63 60%, #0f0c29 100%)',
-  },
+  primary: 'bg-[radial-gradient(70%_90%_at_93%_90%,rgba(122,79,188,1)_3%,rgba(45,55,156,1)_100%)]',
+  // 'bg-[linear-gradient(125deg,rgba(63,77,188,1)_67%,rgba(162,79,188,0.8)_100%)]'
+  // dark: 'bg-[radial-gradient(circle,#24243e_30%,#302b63_60%,#0f0c29_100%)]'
   secondary: {
-    light: 'radial-gradient(circle, #7A4FBCF9 23%, #39459C 84%)',
-    dark: 'radial-gradient(circle, #4C2F80 25%, #1D254D 90%)'
+    light: 'bg-[radial-gradient(70%_90%_at_88%_90%,rgba(122,79,188,0.7)_23%,rgba(57,69,155,1)_84%)]',
+    dark: 'bg-[radial-gradient(circle,#4C2F80_25%,#1D254D_90%)]'
   },
-  success: "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)",
-  warning: "linear-gradient(135deg, #ffd89b 0%, #19547b 100%)",
-  danger: "linear-gradient(135deg, #fc4a1a 0%, #f7b733 100%)",
-  info: "linear-gradient(135deg, #74b9ff 0%, #0984e3 100%)",
-  dark: "linear-gradient(135deg, #2d3436 0%, #636e72 100%)"
-}
+  success: 'bg-[linear-gradient(135deg,#a8edea_0%,#fed6e3_100%)]',
+  warning: 'bg-[linear-gradient(135deg,#ffd89b_0%,#19547b_100%)]',
+  danger: 'bg-[linear-gradient(135deg,#fc4a1a_0%,#f7b733_100%)]',
+  info: 'bg-[linear-gradient(135deg,#74b9ff_0%,#0984e3_100%)]',
+  dark: 'bg-[linear-gradient(135deg,#2d3436_0%,#636e72_100%)]'
+};
 export const CARD_STYLES = {
-  borderRadius: '20px',
-  border: '0',
-  shadow: 'shadow-lg'
-}
+  base: 'rounded-[20px] border-0 shadow-lg'
+};
 
 export const LOGIN_CARD_STYLES = {
-  borderRadius: '20px',
-  border: '0',
-  shadow: 'shadow-lg',
-  primary: "radial-gradient(135deg, #7A4FBC 0%, #764ba2 100%)",
-  primaryEllipse: ''
-}
+  base: 'rounded-[20px] border-0 shadow-lg',
+  primary: 'bg-[radial-gradient(135deg,#7A4FBC_0%,#764ba2_100%)]'
+};
 
 export const BUTTON_VARIANTS = {
-  primary: 'btn-primary',
-  secondary: 'btn-secondary',
-  success: 'btn-success',
-  danger: 'btn-danger',
-  warning: 'btn-warning',
-  info: 'btn-info',
-  light: 'btn-light',
-  dark: 'btn-dark',
+  primary: 'bg-blue-600 text-white hover:bg-blue-700',
+  secondary: 'bg-gray-600 text-white hover:bg-gray-700',
+  success: 'bg-green-600 text-white hover:bg-green-700',
+  danger: 'bg-red-600 text-white hover:bg-red-700',
+  warning: 'bg-yellow-500 text-white hover:bg-yellow-600',
+  info: 'bg-teal-600 text-white hover:bg-teal-700',
+  light: 'bg-gray-100 text-gray-700 hover:bg-gray-200',
+  dark: 'bg-gray-900 text-white hover:bg-gray-800',
+
   outline: {
-    primary: 'btn-outline-primary',
-    secondary: 'btn-outline-secondary',
-    success: 'btn-outline-success',
-    danger: 'btn-outline-danger',
-    warning: 'btn-outline-warning',
-    info: 'btn-outline-info',
-    light: 'btn-outline-light',
-    dark: 'btn-outline-dark'
+    primary: 'border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white',
+    secondary: 'border border-gray-600 text-gray-600 hover:bg-gray-600 hover:text-white',
+    success: 'border border-green-600 text-green-600 hover:bg-green-600 hover:text-white',
+    danger: 'border border-red-600 text-red-600 hover:bg-red-600 hover:text-white',
+    warning: 'border border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-white',
+    info: 'border border-teal-600 text-teal-600 hover:bg-teal-600 hover:text-white',
+    light: 'border border-gray-300 text-gray-700 hover:bg-gray-200',
+    dark: 'border border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white'
   }
-}
+};
 
 export const ICON_SIZES = {
   small: '1rem',
@@ -62,6 +57,13 @@ export const SPACING = {
   lg: '1.5rem',
   xl: '2rem',
   xxl: '3rem'
+}
+
+export const BUTTON_SIZE = {
+  sm: 'px-3 py-1.5 text-sm',
+  md: 'px-4 py-2 text-base',
+  lg: 'px-5 py-3 text-lg',
+  xl: 'px-6 py-4 text-xl',
 }
 
 export const BREAKPOINTS = {

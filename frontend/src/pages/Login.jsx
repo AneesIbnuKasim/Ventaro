@@ -1,12 +1,6 @@
-import React from "react";
+import React, { memo } from "react";
 
-export default function Login() {
-
-
-
-
-  
-
+const  Login = memo(()=>{
 
 
   return (
@@ -106,5 +100,7 @@ export default function Login() {
       </div>
     </div>
   );
-}
+})
+
+export default Login
 
