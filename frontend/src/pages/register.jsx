@@ -14,10 +14,12 @@ import { authAPI } from '../services'
 import { toast } from 'react-toastify'
 import { AUTH_CONFIG } from '../config/app'
 import { setAuthToken } from '../utils/apiClient'
+import { useAuth } from '../context/AuthContext'
 // import { useAuth } from '../context/AuthContext'
 
 const Register = memo(() => {
   const navigate = useNavigate()
+  const { login } = useAuth()
 
   const onSubmit = useCallback(async(values) => {
     
@@ -27,13 +29,8 @@ try {
       email: values.email,
       password: values.password
     })
-    console.log('res:',response)
-
-    toast.success(response.message)
     
     setAuthToken(response.data.token)
-
-    
 
     const user = {
         id: response.data.user.id || response.data.user._id,
@@ -43,16 +40,17 @@ try {
         avatar: response.data.user.avatar || null
       }
 
-      console.log('user:', user);
-      
-    
+    login(user)
+    toast.success('Registration successful! Welcome to Ventaro.')
+
+    setTimeout(() => {
+        navigate('/', { replace: true });
+      }, 100)
     
 } catch (err) {
-  console.log(err.message)
+  console.error('Registration error:', err)
 }
-    
-    
-})
+}, [login, navigate])
   const leftContent = useMemo(() => (
       <div className="text-white p-6 space-y-3 h-full flex justify-center ">
       <img className='absolute bottom-0 right-30 w-15' src="../public/Ellipse_1.svg" alt="ellipse" />

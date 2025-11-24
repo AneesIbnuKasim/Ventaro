@@ -1,16 +1,20 @@
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
-import Login from './pages/Login'
-import Register from './pages/register'
-import NotFound from './pages/NotFound'
 import '../styles/global.css'
+import { AuthProvider } from './context/AuthContext'
+import React from 'react'
+
+const Login = React.lazy(()=> import('./pages/Login'))
+const Register = React.lazy(()=> import('./pages/register'))
+const NotFound = React.lazy(()=> import('./pages/NotFound'))
 
 function App() {
 
   return (
     <>
-    <Router>
+    <AuthProvider>
+      <Router>
       <div className='app'>
         <Routes>
           <Route path='/register' 
@@ -28,6 +32,7 @@ function App() {
         </Routes>
       </div>
     </Router>
+    </AuthProvider>
     <ToastContainer position="top-right" autoClose={1000} />
     </>
   )
