@@ -47,7 +47,7 @@ const FormInput = memo(
         return (
           <label
             htmlFor={inputId}
-            className="block mb-1 text-sm font-medium text-gray-700"
+            className="block mb-2 text-sm font-medium text-gray-700"
           >
             {label}
             {required && <span className="text-red-600 ml-1">*</span>}
@@ -62,7 +62,7 @@ const FormInput = memo(
             <input
               ref={ref}
               type={type}
-              className="block w-full border-0 focus:ring-0 focus:outline-none text-sm text-gray-900 placeholder-gray-400"
+              className="block w-full border-0 focus:ring-0 focus:outline-0 text-md text-gray-900 placeholder-gray-400"
               id={inputId}
               placeholder={placeholder}
               required={required}
@@ -111,7 +111,7 @@ const FormInput = memo(
           {icon ? (
             <div className={groupClassName}>
               <span className={`mr-2 `}>{iconElement}</span>
-              <span>{inputElement}</span>
+              {inputElement}
             </div>
           ) : (
             <>

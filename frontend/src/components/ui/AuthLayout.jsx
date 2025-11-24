@@ -25,10 +25,11 @@ const AuthLayout = ({
   )
 
   return (
-    <div className={`min-h-screen flex ${GRADIENTS.primary}  ${className}`}>
-      {/* LEFT SIDE */}
-    <div className="flex h-screen m-auto">
-      <div className="flex w-full h-screen lg:w-6/12 items-center">
+    <div className={`min-h-screen flex flex-col ${GRADIENTS.primary}  ${className}`}>
+
+    <div className=" flex flex-col lg:flex-row m-auto">
+          {/* LEFT SIDE */}
+      <div className="hidden lg:flex w-full lg:w-6/12 items-center">
         <div className={`relative w-[570px] h-[85%] rounded-[20px_0px_0px_20px]  ${GRADIENTS.secondary.light}`}>
          {leftContent}
         </div>
@@ -36,27 +37,23 @@ const AuthLayout = ({
 
 
       {/* RIGHT SIDE */}
-      <div className="flex w-full lg:w-6/12 items-center h-screen justify-items-start">
-        <div className="w-full py-3 px-8 max-w-[470px] rounded-[0px_20px_20px_0px] bg-white h-[85%]">
+      <div className="flex w-full lg:w-6/12 items-center min-h-screen justify-items-start">
+        <div className="w-full p-5  lg:px-15 lg:py-10 sm:min-w-[470px] rounded-[20px] mx-5 md:mx-0 my-13 lg:rounded-[0px_20px_20px_0px] bg-white h-[85%]">
           <div className="animate-slide-right delay-100">
             {showLogo && (
               <div className="text-center items-center mb-8">
                 <Link to="/" >
                 <img className="inline-block w-15" src="../public/LOGO.svg" alt="logo" />
                 </Link>
-                {title && <h3 className="text-xl font-semibold mb-2">{title}</h3>}
+                {title && <h3 className=" h2 mb-2">{title}</h3>}
                 {subtitle && <p className="text-muted">{subtitle}</p>}
               </div>
             )}
             {children}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-
-
-
-
     </div>
   )
 }

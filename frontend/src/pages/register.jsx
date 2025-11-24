@@ -1,14 +1,15 @@
 import '../styles/animations.css'
 import React, { useState, useCallback, useMemo, memo } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
 import AuthLayout from '../components/ui/AuthLayout'
 import FormInput from '../components/ui/FormInput'
 import Button from '../components/ui/Button'
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import { FaLongArrowAltRight } from "react-icons/fa"
 import { FaUserPlus } from "react-icons/fa6"
-import { MdEmail } from "react-icons/md"
+import { MdEmail, MdPassword } from "react-icons/md"
 import { FaLock } from "react-icons/fa6"
+import { registerSchema } from '../validation/userSchema'
 
 // import { toast } from 'react-toastify'
 // import { useAuth } from '../context/AuthContext'
@@ -16,24 +17,12 @@ import { FaLock } from "react-icons/fa6"
 const Register = memo(() => {
   const navigate = useNavigate()
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset
-  } = useForm({
-    defaultValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-      agreeToTerms: false
-    }
-  })
-
-  const onSubmit = useCallback(async (data) => {
-    console.log('registered');
+  const onSubmit = useCallback(async (isSubmitting, values) => {
+    console.log('sub',isSubmitting);
+    
+    setTimeout(()=>{
+      console.log('registered', values);
+    },5000)
     
 })
   const leftContent = useMemo(() => (
@@ -63,23 +52,45 @@ const Register = memo(() => {
       subtitle="Join thousands of users who enjoys Ventaro"
       leftContent={leftContent}
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        
+      <Formik 
+      initialValues={{
+        fName:'',
+        lName:'',
+        email:'',
+        password:'',
+        confirmPassword:'',
+        agreeTerms:false
+      }}
+      validationSchema={registerSchema}
+      onSubmit={onSubmit}>
+        {({ values, errors, touched, handleChange, handleBlur, isSubmitting })=>(
+
+          <Form
+          className="space-y-4"
+          >
         {/* Two-column layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 mb-0 gap-3">
           <FormInput
             label="First Name"
             placeholder="First name"
-            {...register('firstName')}
+            name='fName'
+            value={values.fName}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.fName && errors.fName}
             required
-          />
+            />
 
           <FormInput
             label="Last Name"
             placeholder="Last name"
-            {...register('lastName')}
+            name='lName'
+            value={values.lName}
+            onBlur={handleBlur}
+            error={touched.lName && errors.lName}
+            onChange={handleChange}
             required
-          />
+            />
         </div>
 
         <FormInput
@@ -87,43 +98,59 @@ const Register = memo(() => {
           type="email"
           icon= {<MdEmail />}
           placeholder="Enter your email"
-          {...register('email')}
+          name='email'
+          value={values.email}
+          onBlur={handleBlur}
+          error={touched.email && errors.email}
+          onChange={handleChange}
           required
-        />
+          />
 
         <FormInput
           label="Password"
           type="password"
           icon={<FaLock />}
+          name='password'
+          value={values.password}
+          onBlur={handleBlur}
+          error={touched.password && errors.password}
+          onChange={handleChange}
           placeholder="Create password"
           helpText="Must be at least 6 characters"
-          {...register('password')}
           required
-        />
+          />
 
         <FormInput
           label="Confirm Password"
           type="password"
           icon={<FaLock />}
+          name='confirmPassword'
+          value={values.confirmPassword}
+          onBlur={handleBlur}
+          error={touched.confirmPassword && errors.confirmPassword}
+          onChange={handleChange}
           placeholder="Confirm password"
-          {...register('confirmPassword')}
           required
-        />
+          />
 
         {/* Terms Checkbox */}
         <div className="flex items-start space-x-3">
           <input
             type="checkbox"
             id="agreeToTerms"
+            name='agreeTerms'
+            value={values.agreeTerms}
+            onBlur={handleBlur}
+            error={touched.agreeTerms && errors.agreeTerms}
+            onChange={handleChange}
             className="h-5 w-5 rounded border-gray-300 focus:ring-primary"
-            {...register('agreeToTerms')}
             required
-          />
+            />
           <label htmlFor="agreeToTerms" className="text-sm text-gray-600">
             I agree to the{" "}
-            <Link to="/terms" className="underline text-primary">Terms of Service</Link>{" "}
+            <Link to="/terms" className="no-underline text-primary">Terms of Service</Link>{" "}
             and{" "}
-            <Link to="/privacy" className="underline text-primary">Privacy Policy</Link>
+            <Link to="/privacy" className="no-underline text-primary">Privacy Policy</Link>
           </label>
         </div>
 
@@ -132,18 +159,20 @@ const Register = memo(() => {
           variant="primary"
           size="lg"
           block
-          loading={false}
+          loading={isSubmitting}
           icon={<FaUserPlus/>}
-          disabled={false}
-        >
-          {false ? "Creating Account..." : "Create Account"}
+          disabled={isSubmitting}
+          >
+          {isSubmitting ? "Creating Account..." : "Create Account"}
         </Button>
-      </form>
+        </Form>
+    )}
+      </Formik>
 
       <div className="text-center mt-6 text-gray-500">
         Already have an account?{" "}
-        <Link to="/login" className="text-primary underline">
-          Sign in
+        <Link to="/login" className="text-primary font-bold no-underline">
+          Sign in here
         </Link>
       </div>
     </AuthLayout>
