@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { API_CONFIG, AUTH_CONFIG } from '../config/app.js'
+import { toast } from 'react-toastify'
 
 // LocalStorage helpers
 export const getAuthToken = () => localStorage.getItem(AUTH_CONFIG.tokenKey)
@@ -55,31 +56,41 @@ const createApiClient = () => {
   client.interceptors.response.use(
     (response) => response,
     (error) => {
-      if (error.response?.status === 401) {
-        clearTokens()
-        toast.error('Session expired. Please login again.')
-        window.location.href = '/login'
-        return Promise.reject(error)
-      }
+    //   if (error.response?.status === 401) {
+    //     clearTokens()
+    //     toast.error('Session expired. Please login again.')
+    //     window.location.href = '/login'
+    //     return Promise.reject(error)
+    //   }
 
-      if (error.response?.status === 403) {
-      if (error.response?.data?.banned) {
-        clearTokens()
-        toast.error('Your account has been banned. Please contact support.')
-        window.location.href = '/login'
-        return Promise.reject(error)
-      }
-      toast.error('Access denied. Insufficient permissions.')
-      return Promise.reject(error)
+    //   if (error.response?.status === 403) {
+    //   if (error.response?.data?.banned) {
+    //     clearTokens()
+    //     toast.error('Your account has been banned. Please contact support.')
+    //     window.location.href = '/login'
+    //     return Promise.reject(error)
+    //   }
+    //   toast.error('Access denied. Insufficient permissions.')
+    //   return Promise.reject(error)
+    // }
+
+    //backend actual response 
+    const backendError = error.response?.data?.error;
+
+    //normalize be response to preserve error details
+    const normalizedError = {
+      message: backendError?.message || "Request failed",
+      code: backendError?.code || error.code,
+      statusCode: backendError?.statusCode || error.response?.status,
+      raw: error,
     }
 
-    if (error.response?.status >= 500) {
+    if (normalizedError.statusCode >= 500) {
       toast.error('Server error. Please try again later.')
-    } else if (error.response?.status >= 400) {
-      toast.error(message)
+    } else {
+      toast.error(normalizedError.message || 'Bad request') 
     }
-    
-    return Promise.reject(error)
+    return Promise.reject(normalizedError)
     }
   )
   return client
@@ -87,18 +98,12 @@ const createApiClient = () => {
 export const apiClient = createApiClient()
 
 // API request wrapper
-const makeRequest = async (config) => {
+export const makeRequest = async (config) => {
   try {
     const response = await apiClient(config)
     return response.data
   } catch (error) {
-    const message = error.response?.data?.message || error.message || 'Request failed'
-    throw new Error(message)
+    throw error
   }
 }
 export default makeRequest
-
-export const authAPI = {
-  register: (data) => makeRequest({ method: 'POST', url: '/auth/register', data }),
-  login: (data) => makeRequest({ method: 'POST', url: '/auth/login', data }),
-};

@@ -30,7 +30,7 @@ class ResponseFormatter {
     const response = {
       ...formattedError,
       timestamp: new Date().toISOString(),
-      requestId: res.locals.requestId || null
+      requestId: crypto.randomUUID() || null
     }
 
     return res.status(finalStatusCode).json(response)

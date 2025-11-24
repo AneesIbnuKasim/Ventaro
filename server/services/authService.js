@@ -2,7 +2,7 @@ const User = require('../models/User')
 const logger = require('../utils/logger')
 const { generateUserToken, generateResetToken, verifyResetToken } = require('../utils/jwt')
 const { sendOtpEmail, generateOtp } = require('../utils/nodeMailer')
-const { ConflictError } = require('../utils/errors')
+const { ConflictError, ValidationError, GenericError } = require('../utils/errors')
 
 class AuthService {
     static async register(userData) {
@@ -24,7 +24,7 @@ class AuthService {
 
        const otpDetails = generateOtp('EMAIL_VERIFICATION')
        if (!otpDetails) {
-        throw new Error('Otp generation failed')
+        throw new GenericError('Otp generation failed')
        }
 
        user.otpDetails = otpDetails
@@ -42,6 +42,7 @@ class AuthService {
        
        return {
         user: user.getPublicProfile(),
+        token
     }
     
     token

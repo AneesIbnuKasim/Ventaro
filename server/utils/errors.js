@@ -57,6 +57,12 @@ class DatabaseError extends AppError {
     }
 }
 
+class GenericError extends AppError {
+    constructor(message = 'Internal server error') {
+        super(message, 401, 'INTERNAL_ERROR')
+    }
+}
+
 class ErrorFactory {
 
     static validation(message, details) {
@@ -80,7 +86,7 @@ class ErrorFactory {
     static database(message) {
         return new DatabaseError(message)
     }
-    static generic(message) {
+    static generic(message, statusCode = 500, code = 'INTERNAL_ERROR') {
         return new AppError(message, statusCode, code)
     }
 }
@@ -150,7 +156,7 @@ class ErrorUtils {
             error: {
                 message,
                 code: error.code || 'UNKNOWN_ERROR',
-                statusCode
+                statusCode,
             }
         }
 
@@ -189,6 +195,7 @@ module.exports = {
   AuthenticationError,
   AuthorizationError,
   NotFoundError,
+  GenericError,
   ConflictError,
   RateLimitError,
   DatabaseError,

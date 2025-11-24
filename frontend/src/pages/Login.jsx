@@ -20,22 +20,6 @@ import { FaGithub } from "react-icons/fa";
 const Register = memo(() => {
   const navigate = useNavigate()
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset
-  } = useForm({
-    defaultValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-      agreeToTerms: false
-    }
-  })
-
   const onSubmit = useCallback(async (data) => {
     console.log('registered');
     

@@ -10,19 +10,47 @@ import { FaUserPlus } from "react-icons/fa6"
 import { MdEmail, MdPassword } from "react-icons/md"
 import { FaLock } from "react-icons/fa6"
 import { registerSchema } from '../validation/userSchema'
-
-// import { toast } from 'react-toastify'
+import { authAPI } from '../services'
+import { toast } from 'react-toastify'
+import { AUTH_CONFIG } from '../config/app'
+import { setAuthToken } from '../utils/apiClient'
 // import { useAuth } from '../context/AuthContext'
 
 const Register = memo(() => {
   const navigate = useNavigate()
 
-  const onSubmit = useCallback(async (isSubmitting, values) => {
-    console.log('sub',isSubmitting);
+  const onSubmit = useCallback(async(values) => {
     
-    setTimeout(()=>{
-      console.log('registered', values);
-    },5000)
+try {
+      const response = await authAPI.register({
+      name: `${values.fName} ${values.lName}`,
+      email: values.email,
+      password: values.password
+    })
+    console.log('res:',response)
+
+    toast.success(response.message)
+    
+    setAuthToken(response.data.token)
+
+    
+
+    const user = {
+        id: response.data.user.id || response.data.user._id,
+        name: response.data.user.name,
+        email: response.data.user.email,
+        role: response.data.user.role || 'user',
+        avatar: response.data.user.avatar || null
+      }
+
+      console.log('user:', user);
+      
+    
+    
+} catch (err) {
+  console.log(err.message)
+}
+    
     
 })
   const leftContent = useMemo(() => (
