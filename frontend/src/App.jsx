@@ -8,6 +8,7 @@ import React from 'react'
 const Login = React.lazy(()=> import('./pages/Login'))
 const Register = React.lazy(()=> import('./pages/register'))
 const NotFound = React.lazy(()=> import('./pages/NotFound'))
+const ForgotPassword = React.lazy(()=> import('./pages/ForgotPassword'))
 
 function App() {
 
@@ -24,6 +25,10 @@ function App() {
           <Route path='/login' 
           element={
             <Login/>
+          } />
+          <Route path='/forgot-password' 
+          element={
+            <ForgotPassword/>
           } />
           <Route path='*' 
           element={

@@ -1,29 +1,64 @@
 import '../styles/animations.css'
 import React, { useState, useCallback, useMemo, memo } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import {  Formik, Form, Field, ErrorMessage } from 'formik'
+import {  Formik, Form } from 'formik'
 import AuthLayout from '../components/ui/AuthLayout'
 import FormInput from '../components/ui/FormInput'
 import Button from '../components/ui/Button'
-import ButtonGroup from '../components/ui/ButtonGroup'
 import { FaLongArrowAltRight } from "react-icons/fa"
-import { FaUserPlus } from "react-icons/fa6"
 import { MdEmail } from "react-icons/md"
 import { FaLock } from "react-icons/fa6"
 import { FaSignInAlt } from "react-icons/fa";
 import { FaGoogle } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
+import { loginSchema } from '../validation/userSchema'
+import { authAPI } from '../services/authService'
+import { adminAPI } from '../services/adminService'
+import { toast } from 'react-toastify'
+import { useAuth } from '../context/AuthContext'
 
-// import { toast } from 'react-toastify'
-// import { useAuth } from '../context/AuthContext'
-
-const Register = memo(() => {
+const Login = memo(() => {
   const navigate = useNavigate()
+  const { login } = useAuth()
+  
+  const submitLogin = useCallback(async (values) => {
+    try {
+      const { setAuthToken, setAdminToken } = await import('../utils/apiClient')
 
-  const onSubmit = useCallback(async (data) => {
-    console.log('registered');
-    
-})
+      const isAdminAttempt = values.email.includes('admin') || values.email === 'admin@gmail.com'
+
+      let response
+      if (isAdminAttempt) {
+        response = await adminAPI.login(values)
+        setAdminToken(response?.data?.token) 
+      }
+      else {
+        response = await authAPI.login(values)
+        setAuthToken(response?.data?.token)
+      }
+      
+      const userData = response?.data.user || response?.data.admin
+
+      const user = {
+        id: userData.id || userData._id,
+          name: userData.name,
+          email: userData.email,
+          role: userData.role || (isAdminAttempt ? 'admin' : 'user'),
+          avatar: userData.avatar || null
+        }
+      
+      login(user)
+      toast.success(`Welcome back ${user.name || 'User'}!`)
+
+      setTimeout(()=>{
+        if (user.role === 'admin' || isAdminAttempt) navigate('/admin',{replace: true})
+        else navigate('/', {replace: true})
+      },100)
+
+    } catch (error) {
+      console.error({status: error.statusCode , message: error.message})
+    }
+}, [navigate])
   const leftContent = useMemo(() => (
       <div className="text-white p-6 space-y-3 h-full flex justify-center ">
       <img className='absolute bottom-0 right-30 w-15' src="../public/Ellipse_1.svg" alt="ellipse" />
@@ -52,15 +87,27 @@ const Register = memo(() => {
       subtitle="Please sign in to continue"
       leftContent={leftContent}
     >
-
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+<Formik
+initialValues={{
+  email:'',
+  password:''
+}}
+validationSchema={loginSchema}
+onSubmit={submitLogin}
+>
+{({values, errors, touched, handleBlur, handleChange, isSubmitting }) => (
+  <Form className="space-y-4">
         
         <FormInput
           label="Email Address"
           type="email"
           icon= {<MdEmail />}
+          name= 'email'
+          value= {values.email}
+          onChange= {handleChange}
+          onBlur= {handleBlur}
+          error= {touched.email && errors.email}
           placeholder="Enter your email"
-          {...register('email')}
           required
         />
 
@@ -68,8 +115,12 @@ const Register = memo(() => {
           label="Password"
           type="password"
           icon={<FaLock />}
+          name= 'password'
+          value= {values.password}
+          onChange= {handleChange}
+          onBlur= {handleBlur}
+          error= {touched.password && errors.password}
           placeholder="Create password"
-          {...register('password')}
           required
         />
 
@@ -80,8 +131,6 @@ const Register = memo(() => {
             type="checkbox"
             id="agreeToTerms"
             className="h-5 w-5 rounded border-gray-300 focus:ring-primary"
-            {...register('agreeToTerms')}
-            required
           />
           <label htmlFor="agreeToTerms" className="text-sm text-gray-600 flex gap-3">
             Remember Me
@@ -99,9 +148,13 @@ const Register = memo(() => {
           icon={<FaSignInAlt />}
           disabled={false}
         >
-          {false ? "Creating Account..." : "Sign In"}
+          {isSubmitting ? "Signing in..." : "Sign In"}
         </Button>
-      </form>
+      </Form>
+)}
+
+</Formik>
+      
 
       <div className="text-center mt-6 text-gray-500 ">
         Don't have an account?{" "}
@@ -135,6 +188,6 @@ const Register = memo(() => {
   )
 })
 
-Register.displayName = 'Register'
+Login.displayName = 'Login'
 
-export default Register
+export default Login

@@ -1,8 +1,8 @@
-import React from "react";
+import React, { memo } from "react";
 import { Link } from "react-router-dom";
 import { GRADIENTS } from "../../constants/ui";
 
-const AuthLayout = ({
+const AuthLayout = memo(({
   children,
   title,
   subtitle,
@@ -57,5 +57,6 @@ const AuthLayout = ({
     </div>
   )
 }
+)
 
 export default AuthLayout;

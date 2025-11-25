@@ -77,7 +77,7 @@ const createApiClient = () => {
     //backend actual response 
     const backendError = error.response?.data?.error;
 
-    //normalize be response to preserve error details
+    //normalize BE response to preserve all error details
     const normalizedError = {
       message: backendError?.message || "Request failed",
       code: backendError?.code || error.code,

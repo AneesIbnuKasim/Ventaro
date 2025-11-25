@@ -1,10 +1,11 @@
 export const GRADIENTS = {
   primary: 'bg-[radial-gradient(70%_90%_at_93%_90%,rgba(122,79,188,1)_3%,rgba(45,55,156,1)_100%)]',
+  innerBox: 'bg-[radial-gradient(70%_90%_at_93%_90%,rgba(122,79,188,1)_3%,rgba(45,55,156,1)_100%)]',
   // 'bg-[linear-gradient(125deg,rgba(63,77,188,1)_67%,rgba(162,79,188,0.8)_100%)]'
   // dark: 'bg-[radial-gradient(circle,#24243e_30%,#302b63_60%,#0f0c29_100%)]'
   secondary: {
     light: 'bg-[radial-gradient(70%_90%_at_88%_90%,rgba(122,79,188,0.7)_23%,rgba(57,69,155,1)_84%)]',
-    dark: 'bg-[radial-gradient(circle,#4C2F80_25%,#1D254D_90%)]'
+    dark: 'bg-[radial-gradient(70%_90%_at_88%_90%,rgba(122,79,188,0.7)_23%,rgba(55,69,155,1)_84%)]'
   },
   success: 'bg-[linear-gradient(135deg,#a8edea_0%,#fed6e3_100%)]',
   warning: 'bg-[linear-gradient(135deg,#ffd89b_0%,#19547b_100%)]',

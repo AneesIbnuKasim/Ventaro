@@ -2,7 +2,7 @@ import * as yup from 'Yup'
 
 export const loginSchema = yup.object().shape({
     email: yup.string().email('Invalid email').min(2).required(),
-    password: yup.string().min(8, 'Password must be at least 8 characters').max()
+    password: yup.string().min(8, 'Password must be at least 8 characters')
 })
 
 const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
