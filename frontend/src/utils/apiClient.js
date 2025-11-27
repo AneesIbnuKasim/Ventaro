@@ -9,6 +9,7 @@ export const getUser = () => {
   const userData = localStorage.getItem(AUTH_CONFIG.userKey)
   return userData ? JSON.parse(userData) : null
 }
+
 export const setAuthToken = (token) => {
   if (token) {
     localStorage.setItem(AUTH_CONFIG.tokenKey, token)
@@ -16,6 +17,7 @@ export const setAuthToken = (token) => {
     localStorage.removeItem(AUTH_CONFIG.tokenKey)
   }
 }
+
 export const setAdminToken = (token) => {
   if (token) {
     localStorage.setItem(AUTH_CONFIG.adminTokenKey, token)
@@ -23,6 +25,17 @@ export const setAdminToken = (token) => {
     localStorage.removeItem(AUTH_CONFIG.adminTokenKey)
   }
 }
+
+export const setResetToken = (token) => {
+  if (token) {
+    console.log('reset:', token);
+    
+    localStorage.setItem(AUTH_CONFIG.resetTokenKey, token)
+  } else {
+    localStorage.removeItem(AUTH_CONFIG.resetTokenKey)
+  }
+}
+
 export const setUser = (userData) => {
   if (userData) {
     localStorage.setItem(AUTH_CONFIG.userKey, JSON.stringify(userData))
@@ -30,6 +43,7 @@ export const setUser = (userData) => {
     localStorage.removeItem(AUTH_CONFIG.userKey)
   }
 }
+
 export const clearTokens = () => {
   localStorage.removeItem(AUTH_CONFIG.tokenKey)
   localStorage.removeItem(AUTH_CONFIG.adminTokenKey)
@@ -43,6 +57,7 @@ const createApiClient = () => {
     timeout: API_CONFIG.timeout,
     headers: API_CONFIG.headers,
   })
+
   client.interceptors.request.use(
     (config) => {
       const token = getAuthToken() || getAdminToken();
@@ -53,6 +68,7 @@ const createApiClient = () => {
     },
     (error) => Promise.reject(error)
   )
+
   client.interceptors.response.use(
     (response) => response,
     (error) => {
@@ -95,6 +111,7 @@ const createApiClient = () => {
   )
   return client
 }
+
 export const apiClient = createApiClient()
 
 // API request wrapper
@@ -106,4 +123,5 @@ export const makeRequest = async (config) => {
     throw error
   }
 }
+
 export default makeRequest

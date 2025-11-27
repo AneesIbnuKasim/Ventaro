@@ -18,9 +18,9 @@ class AuthController extends BaseController {
     })
 
     static verifyOtp = BaseController.asyncHandler(async(req, res)=>{
-        const result = await AuthService.verifyOtp(req.query, req.body)
+        const result = await AuthService.verifyOtp(req.body)
         BaseController.logAction(result.user ? 'EMAIL_VERIFICATION' : 'PASSWORD_RESET_VERIFICATION',result)
-        BaseController.sendSuccess(res, result.message , result.user ? result.user : result.resetToken)
+        BaseController.sendSuccess(res, result.message , result.user ? result.user : result)
     })
 
     static changePassword = BaseController.asyncHandler(async(req, res)=>{
@@ -32,18 +32,17 @@ class AuthController extends BaseController {
 
     static requestPasswordReset = BaseController.asyncHandler(async(req, res)=>{
         const validatedData = BaseController.validateRequest(emailValidation, req.body)
-        const email = await AuthService.requestPasswordReset(validatedData)
-        BaseController.logAction('PASSWORD-RESET-OTP', email)
-        BaseController.sendSuccess(res, 'Otp has been send to email successfully')
+        const resetData = await AuthService.requestPasswordReset(validatedData)
+        BaseController.logAction('PASSWORD-RESET-OTP', resetData)
+        BaseController.sendSuccess(res, 'Otp has been send to email successfully', resetData)
     })
 
     static resetPassword = BaseController.asyncHandler(async(req, res)=>{
         const validatedData = BaseController.validateRequest(resetPasswordValidation, req.body)
-        const user = await AuthService.resetPassword(validatedData)
-        BaseController.logAction('PASSWORD-RESET', user)
-        BaseController.sendSuccess(res, 'Password has been reset successfully')
+        const result = await AuthService.resetPassword(validatedData)
+        BaseController.logAction('PASSWORD-RESET', result.user)
+        BaseController.sendSuccess(res, 'Password has been reset successfully', result.message )
     })
-
 
 }
 

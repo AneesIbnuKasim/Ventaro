@@ -51,7 +51,8 @@ const changePasswordValidation = Joi.object({
 const resetPasswordValidation = Joi.object({
     resetToken: Joi.string().required().messages(customMessages),
     newPassword: strongPasswordValidation,
-    confirmPassword: strongPasswordValidation
+    userId: Joi.string().required().messages(customMessages)
+
 })
 
 const emailValidation = Joi.object({

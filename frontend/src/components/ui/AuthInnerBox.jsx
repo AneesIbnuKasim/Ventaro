@@ -8,7 +8,7 @@ export const AuthInnerBox = memo(({
     title= 'Forgot your password',
     subtitle= '',
     content= '',
-    bottomtext= '',
+    textPosition= 'center',
     children
 })=>{
     return (
@@ -16,7 +16,7 @@ export const AuthInnerBox = memo(({
         <AdminWrapper>
             <div className="flex justify-center w-full min-h-screen items-center">
 
-            <div className={`relative flex flex-col gap-5 mx-5 sm:min-w-[600px] shadow items-center shadow-secondary min-h-[400px] p-8 rounded-[10px] text-center  ${GRADIENTS.secondary.light}`}>
+            <div className={`relative flex flex-col gap-5 mx-5 sm:min-w-[600px] shadow items-center shadow-secondary min-h-[400px] p-8 rounded-[10px] text-${textPosition}  ${GRADIENTS.secondary.light}`}>
 
                 <>
                     <img className='absolute bottom-0 right-30 w-15' src="./Ellipse_1.svg" alt="ellipse" />
@@ -35,7 +35,7 @@ export const AuthInnerBox = memo(({
               {subtitle && <p className="helper">{subtitle}</p>}
               </div>
               {content && 
-              <div className="w-[90%] sm:w-[70%] z-1 mt-10 ">
+              <div className={`w-[90%] sm:w-[70%] z-1 mt-${subtitle === '' ? 0 : 10}`}>
                 {content}
                 {children}
               </div>}

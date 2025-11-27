@@ -53,14 +53,15 @@ class AuthService {
     }
 
     //Mail otp verification logic
-    static verifyOtp = async(query, data)=>{
+    static verifyOtp = async(data)=>{
         try {
-            const { userId, purpose } = query
-            const { otp } = data
+            const { userId, purpose, otp } = data
+            console.log('otpDetails:', otp);
+            
             const user = await User.findById(userId)
             if (!user) {
                 logger.error('User not found')
-                throw new Error('Try again, user not found')
+                throw new Error('User not found')
             }
 
             if (!purpose === user.otpDetails.purpose) {
@@ -99,12 +100,13 @@ class AuthService {
             if (purpose === 'PASSWORD_RESET') {
                 await user.save()
                 
-                const resetToken = generateResetToken({id:user._id})
+                const resetToken = generateResetToken({id: user._id})
 
                 logger.info('Password reset otp verified')
                 return {
                     message: 'Reset Token generated',
-                    resetToken
+                    resetToken: resetToken,
+                    userId: user._id
                 }
             }
                 
@@ -186,9 +188,9 @@ class AuthService {
 
     //Request password reset otp to reset password
     static async requestPasswordReset(validatedData) {
-        const { email } = validatedData
+       try {
+         const { email } = validatedData
         const user = await User.findByEmail(email)
-        
         if (!user) {
             throw new Error('User not found')
         }
@@ -203,23 +205,28 @@ class AuthService {
 
        sendOtpEmail(user._id, user.name, email, otpDetails.code)
 
-       return user.email
+       return {userId: user._id,
+               purpose: otpDetails.purpose
+       }
+       } catch (error) {
+            throw error
+       }
     }
 
     //Reset password
     static async resetPassword(passwordData) {
         try {
-            const {resetToken, newPassword, confirmPassword } = passwordData
-        const decoded = verifyResetToken(resetToken)
+
+            logger.warn('Its hereeeeeeeeee')
+            const { resetToken, newPassword } = passwordData
+
+            console.log('resetToken:', resetToken)
+            console.log('newPassword::', newPassword)
+            const decoded = verifyResetToken(resetToken)
 
         if (!decoded) {
             logger.error('Reset-token is not valid or expired')
             throw new Error ('Reset-token is not valid or expired')
-        }
-
-        if (newPassword !== confirmPassword) {
-            logger.error('Password mismatch')
-            throw new Error ('Passwords are not matching')
         }
 
         const user = await User.findById(decoded.id)
@@ -234,7 +241,10 @@ class AuthService {
         await user.save()
 
         logger.info('Password reset successful')
-        return true
+        return {
+            user,
+            message: 'Password reset successful'
+        }
         } catch (error) {
             logger.error('Password reset failed')
             throw error

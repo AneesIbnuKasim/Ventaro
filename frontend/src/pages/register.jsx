@@ -12,9 +12,9 @@ import { FaLock } from "react-icons/fa6"
 import { registerSchema } from '../validation/userSchema'
 import { authAPI } from '../services'
 import { toast } from 'react-toastify'
-import { AUTH_CONFIG } from '../config/app'
 import { setAuthToken } from '../utils/apiClient'
 import { useAuth } from '../context/AuthContext'
+
 
 const Register = memo(() => {
   const navigate = useNavigate()

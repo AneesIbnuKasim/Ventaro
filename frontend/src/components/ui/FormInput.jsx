@@ -5,6 +5,7 @@ const FormInput = memo(
     (
       {
         label,
+        labelColor= 'text-gray-700',
         type = 'text',
         placeholder,
         icon,
@@ -48,7 +49,7 @@ const FormInput = memo(
         return (
           <label
             htmlFor={inputId}
-            className="block mb-2 text-sm font-medium text-gray-700"
+            className={`block mb-2 text-sm font-medium ${labelColor}`}
           >
             {label}
             {required && <span className="text-red-600 ml-1">*</span>}

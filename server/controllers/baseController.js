@@ -3,14 +3,30 @@ const logger = require('../utils/logger')
 const { sendValidationError, sendSuccess, sendError } = require('../utils/response')
 
 class BaseController {
-    static asyncHandler = (fn)=>{
-        return (req, res, next)=>{
-            Promise.resolve(fn(req, res, next)).catch(next)
+    // static asyncHandler = (fn)=>{
+    //     return (req, res, next)=>{
+    //         return Promise.resolve(fn(req, res, next))
+    //         .catch(next)
+    //     }
+    // }
+
+    static asyncHandler(fn) {
+    return (req, res, next) => {
+        try {
+            const promise = fn(req, res, next);
+            return Promise.resolve(promise).catch(next);
+        } catch (err) {
+            return next(err);
         }
-    }
+    };
+}
+
     static validateRequest(schema, data) {
+        console.log('data from FE:', data)
+
         const { error, value } = schema.validate(data, {abortEarly: false})
-        // console.log('validated value: ',value)
+        console.log('validated value: ',value)
+        console.log('error in validation',error)
 
         if(error) {
             throw new ValidationError('Validation Error', error.details)
