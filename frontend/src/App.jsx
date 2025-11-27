@@ -5,6 +5,7 @@ import '../styles/global.css'
 import { AuthProvider } from './context/AuthContext'
 import React from 'react'
 import ResetPassword from './pages/ResetPassword'
+import { PublicRoute } from './components/ProtectedRoute'
 
 const Login = React.lazy(()=> import('./pages/Login'))
 const Register = React.lazy(()=> import('./pages/register'))
@@ -27,23 +28,33 @@ function App() {
           <Route path='/auth' element=''>
               <Route index path='register' 
           element={
-            <Register/>
+            <PublicRoute>
+              <Register/>
+            </PublicRoute>
           } />
           <Route path='login' 
           element={
-            <Login/>
+            <PublicRoute>
+              <Login/>
+            </PublicRoute>
           } />
           <Route path='forgot-password' 
           element={
-            <ForgotPassword/>
+            <PublicRoute>
+              <ForgotPassword/>
+            </PublicRoute>
           } />
           <Route path='verify-otp' 
           element={
-            <SubmitOtp/>
+            <PublicRoute>
+              <SubmitOtp/>
+            </PublicRoute>
           } />
           <Route path='reset-password' 
           element={
-            <ResetPassword/>
+            <PublicRoute>
+              <ResetPassword/>
+            </PublicRoute>
           } />
           </Route>
           <Route path='*' 
