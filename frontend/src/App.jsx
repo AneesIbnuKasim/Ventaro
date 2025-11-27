@@ -11,6 +11,7 @@ const Register = React.lazy(()=> import('./pages/register'))
 const NotFound = React.lazy(()=> import('./pages/NotFound'))
 const ForgotPassword = React.lazy(()=> import('./pages/ForgotPassword'))
 const SubmitOtp = React.lazy(()=> import('./pages/SubmitOtp'))
+const AdminLogin = React.lazy(()=> import('./pages/AdminLogin'))
 
 function App() {
 
@@ -20,26 +21,31 @@ function App() {
       <Router>
       <div className='app'>
         <Routes>
-          <Route path='/register' 
+          <Route path='/admin'>
+            <Route index path='login' element={<AdminLogin/>} />
+          </Route>
+          <Route path='/auth' element=''>
+              <Route index path='register' 
           element={
             <Register/>
           } />
-          <Route path='/login' 
+          <Route path='login' 
           element={
             <Login/>
           } />
-          <Route path='/forgot-password' 
+          <Route path='forgot-password' 
           element={
             <ForgotPassword/>
           } />
-          <Route path='/verify-otp' 
+          <Route path='verify-otp' 
           element={
             <SubmitOtp/>
           } />
-          <Route path='/reset-password' 
+          <Route path='reset-password' 
           element={
             <ResetPassword/>
           } />
+          </Route>
           <Route path='*' 
           element={
             <NotFound/>

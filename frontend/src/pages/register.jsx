@@ -196,7 +196,7 @@ try {
 
       <div className="text-center mt-6 text-gray-500">
         Already have an account?{" "}
-        <Link to="/login" className="text-primary font-bold no-underline">
+        <Link to="/auth/login" className="text-primary font-bold no-underline">
           Sign in here
         </Link>
       </div>

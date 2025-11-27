@@ -17,7 +17,7 @@ import { adminAPI } from '../services/adminService'
 import { toast } from 'react-toastify'
 import { useAuth } from '../context/AuthContext'
 
-const Login = memo(() => {
+const AdminLogin = memo(() => {
   const navigate = useNavigate()
   const { login } = useAuth()
   
@@ -25,38 +25,29 @@ const Login = memo(() => {
     try {
       const { setAuthToken, setAdminToken } = await import('../utils/apiClient')
 
-      const isAdminAttempt = values.email.includes('admin') || values.email === 'admin@gmail.com'
+        const response = await adminAPI.login(values)
 
-      let response
-      if (isAdminAttempt) {
-        response = await adminAPI.login(values)
-        setAdminToken(response?.data?.token) 
-      }
-      else {
-        response = await authAPI.login(values)
-        setAuthToken(response?.data?.token)
-      }
+        setAdminToken(response?.data?.token)
       
-      const userData = response?.data.user || response?.data.admin
+      const adminData = response?.data.admin
 
-      const user = {
-        id: userData.id || userData._id,
-          name: userData.name,
-          email: userData.email,
-          role: userData.role || (isAdminAttempt ? 'admin' : 'user'),
-          avatar: userData.avatar || null
+      const admin = {
+          id: adminData.id || adminData._id,
+          name: adminData.name,
+          email: adminData.email,
+          role: adminData.role,
+          avatar: adminData.avatar || null
         }
       
-      login(user)
-      toast.success(`Welcome back ${user.name || 'User'}!`)
+      login(admin)
+      toast.success(`Welcome back ${admin.name || 'Admin'}!`)
 
       setTimeout(()=>{
-        if (user.role === 'admin' || isAdminAttempt) navigate('/admin',{replace: true})
-        else navigate('/', {replace: true})
+        if (admin.role === 'admin' || isAdminAttempt) navigate('/admin',{replace: true})
       },100)
 
     } catch (error) {
-      console.error({status: error.statusCode , message: error.message})
+      console.error(error)
     }
 }, [navigate])
   const leftContent = useMemo(() => (
@@ -83,7 +74,7 @@ const Login = memo(() => {
 
   return (
     <AuthLayout
-      title="Welcome Back"
+      title="Admin Login Page"
       subtitle="Please sign in to continue"
       leftContent={leftContent}
     >
@@ -157,11 +148,7 @@ onSubmit={submitLogin}
       
 
       <div className="text-center mt-6 text-gray-500 ">
-        Don't have an account?{" "}
-        <Link to="/auth/register" className="text-primary font-bold no-underline">
-          Sign up for free
-        </Link>
-          <div className='small-muted m-6'>Or Continue with</div>
+          <div className='small-muted m-6'>Continue with</div>
       </div >
     <div className='flex gap-3'>
         <Button
@@ -180,7 +167,7 @@ onSubmit={submitLogin}
       icon= {<FaGithub />}
       block
       >
-        {'Google'}
+        {'GitHub'}
       </Button>
     </div>
 
@@ -188,6 +175,6 @@ onSubmit={submitLogin}
   )
 })
 
-Login.displayName = 'Login'
+AdminLogin.displayName = 'AdminLogin'
 
-export default Login
+export default AdminLogin
