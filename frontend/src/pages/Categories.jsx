@@ -3,24 +3,29 @@ import AppLayout from '../components/AppLayout'
 import { Button, FormInput, Modal, Pagination, StatCard, UserCard, UserTableRow } from '../components/ui'
 import Table from '../components/ui/Table'
 import { IoSearch } from "react-icons/io5";
+import FormTextarea from '../components/ui/FormTextArea';
+import { IoIosAddCircle } from "react-icons/io";
+
 
 
 const Categories = memo(() => {
 
     const itemsPerPage = 10
 
-    const [ isOpen, setIsOpen ] = useState(false)
+    const [ isEdit, setIsEdit ] = useState(false)
+    const [ isDelete, setIsDelete ] = useState(false)
 
     const handleEditCategory = () => {
-        setIsOpen((prev)=>{
+        setIsEdit((prev)=>{
             return !prev
         })
     }
 
     const handleDeleteCategory = () => {
-        setIsOpen((prev)=>{
-            return !prev
-        })
+        const isConfirm = confirm('Confirm deletion')
+        if (isConfirm) {
+            //
+        }
     }
 
 
@@ -56,12 +61,31 @@ const totalItems = 34
     >
         <div className='text-black m-5'>
 
-            { isOpen && <Modal 
-            isOpen={isOpen}
+            { isEdit && <Modal 
+            isOpen={isEdit}
             title= 'Edit category'
+            size='md'
+            onClose = {()=>setIsOpen((prev)=>!prev)}
             >
-                
+                <div className='flex flex-col'>
+                    <FormInput 
+                    label= 'Category Name'
+                    placeholder= 'Enter Category name'
+                />
+                <FormTextarea 
+                    label= 'Description'
+                    placeholder= 'Enter Description'
+                />
+                <Button 
+                icon= {<IoIosAddCircle />}
+                className= 'mt-4'
+                >
+                    ADD CATEGORY
+                </Button>
+                </div>
             </Modal> }
+
+            
 
             <div className='flex justify-around items-center bg-white mb-5 rounded-lg' >
                 <FormInput

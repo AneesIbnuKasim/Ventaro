@@ -1,46 +1,54 @@
-import React from 'react'
+import React from "react";
 
-const Modal = ({ 
-  isOpen, 
-  onClose, 
-  title, 
-  children, 
+const Modal = ({
+  isOpen,
+  onClose,
+  title,
+  children,
   footer,
-  size = 'md'
+  size = "md",
 }) => {
-  if (!isOpen) return null
+  if (!isOpen) return null;
 
   const sizeClass = {
-    sm: 'modal-sm',
-    md: '',
-    lg: 'modal-lg',
-    xl: 'modal-xl'
-  }
+    sm: "max-w-sm",
+    md: "max-w-md",
+    lg: "max-w-lg",
+    xl: "max-w-xl",
+  };
 
   return (
-    <div className="modal fade show d-block" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
-      <div className={`modal-dialog ${sizeClass[size]} modal-dialog-centered`}>
-        <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title">{title}</h5>
-            <button
-              type="button"
-              className="btn-close"
-              onClick={onClose}
-            ></button>
-          </div>
-          <div className="modal-body">
-            {children}
-          </div>
-          {footer && (
-            <div className="modal-footer">
-              {footer}
-            </div>
-          )}
+    <div
+      className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm bg-opacity-50 z-50"
+      onClick={onClose}
+    >
+      <div
+        className={`bg-white rounded-xl shadow-xl w-full ${sizeClass[size]} mx-4 transform transition-all`}
+        onClick={(e)=>e.stopPropagation()}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between p-4 border-b">
+          <h2 className="text-lg font-semibold">{title}</h2>
+          <button
+            className="text-gray-500 hover:text-gray-700"
+            onClick={onClose}
+          >
+            ✕
+          </button>
         </div>
+
+        {/* Body */}
+        <div className="p-4">{children}</div>
+
+        {/* Footer */}
+        {footer && (
+          <div className="p-4 border-t flex justify-end gap-2">
+            {footer}
+          </div>
+        )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Modal
+export default Modal;

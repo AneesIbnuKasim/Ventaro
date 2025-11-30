@@ -5,8 +5,35 @@ const logger = require("../utils/logger")
 class CategoryService {
     static getAllCategories = async(req, res)=>{
         try {
-            const categories = await Category.find({})
-            return categories
+            const { search, sortOrder, sortBy } = req.query
+
+            const page = parseInt(req.query.page)
+            const limit = parseInt(req.query.limit)
+
+            const skip = (page-1)*limit
+            const filter = {}
+
+            if (search) filter.name = {$regex: search, options: 'i'}
+
+
+            const categories = await Category.find(filter)
+            .sort({ [sortBy]: sortOrder} )
+            .skip(skip)
+            .limit(limit)
+
+            const totalCategories = await Category.countDocuments()
+            const totalPages = Math.ceil(totalCategories/limit)
+
+            logger.info(`Admin ${req.admin.email} fetched category list (page: ${page})`)
+            return { categories,
+                pagination: {
+                    currentPage: page,
+                    totalPages,
+                    totalCategories,
+                    hasPrevPage: page > 1,
+                    hasNextPage: page < totalPages
+                }
+            }
         } catch (error) {
             logger.error('Failed fetching categories')
             throw error

@@ -79,7 +79,7 @@ class UserService {
 
     static addAddress = async(req, addressData)=>{
         try {
-            const userId = req.user._id
+            const userId = req.user._id.toString()
             const user = await User.findById(userId)
             if (!user) {
                 logger.error('User not found')

@@ -7,5 +7,7 @@ export const adminAPI = {
             url: 'api/admin/login',
             data: credentials
         })
-    }
+    },
+
+    
 }
