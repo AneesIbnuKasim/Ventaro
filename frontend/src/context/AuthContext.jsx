@@ -82,6 +82,10 @@ export const AuthProvider = ({children}) => {
         dispatch({ type: AUTH_ACTIONS.CLEAR_ERROR })
     },[])
 
+    const logout = useCallback(() => {
+        console.log('logout hit')
+    })
+
     const value = {
         user: state.user,
         isAuthenticated: state.isAuthenticated,

@@ -64,7 +64,7 @@ const FormInput = memo(
             <input
               ref={ref}
               type={type}
-              className="block w-full border-0 focus:ring-0 focus:outline-0 text-md text-gray-900 placeholder-gray-400"
+              className="block min-h-full border-0  focus:ring-0 focus:outline-0 text-md text-gray-900 placeholder-gray-400"
               id={inputId}
               placeholder={placeholder}
               required={required}
@@ -108,10 +108,10 @@ const FormInput = memo(
       ) : null
 
       return (
-        <div className={containerClassName}>
+        <div className={`h-full mt-4 ${containerClassName}`}>
           {labelElement}
           {icon ? (
-            <div className={groupClassName}>
+            <div className={` ${groupClassName}`}>
               <span className={`mr-2 `}>{iconElement}</span>
               {inputElement}
             </div>

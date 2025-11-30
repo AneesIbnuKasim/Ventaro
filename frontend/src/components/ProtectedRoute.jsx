@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Navigate, useLocation } from "react-router-dom";
-import { Loading } from './ui'
+import Loading from './ui/Loading'
 
 
 export const ProtectedRoute = memo(({
