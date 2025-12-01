@@ -9,10 +9,12 @@ import CategoryForm from '../components/ui/CategoryForm';
 import { useOutletContext } from "react-router-dom";
 
 
+//ADMIN PRODUCT PAGE
+
 const Products = memo(() => {
 
     const itemsPerPage = 10
-    
+
     const [open, setOpen] = useState(false)
     const [editData, setEditData] = useState(null)
     const [isDelete, setIsDelete] = useState(false)

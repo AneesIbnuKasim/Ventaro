@@ -25,7 +25,7 @@ export const ProtectedRoute = memo(({
 
 export const PublicRoute = memo(({
     children,
-    redirectTo='/'
+    redirectTo='/admin'
 })=>{
     const { isAuthenticated, loading } = useAuth()
 

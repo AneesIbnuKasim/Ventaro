@@ -46,7 +46,7 @@ const AdminLogin = memo(() => {
       toast.success(`Welcome back ${admin.name || 'Admin'}!`)
 
       setTimeout(()=>{
-        if (admin.role === 'admin' || isAdminAttempt) navigate('/',{replace: true})
+        if (admin.role === 'admin' || isAdminAttempt) navigate('/admin/dashboard',{replace: true})
       },100)
 
     } catch (error) {

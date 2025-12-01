@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
+import Test from "./components/ui/NavBar.jsx";
 import Profile from "./pages/Profile";
 import Dashoboard from "./pages/Dashoboard";
 import ResetPassword from "./pages/ResetPassword";
@@ -18,6 +19,7 @@ import { AdminProvider } from './context/AdminContext'
 import { AdminRoute, ProtectedRoute, PublicRoute } from "./components/ProtectedRoute";
 import { ToastContainer } from "react-toastify"
 import { AuthProvider } from "./context/AuthContext";
+import ProductList from "./pages/ProductList.jsx";
 
 const App = () => (
   <AdminProvider>
@@ -32,6 +34,14 @@ const App = () => (
       element={
           <PublicRoute>
             <Login />
+          </PublicRoute>
+        }
+      />
+   <Route
+      path='/test'
+      element={
+          <PublicRoute>
+            <Test />
           </PublicRoute>
         }
       />
@@ -71,12 +81,21 @@ const App = () => (
                     </PublicRoute>
                   }
                 />
+
+              <Route
+                path='/products'
+                element={
+                    <PublicRoute>
+                      <ProductList />
+                    </PublicRoute>
+                  }
+                />
             
 
           {/*         protected user routes        */}
           <Route path="/auth" element={
             <ProtectedRoute>
-              {/* prtoected page layout */}
+              {/* protected page layout */}
             </ProtectedRoute>
           } >
             {/* Protected pages */}
@@ -91,12 +110,13 @@ const App = () => (
             />
 
           {/*       ADMIN PROTECTED ROUTE       */}
-          <Route path="/" element={
+          <Route path="/admin" element={
             <AdminRoute >
               <AdminLayout />
             </AdminRoute>
             }>
             <Route index element={<Dashoboard />} />
+            <Route path='dashboard' element={<Dashoboard />} />
             <Route path="users" element={<Users />} />
             <Route path="categories" element={<Categories />} />
           </Route>
