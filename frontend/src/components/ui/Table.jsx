@@ -1,4 +1,6 @@
 const Table = ({ data, columns, actions }) => {
+
+  console.log('table', data)
   return (
     <table className="w-full border bg-white border-gray-300 text-left">
       <thead>
@@ -36,7 +38,7 @@ const Table = ({ data, columns, actions }) => {
               <td className="px-4 py-2 border border-gray-300 space-x-2">
                 {actions.onEdit && (
                   <button
-                    onClick={() => actions.onEdit(item)}
+                    onClick={() => (actions.onEdit(item))}
                     className="px-2 py-1 text-blue-600 hover:underline"
                   >
                     Edit

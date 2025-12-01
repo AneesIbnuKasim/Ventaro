@@ -3,6 +3,7 @@ const { ConflictError, NotFoundError } = require("../utils/errors")
 const logger = require("../utils/logger")
 
 class ProductService {
+    //GET ALL PRODUCTS
     static getProducts = async()=>{
         try {
             const products = await Product.find({})
@@ -13,6 +14,7 @@ class ProductService {
         }
     }
 
+    // GET SINGLE PRODUCT
     static getProduct = async(productId)=>{
         try {
             const product = await Product.findById(productId)

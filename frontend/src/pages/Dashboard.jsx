@@ -23,7 +23,7 @@ import { useFilteredUsers } from "../hooks/useFilteredUsers";
 import { usePagination } from "../hooks/usePagination";
 // import "../styles/AdminDashboard.css";
 
-const AdminDashboard = React.memo(() => {
+const Dashboard = React.memo(() => {
   const { user } = useAuth();
   const {
     users,
@@ -486,4 +486,4 @@ const AdminDashboard = React.memo(() => {
   );
 });
 
-export default AdminDashboard;
+export default Dashboard;

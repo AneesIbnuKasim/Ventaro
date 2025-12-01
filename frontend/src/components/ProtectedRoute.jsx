@@ -1,7 +1,8 @@
 import { memo } from "react";
 import { useAuth } from "../context/AuthContext";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import Loading from './ui/Loading'
+import { useAdmin } from "../context/AdminContext";
 
 
 export const ProtectedRoute = memo(({
@@ -32,6 +33,8 @@ export const PublicRoute = memo(({
     return <Loading fullScreen text="Loading..." />
     }
 
+    console.log('isAuthin pub route', isAuthenticated);
+
     if (isAuthenticated) {
         return <Navigate to={redirectTo} replace />
     }
@@ -41,20 +44,25 @@ export const PublicRoute = memo(({
 
 export const AdminRoute = memo(({
     children,
-    redirectTo='/login'
+    redirectTo='/admin/login'
 })=>{
-    const { isAuthenticated, loading } = useAuth()
+    const { isAuthenticated, loading, admin } = useAdmin()
     const location = useLocation()
 
+    console.log('admin:', admin)
+    
     if (loading) {
     return <Loading fullScreen text="Verifying admin access..." />
   }
+
+  
+  
 
   if (!isAuthenticated) {
     return <Navigate to={redirectTo} state={{ from: location }} replace />
   }
 
-  if (user?.role !== 'admin') {
+  if (admin?.role !== 'admin') {
     return <Navigate to="/" replace />
   }
 

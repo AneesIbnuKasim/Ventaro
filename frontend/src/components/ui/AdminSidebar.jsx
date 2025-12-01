@@ -21,7 +21,7 @@ import {
 
 import { useState } from "react";
 import Button from "./Button";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const menuItems = [
   { icon: FiLayout, label: "Dashboard", path: "/" },
@@ -71,8 +71,9 @@ export const AdminSidebar = () => {
       <aside
         className={`
            z-40 h-screen lg:block ${isOpen ? 'fixed' : 'hidden'} lg:w-64 
-          bg-gradient-to-b from-secondary/0 to-secondary/20 
-          border-r-2 border-border shadow-xl text-black
+          bg-gradient-to-b from-secondary/100 to-secondary/70 
+          lg:from-secondary/0 lg:to-secondary/20 
+          border-r-1 shadow-xl text-black
           transition-transform duration-300 ease-in-out
           lg:translate-x-0
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
@@ -80,14 +81,18 @@ export const AdminSidebar = () => {
       >
         <div className="flex flex-col h-full">
           {/* Logo */}
-          <div className="flex items-center gap-3 p-6 border-b-2 border-border bg-card/50 backdrop-blur-sm">
-            <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-xl shadow-lg">
-              <FiStar className="h-7 w-7 text-primary-foreground" />
+          <div className="flex items-center gap-3 p-4 border-b-1 border-border bg-card/50 backdrop-blur-sm">
+            <div className="flex items-center justify-center w-12 h-12 ">
+              { !isOpen && 
+              <Link to="/" >
+                <img className="inline-block w-12" src="../public/LOGO.svg" alt="logo" />
+                </Link>
+              }
             </div>
             <div>
-              <h1 className="text-xl font-bold text-foreground">TeeAdmin</h1>
+              <h1 className="text-xl font-bold text-foreground">Ventaro</h1>
               <p className="text-xs text-muted-foreground font-medium">
-                Pro Dashboard
+                Admin Dashboard
               </p>
             </div>
           </div>

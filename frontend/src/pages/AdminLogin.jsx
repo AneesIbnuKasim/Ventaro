@@ -15,35 +15,38 @@ import { loginSchema } from '../validation/userSchema'
 import { authAPI } from '../services/authService'
 import { adminAPI } from '../services/adminService'
 import { toast } from 'react-toastify'
-import { useAuth } from '../context/AuthContext'
+import { setUser } from '../utils/apiClient'
+import { useAdmin } from '../context/AdminContext'
 
 const AdminLogin = memo(() => {
   const navigate = useNavigate()
-  const { login } = useAuth()
+  const { login } = useAdmin()
   
   const submitLogin = useCallback(async (values) => {
     try {
-      const { setAuthToken, setAdminToken } = await import('../utils/apiClient')
+      const { setAdminToken } = await import('../utils/apiClient')
 
         const response = await adminAPI.login(values)
 
-        setAdminToken(response?.data?.token)
-      
-      const adminData = response?.data.admin
+        const adminData = response?.data.admin
+        const adminToken = response?.data?.token
 
-      const admin = {
+        setAdminToken(adminToken)
+
+        const admin = {
           id: adminData.id || adminData._id,
           name: adminData.name,
           email: adminData.email,
           role: adminData.role,
           avatar: adminData.avatar || null
         }
-      
-      login(admin)
+        
+      setUser(admin)
+      login(admin, adminToken)
       toast.success(`Welcome back ${admin.name || 'Admin'}!`)
 
       setTimeout(()=>{
-        if (admin.role === 'admin' || isAdminAttempt) navigate('/admin',{replace: true})
+        if (admin.role === 'admin' || isAdminAttempt) navigate('/',{replace: true})
       },100)
 
     } catch (error) {

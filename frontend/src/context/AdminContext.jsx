@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
-import { getAdmin, getAdminToken, setAdmin } from "../utils/apiClient";
+import { getAdminToken, getUser, setUser} from "../utils/apiClient";
 import { toast } from "react-toastify";
 import { adminAPI } from "../services/adminService";
 
@@ -7,9 +7,9 @@ import { adminAPI } from "../services/adminService";
 const AdminContext = createContext()
 
 const initialState = {
-    admin: getAdmin(),
+    admin: getUser(),
     token: getAdminToken(),
-    isAuthenticated: !!getAdmin(),
+    isAuthenticated: !!getUser(),
     loading: false,
     error: null,
     users: [],
@@ -64,10 +64,11 @@ export const AdminProvider = ({children})=>{
     
     useEffect(()=>{
         if (state.admin) {
-            setAdmin(state.admin)
+            setUser(state.admin)
         }
-    },[ state.admin ])
-
+    },[state.admin])
+    
+    console.log('ad', getUser())
     useEffect(() => {
     if (state.error) {
       toast.error(state.error);
@@ -76,12 +77,13 @@ export const AdminProvider = ({children})=>{
     }, [state.error])
 
     //login logic
-    const login = () => {
+    const login = (admin, token) => {
         try {
+            console.log('in login', admin);
+            console.log('in login2', getUser());
+            
             dispatch({ type: ADMIN_ACTIONS.SET_LOADING, payload: true})
             dispatch({ type: ADMIN_ACTIONS.LOGIN_SUCCESS, payload: { admin, token }})
-
-
         } catch (error) {
             const errorMessage = error.message || 'Login failed'
             dispatch({ type: ADMIN_ACTIONS.LOGIN_FAILURE, payload: error.message })
@@ -162,8 +164,9 @@ export const AdminProvider = ({children})=>{
         users: state.users,
         isAuthenticated: state.isAuthenticated,
         loading: state.loading,
-        error: state.loading,
+        error: state.error,
         token: state.token,
+        admin: state.admin,
         login,
         register,
         getUsers,
