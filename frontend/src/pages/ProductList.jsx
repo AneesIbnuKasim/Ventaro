@@ -1,7 +1,8 @@
 import React, { memo, useState } from 'react'
 import AppLayout from '../components/AppLayout'
 import Test from './Test'
-import { Card } from '../components/ui'
+import { Card, Pagination } from '../components/ui'
+import ProductCard from '../components/ui/ProductCard'
 
 
 //PRODUCTS UI PAGE
@@ -15,7 +16,8 @@ const ProductList = memo(() => {
     category: "Electronics",
     images: ["https://cdn.pixabay.com/photo/2016/11/19/14/58/headphones-1836069_1280.jpg"],
     rating: 4.5,
-    stock: 25
+    stock: 25,
+    discountPercent: 20
   },
   {
     id: "p2",
@@ -113,8 +115,8 @@ const ProductList = memo(() => {
         </div >
 
         {/* MAIN CONTENT AREA */}
-          <div className='flex flex-col bg-red-200 w-full'>
-            <div className=' w-full bg-yellow-300 flex justify-between p-5'>
+          <div className='flex flex-col w-full m-5'>
+            <div className=' w-full flex justify-between p-5'>
             <h1>Showing Search result for '{searchQuery}'</h1>
             <div>
               <label>sortBy</label>
@@ -128,21 +130,23 @@ const ProductList = memo(() => {
 
 
                     {/* card layout */}
-          <div className='flex'>
+          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
             {
               products && 
               products.map(item=>(
-                <Card 
-                title={item.name}
+                <ProductCard 
+                product= {item}
                 />
               ))
             }
           </div>
 
+          {/* PAGINATION */}
+          <div className='mt-5'>
+            <Pagination className='mr-20' />
+
           </div>
-
-          
-
+          </div>
         </div>
           
         

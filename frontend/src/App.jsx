@@ -20,6 +20,7 @@ import { ToastContainer } from "react-toastify"
 import { AuthProvider } from "./context/AuthContext";
 import ProductList from "./pages/ProductList.jsx";
 import Test from "./pages/Test.jsx";
+import ProductDetails from "./pages/ProductDetails.jsx";
 
 const App = () => (
   <AdminProvider>
@@ -34,6 +35,15 @@ const App = () => (
       element={
           <PublicRoute>
             <Test />
+          </PublicRoute>
+        }
+      />
+
+   <Route
+      path='/product-details'
+      element={
+          <PublicRoute>
+            <ProductDetails />
           </PublicRoute>
         }
       />

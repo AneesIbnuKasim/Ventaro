@@ -6,6 +6,7 @@ const Pagination = ({
   onPageChange = () => {},
   totalItems = 232,
   itemsPerPage = 10,
+  className= ''
 }) => {
   const getVisiblePages = () => {
     const pages = [];
@@ -47,11 +48,8 @@ const Pagination = ({
   const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
   return (
-    <div className="flex items-center justify-center gap-20 w-full mt-5 bg-white p-4 rounded-2xl">
-      <div className="text-sm text-gray-600">
-        Showing {startItem}-{endItem} of {totalItems} users
-      </div>
-
+    <div className={`flex items-center justify-center gap-20 w-full mt-5 border border-gray-200 shadow-sm p-4 rounded-2xl `}>
+      <div className={`${className} flex flex-col items-center gap-3`}>
       <nav>
         <ul className="flex items-center gap-1">
           {/* Prev Button */}
@@ -107,6 +105,11 @@ const Pagination = ({
           </li>
         </ul>
       </nav>
+
+      <div className="text-sm text-gray-600">
+        Showing {startItem}-{endItem} of {totalItems} users
+      </div>
+      </div>
     </div>
   );
 };
