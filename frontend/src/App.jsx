@@ -4,7 +4,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
-import Test from "./components/ui/NavBar.jsx";
 import Profile from "./pages/Profile";
 import Dashoboard from "./pages/Dashoboard";
 import ResetPassword from "./pages/ResetPassword";
@@ -20,6 +19,7 @@ import { AdminRoute, ProtectedRoute, PublicRoute } from "./components/ProtectedR
 import { ToastContainer } from "react-toastify"
 import { AuthProvider } from "./context/AuthContext";
 import ProductList from "./pages/ProductList.jsx";
+import Test from "./pages/Test.jsx";
 
 const App = () => (
   <AdminProvider>
@@ -29,6 +29,14 @@ const App = () => (
         <Routes>
 
         Public Auth Routes
+   <Route
+      path='/test'
+      element={
+          <PublicRoute>
+            <Test />
+          </PublicRoute>
+        }
+      />
    <Route
       path='/login'
       element={

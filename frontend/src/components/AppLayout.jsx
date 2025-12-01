@@ -9,6 +9,7 @@ const AppLayout = memo(({
   return (
     <>
       <Navbar/>
+      {children}
       <Footer/>
     </>
   )
