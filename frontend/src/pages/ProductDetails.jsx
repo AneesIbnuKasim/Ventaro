@@ -155,12 +155,57 @@ const dealProducts = [
 ];
 
 
+//reviews
+const reviews = [
+  {
+    name: "Aarav Sharma",
+    location: "Mumbai, India",
+    rating: 5,
+    review: "Excellent product! The build quality feels premium and the performance is smooth. Totally worth the price.",
+    likes: 42,
+    comments: 6,
+  },
+  {
+    name: "Sofia Patel",
+    location: "Bangalore, India",
+    rating: 4,
+    review: "Very good overall! Fast delivery and well-packaged. Just wished the battery lasted a bit longer.",
+    likes: 27,
+    comments: 3,
+  },
+  {
+    name: "Rahul Verma",
+    location: "Delhi, India",
+    rating: 3,
+    review: "The product is decent for daily use. Some features feel slightly overpriced but still acceptable.",
+    likes: 18,
+    comments: 2,
+  },
+  {
+    name: "Emily Fernandes",
+    location: "Goa, India",
+    rating: 5,
+    review: "Loved it! Super smooth performance, lightweight, and looks great. Highly recommended!",
+    likes: 55,
+    comments: 8,
+  },
+  {
+    name: "Karan Mehta",
+    location: "Pune, India",
+    rating: 4,
+    review: "Good value for money. Customer support was helpful when I had a small setup issue.",
+    likes: 31,
+    comments: 4,
+  },
+];
+
   return (
 
 
     <>
       <AppLayout>
-        <SingleProduct 
+        <div className='m-4 flex flex-col gap-10'>
+            <SingleProduct 
         product={product}
         />
         <Slider 
@@ -170,8 +215,9 @@ const dealProducts = [
             product={item}
         />}
         />
-        <ReviewsList />
+        <ReviewsList reviews={reviews} />
         <ReviewForm />
+        </div>
       </AppLayout>
     </>
   )

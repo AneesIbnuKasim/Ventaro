@@ -19,13 +19,13 @@ export function ReviewForm({ onSubmitReview }) {
       }}
     >
       {({ values, setFieldValue }) => (
-        <Form className="border rounded-xl p-6 shadow-sm bg-white flex flex-col gap-6">
+        <Form className="form-border rounded-xl p-6 shadow-sm bg-white flex flex-col gap-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex flex-col">
               <Field
                 name="name"
                 placeholder="Your Name"
-                className="w-full border rounded-full px-4 py-3 bg-gray-50 focus:outline-none"
+                className="w-full input-border rounded-full px-4 py-3 bg-white focus:outline-none"
               />
               <ErrorMessage name="name" component="div" className="text-red-500 text-sm" />
             </div>
@@ -34,7 +34,7 @@ export function ReviewForm({ onSubmitReview }) {
               <Field
                 name="email"
                 placeholder="Your Email"
-                className="w-full border rounded-full px-4 py-3 bg-gray-50 focus:outline-none"
+                className="w-full input-border rounded-full px-4 py-3 bg-white focus:outline-none"
               />
               <ErrorMessage name="email" component="div" className="text-red-500 text-sm" />
             </div>
@@ -45,7 +45,7 @@ export function ReviewForm({ onSubmitReview }) {
               as="textarea"
               name="review"
               placeholder="Write your review..."
-              className="border rounded-xl w-full px-4 py-3 bg-gray-50 focus:outline-none"
+              className="input-border rounded-xl w-full px-4 py-3 bg-white focus:outline-none"
               rows="4"
             />
             <ErrorMessage name="review" component="div" className="text-red-500 text-sm" />
