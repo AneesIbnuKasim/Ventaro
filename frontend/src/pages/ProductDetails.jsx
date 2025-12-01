@@ -4,6 +4,7 @@ import SingleProduct from '../components/ui/SingleProduct'
 import { ReviewsList } from '../components/ui/Reviews';
 import { ReviewForm } from '../components/ui/ReviewForm';
 import Slider from '../components/ui/Slider';
+import ProductCard from '../components/ui/ProductCard';
 
 function ProductDetails() {
 
@@ -50,6 +51,30 @@ const relatedProducts = [
     reviews: 310,
     image:
       "https://m.media-amazon.com/images/I/71vo8H5HnGL._AC_UL1500_.jpg",
+  },
+  {
+    id: 3,
+    title: "Samsung Galaxy A34 5G",
+    brand: "Samsung",
+    price: 25999,
+    oldPrice: 29999,
+    discount: "15% OFF",
+    rating: 4.3,
+    reviews: 221,
+    image:
+      "https://m.media-amazon.com/images/I/71gyNRoK8CL._AC_SL1500_.jpg",
+  },
+  {
+    id: 4,
+    title: "Realme Narzo 70 Pro",
+    brand: "Realme",
+    price: 16999,
+    oldPrice: 19999,
+    discount: "10% OFF",
+    rating: 4.2,
+    reviews: 188,
+    image:
+      "https://m.media-amazon.com/images/I/61E+J7a6sVL._AC_UL1500_.jpg",
   },
   {
     id: 3,
@@ -141,6 +166,9 @@ const dealProducts = [
         <Slider 
         title='Related Products'
         items={relatedProducts}
+        renderItem={(item)=><ProductCard 
+            product={item}
+        />}
         />
         <ReviewsList />
         <ReviewForm />
