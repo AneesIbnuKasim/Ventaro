@@ -10,8 +10,11 @@ const initialState = {
     loading: false,
     error: null,
     categories: [],
-    filters: null,
-    pagination: null
+    filters: {},
+    pagination: {
+        page: 1,
+        limit: 10,
+    }
 }
 
 const CATEGORY_ACTIONS = {
@@ -71,23 +74,35 @@ export const CategoryProvider = ({children})=>{
     }
     }, [state.error])
 
+    useEffect(() => {
+        fetchCategories()
+    }, [state.pagination.page])
+
     const setPagination = useCallback((payload) => {
         dispatch({ type: CATEGORY_ACTIONS.SET_PAGINATION, payload})
-    },[state.pagination])
+    },[])
 
-    const setFilter = useCallback((payload) => {
+    const setFilters = useCallback((payload) => {
         dispatch({ type: CATEGORY_ACTIONS.SET_FILTERS, payload})
-    })
+    }, [])
 
-    const fetchCategories = async({ page= 1, limit= 10, search= '', status= ''}) => {
+    const fetchCategories = async() => {
+        
         try {
             dispatch({ type: CATEGORY_ACTIONS.SET_LOADING, payload: true })
 
-        const response= await adminAPI.getAllCategory({ page, limit, search, status })
+            const { search= '' } = state.filters
+            const { page, limit } = state.pagination
+        
+        const response= await adminAPI.getAllCategory({ page, limit, search })
 
-        dispatch({ type: CATEGORY_ACTIONS.SET_CATEGORIES, payload: response.data.categories })
+        console.log('response;', response.data.pagination)
+
+        dispatch({ type: CATEGORY_ACTIONS.SET_CATEGORY, payload: response.data.categories })
 
         dispatch({ type: CATEGORY_ACTIONS.SET_PAGINATION, payload: response.data.pagination })
+
+        return { success: true }
 
         } catch (error) {
             const errorMessage = error.message
@@ -102,8 +117,14 @@ export const CategoryProvider = ({children})=>{
          dispatch({ type: CATEGORY_ACTIONS.SET_LOADING, payload: true})
 
         const response = await adminAPI.addCategory(categoryData)   
+
+        console.log('res', response.data)
         
-        dispatch({ type: CATEGORY_ACTIONS.ADD_CATEGORY, payload: response.data.category})
+        dispatch({ type: CATEGORY_ACTIONS.ADD_CATEGORY, payload: response.data})
+
+        toast(response.message)
+
+        return { success: true }
         
        } catch (error) {
         dispatch({ type: CATEGORY_ACTIONS.SET_ERROR, payload: error.message})
@@ -126,14 +147,18 @@ export const CategoryProvider = ({children})=>{
         }
     }
 
+    
+
     const values = {
         categories: state.categories,
         loading: state.loading,
         error: state.error,
+        pagination: state.pagination,
         fetchCategories,
         addCategory,
         updateCategory,
-        
+        setFilters,
+        setPagination
     }
 
     return (

@@ -11,7 +11,7 @@ router.post('/login', AdminController.login)
 
 //category api handlers
 router.post('/category', CategoryController.addCategory)
-router.get('/category', CategoryController.getAllCategories)
+router.get('/category', authenticateAdmin, CategoryController.getAllCategories)
 router.put('/category/:id',authenticateAdmin ,CategoryController.updateCategory)
 router.delete('/category/:id', authenticateAdmin, CategoryController.deleteCategory)
 

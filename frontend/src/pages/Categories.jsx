@@ -12,18 +12,19 @@ import { useCategory } from '../context/CategoryContext';
 
 const Categories = memo(() => {
 
-    const itemsPerPage = 10
+  
 
     const [open, setOpen] = useState(false)
     const [editData, setEditData] = useState(null)
     const [isDelete, setIsDelete] = useState(false)
     const [deleteData, setDeleteData] = useState(null)
-    const { fetchCategory, addCategory, updateCategory } = useCategory()
+    const { categories, pagination, setFilters, setPagination, fetchCategories, addCategory, updateCategory } = useCategory()
 
-    useEffect(() => {
-      fetchCategory({page, limit, search: searchQuery, status})
-    },[page, limit, searchQuery,status])
-
+    useEffect(()=>{
+      console.log('cats', categories)
+      
+    },[categories])
+    
     const handleDeleteCategory = useCallback((category) => {
         setIsDelete(true)
         setDeleteData(category)
@@ -32,7 +33,8 @@ const Categories = memo(() => {
     const handleDeleteSubmit = useCallback(()=>{
         
         setIsDelete(false)
-        //delete function from categoryContext
+        
+        deleteCategory(deleteData)
         
         setDeleteData(null)
     }, [])
@@ -67,7 +69,10 @@ const Categories = memo(() => {
       }
 
 
-const totalItems = 34
+const totalItems = pagination?.totalCategories || 30
+const totalPages = pagination?.totalPages
+console.log('totL Pge', totalPages);
+
   return (
     <>
 
@@ -117,8 +122,10 @@ const totalItems = 34
     onDelete: handleDeleteCategory,
   }}
 />
-{totalItems>itemsPerPage &&
+{totalPages>1 &&
 <Pagination
+currentPage={pagination.currentPage}
+totalPages={pagination.totalPages}
 totalItems={totalItems}
 />
 }

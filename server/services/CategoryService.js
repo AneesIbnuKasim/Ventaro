@@ -5,8 +5,8 @@ const logger = require("../utils/logger")
 class CategoryService {
     static getAllCategories = async(req, res)=>{
         try {
-            const { search, sortOrder, sortBy } = req.query
-
+            const { search='' } = req.query
+            
             const page = parseInt(req.query.page)
             const limit = parseInt(req.query.limit)
 
@@ -15,9 +15,8 @@ class CategoryService {
 
             if (search) filter.name = {$regex: search, options: 'i'}
 
-
             const categories = await Category.find(filter)
-            .sort({ [sortBy]: sortOrder} )
+            // .sort({ [sortBy]: sortOrder} )
             .skip(skip)
             .limit(limit)
 

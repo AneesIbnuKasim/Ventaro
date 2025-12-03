@@ -1,6 +1,5 @@
 const Table = ({ data, columns, actions }) => {
 
-  console.log('table', data)
   return (
     <table className="w-full border bg-white border-gray-300 text-left">
       <thead>

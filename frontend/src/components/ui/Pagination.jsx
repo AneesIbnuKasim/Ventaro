@@ -1,4 +1,5 @@
 import React from "react";
+import { useCategory } from "../../context/CategoryContext";
 
 const Pagination = ({
   currentPage = 1,
@@ -46,6 +47,7 @@ const Pagination = ({
 
   const startItem = (currentPage - 1) * itemsPerPage + 1;
   const endItem = Math.min(currentPage * itemsPerPage, totalItems);
+  const { setFilters, setPagination } = useCategory()
 
   return (
     <div className={`flex items-center justify-center gap-20 w-full mt-5 border border-gray-200 shadow-sm p-4 rounded-2xl `}>
@@ -60,10 +62,10 @@ const Pagination = ({
                   ? "bg-gray-200 text-gray-400 cursor-not-allowed"
                   : "bg-white hover:bg-gray-100 text-gray-700"
               }`}
-              onClick={() => currentPage !== 1 && onPageChange(currentPage - 1)}
+              onClick={() => currentPage !== 1 && setPagination({ page:currentPage - 1 })}
               disabled={currentPage === 1}
             >
-              ←
+              ← Previous
             </button>
           </li>
 
@@ -96,11 +98,13 @@ const Pagination = ({
                   : "bg-white hover:bg-gray-100 text-gray-700"
               }`}
               onClick={() =>
-                currentPage !== totalPages && onPageChange(currentPage + 1)
+                {currentPage !== totalPages && setPagination({page: currentPage + 1})
+                console.log(currentPage+1);
+                }
               }
               disabled={currentPage === totalPages}
             >
-              →
+              Next →
             </button>
           </li>
         </ul>

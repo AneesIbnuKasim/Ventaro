@@ -21,6 +21,7 @@ import { AuthProvider } from "./context/AuthContext";
 import ProductList from "./pages/ProductList.jsx";
 import Test from "./pages/Test.jsx";
 import ProductDetails from "./pages/ProductDetails.jsx";
+import { CategoryProvider } from "./context/CategoryContext.jsx";
 
 const App = () => (
   <AdminProvider>
@@ -129,9 +130,9 @@ const App = () => (
 
           {/*       ADMIN PROTECTED ROUTE       */}
           <Route path="/admin" element={
-            <AdminRoute >
-              <AdminLayout />
-            </AdminRoute>
+            <CategoryProvider>
+                <AdminLayout />
+            </CategoryProvider>
             }>
             <Route index element={<Dashoboard />} />
             <Route path='dashboard' element={<Dashoboard />} />
