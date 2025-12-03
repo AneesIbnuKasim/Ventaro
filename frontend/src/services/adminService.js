@@ -10,7 +10,7 @@ export const adminAPI = {
     },
 
     getAllCategory: (params= {})=>{
-        const { page, limit, search, status } = params
+        const { page, limit, search } = params
         const paramsData = new URLSearchParams({
             page,
             limit,
@@ -43,8 +43,7 @@ export const adminAPI = {
     deleteCategory: (categoryId)=>{
         return makeRequest({
             method: 'delete',
-            url: 'api/admin/category',
-            data: categoryId
+            url: `api/admin/category/${categoryId}`,
         })
     },
 

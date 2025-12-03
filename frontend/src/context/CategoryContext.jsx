@@ -51,6 +51,10 @@ const categoryReducer = (state, action) =>{
             action.payload ] ,
                 loading: false }
 
+        case CATEGORY_ACTIONS.DELETE_CATEGORY:
+        return { ...state, categories: state.categories.filter(category=> category._id !== action.payload) ,
+                loading: false }
+
         case CATEGORY_ACTIONS.SET_PAGINATION:
         return { ...state, pagination: {
             ...state.pagination,
@@ -76,7 +80,7 @@ export const CategoryProvider = ({children})=>{
 
     useEffect(() => {
         fetchCategories()
-    }, [state.pagination.page])
+    }, [state.pagination.page, state.filters.search])
 
     const setPagination = useCallback((payload) => {
         dispatch({ type: CATEGORY_ACTIONS.SET_PAGINATION, payload})
@@ -118,8 +122,6 @@ export const CategoryProvider = ({children})=>{
 
         const response = await adminAPI.addCategory(categoryData)   
 
-        console.log('res', response.data)
-        
         dispatch({ type: CATEGORY_ACTIONS.ADD_CATEGORY, payload: response.data})
 
         toast(response.message)
@@ -147,7 +149,21 @@ export const CategoryProvider = ({children})=>{
         }
     }
 
-    
+    const deleteCategory = async (categoryId) => {
+        try {
+        dispatch({ type: CATEGORY_ACTIONS.SET_LOADING, payload: true})
+            
+        const response = await adminAPI.deleteCategory(categoryId)
+
+        dispatch({ type: CATEGORY_ACTIONS.DELETE_CATEGORY, payload: categoryId})
+
+        toast(response.message)
+        } catch (error) {
+        dispatch({ type: CATEGORY_ACTIONS.SET_ERROR, payload: error.message})
+        console.log(error)
+        return { success: false, error: error.message}   
+        }
+    }
 
     const values = {
         categories: state.categories,
@@ -157,6 +173,7 @@ export const CategoryProvider = ({children})=>{
         fetchCategories,
         addCategory,
         updateCategory,
+        deleteCategory,
         setFilters,
         setPagination
     }

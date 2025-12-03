@@ -18,26 +18,27 @@ const Categories = memo(() => {
     const [editData, setEditData] = useState(null)
     const [isDelete, setIsDelete] = useState(false)
     const [deleteData, setDeleteData] = useState(null)
-    const { categories, pagination, setFilters, setPagination, fetchCategories, addCategory, updateCategory } = useCategory()
-
-    useEffect(()=>{
-      console.log('cats', categories)
-      
-    },[categories])
+    const { categories, pagination, setFilters, setPagination, fetchCategories, addCategory, updateCategory, deleteCategory } = useCategory()
     
     const handleDeleteCategory = useCallback((category) => {
         setIsDelete(true)
         setDeleteData(category)
     })
 
+    useEffect(()=>{
+      console.log('dlt data:', deleteData);
+      
+    })
+
     const handleDeleteSubmit = useCallback(()=>{
-        
         setIsDelete(false)
+        console.log(deleteData);
         
-        deleteCategory(deleteData)
+        deleteCategory(deleteData._id)
         
         setDeleteData(null)
-    }, [])
+    }, [deleteData])
+
     //open category form edit/add
     const handleCategoryForm = useCallback((category) => {
         if (category) setEditData(category)
