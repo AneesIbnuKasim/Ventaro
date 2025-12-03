@@ -5,7 +5,7 @@ import FormTextarea from "./FormTextArea";
 import Button from "./Button";
 import { IoIosAddCircle } from "react-icons/io";
 
-const CategoryForm = ({ initialData= null, onClose }) => {
+const CategoryForm = ({ initialData= null, handleSubmit }) => {
 
     console.log('editData', initialData);
     
@@ -19,20 +19,6 @@ const CategoryForm = ({ initialData= null, onClose }) => {
     name: Yup.string().required("Category name is required"),
     description: Yup.string().required('Description is required'),
   });
-
-  const handleSubmit = async (values) => {
-    console.log('submitted values', values);
-    
-    if (initialData?._id) {
-      // await editCategory(initialData._id, values);
-      console.log('edit submitted')
-    } else {
-      // await addCategory(values);
-      console.log('add submitted')
-    }
-
-    onClose();
-  };
 
   return (
     <Formik

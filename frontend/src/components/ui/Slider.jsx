@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useCallback, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function Slider({
@@ -10,7 +10,7 @@ export default function Slider({
 }) {
   const sliderRef = useRef(null);
 
-  const scroll = (direction) => {
+  const scroll = useCallback((direction) => {
     const slider = sliderRef.current;
     if (!slider) return;
 
@@ -20,7 +20,7 @@ export default function Slider({
       left: direction === "left" ? -scrollAmount : scrollAmount,
       behavior: "smooth",
     });
-  };
+  })
 
   if (!items || items.length === 0) return null;
 

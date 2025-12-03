@@ -1,0 +1,157 @@
+import { createContext, useCallback, useContext, useEffect, useReducer } from "react";
+import { getAdminToken, getUser, setUser} from "../utils/apiClient";
+import { toast } from "react-toastify";
+import { adminAPI } from "../services/adminService";
+
+
+const CategoryContext = createContext()
+
+const initialState = {
+    loading: false,
+    error: null,
+    categories: [],
+    filters: null,
+    pagination: null
+}
+
+const CATEGORY_ACTIONS = {
+    SET_LOADING: 'SET_LOADING',
+    SET_CATEGORY: 'SET_CATEGORIES',
+    ADD_CATEGORY: 'ADD_CATEGORY',
+    UPDATE_CATEGORY: 'UPDATE_CATEGORY',
+    DELETE_CATEGORY: 'DELETE_CATEGORY',
+    SET_FILTERS: 'SET_FILTERS',
+    SET_PAGINATION: 'SET_PAGINATION',
+    CLEAR_ERROR: 'CLEAR_ERROR'
+}
+
+const categoryReducer = (state, action) =>{
+    switch (action.type) {
+        case CATEGORY_ACTIONS.SET_LOADING: 
+        return {...state, loading: action.payload, error: null}
+
+        case CATEGORY_ACTIONS.SET_FILTERS:
+        return {...state, filters:{...state.filters, ...action.payload}}
+
+        case CATEGORY_ACTIONS.SET_ERROR: 
+        return { ...state, error: action.payload.error, loading: false }
+
+        case CATEGORY_ACTIONS.CLEAR_ERROR: 
+        return { ...state, error: null, loading: false }
+
+        case CATEGORY_ACTIONS.SET_CATEGORY:
+        return { ...state, categories: action.payload ,
+                loading: false }
+
+        case CATEGORY_ACTIONS.ADD_CATEGORY:
+        return { ...state, categories: [...state.categories,
+            action.payload ] ,
+                loading: false }
+
+        case CATEGORY_ACTIONS.SET_PAGINATION:
+        return { ...state, pagination: {
+            ...state.pagination,
+            ...action.payload
+        }}
+        case CATEGORY_ACTIONS.UPDATE_CATEGORY: 
+        return { ...state,
+            category: state.categories.map(category=> category._id === action.payload._id ? action.payload : category),
+            loading: false
+        }
+    }
+}
+
+export const CategoryProvider = ({children})=>{
+    const [ state, dispatch ] = useReducer(categoryReducer, initialState)
+
+    useEffect(() => {
+    if (state.error) {
+      toast.error(state.error);
+      dispatch({ type: CATEGORY_ACTIONS.CLEAR_ERROR });
+    }
+    }, [state.error])
+
+    const setPagination = useCallback((payload) => {
+        dispatch({ type: CATEGORY_ACTIONS.SET_PAGINATION, payload})
+    },[state.pagination])
+
+    const setFilter = useCallback((payload) => {
+        dispatch({ type: CATEGORY_ACTIONS.SET_FILTERS, payload})
+    })
+
+    const fetchCategories = async({ page= 1, limit= 10, search= '', status= ''}) => {
+        try {
+            dispatch({ type: CATEGORY_ACTIONS.SET_LOADING, payload: true })
+
+        const response= await adminAPI.getAllCategory({ page, limit, search, status })
+
+        dispatch({ type: CATEGORY_ACTIONS.SET_CATEGORIES, payload: response.data.categories })
+
+        dispatch({ type: CATEGORY_ACTIONS.SET_PAGINATION, payload: response.data.pagination })
+
+        } catch (error) {
+            const errorMessage = error.message
+            dispatch({ type: CATEGORY_ACTIONS.SET_ERROR, payload: error.message })
+
+            return { success: false, error: errorMessage}
+        }
+    }
+
+    const addCategory = async(categoryData) => {
+       try {
+         dispatch({ type: CATEGORY_ACTIONS.SET_LOADING, payload: true})
+
+        const response = await adminAPI.addCategory(categoryData)   
+        
+        dispatch({ type: CATEGORY_ACTIONS.ADD_CATEGORY, payload: response.data.category})
+        
+       } catch (error) {
+        dispatch({ type: CATEGORY_ACTIONS.SET_ERROR, payload: error.message})
+        console.log(error.message)
+       }
+    }
+
+    const updateCategory = async (categoryId, categoryData) => {
+        try {
+        dispatch({ type: CATEGORY_ACTIONS.SET_LOADING, payload: true})
+
+        const response = await adminAPI.updateCategory(categoryId, categoryData)
+
+        dispatch({ type: CATEGORY_ACTIONS.UPDATE_CATEGORY, payload: response.data.category })
+            
+        } catch (error) {
+        dispatch({ type: CATEGORY_ACTIONS.SET_ERROR, payload: error.message})
+        console.log(error)
+        return { success: false, error: error.message}
+        }
+    }
+
+    const values = {
+        categories: state.categories,
+        loading: state.loading,
+        error: state.error,
+        fetchCategories,
+        addCategory,
+        updateCategory,
+        
+    }
+
+    return (
+        <CategoryContext.Provider value={values} >
+            {children}
+        </CategoryContext.Provider>
+    )
+
+}
+
+export const useCategory = () => {
+    const context = useContext(CategoryContext)
+
+    if (!context) {
+        throw new Error('useCategory must be used within an AuthProvider')
+    }
+
+    return context
+}
+
+

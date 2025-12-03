@@ -7,14 +7,10 @@ import FormTextarea from '../components/ui/FormTextArea';
 import ConfirmDialog from '../components/ui/ConfirmDialog';
 import CategoryForm from '../components/ui/CategoryForm';
 import { useOutletContext } from "react-router-dom";
+import { useCategory } from '../context/CategoryContext';
 
 
 const Categories = memo(() => {
-
-  console.log('here');
-  
-
-  
 
     const itemsPerPage = 10
 
@@ -22,9 +18,11 @@ const Categories = memo(() => {
     const [editData, setEditData] = useState(null)
     const [isDelete, setIsDelete] = useState(false)
     const [deleteData, setDeleteData] = useState(null)
+    const { fetchCategory, addCategory, updateCategory } = useCategory()
 
-
-
+    useEffect(() => {
+      fetchCategory({page, limit, search: searchQuery, status})
+    },[page, limit, searchQuery,status])
 
     const handleDeleteCategory = useCallback((category) => {
         setIsDelete(true)
@@ -32,7 +30,6 @@ const Categories = memo(() => {
     })
 
     const handleDeleteSubmit = useCallback(()=>{
-        console.log('dele',deleteData);
         
         setIsDelete(false)
         //delete function from categoryContext
@@ -43,43 +40,32 @@ const Categories = memo(() => {
     const handleCategoryForm = useCallback((category) => {
         if (category) setEditData(category)
         setOpen(true)
-        //edit category from category context
-
-
-        
     })
 
     const closeCategoryForm = useCallback(() => {
+        updateCategory
         setEditData(null)
         setOpen(false)
     })
 
+      const handleSubmit = async (values) => {
+        
+        if (editData?._id) {
+          const res = await updateCategory(editData._id, values);
 
+          if (res.success) {
+            editData(null)
+            setOpen(false)
+          }
+        } else {
+          const res = await addCategory(values)
+          
+          if (res.success) {
+            setOpen(false)
+          }
+        }
+      }
 
-    const categories = [
-  {
-    _id: "cat001",
-    name: "Electronics",
-    description: "Devices, gadgets, and accessories",
-    status: "active",
-    createdAt: "2025-01-15T10:23:00.000Z"
-  },
-  {
-    _id: "cat002",
-    name: "Clothing",
-    description: "Men, women, and kids apparel",
-    status: "active",
-    createdAt: "2025-01-18T12:45:00.000Z"
-  },
-  {
-    _id: "cat003",
-    name: "Home & Kitchen",
-    description: "Home appliances, furniture, and décor",
-    status: "inactive",
-    createdAt: "2025-01-20T08:15:00.000Z"
-  }
-];
-    
 
 const totalItems = 34
   return (
@@ -87,14 +73,14 @@ const totalItems = 34
 
             { open && <Modal 
             isOpen={open}
-            // title= {'Edit category'}
             size='md'
             onClose = {closeCategoryForm}
             title={editData ? 'Edit Category' : 'Add Category'}
             >
                 <CategoryForm 
                 initialData={editData}
-                onClose={closeCategoryForm}
+                // onClose={closeCategoryForm}
+                handleSubmit= {handleSubmit}
                 />
             </Modal> }
 
