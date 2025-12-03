@@ -10,7 +10,9 @@ const initialState = {
     loading: false,
     error: null,
     categories: [],
-    filters: {},
+    filters: {
+        search: ''
+    },
     pagination: {
         page: 1,
         limit: 10,
@@ -60,11 +62,14 @@ const categoryReducer = (state, action) =>{
             ...state.pagination,
             ...action.payload
         }}
+        
         case CATEGORY_ACTIONS.UPDATE_CATEGORY: 
         return { ...state,
-            category: state.categories.map(category=> category._id === action.payload._id ? action.payload : category),
+            categories: state.categories.map(category=> category._id === action.payload._id ? action.payload : category),
             loading: false
         }
+        
+        default : return state
     }
 }
 
@@ -140,7 +145,11 @@ export const CategoryProvider = ({children})=>{
 
         const response = await adminAPI.updateCategory(categoryId, categoryData)
 
-        dispatch({ type: CATEGORY_ACTIONS.UPDATE_CATEGORY, payload: response.data.category })
+        dispatch({ type: CATEGORY_ACTIONS.UPDATE_CATEGORY, payload: response.data })
+
+        toast(response.message)
+
+        return { success: true }
             
         } catch (error) {
         dispatch({ type: CATEGORY_ACTIONS.SET_ERROR, payload: error.message})
@@ -174,6 +183,7 @@ export const CategoryProvider = ({children})=>{
         addCategory,
         updateCategory,
         deleteCategory,
+        filters: state.filters,
         setFilters,
         setPagination
     }

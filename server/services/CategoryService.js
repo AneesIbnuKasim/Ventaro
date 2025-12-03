@@ -6,14 +6,14 @@ class CategoryService {
     static getAllCategories = async(req, res)=>{
         try {
             const { search='' } = req.query
-            
+
             const page = parseInt(req.query.page)
             const limit = parseInt(req.query.limit)
 
             const skip = (page-1)*limit
             const filter = {}
 
-            if (search) filter.name = {$regex: search, options: 'i'}
+            if (search) filter.name = {$regex: search, $options: 'i'}
 
             const categories = await Category.find(filter)
             // .sort({ [sortBy]: sortOrder} )

@@ -131,7 +131,9 @@ const App = () => (
           {/*       ADMIN PROTECTED ROUTE       */}
           <Route path="/admin" element={
             <CategoryProvider>
-                <AdminLayout />
+               <AdminRoute>
+                 <AdminLayout />
+               </AdminRoute>
             </CategoryProvider>
             }>
             <Route index element={<Dashoboard />} />

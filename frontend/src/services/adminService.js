@@ -16,6 +16,8 @@ export const adminAPI = {
             limit,
         })
         if (search) paramsData.append('search', search)
+        console.log('serv', search);
+        
         return makeRequest({
             method: 'get',
             url: `api/admin/category?${paramsData.toString()}`,

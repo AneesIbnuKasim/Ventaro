@@ -18,7 +18,7 @@ const Categories = memo(() => {
     const [editData, setEditData] = useState(null)
     const [isDelete, setIsDelete] = useState(false)
     const [deleteData, setDeleteData] = useState(null)
-    const { categories, pagination, setFilters, setPagination, fetchCategories, addCategory, updateCategory, deleteCategory } = useCategory()
+    const { categories, pagination, filters, setFilters, setPagination, fetchCategories, addCategory, updateCategory, deleteCategory } = useCategory()
     
     const handleDeleteCategory = useCallback((category) => {
         setIsDelete(true)
@@ -26,13 +26,12 @@ const Categories = memo(() => {
     })
 
     useEffect(()=>{
-      console.log('dlt data:', deleteData);
+      console.log("filters.search", filters.search);
       
-    })
+    }, [filters.search])
 
     const handleDeleteSubmit = useCallback(()=>{
         setIsDelete(false)
-        console.log(deleteData);
         
         deleteCategory(deleteData._id)
         
@@ -48,7 +47,7 @@ const Categories = memo(() => {
     const closeCategoryForm = useCallback(() => {
         updateCategory
         setEditData(null)
-        setOpen(false)
+        setOpen((prev)=> !prev)
     })
 
       const handleSubmit = async (values) => {
@@ -57,7 +56,7 @@ const Categories = memo(() => {
           const res = await updateCategory(editData._id, values);
 
           if (res.success) {
-            editData(null)
+            setEditData(null)
             setOpen(false)
           }
         } else {
@@ -105,6 +104,8 @@ console.log('totL Pge', totalPages);
                 <FormInput
                 placeholder= 'Search'
                 icon= {<IoSearch/>}
+                value= {filters.search || ''}
+                onChange={(e)=>setFilters({search: e.target.value})}
                 />
 
                 <Button
