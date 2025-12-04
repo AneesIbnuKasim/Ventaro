@@ -7,7 +7,7 @@ import CategoryForm from '../components/ui/CategoryForm';
 import { useProduct } from '../context/ProductContext';
 import SearchNotFound from '../components/ui/SearchNotFound';
 
-const Product = memo(() => {
+const Products = memo(() => {
 
     const [open, setOpen] = useState(false)
     const [editData, setEditData] = useState(null)
@@ -102,7 +102,7 @@ const totalPages = pagination?.totalPages
                 />
 
                 <Button
-                size= 'lg'
+                size= 'md'
                 style= {{height: 30}}
                 onClick= {()=>handleProductForm()}
                 >
@@ -138,6 +138,6 @@ totalItems={totalItems}
   )
 })
 
-export default Product
+export default Products
 
 

@@ -7,6 +7,8 @@ export const productAPI = {
             page,
             limit,
         })
+        console.log('get produccts');
+        
         if (search) paramsData.append('search', search)
         return makeRequest({
             method: 'get',

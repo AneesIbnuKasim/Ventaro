@@ -4,7 +4,7 @@ const BaseController = require("./baseController");
 
 class ProductController extends BaseController {
     static getProducts = BaseController.asyncHandler(async(req, res)=>{
-        const products = await ProductService.getProducts()
+        const products = await ProductService.getProducts(req, res)
         BaseController.logAction('GET_PRODUCTS', products)
         BaseController.sendSuccess(res, 'Products fetched successfully', products, 200)
     })

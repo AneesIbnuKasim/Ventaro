@@ -30,16 +30,16 @@ const menuItems = [
     icon: FiPackage,
     label: "Products",
     subItems: [
-      { icon: FiBox, label: "Products", path: "/products" },
-      { icon: FiDatabase, label: "Stock", path: "/stock" },
+      { icon: FiBox, label: "Products", path: "products" },
+      { icon: FiDatabase, label: "Stock", path: "stock" },
     ],
   },
-  { icon: FiShoppingCart, label: "Orders", path: "/orders" },
-  { icon: FiCreditCard, label: "Payments", path: "/payments" },
-  { icon: FiStar, label: "Categories", path: "/admin/categories" },
-  { icon: FiBell, label: "Coupons", path: "/coupons" },
-  { icon: FiSettings, label: "Banners", path: "/banners" },
-  { icon: FiUserCheck, label: "Sales Report", path: "/sales-report" },
+  { icon: FiShoppingCart, label: "Orders", path: "orders" },
+  { icon: FiCreditCard, label: "Payments", path: "payments" },
+  { icon: FiStar, label: "Categories", path: "categories" },
+  { icon: FiBell, label: "Coupons", path: "coupons" },
+  { icon: FiSettings, label: "Banners", path: "banners" },
+  { icon: FiUserCheck, label: "Sales Report", path: "sales-report" },
 ];
 
 export const AdminSidebar = () => {

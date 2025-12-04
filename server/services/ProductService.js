@@ -4,10 +4,53 @@ const logger = require("../utils/logger")
 
 class ProductService {
     //GET ALL PRODUCTS
-    static getProducts = async()=>{
+    static getProducts = async(req, res)=>{
         try {
-            const products = await Product.find({})
-            return products
+            
+            const { search, sortBy, category  } = req.query
+
+            const minPrice = parseInt(req.query.minPrice)
+            const maxPrice = parseInt(req.query.maxPrice)
+            const rating = parseInt(req.query.rating)
+            const page = parseInt(req.query.page)
+            const limit = parseInt(req.query.limit)
+            const sortOrder = parseInt(req.query.sortOrder) || 1
+            
+            const filter = {}
+            
+            if (search) filter.name = {$regex: search, $options: 'i'}
+
+            if (category) filter.category = category.split(',')
+
+            if(minPrice||maxPrice) {
+                if(minPrice&&maxPrice) {
+                filter.price = {$gte:minPrice,$lte:maxPrice}
+            }
+                else if(minPrice) filter.price = {$gte:minPrice}
+                else if(maxPrice) filter.price ={$lte:maxPrice}
+            }
+
+            if (rating) filter.rating = {$lte: rating}
+
+            const sortObj = { sortBy: sortOrder }
+
+            const currentPage = page || 1
+            const productPerPage = limit || 6
+            const skipValue = (currentPage-1)*productPerPage
+
+            const [products, totalProducts, categories] = await Promise.all([
+                Product.find(filter).sort(sortObj).skip(skipValue).limit(limit),
+                Product.countDocuments(filter),
+                Product.distinct('category')
+            ])
+            return {products,
+                pagination: {
+                    currentPage,
+                    totalPages: Math.ceil(products.length/limit),
+                    totalProducts: products.length
+                },
+                allCategories: categories
+            }
         } catch (error) {
             logger.error('Error fetching products') 
             throw error

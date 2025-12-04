@@ -103,7 +103,7 @@ export const ProductProvider = ({children})=>{
         
         const response= await productAPI.getAllProduct({ page, limit, search })
 
-        console.log('response;')
+        console.log('product response:', response)
 
         dispatch({ type: PRODUCT_ACTIONS.SET_PRODUCT, payload: response.data.products })
 
