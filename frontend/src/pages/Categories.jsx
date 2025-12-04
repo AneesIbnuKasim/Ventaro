@@ -1,13 +1,11 @@
 import React, { memo, useCallback, useEffect, useState } from 'react'
-import AdminLayout from '../components/AdminLayout'
 import { Button, FormInput, Modal, Pagination, StatCard, UserCard, UserTableRow } from '../components/ui'
 import Table from '../components/ui/Table'
 import { IoSearch } from "react-icons/io5";
-import FormTextarea from '../components/ui/FormTextArea';
 import ConfirmDialog from '../components/ui/ConfirmDialog';
 import CategoryForm from '../components/ui/CategoryForm';
-import { useOutletContext } from "react-router-dom";
 import { useCategory } from '../context/CategoryContext';
+import SearchNotFound from '../components/ui/SearchNotFound';
 
 
 const Categories = memo(() => {
@@ -24,11 +22,6 @@ const Categories = memo(() => {
         setIsDelete(true)
         setDeleteData(category)
     })
-
-    useEffect(()=>{
-      console.log("filters.search", filters.search);
-      
-    }, [filters.search])
 
     const handleDeleteSubmit = useCallback(()=>{
         setIsDelete(false)
@@ -68,15 +61,18 @@ const Categories = memo(() => {
         }
       }
 
+      console.log('filter search', filters.search);
+      console.log('cats count', categories.length);
+      
+
 
 const totalItems = pagination?.totalCategories || 30
 const totalPages = pagination?.totalPages
-console.log('totL Pge', totalPages);
 
   return (
     <>
 
-            { open && <Modal 
+              { open && <Modal 
             isOpen={open}
             size='md'
             onClose = {closeCategoryForm}
@@ -116,14 +112,22 @@ console.log('totL Pge', totalPages);
                     ADD CATEGORY
                 </Button>
             </div>
-            <Table
+
+            {filters.search && !categories.length ? 
+              (
+                <SearchNotFound 
+                searchQuery= {filters.search}
+                />
+              ) :
+            (<Table
   columns={["name", "description", "createdAt"]}
   data={categories}
   actions={{
     onEdit: handleCategoryForm,
     onDelete: handleDeleteCategory,
   }}
-/>
+/>)}
+
 {totalPages>1 &&
 <Pagination
 currentPage={pagination.currentPage}
@@ -131,8 +135,11 @@ totalPages={pagination.totalPages}
 totalItems={totalItems}
 />
 }
+            
         </>
   )
 })
 
 export default Categories
+
+

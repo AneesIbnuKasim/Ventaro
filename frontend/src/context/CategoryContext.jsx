@@ -85,7 +85,7 @@ export const CategoryProvider = ({children})=>{
 
     useEffect(() => {
         fetchCategories()
-    }, [state.pagination.page, state.filters.search])
+    }, [state.pagination.page, state.pagination.totalCategories, state.filters.search])
 
     const setPagination = useCallback((payload) => {
         dispatch({ type: CATEGORY_ACTIONS.SET_PAGINATION, payload})
