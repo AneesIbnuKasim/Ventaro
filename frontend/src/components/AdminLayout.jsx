@@ -31,7 +31,7 @@ const AdminLayout = React.memo(({
                 <AdminSidebar/>
                 <div className="w-full">
                     <AdminHeader
-                // title = {title}
+                title = {'products'}
                 >
                 <UserAvatar
                 user

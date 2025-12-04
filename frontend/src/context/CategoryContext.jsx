@@ -104,8 +104,6 @@ export const CategoryProvider = ({children})=>{
         
         const response= await adminAPI.getAllCategory({ page, limit, search })
 
-        console.log('response;', response.data.pagination)
-
         dispatch({ type: CATEGORY_ACTIONS.SET_CATEGORY, payload: response.data.categories })
 
         dispatch({ type: CATEGORY_ACTIONS.SET_PAGINATION, payload: response.data.pagination })

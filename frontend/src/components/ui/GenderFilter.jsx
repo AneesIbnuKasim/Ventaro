@@ -1,8 +1,9 @@
 import React, { memo, useState } from 'react'
+import { useProduct } from '../../context/ProductContext'
 
 const GenderFilter = memo(() => {
 
-  const [ filters, setFilters ] = useState({gender: 'men'})
+  const [ filters, setFilters ] = useProduct({gender: 'men'})
   return (
     <>
      <div className="mb-8">

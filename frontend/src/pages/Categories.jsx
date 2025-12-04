@@ -58,11 +58,6 @@ const Categories = memo(() => {
         }
       }
 
-      console.log('filter search', filters.search);
-      console.log('cats count', categories?.length);
-      
-
-
 const totalItems = pagination?.totalCategories || 30
 const totalPages = pagination?.totalPages
 

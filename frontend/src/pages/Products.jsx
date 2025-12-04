@@ -6,6 +6,7 @@ import ConfirmDialog from '../components/ui/ConfirmDialog';
 import CategoryForm from '../components/ui/CategoryForm';
 import { useProduct } from '../context/ProductContext';
 import SearchNotFound from '../components/ui/SearchNotFound';
+import ProductForm from '../components/ui/ProductForm';
 
 const Products = memo(() => {
 
@@ -18,7 +19,7 @@ const Products = memo(() => {
     const handleDeleteProduct = useCallback((product) => {
         setIsDelete(true)
         setDeleteData(product)
-    })
+    },[])
 
     const handleDeleteSubmit = useCallback(()=>{
         setIsDelete(false)
@@ -32,13 +33,17 @@ const Products = memo(() => {
     const handleProductForm = useCallback((product) => {
         if (product) setEditData(product)
         setOpen(true)
-    })
+    },[])
 
     const closeProductForm = useCallback(() => {
-        updateProduct
         setEditData(null)
-        setOpen((prev)=> !prev)
-    })
+        setOpen(false)
+    },[])
+
+    const handleCancel = useCallback(()=>{
+        if (editData) setEditData(null)
+        setOpen(false)
+    },[])
 
       const handleSubmit = async (values) => {
         
@@ -57,13 +62,8 @@ const Products = memo(() => {
           }
         }
       }
-
-      console.log('filter search', filters.search);
-      console.log('cats count', products?.length);
       
-
-
-const totalItems = pagination?.totalProduct || 30
+const totalItems = pagination?.totalProducts || 30
 const totalPages = pagination?.totalPages
 
   return (
@@ -71,14 +71,13 @@ const totalPages = pagination?.totalPages
 
               { open && <Modal 
             isOpen={open}
-            size='md'
+            size='xxl'
             onClose = {closeProductForm}
             title={editData ? 'Edit Product' : 'Add Product'}
             >
-                <CategoryForm 
-                initialData={editData}
-                // onClose={closeProductForm}
-                handleSubmit= {handleSubmit}
+                <ProductForm 
+                onConfirm= {handleSubmit}
+                onCancel= {handleCancel}
                 />
             </Modal> }
 

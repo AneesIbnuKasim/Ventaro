@@ -1,3 +1,4 @@
+const Category = require("../models/Category")
 const Product = require("../models/Product")
 const { ConflictError, NotFoundError } = require("../utils/errors")
 const logger = require("../utils/logger")
@@ -32,7 +33,7 @@ class ProductService {
 
             if (rating) filter.rating = {$lte: rating}
 
-            const sortObj = { sortBy: sortOrder }
+            const sortObj = { [sortBy]: sortOrder }
 
             const currentPage = page || 1
             const productPerPage = limit || 6
@@ -41,13 +42,13 @@ class ProductService {
             const [products, totalProducts, categories] = await Promise.all([
                 Product.find(filter).sort(sortObj).skip(skipValue).limit(limit),
                 Product.countDocuments(filter),
-                Product.distinct('category')
+                await Category.distinct('name')
             ])
             return {products,
                 pagination: {
                     currentPage,
                     totalPages: Math.ceil(products.length/limit),
-                    totalProducts: products.length
+                    totalProducts: totalProducts
                 },
                 allCategories: categories
             }

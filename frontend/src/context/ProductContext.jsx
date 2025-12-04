@@ -15,7 +15,8 @@ const initialState = {
     pagination: {
         page: 1,
         limit: 10,
-    }
+    },
+    allCategories: []
 }
 
 const PRODUCT_ACTIONS = {
@@ -26,6 +27,7 @@ const PRODUCT_ACTIONS = {
     DELETE_PRODUCT: 'DELETE_PRODUCT',
     SET_FILTERS: 'SET_FILTERS',
     SET_PAGINATION: 'SET_PAGINATION',
+    SET_ALL_CATEGORIES: 'SET_ALL_CATEGORIES',
     CLEAR_ERROR: 'CLEAR_ERROR'
 }
 
@@ -66,6 +68,11 @@ const ProductReducer = (state, action) =>{
         return { ...state,
             products: state.products.map(product=> product._id === action.payload._id ? action.payload : product),
             loading: false
+        }
+
+        case PRODUCT_ACTIONS.SET_ALL_CATEGORIES: 
+        return { ...state,
+            allCategories: action.payload
         }
         
         default : return state
@@ -108,6 +115,8 @@ export const ProductProvider = ({children})=>{
         dispatch({ type: PRODUCT_ACTIONS.SET_PRODUCT, payload: response.data.products })
 
         dispatch({ type: PRODUCT_ACTIONS.SET_PAGINATION, payload: response.data.pagination })
+
+        dispatch({ type: PRODUCT_ACTIONS.SET_ALL_CATEGORIES, payload: response.data.allCategories })
 
         return { success: true }
 

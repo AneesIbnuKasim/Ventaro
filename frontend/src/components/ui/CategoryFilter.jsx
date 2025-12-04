@@ -1,8 +1,9 @@
 import { Search } from 'lucide-react'
 import React, { memo, useState } from 'react'
+import { useProduct } from '../../context/ProductContext'
 
 const CategoryFilter = memo(() => {
-  const [categoriesList] = useState(['mobile','shirt'])
+  const { allCategories } = useProduct(['mobile','shirt'])
   const [filters ] = useState({category: ['mobile']})
   return (
     <>

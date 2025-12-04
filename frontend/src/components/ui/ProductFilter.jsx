@@ -1,10 +1,10 @@
 import React from 'react'
-import PriceFilter from '../components/ui/PriceFilter'
-import GenderFilter from '../components/ui/GenderFilter'
-import RatingFilter from '../components/ui/RatingFilter'
-import CategoryFilter from '../components/ui/CategoryFilter'
+import PriceFilter from './PriceFilter'
+import GenderFilter from './GenderFilter'
+import RatingFilter from './RatingFilter'
+import CategoryFilter from './CategoryFilter'
 
-function Test({
+function ProductFilter({
     resetAll
 }) {
   return (
@@ -30,4 +30,4 @@ function Test({
   )
 }
 
-export default Test
+export default ProductFilter

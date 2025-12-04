@@ -68,7 +68,6 @@ export const AdminProvider = ({children})=>{
         }
     },[state.admin])
     
-    console.log('ad', getUser())
     useEffect(() => {
     if (state.error) {
       toast.error(state.error);
@@ -79,9 +78,6 @@ export const AdminProvider = ({children})=>{
     //login logic
     const login = (admin, token) => {
         try {
-            console.log('in login', admin);
-            console.log('in login2', getUser());
-            
             dispatch({ type: ADMIN_ACTIONS.SET_LOADING, payload: true})
             dispatch({ type: ADMIN_ACTIONS.LOGIN_SUCCESS, payload: { admin, token }})
         } catch (error) {
@@ -136,8 +132,6 @@ export const AdminProvider = ({children})=>{
          dispatch({ type: ADMIN_ACTIONS.SET_LOADING, payload: true})
 
         const response = await adminAPI.addUser(userData)   
-        
-        console.log('reponse:', response);
         
        } catch (error) {
         dispatch({ type: ADMIN_ACTIONS.SET_ERROR, payload: error.message})

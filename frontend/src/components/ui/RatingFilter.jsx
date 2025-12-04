@@ -1,9 +1,10 @@
 import React, { memo, useState } from 'react'
+import { useProduct } from '../../context/ProductContext'
 
 const RatingFilter = memo(({
   ratingsCount
 }) => {
-  const [ filters, setFilters ] = useState({rating: [3]})
+  const [ filters, setFilters ] = useProduct({rating: [3]})
   return (
     <>
             <div className="mb-8">

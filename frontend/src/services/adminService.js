@@ -9,6 +9,14 @@ export const adminAPI = {
         })
     },
 
+    uploadImages: (formData)=>{
+        return makeRequest({
+            method: 'post',
+            url: 'api/admin/upload-images',
+            data: formData
+        })
+    },
+
     getAllCategory: (params= {})=>{
         const { page, limit, search } = params
         const paramsData = new URLSearchParams({

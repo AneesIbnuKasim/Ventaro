@@ -1,6 +1,6 @@
 import React, { memo, useState } from 'react'
 import AppLayout from '../components/AppLayout'
-import Test from './Test'
+import ProductFilter from '../components/ui/ProductFilter'
 import { Card, Pagination } from '../components/ui'
 import ProductCard from '../components/ui/ProductCard'
 
@@ -111,7 +111,7 @@ const ProductList = memo(() => {
 
           {/* filters */}
           <div className='w-[20%]'>
-          <Test />
+          <ProductFilter />
         </div >
 
         {/* MAIN CONTENT AREA */}

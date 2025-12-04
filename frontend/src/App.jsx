@@ -20,7 +20,7 @@ import { AdminRoute, ProtectedRoute, PublicRoute } from "./components/ProtectedR
 import { ToastContainer } from "react-toastify"
 import { AuthProvider } from "./context/AuthContext";
 import ProductList from "./pages/ProductList.jsx";
-import Test from "./pages/Test.jsx";
+import Test from "./components/ui/ProductFilter.jsx";
 import ProductDetails from "./pages/ProductDetails.jsx";
 import { CategoryProvider } from "./context/CategoryContext.jsx";
 import { ProductProvider } from "./context/ProductContext.jsx";
