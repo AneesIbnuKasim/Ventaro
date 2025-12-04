@@ -1,97 +1,84 @@
 import React, { memo, useCallback, useEffect, useState } from 'react'
-import AdminLayout from '../components/AdminLayout'
 import { Button, FormInput, Modal, Pagination, StatCard, UserCard, UserTableRow } from '../components/ui'
 import Table from '../components/ui/Table'
 import { IoSearch } from "react-icons/io5";
-import FormTextarea from '../components/ui/FormTextArea';
 import ConfirmDialog from '../components/ui/ConfirmDialog';
 import CategoryForm from '../components/ui/CategoryForm';
-import { useOutletContext } from "react-router-dom";
+import { useProduct } from '../context/ProductContext';
+import SearchNotFound from '../components/ui/SearchNotFound';
 
-
-//ADMIN PRODUCT PAGE
-
-const Products = memo(() => {
-
-    const itemsPerPage = 10
+const Product = memo(() => {
 
     const [open, setOpen] = useState(false)
     const [editData, setEditData] = useState(null)
     const [isDelete, setIsDelete] = useState(false)
     const [deleteData, setDeleteData] = useState(null)
-
-
-
-
-    const handleDeleteCategory = useCallback((category) => {
+    const { products, pagination, filters, setFilters, setPagination, addProduct, updateProduct, deleteProduct } = useProduct()
+    
+    const handleDeleteProduct = useCallback((product) => {
         setIsDelete(true)
-        setDeleteData(category)
+        setDeleteData(product)
     })
 
     const handleDeleteSubmit = useCallback(()=>{
-        console.log('dele',deleteData);
-        
         setIsDelete(false)
-        //delete function from categoryContext
+        
+        deleteProduct(deleteData._id)
         
         setDeleteData(null)
-    }, [])
-    //open category form edit/add
-    const handleCategoryForm = useCallback((category) => {
-        if (category) setEditData(category)
+    }, [deleteData])
+
+    //open product form edit/add
+    const handleProductForm = useCallback((product) => {
+        if (product) setEditData(product)
         setOpen(true)
-        //edit category from category context
-
-
-        
     })
 
-    const closeCategoryForm = useCallback(() => {
+    const closeProductForm = useCallback(() => {
+        updateProduct
         setEditData(null)
-        setOpen(false)
+        setOpen((prev)=> !prev)
     })
 
+      const handleSubmit = async (values) => {
+        
+        if (editData?._id) {
+          const res = await updateProduct(editData._id, values);
+
+          if (res.success) {
+            setEditData(null)
+            setOpen(false)
+          }
+        } else {
+          const res = await addProduct(values)
+          
+          if (res.success) {
+            setOpen(false)
+          }
+        }
+      }
+
+      console.log('filter search', filters.search);
+      console.log('cats count', products?.length);
+      
 
 
-    const categories = [
-  {
-    _id: "cat001",
-    name: "Electronics",
-    description: "Devices, gadgets, and accessories",
-    status: "active",
-    createdAt: "2025-01-15T10:23:00.000Z"
-  },
-  {
-    _id: "cat002",
-    name: "Clothing",
-    description: "Men, women, and kids apparel",
-    status: "active",
-    createdAt: "2025-01-18T12:45:00.000Z"
-  },
-  {
-    _id: "cat003",
-    name: "Home & Kitchen",
-    description: "Home appliances, furniture, and décor",
-    status: "inactive",
-    createdAt: "2025-01-20T08:15:00.000Z"
-  }
-];
-    
+const totalItems = pagination?.totalProduct || 30
+const totalPages = pagination?.totalPages
 
-const totalItems = 34
   return (
     <>
 
-            { open && <Modal 
+              { open && <Modal 
             isOpen={open}
-            // title= {'Edit category'}
             size='md'
-            onClose = {closeCategoryForm}
-            title={editData ? 'Edit Category' : 'Add Category'}
+            onClose = {closeProductForm}
+            title={editData ? 'Edit Product' : 'Add Product'}
             >
                 <CategoryForm 
                 initialData={editData}
-                onClose={closeCategoryForm}
+                // onClose={closeProductForm}
+                handleSubmit= {handleSubmit}
                 />
             </Modal> }
 
@@ -100,7 +87,7 @@ const totalItems = 34
             <ConfirmDialog
             isOpen= {isDelete}
             title= 'Are you sure to delete'
-            onCancel={handleDeleteCategory}
+            onCancel={handleDeleteProduct}
             onConfirm= {handleDeleteSubmit}
             />
             }
@@ -110,31 +97,47 @@ const totalItems = 34
                 <FormInput
                 placeholder= 'Search'
                 icon= {<IoSearch/>}
+                value= {filters.search || ''}
+                onChange={(e)=>setFilters({search: e.target.value})}
                 />
 
                 <Button
                 size= 'lg'
                 style= {{height: 30}}
-                onClick= {()=>handleCategoryForm()}
+                onClick= {()=>handleProductForm()}
                 >
-                    ADD CATEGORY
+                    ADD PRODUCT
                 </Button>
             </div>
-            <Table
-  columns={["name", "description", "createdAt"]}
-  data={categories}
+
+            {filters.search && !products?.length ? 
+              (
+                <SearchNotFound 
+                searchQuery= {filters.search}
+                />
+              ) :
+            (<Table
+  columns={["image","name", "description", "price",'visible']}
+  data={products}
   actions={{
-    onEdit: handleCategoryForm,
-    onDelete: handleDeleteCategory,
+    onEdit: handleProductForm,
+    onDelete: handleDeleteProduct,
   }}
-/>
-{totalItems>itemsPerPage &&
+/>)}
+
+{totalPages>1 &&
 <Pagination
+setPagination={setPagination}
+currentPage={pagination.currentPage}
+totalPages={pagination.totalPages}
 totalItems={totalItems}
 />
 }
+            
         </>
   )
 })
 
-export default Products
+export default Product
+
+

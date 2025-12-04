@@ -22,7 +22,7 @@ const Table = ({ data, columns, actions }) => {
       </thead>
 
       <tbody >
-        {data.map((item) => (
+        {data?.map((item) => (
           <tr key={item._id} className="hover:bg-gray-50">
             {columns.map((col) => (
               <td

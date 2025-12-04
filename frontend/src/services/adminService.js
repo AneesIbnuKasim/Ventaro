@@ -16,11 +16,9 @@ export const adminAPI = {
             limit,
         })
         if (search) paramsData.append('search', search)
-        console.log('serv', search);
-        
         return makeRequest({
             method: 'get',
-            url: `api/admin/category?${paramsData.toString()}`,
+            url: `api/category?${paramsData.toString()}`,
         })
     },
 
@@ -28,7 +26,7 @@ export const adminAPI = {
 
         return makeRequest({
             method: 'post',
-            url: 'api/admin/category',
+            url: 'api/category',
             data: categoryData
         })
     },
@@ -37,7 +35,7 @@ export const adminAPI = {
 
         return makeRequest({
             method: 'put',
-            url: `api/admin/category/${categoryId}`,
+            url: `api/category/${categoryId}`,
             data: editData
         })
     },
@@ -45,7 +43,7 @@ export const adminAPI = {
     deleteCategory: (categoryId)=>{
         return makeRequest({
             method: 'delete',
-            url: `api/admin/category/${categoryId}`,
+            url: `api/category/${categoryId}`,
         })
     },
 

@@ -9,9 +9,6 @@ import SearchNotFound from '../components/ui/SearchNotFound';
 
 
 const Categories = memo(() => {
-
-  
-
     const [open, setOpen] = useState(false)
     const [editData, setEditData] = useState(null)
     const [isDelete, setIsDelete] = useState(false)
@@ -62,7 +59,7 @@ const Categories = memo(() => {
       }
 
       console.log('filter search', filters.search);
-      console.log('cats count', categories.length);
+      console.log('cats count', categories?.length);
       
 
 
@@ -113,7 +110,7 @@ const totalPages = pagination?.totalPages
                 </Button>
             </div>
 
-            {filters.search && !categories.length ? 
+            {filters.search && !categories?.length ? 
               (
                 <SearchNotFound 
                 searchQuery= {filters.search}
@@ -130,6 +127,7 @@ const totalPages = pagination?.totalPages
 
 {totalPages>1 &&
 <Pagination
+setPagination={setPagination}
 currentPage={pagination.currentPage}
 totalPages={pagination.totalPages}
 totalItems={totalItems}

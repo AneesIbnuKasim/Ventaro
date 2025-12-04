@@ -96,7 +96,6 @@ export const CategoryProvider = ({children})=>{
     }, [])
 
     const fetchCategories = async() => {
-        
         try {
             dispatch({ type: CATEGORY_ACTIONS.SET_LOADING, payload: true })
 

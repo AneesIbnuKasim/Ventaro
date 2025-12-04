@@ -10,6 +10,7 @@ import ResetPassword from "./pages/ResetPassword";
 import ForgotPassword from "./pages/ForgotPassword";
 import SubmitOtp from "./pages/SubmitOtp";
 import Users from "./pages/Users";
+import Products from "./pages/Products";
 import AdminLogin from "./pages/AdminLogin";
 import Categories from "./pages/Categories";
 import AdminLayout from "./components/AdminLayout";
@@ -22,10 +23,12 @@ import ProductList from "./pages/ProductList.jsx";
 import Test from "./pages/Test.jsx";
 import ProductDetails from "./pages/ProductDetails.jsx";
 import { CategoryProvider } from "./context/CategoryContext.jsx";
+import { ProductProvider } from "./context/ProductContext.jsx";
 
 const App = () => (
   <AdminProvider>
       <AuthProvider>
+        <ProductProvider>
         <BrowserRouter>
 
         <Routes>
@@ -140,12 +143,14 @@ const App = () => (
             <Route path='dashboard' element={<Dashoboard />} />
             <Route path="users" element={<Users />} />
             <Route path="categories" element={<Categories />} />
+            <Route path="products" element={<Products />} />
           </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
         <ToastContainer position="top-right" autoClose={1000} />
       </BrowserRouter>
+      </ProductProvider>
       </AuthProvider>
   </AdminProvider>
 

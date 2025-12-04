@@ -2,6 +2,7 @@
 const authRoutes = require('./auth')
 const adminRoutes = require('./admin')
 const productRoutes = require('./product')
+const categoryRoutes = require('./category')
 const userRoutes = require('./user')
 
 const setupRoutes = (app)=>{
@@ -9,6 +10,7 @@ const setupRoutes = (app)=>{
     app.use('/api/admin', adminRoutes)
     app.use('/api/user', userRoutes)
     app.use('/api/product',productRoutes)
+    app.use('/api/category',categoryRoutes)
 
 }
 

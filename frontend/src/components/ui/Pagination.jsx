@@ -1,7 +1,7 @@
 import React from "react";
-import { useCategory } from "../../context/CategoryContext";
 
 const Pagination = ({
+  setPagination,
   currentPage = 1,
   totalPages = 10,
   onPageChange = () => {},
@@ -47,8 +47,6 @@ const Pagination = ({
 
   const startItem = (currentPage - 1) * itemsPerPage + 1;
   const endItem = Math.min(currentPage * itemsPerPage, totalItems);
-  const { setFilters, setPagination } = useCategory()
-
   return (
     <div className={`flex items-center justify-center gap-20 w-full mt-5 border border-gray-200 shadow-sm p-4 rounded-2xl `}>
       <div className={`${className} flex flex-col items-center gap-3`}>
