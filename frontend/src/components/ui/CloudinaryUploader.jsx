@@ -72,3 +72,11 @@ const CloudinaryUploader = memo(({ value, onChange }) => {
 )
 
 export default CloudinaryUploader;
+
+
+//usage 
+
+    //   <CloudinaryUploader
+    //     value={formik.values.images}
+    //     onChange={(imgs) => formik.setFieldValue("images", imgs)}
+    //   />

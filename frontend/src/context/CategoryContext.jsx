@@ -126,6 +126,8 @@ export const CategoryProvider = ({children})=>{
 
         dispatch({ type: CATEGORY_ACTIONS.ADD_CATEGORY, payload: response.data})
 
+        await fetchCategories()
+
         toast(response.message)
 
         return { success: true }

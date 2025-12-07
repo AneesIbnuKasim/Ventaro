@@ -6,6 +6,7 @@ import ConfirmDialog from '../components/ui/ConfirmDialog';
 import CategoryForm from '../components/ui/CategoryForm';
 import { useCategory } from '../context/CategoryContext';
 import SearchNotFound from '../components/ui/SearchNotFound';
+import { useSearchParams } from "react-router-dom";
 
 
 const Categories = memo(() => {
@@ -14,6 +15,29 @@ const Categories = memo(() => {
     const [isDelete, setIsDelete] = useState(false)
     const [deleteData, setDeleteData] = useState(null)
     const { categories, pagination, filters, setFilters, setPagination, fetchCategories, addCategory, updateCategory, deleteCategory } = useCategory()
+    const [searchParams, setSearchParams] = useSearchParams()
+
+    useEffect(() => {
+      const page = Number(searchParams.get('page')) || 1
+      const search = searchParams.get('search') || ''
+      setPagination({ page })
+      setFilters({ search })
+    }, [searchParams])
+
+  const updateURL = (field, value) => {
+  const params = new URLSearchParams(searchParams);
+  params.set(field, value);
+  params.set("limit", pagination.limit);
+  setSearchParams(params);
+
+  if (field === "page") setPagination({ page: Number(value) });
+  if (field === "search") setFilters({ search: value });
+
+}
+console.log('page', pagination.totalPages)
+const onPageChange = (page) => {
+  updateURL('page', page)
+}
     
     const handleDeleteCategory = useCallback((category) => {
         setIsDelete(true)
@@ -93,7 +117,7 @@ const totalPages = pagination?.totalPages
                 placeholder= 'Search'
                 icon= {<IoSearch/>}
                 value= {filters.search || ''}
-                onChange={(e)=>setFilters({search: e.target.value})}
+                onChange={(e)=>updateURL('search', e.target.value)}
                 />
 
                 <Button
@@ -122,10 +146,11 @@ const totalPages = pagination?.totalPages
 
 {totalPages>1 &&
 <Pagination
-setPagination={setPagination}
+onPageChange={onPageChange}
 currentPage={pagination.currentPage}
 totalPages={pagination.totalPages}
 totalItems={totalItems}
+
 />
 }
             

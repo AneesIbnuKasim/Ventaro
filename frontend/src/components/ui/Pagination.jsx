@@ -1,10 +1,9 @@
 import React from "react";
 
 const Pagination = ({
-  setPagination,
   currentPage = 1,
   totalPages = 10,
-  onPageChange = () => {},
+  onPageChange,
   totalItems = 232,
   itemsPerPage = 10,
   className= ''
@@ -60,7 +59,7 @@ const Pagination = ({
                   ? "bg-gray-200 text-gray-400 cursor-not-allowed"
                   : "bg-white hover:bg-gray-100 text-gray-700"
               }`}
-              onClick={() => currentPage !== 1 && setPagination({ page:currentPage - 1 })}
+              onClick={() => currentPage !== 1 && onPageChange(currentPage - 1)}
               disabled={currentPage === 1}
             >
               ← Previous
@@ -96,7 +95,7 @@ const Pagination = ({
                   : "bg-white hover:bg-gray-100 text-gray-700"
               }`}
               onClick={() =>
-                {currentPage !== totalPages && setPagination({page: currentPage + 1})
+                {currentPage !== totalPages && onPageChange(currentPage + 1)
                 console.log(currentPage+1);
                 }
               }
