@@ -33,8 +33,6 @@ export const PublicRoute = memo(({
     return <Loading fullScreen text="Loading..." />
     }
 
-    console.log('isAuthin pub route', isAuthenticated);
-
     if (isAuthenticated) {
         return <Navigate to={redirectTo} replace />
     }
@@ -49,8 +47,6 @@ export const AdminRoute = memo(({
     const { isAuthenticated, loading, admin } = useAdmin()
     const location = useLocation()
 
-    console.log('admin:', admin)
-    
     if (loading) {
     return <Loading fullScreen text="Verifying admin access..." />
   }

@@ -7,7 +7,7 @@ class ProductService {
     //GET ALL PRODUCTS
     static getProducts = async(req, res)=>{
         try {
-            
+
             const { search, sortBy, category  } = req.query
 
             const minPrice = parseInt(req.query.minPrice)

@@ -69,6 +69,11 @@
             "date": 1765084317902,
             "name": "/Users/macair/Desktop/Mentor/ventaro/server/log/info-2025-12-07.log",
             "hash": "3ccc52e2b2a596c77e307229920988ce8b2271bd66bfbc01792e9b78871fc928"
+        },
+        {
+            "date": 1765167075179,
+            "name": "/Users/macair/Desktop/Mentor/ventaro/server/log/info-2025-12-08.log",
+            "hash": "f8e2953b53e0d7bd254ca230d793bf2ba7402286232841be352a822c81af0e6c"
         }
     ],
     "hashType": "sha256"

@@ -1,4 +1,3 @@
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Dashboard from "./pages/Dashboard.jsx";
@@ -15,9 +14,13 @@ import AdminLogin from "./pages/AdminLogin";
 import Categories from "./pages/Categories";
 import AdminLayout from "./components/AdminLayout";
 import NotFound from "./pages/NotFound";
-import { AdminProvider } from './context/AdminContext'
-import { AdminRoute, ProtectedRoute, PublicRoute } from "./components/ProtectedRoute";
-import { ToastContainer } from "react-toastify"
+import { AdminProvider } from "./context/AdminContext";
+import {
+  AdminRoute,
+  ProtectedRoute,
+  PublicRoute,
+} from "./components/ProtectedRoute";
+import { ToastContainer } from "react-toastify";
 import { AuthProvider } from "./context/AuthContext";
 import ProductList from "./pages/ProductList.jsx";
 import Test from "./components/ui/ProductFilter.jsx";
@@ -26,134 +29,127 @@ import { CategoryProvider } from "./context/CategoryContext.jsx";
 import { ProductProvider } from "./context/ProductContext.jsx";
 
 const App = () => (
-  <AdminProvider>
+  <BrowserRouter>
+    <AdminProvider>
       <AuthProvider>
         <ProductProvider>
-        <BrowserRouter>
-
-        <Routes>
-
-        Public Auth Routes
-   <Route
-      path='/test'
-      element={
-          <PublicRoute>
-            <Test />
-          </PublicRoute>
-        }
-      />
-
-   <Route
-      path='/product-details'
-      element={
-          <PublicRoute>
-            <ProductDetails />
-          </PublicRoute>
-        }
-      />
-   <Route
-      path='/login'
-      element={
-          <PublicRoute>
-            <Login />
-          </PublicRoute>
-        }
-      />
-   <Route
-      path='/test'
-      element={
-          <PublicRoute>
-            <Test />
-          </PublicRoute>
-        }
-      />
-      
-        <Route
-          path='/register'
-          element={
-              <PublicRoute>
-                <Register />
-              </PublicRoute>
-            }
-          />
-        
-          <Route
-            path='/forgot-password'
-            element={
+          <Routes>
+            Public Auth Routes
+            <Route
+              path="/test"
+              element={
+                <PublicRoute>
+                  <Test />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/product-details"
+              element={
+                <PublicRoute>
+                  <ProductDetails />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <PublicRoute>
+                  <Login />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/test"
+              element={
+                <PublicRoute>
+                  <Test />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                <PublicRoute>
+                  <Register />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/forgot-password"
+              element={
                 <PublicRoute>
                   <ForgotPassword />
                 </PublicRoute>
               }
             />
-          
             <Route
-              path='/verify-otp'
+              path="/verify-otp"
               element={
-                  <PublicRoute>
-                    <SubmitOtp />
-                  </PublicRoute>
-                }
-              />
-            
-              <Route
-                path='/reset-password'
-                element={
-                    <PublicRoute>
-                      <ResetPassword />
-                    </PublicRoute>
-                  }
-                />
-
-              <Route
-                path='/products'
-                element={
-                    <PublicRoute>
-                      <ProductList />
-                    </PublicRoute>
-                  }
-                />
-            
-
-          {/*         protected user routes        */}
-          <Route path="/auth" element={
-            <ProtectedRoute>
-              {/* protected page layout */}
-            </ProtectedRoute>
-          } >
-            {/* Protected pages */}
-          </Route>
-
-{/*         ADMIN PUBLIC ROUTE              */}
-          <Route path="/admin/login" element={
-            <PublicRoute>
-              <AdminLogin/>
-            </PublicRoute>
-          } 
+                <PublicRoute>
+                  <SubmitOtp />
+                </PublicRoute>
+              }
             />
-
-          {/*       ADMIN PROTECTED ROUTE       */}
-          <Route path="/admin" element={
-            <CategoryProvider>
-               <AdminRoute>
-                 <AdminLayout />
-               </AdminRoute>
-            </CategoryProvider>
-            }>
-            <Route index element={<Dashoboard />} />
-            <Route path='dashboard' element={<Dashoboard />} />
-            <Route path="users" element={<Users />} />
-            <Route path="categories" element={<Categories />} />
-            <Route path="products" element={<Products />} />
-          </Route>
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-        <ToastContainer position="top-right" autoClose={1000} />
-      </BrowserRouter>
-      </ProductProvider>
+            <Route
+              path="/reset-password"
+              element={
+                <PublicRoute>
+                  <ResetPassword />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/products"
+              element={
+                <PublicRoute>
+                  <ProductList />
+                </PublicRoute>
+              }
+            />
+            {/*         protected user routes        */}
+            <Route
+              path="/auth"
+              element={
+                <ProtectedRoute>{/* protected page layout */}</ProtectedRoute>
+              }
+            >
+              {/* Protected pages */}
+            </Route>
+            {/*         ADMIN PUBLIC ROUTE              */}
+            <Route
+              path="/admin/login"
+              element={
+                <PublicRoute>
+                  <AdminLogin />
+                </PublicRoute>
+              }
+            />
+            {/*       ADMIN PROTECTED ROUTE       */}
+            <Route
+              path="/admin"
+              element={
+                <CategoryProvider>
+                  <AdminRoute>
+                    <AdminLayout />
+                  </AdminRoute>
+                </CategoryProvider>
+              }
+            >
+              <Route index element={<Dashoboard />} />
+              <Route path="dashboard" element={<Dashoboard />} />
+              <Route path="users" element={<Users />} />
+              <Route path="categories" element={<Categories />} />
+              <Route path="products" element={<Products />} />
+            </Route>
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+          <ToastContainer position="top-right" autoClose={1000} />
+        </ProductProvider>
       </AuthProvider>
-  </AdminProvider>
-
+    </AdminProvider>
+  </BrowserRouter>
 );
 
 export default App;

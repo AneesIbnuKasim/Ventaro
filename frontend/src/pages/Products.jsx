@@ -129,6 +129,7 @@ const totalPages = pagination?.totalPages
 setPagination={setPagination}
 currentPage={pagination.currentPage}
 totalPages={pagination.totalPages}
+itemsPerPage={pagination.limit}
 totalItems={totalItems}
 />
 }

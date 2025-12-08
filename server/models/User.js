@@ -98,7 +98,6 @@ userSchema.methods.comparePassword = async function(candidatePassword){
 }
 
 userSchema.methods.compareOtp = async function(candidateOtp){
-    console.log('cand',this.otpDetails.code);
     
     return bcrypt.compare(candidateOtp, this.otpDetails.code)
 }

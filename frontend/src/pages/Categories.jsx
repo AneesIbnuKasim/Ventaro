@@ -17,26 +17,26 @@ const Categories = memo(() => {
     const { categories, pagination, filters, setFilters, setPagination, fetchCategories, addCategory, updateCategory, deleteCategory } = useCategory()
     const [searchParams, setSearchParams] = useSearchParams()
 
-    useEffect(() => {
-      const page = Number(searchParams.get('page')) || 1
-      const search = searchParams.get('search') || ''
-      setPagination({ page })
-      setFilters({ search })
-    }, [searchParams])
+    // useEffect(() => {
+    //   const page = Number(searchParams.get('page')) || 1
+    //   const search = searchParams.get('search') || ''
+    //   setPagination({ page })
+    //   setFilters({ search })
+    // }, [searchParams])
 
-  const updateURL = (field, value) => {
-  const params = new URLSearchParams(searchParams);
-  params.set(field, value);
-  params.set("limit", pagination.limit);
-  setSearchParams(params);
+//   const updateURL = (field, value) => {
+//   const params = new URLSearchParams(searchParams);
+//   params.set(field, value);
+//   params.set("limit", pagination.limit);
+//   setSearchParams(params);
 
-  if (field === "page") setPagination({ page: Number(value) });
-  if (field === "search") setFilters({ search: value });
+//   if (field === "page") setPagination({ page: Number(value) });
+//   if (field === "search") setFilters({ search: value });
 
-}
-console.log('page', pagination.totalPages)
-const onPageChange = (page) => {
-  updateURL('page', page)
+// }
+// console.log('page', pagination.totalPages)
+const onPageChange = (value) => {
+  setPagination({page: value})
 }
     
     const handleDeleteCategory = useCallback((category) => {
@@ -63,6 +63,12 @@ const onPageChange = (page) => {
         setEditData(null)
         setOpen((prev)=> !prev)
     })
+
+    //handle search inputs
+    const handleSearch = useCallback((e) => {
+      setFilters({search: e.target.value})
+      setPagination({page: 1})
+    }, [])
 
       const handleSubmit = async (values) => {
         
@@ -117,7 +123,7 @@ const totalPages = pagination?.totalPages
                 placeholder= 'Search'
                 icon= {<IoSearch/>}
                 value= {filters.search || ''}
-                onChange={(e)=>updateURL('search', e.target.value)}
+                onChange={(e)=>handleSearch(e)}
                 />
 
                 <Button
@@ -147,7 +153,7 @@ const totalPages = pagination?.totalPages
 {totalPages>1 &&
 <Pagination
 onPageChange={onPageChange}
-currentPage={pagination.currentPage}
+currentPage={pagination.page}
 totalPages={pagination.totalPages}
 totalItems={totalItems}
 

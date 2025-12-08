@@ -3,8 +3,9 @@ import { makeRequest } from '../utils/apiClient'
 export const productAPI = {
     getAllProduct: (params= {})=>{
         const { page, limit, search, sortBy, sortOrder, category, rating, minPrice=0, maxPrice,  } = params
+        console.log('search in api:', search);
         
-        if (search) paramsData.append('search', search)
+       
         return makeRequest({
             method: 'get',
             url: `api/product?${paramsData.toString()}`,

@@ -2,6 +2,8 @@ import { createContext, useCallback, useContext, useEffect, useReducer } from "r
 import { getAdminToken, getUser, setUser} from "../utils/apiClient";
 import { toast } from "react-toastify";
 import { adminAPI } from "../services/adminService";
+import { useSyncedReducer } from "../hooks/useSyncReducer";
+import useDebounce from "../hooks/useDebounce";
 
 
 const CategoryContext = createContext()
@@ -11,13 +13,27 @@ const initialState = {
     error: null,
     categories: [],
     filters: {
-        search: ''
+            search: "",
+            sortBy: "createdAt",
+            sortOrder: "asc",
+            status: ''
     },
     pagination: {
         page: 1,
         limit: 10,
+        totalPages: '',
+        totalCategories: null
     }
 }
+
+const syncKeys = [
+//   "filters.search",
+  "filters.category",
+  "filters.sortBy",
+  "filters.sortOrder",
+  "pagination.page",
+  "pagination.limit",
+];
 
 const CATEGORY_ACTIONS = {
     SET_LOADING: 'SET_LOADING',
@@ -74,7 +90,18 @@ const categoryReducer = (state, action) =>{
 }
 
 export const CategoryProvider = ({children})=>{
-    const [ state, dispatch ] = useReducer(categoryReducer, initialState)
+      const { state, dispatch } = useSyncedReducer(
+        categoryReducer,
+        initialState,
+        {
+          syncKeys,
+          pageKey: "pagination.page",
+        //   searchKey: "filters.search",
+        }
+      );
+
+      const debouncedSearch = useDebounce(state.filters.search, 500)
+    
 
     useEffect(() => {
     if (state.error) {
@@ -85,9 +112,20 @@ export const CategoryProvider = ({children})=>{
 
     useEffect(() => {
         fetchCategories()
-    }, [state.pagination.page, state.pagination.totalCategories, state.filters.search])
+    }, [state.pagination.page, state.pagination.limit, debouncedSearch])
+    useEffect(() => {
+        console.log('state pagei', state.pagination);
+        
+    }, [state.pagination.page])
+    useEffect(() => {
+        console.log('URL changed', location.search);
+        
+    }, [location.search])
+    
+
 
     const setPagination = useCallback((payload) => {
+        
         dispatch({ type: CATEGORY_ACTIONS.SET_PAGINATION, payload})
     },[])
 
@@ -99,10 +137,28 @@ export const CategoryProvider = ({children})=>{
         try {
             dispatch({ type: CATEGORY_ACTIONS.SET_LOADING, payload: true })
 
-            const { search= '' } = state.filters
-            const { page, limit } = state.pagination
+            
+
+
+            const {
+        status,
+        sortBy,
+        sortOrder,
+      } = state.filters;
+            const { page, limit=10 } = state.pagination
+
+        const response= await adminAPI.getAllCategory({
+        search: debouncedSearch,
+        sortBy,
+        sortOrder,
+        page,
+        status,
+        limit})
+
+        console.log('data.categories', response.data.categories);
+        console.log('response.data.pagination ', response.data.pagination );
         
-        const response= await adminAPI.getAllCategory({ page, limit, search })
+
 
         dispatch({ type: CATEGORY_ACTIONS.SET_CATEGORY, payload: response.data.categories })
 
@@ -123,6 +179,9 @@ export const CategoryProvider = ({children})=>{
          dispatch({ type: CATEGORY_ACTIONS.SET_LOADING, payload: true})
 
         const response = await adminAPI.addCategory(categoryData)   
+
+        console.log('response', response.data);
+        
 
         dispatch({ type: CATEGORY_ACTIONS.ADD_CATEGORY, payload: response.data})
 

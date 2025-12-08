@@ -56,7 +56,6 @@ class AuthService {
     static verifyOtp = async(data)=>{
         try {
             const { userId, purpose, otp } = data
-            console.log('otpDetails:', otp);
             
             const user = await User.findById(userId)
             if (!user) {

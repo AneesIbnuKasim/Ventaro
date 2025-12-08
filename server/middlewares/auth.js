@@ -58,7 +58,6 @@ const authenticateUser = async(req, res, next)=>{
         
 
         const admin = await Admin.findById(decoded.id)
-        console.log('admin:',admin);
         
         if (!admin || admin.role !== 'admin') {
             logger.warn('Admin auth: Admin not found or not an admin',{

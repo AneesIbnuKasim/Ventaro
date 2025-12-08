@@ -7,6 +7,8 @@ class CategoryService {
         try {
             const { search='' } = req.query
 
+            console.log('product query', req.query)
+
             const page = parseInt(req.query.page)
             const limit = parseInt(req.query.limit)
 
@@ -15,22 +17,27 @@ class CategoryService {
 
             if (search) filter.name = {$regex: search, $options: 'i'}
 
-            const categories = await Category.find(filter)
+            //total filtered category count
+            const totalCategories = await Category.countDocuments(filter)
             // .sort({ [sortBy]: sortOrder} )
+            
+            //paginated filtered docs
+            const categories = await Category.find(filter)
             .skip(skip)
             .limit(limit)
 
-            const totalCategories = await Category.countDocuments()
             const totalPages = Math.ceil(totalCategories/limit)
 
+            console.log('total ppages', totalPages);
+            
+            console.log('result:', categories)
             logger.info(`Admin ${req.admin.email} fetched category list (page: ${page})`)
             return { categories,
                 pagination: {
-                    currentPage: page,
+                    page,
                     totalPages,
                     totalCategories,
-                    hasPrevPage: page > 1,
-                    hasNextPage: page < totalPages
+                    limit
                 }
             }
         } catch (error) {

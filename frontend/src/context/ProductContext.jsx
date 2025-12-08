@@ -9,6 +9,7 @@ import {
 import { toast } from "react-toastify";
 import { productAPI } from "../services/productService";
 import { useSyncedReducer } from "../hooks/useSyncReducer";
+import useDebounce from "../hooks/useDebounce";
 
 const ProductContext = createContext();
 
@@ -28,7 +29,7 @@ const initialState = {
 };
 
 const syncKeys = [
-  "filters.search",
+//   "filters.search",
   "filters.category",
   "filters.sortBy",
   "filters.sortOrder",
@@ -108,17 +109,20 @@ const ProductReducer = (state, action) => {
 };
 
 export const ProductProvider = ({ children }) => {
-  const [allCategories, setAllCategories] = useState();
 
-  const { state, dispatch, debouncedSearch } = useSyncedReducer(
+  const { state, dispatch } = useSyncedReducer(
     ProductReducer,
     initialState,
     {
       syncKeys,
       pageKey: "pagination.page",
-      searchKey: "filters.search",
+    //   searchKey: "filters.search",
     }
   );
+
+  const [allCategories, setAllCategories] = useState();
+  
+  const debouncedSearch = useDebounce(state.filters.search, 500);
 
   useEffect(() => {
     if (state.error) {
@@ -143,6 +147,7 @@ export const ProductProvider = ({ children }) => {
   }, []);
 
   const setFilters = useCallback((payload) => {
+    
     dispatch({ type: PRODUCT_ACTIONS.SET_FILTERS, payload });
   }, []);
 
@@ -151,7 +156,6 @@ export const ProductProvider = ({ children }) => {
       dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
 
       const {
-        search = "",
         category,
         sortBy,
         sortOrder,

@@ -18,15 +18,10 @@ export const adminAPI = {
     },
 
     getAllCategory: (params= {})=>{
-        const { page, limit, search } = params
-        const paramsData = new URLSearchParams({
-            page,
-            limit,
-        })
-        if (search) paramsData.append('search', search)
         return makeRequest({
             method: 'get',
-            url: `api/category?${paramsData.toString()}`,
+            url: `api/category`,
+            params
         })
     },
 
