@@ -1,130 +1,160 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useFormik, FieldArray } from "formik";
+
 import Button from "./Button";
 import { useProduct } from "../../context/ProductContext";
-import FormInput from "./FormInput";
 import { useCategory } from "../../context/CategoryContext";
 
+import FormInput from "./FormInput";
+import FormTextarea from "./FormTextArea";
+import FormSelect from "./FormSelect";
+import { ImageInput } from "./imageInput";
+import { productAddSchema } from "../../validation/userSchema";
+
 export default function ProductForm({ onSubmit, onCancel }) {
-    const { loading } = useProduct()
-    const { categories } = useCategory()
+  const { loading } = useProduct();
+  const { categories } = useCategory();
 
-    const [previews, setPreviews] = useState([]);
+  const [previews, setPreviews] = useState([]);
+  const [images, setImages] = useState([]);
 
-const handleMultiple = (e) => {
-  const files = [...e.target.files];
+  // ---- IMAGE HANDLING ----
+  const handleMultiple = (e) => {
+    const files = [...e.target.files];
+    setImages((prev) => [...prev, ...files]);
 
-  console.log('files',files);
-  console.log('length',files.length);
-  console.log('prev',previews);
-  if ( files !== null || files.length !== 0) {
-    
-  const urls = files.map((file) => URL.createObjectURL(file));
-  setPreviews((prev)=>[...prev, urls]);
-  }
-};
+    const urls = files.map((file) => URL.createObjectURL(file));
+    setPreviews((prev) => [...prev, ...urls]);
+  };
 
-    
+  // ---- FORM STATE ----
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      category: "",
+      brand: "",
+      description: "",
+      stock: ""
+    },
+
+    validationSchema: productAddSchema,
+
+    onSubmit: (values) => {
+      const finalData = {
+        ...values,
+        images,
+      };
+
+      console.log('final value', finalData);
+      
+    },
+  });
+
   return (
-    <div className="w-full bg-white p-6 rounded-xl shadow-sm border grid grid-cols-1 md:grid-cols-2 gap-6">
-      {/* LEFT SECTION */}
+    <form
+      onSubmit={formik.handleSubmit} noValidate
+      className="w-full h-[80vh] overflow-y-auto bg-white p-6 rounded-xl shadow-sm border grid grid-cols-1 gap-6"
+    >
       <div className="flex flex-col gap-4">
         {/* Product Name */}
-        <div className="flex flex-col gap-1">
-          <FormInput
-            type="text"
-            label='Product Name'
-            placeholder="Enter product name..."
-            required= {true}
-            className="border px-3 py-2 rounded-lg focus:ring focus:ring-blue-300 outline-none"
-          />
-        </div>
+        <FormInput
+          label="Product Name"
+          name="name"
+          required
+          placeholder="Enter product name..."
+          value={formik.values.name}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.name && formik.errors.name}
+        />
 
         {/* Category + Stock */}
         <div className="grid grid-cols-2 gap-4">
-          <div className="flex flex-col gap-1">
-            <label className="font-medium">Category <span className="text-red-500">*</span></label>
-            <select className="border px-3 py-2 rounded-lg focus:ring focus:ring-blue-300 outline-none">
-              <option>Choose category</option>
-              {
-                (categories || []).map((c)=>(
-                    <option value={c}>{c.name}</option>
-                ))
-              }
-            </select>
-          </div>
+          <FormSelect
+            label="Category"
+            name="category"
+            value={formik.values.category}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            required
+            placeholder="Choose category"
+            options={(categories || []).map((c) => ({
+              value: c._id,
+              label: c.name,
+            }))}
+            error={formik.touched.category && formik.errors.category}
+          />
 
-          <div className="flex flex-col gap-1">
-            <label className="font-medium">Stock <span className="text-red-500">*</span></label>
-            <input
-              type="number"
-              placeholder="Enter stock..."
-              className="border px-3 py-2 rounded-lg focus:ring focus:ring-blue-300 outline-none"
-            />
-          </div>
-        </div>
-
-        {/* Brand Name */}
-        <div className="flex flex-col gap-1">
-          <label className="font-medium">Brand Name <span className="text-red-500">*</span></label>
-          <input
-            type="text"
-            placeholder="Enter brand name..."
-            className="border px-3 py-2 rounded-lg focus:ring focus:ring-blue-300 outline-none"
+          <FormInput
+            label="Stock"
+            name="stock"
+            required
+            type="number"
+            min="0"
+            step="1"
+            placeholder="Enter stock..."
+            value={formik.values.stock}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.stock && formik.errors.stock}
           />
         </div>
+        {/* Brand */}
+        <FormInput
+          label="Brand Name"
+          name="brand"
+          required
+          placeholder="Enter brand name..."
+          value={formik.values.brand}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.brand && formik.errors.brand}
+        />
 
         {/* Description */}
-        <div className="flex flex-col gap-1">
-          <label className="font-medium">Description</label>
-          <textarea
-            rows={5}
+        <div className="relative">
+          <FormTextarea
+            label="Description"
+            name="description"
+            required
             placeholder="Enter description..."
-            className="border px-3 py-2 rounded-lg focus:ring focus:ring-blue-300 outline-none resize-none"
+            value={formik.values.description}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.description && formik.errors.description}
           />
-        </div>
 
-        <p className="text-xs text-gray-400">Do not exceed 100 characters when entering the product name.</p>
+          <p className="text-xs text-gray-400 absolute bottom-[-5px]">
+            Do not exceed 100 characters when entering the description.
+          </p>
+        </div>
       </div>
 
       {/* RIGHT SECTION */}
       <div className="flex flex-col ml-10 gap-4">
-        {/* Upload Images */}
-        <div className="flex flex-col gap-2">
-          <label className="font-medium">Upload Images <span className="text-red-500">*</span></label>
-
-          <div className="grid grid-cols-2 gap-3">
-            {/* file input */}
-            <input type="file" className="border w-25 h-25" multiple accept="image/*" onChange={handleMultiple} />
-
-            <div className="grid grid-cols-3 gap-2">
-            {previews.map((src, i) => (
+        <div className="grid grid-cols-4 gap-3">
+          {previews.map((src, i) => (
             <img key={i} src={src} className="w-24 h-24 object-cover rounded" />
-            ))}
-            </div>
-          </div>
+          ))}
         </div>
 
-        {/* ACTION BUTTONS */}
+        <ImageInput handleMultiple={handleMultiple} />
+
         <div className="flex justify-end gap-4 mt-4">
           <Button
-            variant= {'danger'}
-            size= 'md'
-            loading= {loading}
+            variant="danger"
             onClick={onCancel}
+            size="md"
+            loading={loading}
           >
             CANCEL
           </Button>
 
-          <Button
-            variant= 'primary'
-            size= 'md'
-            loading= {loading}
-            onClick={onSubmit}
-          >
+          <Button type="submit" variant="primary" size="md" loading={loading}>
             ADD PRODUCT
           </Button>
         </div>
       </div>
-    </div>
+    </form>
   );
 }

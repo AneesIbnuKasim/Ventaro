@@ -1,143 +1,174 @@
-import React, { memo, useCallback, useEffect, useState } from 'react'
-import { Button, FormInput, Modal, Pagination, StatCard, UserCard, UserTableRow } from '../components/ui'
-import Table from '../components/ui/Table'
+import React, { memo, useCallback, useEffect, useState } from "react";
+import {
+  Button,
+  FormInput,
+  Modal,
+  Pagination,
+  StatCard,
+  UserCard,
+  UserTableRow,
+} from "../components/ui";
+import Table from "../components/ui/Table";
 import { IoSearch } from "react-icons/io5";
-import ConfirmDialog from '../components/ui/ConfirmDialog';
-import CategoryForm from '../components/ui/CategoryForm';
-import { useProduct } from '../context/ProductContext';
-import SearchNotFound from '../components/ui/SearchNotFound';
-import ProductForm from '../components/ui/ProductForm';
+import ConfirmDialog from "../components/ui/ConfirmDialog";
+import CategoryForm from "../components/ui/CategoryForm";
+import { useProduct } from "../context/ProductContext";
+import SearchNotFound from "../components/ui/SearchNotFound";
+import ProductForm from "../components/ui/ProductForm";
+import useDebounce from "../hooks/useDebounce";
+import { useCategory } from "../context/CategoryContext";
+
+///Admin product page
 
 const Products = memo(() => {
+  const [open, setOpen] = useState(false);
+  const [editData, setEditData] = useState(null);
+  const [isDelete, setIsDelete] = useState(false);
+  const [deleteData, setDeleteData] = useState(null);
+  const { fetchCategories, categories } = useCategory();
+  const {
+    products,
+    pagination,
+    filters,
+    setFilters,
+    setPagination,
+    fetchProduct,
+    addProduct,
+    updateProduct,
+    deleteProduct,
+    debouncedSearch
+  } = useProduct();
 
-    const [open, setOpen] = useState(false)
-    const [editData, setEditData] = useState(null)
-    const [isDelete, setIsDelete] = useState(false)
-    const [deleteData, setDeleteData] = useState(null)
-    const { products, pagination, filters, setFilters, setPagination, addProduct, updateProduct, deleteProduct } = useProduct()
-    
-    const handleDeleteProduct = useCallback((product) => {
-        setIsDelete(true)
-        setDeleteData(product)
-    },[])
+  //fetch products on page load
+  useEffect(() => {
+    fetchProduct();
+  }, [
+    pagination.page,
+    pagination.limit,
+    filters.category,
+    filters.sortBy,
+    filters.sortOrder,
+    debouncedSearch,
+  ]);
+useEffect(() => {
+      fetchCategories()
+    }, [])
 
-    const handleDeleteSubmit = useCallback(()=>{
-        setIsDelete(false)
-        
-        deleteProduct(deleteData._id)
-        
-        setDeleteData(null)
-    }, [deleteData])
 
-    //open product form edit/add
-    const handleProductForm = useCallback((product) => {
-        if (product) setEditData(product)
-        setOpen(true)
-    },[])
+  const handleDeleteProduct = useCallback((product) => {
+    setIsDelete(true);
+    setDeleteData(product);
+  }, []);
 
-    const closeProductForm = useCallback(() => {
-        setEditData(null)
-        setOpen(false)
-    },[])
+  const handleDeleteSubmit = useCallback(() => {
+    setIsDelete(false);
 
-    const handleCancel = useCallback(()=>{
-        if (editData) setEditData(null)
-        setOpen(false)
-    },[])
+    deleteProduct(deleteData._id);
 
-      const handleSubmit = async (values) => {
-        
-        if (editData?._id) {
-          const res = await updateProduct(editData._id, values);
+    setDeleteData(null);
+  }, [deleteData]);
 
-          if (res.success) {
-            setEditData(null)
-            setOpen(false)
-          }
-        } else {
-          const res = await addProduct(values)
-          
-          if (res.success) {
-            setOpen(false)
-          }
-        }
+  //open product form edit/add
+  const handleProductForm = useCallback((product) => {
+    if (product) setEditData(product);
+    setOpen(true);
+  }, []);
+
+  const closeProductForm = useCallback(() => {
+    setEditData(null);
+    setOpen(false);
+  }, []);
+
+  const handleCancel = useCallback(() => {
+    if (editData) setEditData(null);
+    setOpen(false);
+  }, []);
+
+  const handleSubmit = async (values) => {
+    if (editData?._id) {
+      const res = await updateProduct(editData._id, values);
+
+      if (res.success) {
+        setEditData(null);
+        setOpen(false);
       }
-      
-const totalItems = pagination?.totalProducts || 30
-const totalPages = pagination?.totalPages
+    } else {
+      const res = await addProduct(values);
+
+      if (res.success) {
+        setOpen(false);
+      }
+    }
+  };
+
+  const totalItems = pagination?.totalProducts || 30;
+  const totalPages = pagination?.totalPages;
 
   return (
     <>
+      {open && (
+        <Modal
+          isOpen={open}
+          size="xl"
+          onClose={closeProductForm}
+          className= 'overflow-y-auto'
+          title={editData ? "Edit Product" : "Add Product"}
+        >
+          <ProductForm onConfirm={handleSubmit} onCancel={handleCancel} />
+        </Modal>
+      )}
 
-              { open && <Modal 
-            isOpen={open}
-            size='xxl'
-            onClose = {closeProductForm}
-            title={editData ? 'Edit Product' : 'Add Product'}
-            >
-                <ProductForm 
-                onConfirm= {handleSubmit}
-                onCancel= {handleCancel}
-                />
-            </Modal> }
+      {/* Delete confirmation modal */}
+      {isDelete && (
+        <ConfirmDialog
+          isOpen={isDelete}
+          title="Are you sure to delete"
+          onCancel={handleDeleteProduct}
+          onConfirm={handleDeleteSubmit}
+        />
+      )}
 
-            {/* Delete confirmation modal */}
-            {isDelete &&
-            <ConfirmDialog
-            isOpen= {isDelete}
-            title= 'Are you sure to delete'
-            onCancel={handleDeleteProduct}
-            onConfirm= {handleDeleteSubmit}
-            />
-            }
-            
+      <div className="sm:flex justify-around items-center bg-white mb-5 rounded-lg">
+        <FormInput
+          placeholder="Search"
+          icon={<IoSearch />}
+          value={filters.search || ""}
+          onChange={(e) => setFilters({ search: e.target.value })}
+        />
 
-            <div className='sm:flex justify-around items-center bg-white mb-5 rounded-lg' >
-                <FormInput
-                placeholder= 'Search'
-                icon= {<IoSearch/>}
-                value= {filters.search || ''}
-                onChange={(e)=>setFilters({search: e.target.value})}
-                />
+        <Button
+          size="md"
+          style={{ height: 30 }}
+          onClick={() => handleProductForm()}
+        >
+          ADD PRODUCT
+        </Button>
+      </div>
 
-                <Button
-                size= 'md'
-                style= {{height: 30}}
-                onClick= {()=>handleProductForm()}
-                >
-                    ADD PRODUCT
-                </Button>
-            </div>
+      {filters.search && !products?.length ? (
+        <SearchNotFound searchQuery={filters.search} />
+      ) : (
+        <Table
+          columns={["image", "name", "description", "price", "visible"]}
+          data={products}
+          actions={{
+            onEdit: handleProductForm,
+            onDelete: handleDeleteProduct,
+          }}
+        />
+      )}
 
-            {filters.search && !products?.length ? 
-              (
-                <SearchNotFound 
-                searchQuery= {filters.search}
-                />
-              ) :
-            (<Table
-  columns={["image","name", "description", "price",'visible']}
-  data={products}
-  actions={{
-    onEdit: handleProductForm,
-    onDelete: handleDeleteProduct,
-  }}
-/>)}
+      {totalPages > 1 && (
+        <Pagination
+          setPagination={setPagination}
+          currentPage={pagination.currentPage}
+          totalPages={pagination.totalPages}
+          itemsPerPage={pagination.limit}
+          totalItems={totalItems}
+        />
+      )}
+    </>
+  );
+});
 
-{totalPages>1 &&
-<Pagination
-setPagination={setPagination}
-currentPage={pagination.currentPage}
-totalPages={pagination.totalPages}
-itemsPerPage={pagination.limit}
-totalItems={totalItems}
-/>
-}
-            
-        </>
-  )
-})
-
-export default Products
-
-
+export default Products;

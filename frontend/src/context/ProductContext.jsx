@@ -3,6 +3,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useReducer,
   useState,
 } from "react";
@@ -29,7 +30,7 @@ const initialState = {
 };
 
 const syncKeys = [
-//   "filters.search",
+  // "filters.search",
   "filters.category",
   "filters.sortBy",
   "filters.sortOrder",
@@ -64,7 +65,7 @@ const ProductReducer = (state, action) => {
       return { ...state, error: null, loading: false };
 
     case PRODUCT_ACTIONS.SET_PRODUCT:
-      return { ...state, products: action.payload, loading: false };
+      return { ...state, ...action.payload  , loading: false };
 
     case PRODUCT_ACTIONS.ADD_PRODUCT:
       return {
@@ -74,6 +75,8 @@ const ProductReducer = (state, action) => {
       };
 
     case PRODUCT_ACTIONS.DELETE_PRODUCT:
+      console.log("DELETE_PRODUCT → state.products =", state.products);
+      console.log("DELETE_PRODUCT → payload =", action.payload);
       return {
         ...state,
         products: state.products.filter(
@@ -109,19 +112,13 @@ const ProductReducer = (state, action) => {
 };
 
 export const ProductProvider = ({ children }) => {
-
-  const { state, dispatch } = useSyncedReducer(
-    ProductReducer,
-    initialState,
-    {
-      syncKeys,
-      pageKey: "pagination.page",
+  const { state, dispatch } = useSyncedReducer(ProductReducer, initialState, {
+    syncKeys,
+    pageKey: "pagination.page",
     //   searchKey: "filters.search",
-    }
-  );
+  });
 
   const [allCategories, setAllCategories] = useState();
-  
   const debouncedSearch = useDebounce(state.filters.search, 500);
 
   useEffect(() => {
@@ -131,37 +128,20 @@ export const ProductProvider = ({ children }) => {
     }
   }, [state.error]);
 
-  useEffect(() => {
-    fetchProduct();
-  }, [
-    state.pagination.page,
-    state.pagination.limit,
-    state.filters.category,
-    state.filters.sortBy,
-    state.filters.sortOrder,
-    debouncedSearch,
-  ]);
-
   const setPagination = useCallback((payload) => {
     dispatch({ type: PRODUCT_ACTIONS.SET_PAGINATION, payload });
   }, []);
 
   const setFilters = useCallback((payload) => {
-    
     dispatch({ type: PRODUCT_ACTIONS.SET_FILTERS, payload });
   }, []);
 
   const fetchProduct = async () => {
     try {
       dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
+      console.log("here");
 
-      const {
-        category,
-        sortBy,
-        sortOrder,
-        minPrice,
-        maxPrice,
-      } = state.filters;
+      const { category, sortBy, sortOrder, minPrice, maxPrice } = state.filters;
       const { page, limit } = state.pagination;
 
       const response = await productAPI.getAllProduct({
@@ -172,7 +152,7 @@ export const ProductProvider = ({ children }) => {
         minPrice,
         maxPrice,
         page,
-        limit
+        limit,
       });
 
       const { products, pagination, allCategories } = response.data;
@@ -259,6 +239,7 @@ export const ProductProvider = ({ children }) => {
     filters: state.filters,
     setFilters,
     setPagination,
+    debouncedSearch,
   };
 
   return (

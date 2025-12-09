@@ -375,7 +375,7 @@ export function useSyncedReducer(reducer, initialState, options = {}) {
       if (!isDefault) params.set(param, value);
     });
 
-    setSearchParams(params);
+    setSearchParams(params, {replace: true});
   }, [...syncKeys.map((k) => getNested(state, k))]);
 
   // When URL changes (Back/Forward), update reducer state
@@ -385,9 +385,6 @@ useEffect(() => {
    if (!shouldSync) return;
 
   const params = new URLSearchParams(location.search);
-
-  console.log('location', location.search);
-  
 
   const paginationUpdate = {};
   const filtersUpdate = {};

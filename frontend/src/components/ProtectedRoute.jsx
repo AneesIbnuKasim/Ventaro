@@ -47,6 +47,10 @@ export const AdminRoute = memo(({
     const { isAuthenticated, loading, admin } = useAdmin()
     const location = useLocation()
 
+    console.log('isauth', isAuthenticated);
+    
+    console.log('admin', admin);
+    
     if (loading) {
     return <Loading fullScreen text="Verifying admin access..." />
   }

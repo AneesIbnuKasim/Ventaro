@@ -7,8 +7,6 @@ class CategoryService {
         try {
             const { search='' } = req.query
 
-            console.log('product query', req.query)
-
             const page = parseInt(req.query.page)
             const limit = parseInt(req.query.limit)
 
@@ -28,9 +26,6 @@ class CategoryService {
 
             const totalPages = Math.ceil(totalCategories/limit)
 
-            console.log('total ppages', totalPages);
-            
-            console.log('result:', categories)
             logger.info(`Admin ${req.admin.email} fetched category list (page: ${page})`)
             return { categories,
                 pagination: {

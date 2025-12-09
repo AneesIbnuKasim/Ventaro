@@ -20,3 +20,15 @@ export const registerSchema = Yup.object().shape({
     .required('Confirm password required'),
   agreeTerms: Yup.boolean().oneOf([true], "Must accept terms")
 });
+
+  export const productAddSchema = Yup.object({
+    name: Yup.string().required("Product name is required"),
+    category: Yup.string().required("Select a category"),
+    stock: Yup.number()
+  .typeError("Stock must be a number")
+  .positive("Stock must be greater than 0")
+  .integer("Stock must be a whole number")
+  .required("Stock is required"),
+    brand: Yup.string().required("Brand name is required"),
+    description: Yup.string().required("Description is required"),
+  });

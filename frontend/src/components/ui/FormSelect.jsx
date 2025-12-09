@@ -1,29 +1,27 @@
-
-
 import React, { forwardRef, useMemo, memo } from "react";
 
-const FormTextarea = memo(
+const FormSelect = memo(
   forwardRef(
     (
       {
         label,
         labelColor = "text-gray-700",
         required = false,
-        placeholder,
+        options = [],
+        placeholder = "Select an option",
         error,
         helpText,
         className = "",
         fieldClassName = "",
-        rows = 4,
         ...props
       },
       ref
     ) => {
-      const inputId = useMemo(
+      const selectId = useMemo(
         () =>
           props.id ||
           props.name ||
-          `textarea-${Date.now()}-${Math.random()
+          `select-${Date.now()}-${Math.random()
             .toString(36)
             .substr(2, 5)}`,
         [props.id, props.name]
@@ -34,9 +32,9 @@ const FormTextarea = memo(
         [className]
       );
 
-      const textareaClassName = useMemo(() => {
+      const selectClassName = useMemo(() => {
         const base =
-          "block w-full rounded-md border border-gray-300 bg-white px-3 py-2 placeholder-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500";
+          "block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500";
         const errorCls = error
           ? "border-red-500 focus:border-red-500 focus:ring-red-500"
           : "";
@@ -45,7 +43,7 @@ const FormTextarea = memo(
 
       const labelElement = label ? (
         <label
-          htmlFor={inputId}
+          htmlFor={selectId}
           className={`block mb-2 text-sm font-medium ${labelColor}`}
         >
           {label}
@@ -68,15 +66,25 @@ const FormTextarea = memo(
         <div className={containerClassName}>
           {labelElement}
 
-          <textarea
+          <select
             ref={ref}
-            id={inputId}
-            rows={rows}
+            id={selectId}
             required={required}
-            placeholder={placeholder}
-            className={textareaClassName}
+            className={selectClassName}
             {...props}
-          />
+          >
+            {placeholder && (
+              <option value="" disabled selected={props.value === ""}>
+                {placeholder}
+              </option>
+            )}
+
+            {options.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
 
           {errorElement}
           {helpElement}
@@ -86,6 +94,6 @@ const FormTextarea = memo(
   )
 );
 
-FormTextarea.displayName = "FormTextarea";
+FormSelect.displayName = "FormSelect";
 
-export default FormTextarea;
+export default FormSelect;

@@ -9,7 +9,6 @@ const AdminHeader = ({
   children 
 }) => {
 
-  console.log('name:',name)
   return (
     <div className="bg-white flex justify-between items-center p-5 rounded-tr-xl h-20 w-full shadow-xl backdrop-blur-md bg-opacity-70 transition hover:-translate-y-1 hover:shadow-2xl">
           <div>

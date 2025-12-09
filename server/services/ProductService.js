@@ -140,7 +140,7 @@ class ProductService {
         logger.info('Product deleted successfully')
         await Product.findByIdAndDelete(productId)
 
-        return true
+        return productId
         } catch (error) {
             logger.error('Product deletion failed')
             throw error
