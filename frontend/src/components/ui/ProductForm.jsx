@@ -11,7 +11,7 @@ import FormSelect from "./FormSelect";
 import { ImageInput } from "./imageInput";
 import { productAddSchema } from "../../validation/userSchema";
 
-export default function ProductForm({ onSubmit, onCancel }) {
+export default function ProductForm({ onConfirm, onCancel }) {
   const { loading } = useProduct();
   const { categories } = useCategory();
 
@@ -31,8 +31,10 @@ export default function ProductForm({ onSubmit, onCancel }) {
   const formik = useFormik({
     initialValues: {
       name: "",
-      category: "",
-      brand: "",
+      categoryId: "",
+      brandName: "",
+      price: '',
+      discount: 0,
       description: "",
       stock: ""
     },
@@ -45,7 +47,7 @@ export default function ProductForm({ onSubmit, onCancel }) {
         images,
       };
 
-      console.log('final value', finalData);
+      onConfirm(finalData)
       
     },
   });
@@ -72,8 +74,8 @@ export default function ProductForm({ onSubmit, onCancel }) {
         <div className="grid grid-cols-2 gap-4">
           <FormSelect
             label="Category"
-            name="category"
-            value={formik.values.category}
+            name="categoryId"
+            value={formik.values.categoryId}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             required
@@ -82,7 +84,7 @@ export default function ProductForm({ onSubmit, onCancel }) {
               value: c._id,
               label: c.name,
             }))}
-            error={formik.touched.category && formik.errors.category}
+            error={formik.touched.categoryId && formik.errors.categoryId}
           />
 
           <FormInput
@@ -99,10 +101,38 @@ export default function ProductForm({ onSubmit, onCancel }) {
             error={formik.touched.stock && formik.errors.stock}
           />
         </div>
+        {/* price+discount */}
+        <div className="grid grid-cols-2 gap-4">
+          <FormInput
+            label="Price"
+            name="price"
+            required
+            type="number"
+            min="0"
+            step="1"
+            placeholder="Enter price..."
+            value={formik.values.price}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.price && formik.errors.price}
+          />
+          <FormInput
+            label="Discount"
+            name="discount"
+            type="number"
+            min="0"
+            step="1"
+            placeholder="Enter discount..."
+            value={formik.values.discount}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.discount && formik.errors.discount}
+          />
+        </div>
         {/* Brand */}
         <FormInput
           label="Brand Name"
-          name="brand"
+          name="brandName"
           required
           placeholder="Enter brand name..."
           value={formik.values.brand}

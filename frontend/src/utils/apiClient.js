@@ -72,10 +72,11 @@ const createApiClient = () => {
   client.interceptors.response.use(
     (response) => response,
     (error) => {
+
       if (error.response?.status === 401) {
         clearTokens()
         toast.error('Session expired. Please login again.')
-        window.location.href = 'admin/login'
+        window.location.href = '/login'
         return Promise.reject(error)
       }
 
@@ -83,7 +84,7 @@ const createApiClient = () => {
       if (error.response?.data?.banned) {
         clearTokens()
         toast.error('Your account has been banned. Please contact support.')
-        window.location.href = 'admin/login'
+        window.location.href = '/login'
         return Promise.reject(error)
       }
       toast.error('Access denied. Insufficient permissions.')

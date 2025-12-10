@@ -31,7 +31,7 @@ const Table = ({ data, columns, actions }) => {
                 key={col}
                 className="px-4 py-2 border border-gray-300"
               >
-                {item[col] ?? "---"}
+                {col === 'images' ? (<img width={70} height={70} src={`http://localhost:5001${item[col][0]}`} />) : item[col] ?? "---"}
               </td>
             ))}
 

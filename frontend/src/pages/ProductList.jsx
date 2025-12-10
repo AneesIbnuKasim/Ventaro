@@ -5,7 +5,7 @@ import { Card, Pagination } from '../components/ui'
 import ProductCard from '../components/ui/ProductCard'
 
 
-//PRODUCTS UI PAGE
+//USER PRODUCTS UI PAGE
 const ProductList = memo(() => {
 
     const products = [

@@ -3,8 +3,17 @@ import React, { memo, useState } from 'react'
 import { useProduct } from '../../context/ProductContext'
 
 const CategoryFilter = memo(() => {
-  const { allCategories } = useProduct(['mobile','shirt'])
-  const [filters ] = useState({category: ['mobile']})
+  // const { allCategories } = useProduct(['mobile','shirt'])
+  const allCategories = ['mobile', 'laptop']
+  const {filters, setFilters } = useProduct()
+  console.log('filters on category page::', filters);
+
+  const handleFilter = (e) => {
+    console.log('e.target', e.target.value);
+    setFilters({key: 'category', value: e.target.value})
+    
+  }
+  
   return (
     <>
       <div className="mb-4">
@@ -22,12 +31,13 @@ const CategoryFilter = memo(() => {
 
         {/* Category list */}
         <div className="flex flex-col gap-2 text-sm">
-          {categoriesList.map((c) => (
+          {allCategories.map((c) => (
             <label key={c} className="flex items-center gap-2">
               <input
                 type="checkbox"
+                value={c}
                 checked={filters.category.includes(c)}
-                onChange={() => handleCheckbox("category", c)}
+                onChange={(e) => handleFilter(e)}
               />
               {c}
             </label>

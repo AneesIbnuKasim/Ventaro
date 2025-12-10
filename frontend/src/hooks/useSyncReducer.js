@@ -369,13 +369,13 @@ export function useSyncedReducer(reducer, initialState, options = {}) {
         value === null ||
         value === undefined ||
         (key === "filters.sortBy" && value === "createdAt") ||
-        (key === "filters.sortOrder" && value === "asc") 
+        (key === "filters.sortOrder" && value === "asc")
         
 
       if (!isDefault) params.set(param, value);
     });
 
-    setSearchParams(params, {replace: true});
+    setSearchParams(params, {replace:true});
   }, [...syncKeys.map((k) => getNested(state, k))]);
 
   // When URL changes (Back/Forward), update reducer state

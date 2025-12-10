@@ -2,13 +2,16 @@ const { ErrorUtils } = require('./errors')
 
 class ResponseFormatter {
   static success(res, message, data = null, statusCode = 200, meta = null) {
+
+    console.log('data in formatter', data);
+    
     const response = {
       success: true,
       message,
       timestamp: new Date().toISOString(),
       requestId: res.locals.requestId || null
     }
-
+    
     if (data !== null) {
       response.data = data
     }

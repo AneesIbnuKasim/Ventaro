@@ -15,7 +15,6 @@ import CategoryForm from "../components/ui/CategoryForm";
 import { useProduct } from "../context/ProductContext";
 import SearchNotFound from "../components/ui/SearchNotFound";
 import ProductForm from "../components/ui/ProductForm";
-import useDebounce from "../hooks/useDebounce";
 import { useCategory } from "../context/CategoryContext";
 
 ///Admin product page
@@ -50,9 +49,7 @@ const Products = memo(() => {
     filters.sortOrder,
     debouncedSearch,
   ]);
-useEffect(() => {
-      fetchCategories()
-    }, [])
+
 
 
   const handleDeleteProduct = useCallback((product) => {
@@ -95,7 +92,7 @@ useEffect(() => {
     } else {
       const res = await addProduct(values);
 
-      if (res.success) {
+      if (res?.success) {
         setOpen(false);
       }
     }
@@ -149,7 +146,7 @@ useEffect(() => {
         <SearchNotFound searchQuery={filters.search} />
       ) : (
         <Table
-          columns={["image", "name", "description", "price", "visible"]}
+          columns={["images", "name", "description", "price", "status"]}
           data={products}
           actions={{
             onEdit: handleProductForm,

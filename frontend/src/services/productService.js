@@ -1,42 +1,56 @@
-import { makeRequest } from '../utils/apiClient'
+import axios from "axios";
+import { makeRequest } from "../utils/apiClient";
 
 export const productAPI = {
-    getAllProduct: (params= {})=>{
-        const { page, limit, search, sortBy, sortOrder, category, rating, minPrice=0, maxPrice,  } = params
-        console.log('search in api:', params);
-        
-       
-        return makeRequest({
-            method: 'get',
-            url: `api/product`,
-            params
-        })
-    },
+  getAllProduct: (params = {}) => {
+    console.log("search in api:", params);
 
-    addProduct: (productData)=>{
+    return makeRequest({
+      method: "get",
+      url: `api/product`,
+      params,
+    });
+  },
 
-        return makeRequest({
-            method: 'post',
-            url: 'api/product',
-            data: productData
-        })
-    },
+  addProduct: async(productData) => {
+    const formData = new FormData();
 
-    updateProduct: (productId, editData)=>{
+    // Append all non-file fields
+    Object.keys(productData).forEach((key) => {
+      if (key !== "images") {
+        formData.append(key, productData[key]);
+      }
+    });
 
-        return makeRequest({
-            method: 'put',
-            url: `api/product/${productId}`,
-            data: editData
-        })
-    },
+    // Append images array
+    productData.images.forEach((img) => {
+      formData.append("images", img); // "images"
+    });
 
-    deleteProduct: (productId)=>{
-        return makeRequest({
-            method: 'delete',
-            url: `api/product/${productId}`,
-        })
-    },
+    const token = localStorage.getItem("adminToken");
+    const res = await axios.post("http://localhost:5001/api/product", formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
 
+    console.log('res in api', res);
     
-}
+    return res.data
+  },
+
+  updateProduct: (productId, editData) => {
+    return makeRequest({
+      method: "put",
+      url: `api/product/${productId}`,
+      data: editData,
+    });
+  },
+
+  deleteProduct: (productId) => {
+    return makeRequest({
+      method: "delete",
+      url: `api/product/${productId}`,
+    });
+  },
+};

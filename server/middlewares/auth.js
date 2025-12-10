@@ -19,6 +19,9 @@ const authenticateUser = async(req, res, next)=>{
 
         const user = await User.findById(decoded.id)
 
+        console.log('in auth');
+        
+
         if (!user) {
             return sendError(res, 'User not found', 401)
         }
@@ -41,7 +44,7 @@ const authenticateUser = async(req, res, next)=>{
 
         if (!authHeader || !authHeader.startsWith('Bearer')) {
             logger.error('Admin auth: Missing or invalid authorization header', authHeader)
-            return sendError(res, 'Access token required')
+            return sendError(res, 'Access token required', 401)
         }
 
         const token = authHeader.substring(7)

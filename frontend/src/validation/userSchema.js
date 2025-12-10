@@ -23,12 +23,16 @@ export const registerSchema = Yup.object().shape({
 
   export const productAddSchema = Yup.object({
     name: Yup.string().required("Product name is required"),
-    category: Yup.string().required("Select a category"),
-    stock: Yup.number()
-  .typeError("Stock must be a number")
+    categoryId: Yup.string().required("Select a category"),
+    stock: Yup.number('Stock must be a Number')
   .positive("Stock must be greater than 0")
   .integer("Stock must be a whole number")
   .required("Stock is required"),
-    brand: Yup.string().required("Brand name is required"),
-    description: Yup.string().required("Description is required"),
+    price: Yup.number('Price must be a number')
+  .positive("Price must be greater than 0")
+  .integer("Price must be a whole number")
+  .required("Price is required"),
+    brandName: Yup.string().required("Brand name is required"),
+    description: Yup.string().min(8, 'Description must be at least 8 characters').required("Description is required"),
+    discount: Yup.number('Discount must be a Number').min(0).max(100).optional()
   });

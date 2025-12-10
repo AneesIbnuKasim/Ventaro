@@ -10,7 +10,7 @@ const commonPatterns = {
     images: Joi.array().items(Joi.string().uri()).min(1),
     status: Joi.string().valid('active', 'banned', 'inactive'),
     role: Joi.string().valid('user', 'admin'),
-    description: Joi.string().min(2).required(),
+    description: Joi.string().min(8).required(),
 }
 
 const customMessages = {
@@ -71,8 +71,7 @@ const productValidation = Joi.object({
     price: commonPatterns.price.messages(customMessages),
     categoryId: commonPatterns.objectId.messages(customMessages),
     discount: Joi.number().optional().messages(customMessages),
-    sizes: commonPatterns.sizes.messages(customMessages),
-    images: commonPatterns.images.messages(customMessages)
+    stock: commonPatterns.price.messages(customMessages),
 })
 
 const updateProfileValidation = Joi.object({

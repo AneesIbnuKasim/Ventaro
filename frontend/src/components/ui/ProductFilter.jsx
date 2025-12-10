@@ -22,7 +22,7 @@ function ProductFilter({
       <PriceFilter
       applyPrice = {()=>console.log('price applied')}
        />
-      <GenderFilter />
+      {/* <GenderFilter /> */}
       <RatingFilter />
       <CategoryFilter />
 

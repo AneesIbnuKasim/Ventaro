@@ -3,7 +3,10 @@ import { useProduct } from '../../context/ProductContext'
 
 const GenderFilter = memo(() => {
 
-  const [ filters, setFilters ] = useProduct({gender: 'men'})
+  const { filters, setFilters } = useProduct()
+  // console.log('gender', filters.gender);
+  const gender = ['Men']
+  
   return (
     <>
      <div className="mb-8">
@@ -12,7 +15,7 @@ const GenderFilter = memo(() => {
           <label className="flex items-center gap-2 mb-2 text-sm" key={g}>
             <input
               type="checkbox"
-              checked={filters.gender.includes(g)}
+              checked={gender.includes(g)}
               onChange={() => handleCheckbox("gender", g)}
               className="rounded"
             />

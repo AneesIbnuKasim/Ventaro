@@ -14,7 +14,7 @@ class ProductService {
             const maxPrice = parseInt(req.query.maxPrice)
             const rating = parseInt(req.query.rating)
             const page = parseInt(req.query.page)
-            const limit = parseInt(req.query.limit)
+            const limit = parseInt(req.query.limit) || 10
             const sortOrder = parseInt(req.query.sortOrder) || 1
             
             const filter = {}
@@ -78,28 +78,34 @@ class ProductService {
             throw new NotFoundError('No product to add')
         }        
 
-        const { name, description, brandName, price, categoryId, discount, stock } = productData
+        console.log('productdata:', productData);
+        
+
+        const { name, categoryId, brandName } = productData
         const existing = await Product.findOne({ name:name, categoryId:categoryId,
-            brandName: brandName })
+            brandName:brandName })
 
         if (existing) {
             logger.error('Product already exist')
             throw new ConflictError('Product already exist')
         }
 
-        if (!req.files.length>0) {
+        if (!req.files?.length>0) {
             logger.error('No images selected to upload')
-            throw NotFoundError('No images selected to upload')
+            throw new NotFoundError('No images selected to upload')
         }
 
         const product = new Product({
             ...productData,
             images: req.files?.map(file=>`/uploads/${file.filename}`)
         })
+
+        console.log('product',product);
+        
         
         await product.save()
 
-        return product
+        return {product}
         } catch (error) {
             logger.error('Adding product failed')
             throw error

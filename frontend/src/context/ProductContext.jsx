@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import { productAPI } from "../services/productService";
 import { useSyncedReducer } from "../hooks/useSyncReducer";
 import useDebounce from "../hooks/useDebounce";
+import { clearTokens } from "../utils/apiClient";
 
 const ProductContext = createContext();
 
@@ -22,18 +23,23 @@ const initialState = {
     search: "",
     sortBy: "createdAt",
     sortOrder: "asc",
+    rating: [1],
+    category: []
   },
   pagination: {
     page: 1,
     limit: 10,
   },
-};
+}
+
+const ARRAY_FILTERS = ['rating', 'category']
 
 const syncKeys = [
-  // "filters.search",
+  "filters.search",
   "filters.category",
   "filters.sortBy",
   "filters.sortOrder",
+  "filters.rating",
   "pagination.page",
   "pagination.limit",
 ];
@@ -56,7 +62,33 @@ const ProductReducer = (state, action) => {
       return { ...state, loading: action.payload, error: null };
 
     case PRODUCT_ACTIONS.SET_FILTERS:
-      return { ...state, filters: { ...state.filters, ...action.payload } };
+      console.log(('action payyyy new', action.payload));
+      
+      const {key, value} = action.payload
+      const isArrayFilter = ARRAY_FILTERS.includes(key)
+
+      console.log('isa araaY:', isArrayFilter);
+      
+      
+      if (isArrayFilter) {
+        const current = state.filters[key] || []
+        const exist = current.includes(value)
+      
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          [key] : exist ? current.filter(v => v!==value) : [...current, value]
+        }
+      }
+      }
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          [key]: value
+        }
+      }
 
     case PRODUCT_ACTIONS.SET_ERROR:
       return { ...state, error: action.payload.error, loading: false };
@@ -75,8 +107,7 @@ const ProductReducer = (state, action) => {
       };
 
     case PRODUCT_ACTIONS.DELETE_PRODUCT:
-      console.log("DELETE_PRODUCT → state.products =", state.products);
-      console.log("DELETE_PRODUCT → payload =", action.payload);
+      
       return {
         ...state,
         products: state.products.filter(
@@ -118,6 +149,8 @@ export const ProductProvider = ({ children }) => {
     //   searchKey: "filters.search",
   });
 
+
+
   const [allCategories, setAllCategories] = useState();
   const debouncedSearch = useDebounce(state.filters.search, 500);
 
@@ -128,11 +161,17 @@ export const ProductProvider = ({ children }) => {
     }
   }, [state.error]);
 
+  useEffect(()=>{
+    console.log('all filters:', state.filters);
+    
+  }, [state.filters])
+
   const setPagination = useCallback((payload) => {
     dispatch({ type: PRODUCT_ACTIONS.SET_PAGINATION, payload });
   }, []);
 
   const setFilters = useCallback((payload) => {
+
     dispatch({ type: PRODUCT_ACTIONS.SET_FILTERS, payload });
   }, []);
 
@@ -161,8 +200,10 @@ export const ProductProvider = ({ children }) => {
 
       dispatch({
         type: PRODUCT_ACTIONS.SET_PRODUCT,
-        payload: { products: products, pagination, allCategories },
+        payload: { products: products, pagination },
       });
+
+      setAllCategories(allCategories)
 
       return { success: true };
     } catch (error) {
@@ -179,14 +220,19 @@ export const ProductProvider = ({ children }) => {
 
       const response = await productAPI.addProduct(ProductData);
 
-      dispatch({ type: PRODUCT_ACTIONS.ADD_PRODUCT, payload: response.data });
+      dispatch({ type: PRODUCT_ACTIONS.ADD_PRODUCT, payload: response.data.product });
 
       toast(response.message);
 
       return { success: true };
     } catch (error) {
       dispatch({ type: PRODUCT_ACTIONS.SET_ERROR, payload: error.message });
-      console.log(error.message);
+      toast.error(error.message)
+      console.log(error);
+      // if (error.status === 401 || error.status === 403 ) {
+      //   clearTokens()
+      //   window.location.href = '/login'
+      // }
     }
   };
 
@@ -240,6 +286,7 @@ export const ProductProvider = ({ children }) => {
     setFilters,
     setPagination,
     debouncedSearch,
+    allCategories
   };
 
   return (

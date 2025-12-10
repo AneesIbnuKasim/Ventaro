@@ -20,10 +20,22 @@ const ProductSchema = mongoose.Schema({
         type: Number,
         default: 0
     },
+    status: {
+        type: String,
+        default: 'Active'
+    },
     categoryId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category',
         required: true
+    },
+    stock: {
+        type: Number,
+        required: true,
+    },
+    discount: {
+        type: Number,
+        default: 0
     },
     // // variant: [
     // //     {
@@ -36,10 +48,6 @@ const ProductSchema = mongoose.Schema({
     // //         }
     // //     }
     // ],
-    discount: {
-        type: Number,
-        default: 0
-    },
     // stock: {
     //     type: Number,
     //     required: true,

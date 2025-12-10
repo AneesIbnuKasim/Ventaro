@@ -5,7 +5,6 @@ import {
   useEffect,
   useReducer,
 } from "react";
-import { getAdminToken, getUser, setUser } from "../utils/apiClient";
 import { toast } from "react-toastify";
 import { adminAPI } from "../services/adminService";
 import { useSyncedReducer } from "../hooks/useSyncReducer";
@@ -30,10 +29,10 @@ const initialState = {
     totalPages: "",
     totalCategories: null,
   },
-};
+}
 
 const syncKeys = [
-  //   "filters.search",
+  "filters.search",
   "filters.category",
   "filters.sortBy",
   "filters.sortOrder",
