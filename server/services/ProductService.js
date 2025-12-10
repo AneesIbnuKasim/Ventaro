@@ -8,14 +8,13 @@ class ProductService {
     static getProducts = async(req, res)=>{
         try {
 
-            const { search, sortBy, category  } = req.query
+            const { search, sortBy, sortOrder='asc', category  } = req.query
 
             const minPrice = parseInt(req.query.minPrice)
             const maxPrice = parseInt(req.query.maxPrice)
             const rating = parseInt(req.query.rating)
             const page = parseInt(req.query.page)
             const limit = parseInt(req.query.limit) || 10
-            const sortOrder = parseInt(req.query.sortOrder) || 1
             
             const filter = {}
             

@@ -1,9 +1,10 @@
 import { Heart } from "lucide-react";
 import { memo } from "react";
 
-const ProductCard = memo(({ product }) => {
+const ProductCard = memo(({ product, handleClick}) => {
   const {
-    title,
+    id,
+    name,
     images,
     price,
     oldPrice,
@@ -12,7 +13,7 @@ const ProductCard = memo(({ product }) => {
   } = product;
 
   return (
-    <div className="w-full max-w-[260px] bg-white rounded-xl border border-gray-200  p-4 shadow-md hover:shadow-xl transition cursor-pointer">
+    <div onClick={() => handleClick(id)} className="w-full max-w-[260px] bg-white rounded-xl border border-gray-200  p-4 shadow-md hover:shadow-xl transition cursor-pointer">
       
       {/* --- Top badge + wishlist icon --- */}
       <div className="flex items-start justify-between">
@@ -30,15 +31,15 @@ const ProductCard = memo(({ product }) => {
       {/* --- Product Image --- */}
       <div className="w-full flex justify-center my-4">
         <img
-          src={images}
-          alt={title}
+          src={images[0]}
+          alt={name}
           className="h-40 object-contain"
         />
       </div>
 
       {/* --- Product Title --- */}
       <h3 className="font-semibold text-[15px] leading-tight">
-        {title}
+        {name}
       </h3>
 
       {/* --- Rating --- */}

@@ -10,7 +10,7 @@ const CategoryFilter = memo(() => {
 
   const handleFilter = (e) => {
     console.log('e.target', e.target.value);
-    setFilters({key: 'category', value: e.target.value})
+    setFilters('category', e.target.value)
     
   }
   

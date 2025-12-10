@@ -7,7 +7,7 @@ import {
 } from "react";
 import { toast } from "react-toastify";
 import { adminAPI } from "../services/adminService";
-import { useSyncedReducer } from "../hooks/useSyncReducer";
+import  useSyncedReducer  from "../hooks/useSyncReducer";
 import useDebounce from "../hooks/useDebounce";
 
 
@@ -138,7 +138,6 @@ export const CategoryProvider = ({ children }) => {
       
       const { status, sortBy, sortOrder } = state.filters;
       const { page, limit = 10 } = state.pagination;
-      console.log('here');
 
       const response = await adminAPI.getAllCategory({
         search: debouncedSearch,

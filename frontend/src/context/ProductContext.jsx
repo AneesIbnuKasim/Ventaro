@@ -9,8 +9,8 @@ import {
 } from "react";
 import { toast } from "react-toastify";
 import { productAPI } from "../services/productService";
-import { useSyncedReducer } from "../hooks/useSyncReducer";
 import useDebounce from "../hooks/useDebounce";
+import  useSyncedReducer  from "../hooks/useSyncReducer";
 import { clearTokens } from "../utils/apiClient";
 
 const ProductContext = createContext();
@@ -23,7 +23,7 @@ const initialState = {
     search: "",
     sortBy: "createdAt",
     sortOrder: "asc",
-    rating: [1],
+    rating: [],
     category: []
   },
   pagination: {
@@ -33,16 +33,6 @@ const initialState = {
 }
 
 const ARRAY_FILTERS = ['rating', 'category']
-
-const syncKeys = [
-  "filters.search",
-  "filters.category",
-  "filters.sortBy",
-  "filters.sortOrder",
-  "filters.rating",
-  "pagination.page",
-  "pagination.limit",
-];
 
 const PRODUCT_ACTIONS = {
   SET_LOADING: "SET_LOADING",
@@ -58,6 +48,14 @@ const PRODUCT_ACTIONS = {
 
 const ProductReducer = (state, action) => {
   switch (action.type) {
+
+        case "SET_FROM_URL":
+      return {
+        ...state,
+        filters: { ...state.filters, ...action.payload.filters },
+        pagination: { ...state.pagination, ...action.payload.pagination },
+      };
+
     case PRODUCT_ACTIONS.SET_LOADING:
       return { ...state, loading: action.payload, error: null };
 
@@ -79,16 +77,24 @@ const ProductReducer = (state, action) => {
         filters: {
           ...state.filters,
           [key] : exist ? current.filter(v => v!==value) : [...current, value]
-        }
+        },
+        pagination: {
+      ...state.pagination,
+      page: 1,
       }
+    }
       }
       return {
         ...state,
         filters: {
           ...state.filters,
           [key]: value
-        }
+        },
+        pagination: {
+      ...state.pagination,
+      page: 1
       }
+    }
 
     case PRODUCT_ACTIONS.SET_ERROR:
       return { ...state, error: action.payload.error, loading: false };
@@ -97,7 +103,8 @@ const ProductReducer = (state, action) => {
       return { ...state, error: null, loading: false };
 
     case PRODUCT_ACTIONS.SET_PRODUCT:
-      return { ...state, ...action.payload  , loading: false };
+      return { ...state,     products: action.payload.products || [],
+    pagination: action.payload.pagination || state.pagination, };
 
     case PRODUCT_ACTIONS.ADD_PRODUCT:
       return {
@@ -143,11 +150,7 @@ const ProductReducer = (state, action) => {
 };
 
 export const ProductProvider = ({ children }) => {
-  const { state, dispatch } = useSyncedReducer(ProductReducer, initialState, {
-    syncKeys,
-    pageKey: "pagination.page",
-    //   searchKey: "filters.search",
-  });
+  const [ state, dispatch ] = useSyncedReducer(ProductReducer, initialState);
 
 
 
@@ -170,9 +173,9 @@ export const ProductProvider = ({ children }) => {
     dispatch({ type: PRODUCT_ACTIONS.SET_PAGINATION, payload });
   }, []);
 
-  const setFilters = useCallback((payload) => {
+  const setFilters = useCallback((key, value) => {
 
-    dispatch({ type: PRODUCT_ACTIONS.SET_FILTERS, payload });
+    dispatch({ type: PRODUCT_ACTIONS.SET_FILTERS, payload: {key, value} });
   }, []);
 
   const fetchProduct = async () => {

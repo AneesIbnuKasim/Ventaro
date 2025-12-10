@@ -12,7 +12,7 @@ import Footer from "./Footer";
 
 export default function Navbar({
   logo = "Logo",
-  categories = ["MEN", "WOMEN", "KIDS", "BEAUTY"],
+  categories = ["MOBILES", "LAPTOPS", "AIR CONDITIONERS", "TABLETS", 'MOBILE ACCESSORIES'],
   searchValue = "",
   onSearch = () => {},
   showProfile = true,

@@ -425,32 +425,189 @@
 
 
 
-import { useEffect, useReducer } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+// import { useEffect, useReducer } from "react";
+// import { useLocation, useNavigate } from "react-router-dom";
+
+// export default function useSyncReducer(reducer, initialState) {
+//   const location = useLocation();
+//   const navigate = useNavigate();
+
+//   const [state, dispatch] = useReducer(reducer, initialState);
+
+//   // ---- URL → STATE ----
+//   useEffect(() => {
+//     const params = new URLSearchParams(location.search);
+
+//     const parsed = parseUrlParams(params);
+
+//     dispatch({
+//       type: "SET_FROM_URL",
+//       payload: parsed
+//     });
+//   }, []);
+
+//   // ---- STATE → URL ----
+//   useEffect(() => {
+//     const newParams = stateToUrlParams(state);
+
+//     navigate(`${location.pathname}?${newParams}`, { replace: true });
+//   }, [state]);
+
+//   return [state, dispatch];
+// }
+
+
+// import { useEffect, useReducer, useRef } from "react";
+
+// export default function useSyncReducer(reducer, initialState) {
+//   const [state, dispatch] = useReducer(reducer, initialState);
+
+//   const isInitial = useRef(true);
+
+//   // -------------------------------
+//   // 1) URL → STATE (load initial)
+//   // -------------------------------
+//   useEffect(() => {
+//     const params = new URLSearchParams(window.location.search);
+//     const newState = structuredClone(initialState);
+
+//     // Load filters
+//     Object.entries(newState.filters).forEach(([key]) => {
+//       if (params.has(key)) {
+//         const raw = params.get(key);
+
+//         // Try parsing arrays
+//         try {
+//           const parsed = JSON.parse(raw);
+
+//           if (Array.isArray(parsed)) {
+//             newState.filters[key] = parsed;
+//           } else {
+//             newState.filters[key] = raw;
+//           }
+//         } catch {
+//           newState.filters[key] = raw; // simple string
+//         }
+//       }
+//     });
+
+//     // Load pagination
+//     Object.entries(newState.pagination).forEach(([key]) => {
+//       if (params.has(key)) {
+//         newState.pagination[key] = Number(params.get(key)) || 1;
+//       }
+//     });
+
+//     dispatch({ type: "SET_FROM_URL", payload: newState });
+//   }, []);
+
+//   // -----------------------------------
+//   // 2) STATE → URL (sync back to URL)
+//   // -----------------------------------
+//   useEffect(() => {
+//     // Skip syncing the first hydration
+//     if (isInitial.current) {
+//       isInitial.current = false;
+//       return;
+//     }
+
+//     const params = new URLSearchParams(window.location.search);
+
+//     // Sync filters
+//     Object.entries(state.filters).forEach(([key, value]) => {
+//       if (!key) return; 
+//       if (Array.isArray(value) || typeof value === "object") {
+//         params.set(key, JSON.stringify(value));
+//       } else {
+//         params.set(key, value);
+//       }
+//     });
+
+//     // Sync pagination
+//     Object.entries(state.pagination).forEach(([key, value]) => {
+//       params.set(key, value);
+//     });
+
+//     window.history.replaceState({}, "", `?${params.toString()}`);
+//   }, [state]);
+
+//   return [state, dispatch];
+// }
+
+
+import { useEffect, useReducer, useRef } from "react";
 
 export default function useSyncReducer(reducer, initialState) {
-  const location = useLocation();
-  const navigate = useNavigate();
-
   const [state, dispatch] = useReducer(reducer, initialState);
+  const isInitial = useRef(true);
 
-  // ---- URL → STATE ----
+  // -------------------------------
+  // 1) URL → STATE (load initial)
+  // -------------------------------
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
+    const params = new URLSearchParams(window.location.search);
+    const newState = structuredClone(initialState);
 
-    const parsed = parseUrlParams(params);
+    // Load filters
+    Object.entries(newState.filters).forEach(([key]) => {
+      if (!key) return; // skip invalid keys
+      if (params.has(key)) {
+        const raw = params.get(key);
+        if (!raw) return;
 
-    dispatch({
-      type: "SET_FROM_URL",
-      payload: parsed
+        try {
+          const parsed = JSON.parse(raw);
+          
+          newState.filters[key] = parsed;
+          
+        } catch {
+          newState.filters[key] = raw; // simple string
+        }
+      }
     });
+
+    // Load pagination
+    Object.entries(newState.pagination).forEach(([key]) => {
+      if (!key) return;
+      if (params.has(key)) {
+        const val = Number(params.get(key));
+        newState.pagination[key] = isNaN(val) ? 1 : val;
+      }
+    });
+
+    dispatch({ type: "SET_FROM_URL", payload: newState });
   }, []);
 
-  // ---- STATE → URL ----
+  // -----------------------------------
+  // 2) STATE → URL (sync back to URL)
+  // -----------------------------------
   useEffect(() => {
-    const newParams = stateToUrlParams(state);
+    // Skip syncing first hydration
+    if (isInitial.current) {
+      isInitial.current = false;
+      return;
+    }
 
-    navigate(`${location.pathname}?${newParams}`, { replace: true });
+    const params = new URLSearchParams(window.location.search);
+
+    // Sync filters
+    Object.entries(state.filters).forEach(([key, value]) => {
+      if (!key || value === undefined || value === null) return;
+
+      if (Array.isArray(value) || typeof value === "object") {
+        params.set(key, JSON.stringify(value));
+      } else {
+        params.set(key, value);
+      }
+    });
+
+    // Sync pagination
+    Object.entries(state.pagination).forEach(([key, value]) => {
+      if (!key || value === undefined || value === null) return;
+      params.set(key, value);
+    });
+
+    window.history.replaceState({}, "", `?${params.toString()}`);
   }, [state]);
 
   return [state, dispatch];

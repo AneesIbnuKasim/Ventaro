@@ -8,8 +8,9 @@ const RatingFilter = memo(({
   console.log('rat', filters.rating);
   
     const handleFilter = (e) => {
+    const star = Number(e.target.value); 
     console.log('e.target', e.target.value);
-    setFilters({key:'rating', value: e.target.value})
+    setFilters('rating', star)
     
   }
   
@@ -18,7 +19,7 @@ const RatingFilter = memo(({
             <div className="mb-8">
         <h4 className="font-medium mb-3 text-[15px]">By Rating</h4>
 
-        {['5', '4', '3', '2', '1'].map((star) => (
+        {[5,4,3,2,1].map((star) => (
           <label
             key={star}
             className="flex items-center justify-between mb-2 text-sm cursor-pointer"
