@@ -151,7 +151,7 @@ const ProductReducer = (state, action) => {
 
 export const ProductProvider = ({ children }) => {
   const [ state, dispatch ] = useSyncedReducer(ProductReducer, initialState);
-
+  const [ product, setProduct ] = useState()
 
 
   const [allCategories, setAllCategories] = useState();
@@ -276,6 +276,33 @@ export const ProductProvider = ({ children }) => {
     }
   };
 
+
+  //USER PRODUCT HANDLE
+
+  const fetchSingleProduct = useCallback(async(productId) => {
+      try {
+        dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true})
+
+      const response = await productAPI.fetchSingleProduct(productId)
+
+      dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: false})
+
+      console.log('product', response.data.product);
+      
+
+      setProduct(response.data.product)
+
+      return {success: true}
+      
+      } catch (error) {
+        dispatch({ type: PRODUCT_ACTIONS.SET_ERROR, payload: error.message });
+      console.log(error);
+      return { success: false, error: error.message };
+      }
+
+
+  }, [])
+
   const values = {
     products: state.products,
     loading: state.loading,
@@ -285,11 +312,13 @@ export const ProductProvider = ({ children }) => {
     addProduct,
     updateProduct,
     deleteProduct,
+    fetchSingleProduct,
     filters: state.filters,
     setFilters,
     setPagination,
     debouncedSearch,
-    allCategories
+    allCategories,
+    product
   };
 
   return (

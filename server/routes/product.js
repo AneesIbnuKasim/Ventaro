@@ -14,4 +14,10 @@ router.post('/', upload.array('images',4), authenticateAdmin, ProductController.
 router.put('/:id', upload.array('images',4), authenticateAdmin , ProductController.editProduct)
 router.delete('/:id', authenticateAdmin, ProductController.deleteProduct)
 
+
+//USER PRODUCT ROUTES
+
+
+
+
 module.exports = router

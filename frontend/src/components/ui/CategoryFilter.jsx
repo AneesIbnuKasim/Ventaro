@@ -4,8 +4,7 @@ import { useProduct } from '../../context/ProductContext'
 
 const CategoryFilter = memo(() => {
   // const { allCategories } = useProduct(['mobile','shirt'])
-  const allCategories = ['mobile', 'laptop']
-  const {filters, setFilters } = useProduct()
+  const {filters, setFilters, allCategories } = useProduct()
   console.log('filters on category page::', filters);
 
   const handleFilter = (e) => {

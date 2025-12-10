@@ -44,7 +44,7 @@ const App = () => (
               }
             />
             <Route
-              path="/product-details"
+              path="/product/:id"
               element={
                 <PublicRoute>
                   <ProductDetails />

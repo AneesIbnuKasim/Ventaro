@@ -6,11 +6,6 @@
     "auditLog": "/Users/macair/Desktop/Mentor/ventaro/server/log/.2eb70dedadadcc60c8fadcd8c7f01be250b623bc-audit.json",
     "files": [
         {
-            "date": 1764182141445,
-            "name": "/Users/macair/Desktop/Mentor/ventaro/server/log/info-2025-11-27.log",
-            "hash": "81d58529fad301c17e9d834d5354c2eda152ce0dd8b842e8dccc715dae08ef17"
-        },
-        {
             "date": 1764275531062,
             "name": "/Users/macair/Desktop/Mentor/ventaro/server/log/info-2025-11-28.log",
             "hash": "b7c1983d1768b76be8e6c83af72c8ec38dc5178593a3327f130e0a0c8b317e30"
@@ -69,6 +64,11 @@
             "date": 1765310796173,
             "name": "/Users/macair/Desktop/Mentor/ventaro/server/log/info-2025-12-10.log",
             "hash": "2f6b8c39e5e6b94e2a1584b851979604ce16ee2fd0661ec7c0dfdd41b6cfb436"
+        },
+        {
+            "date": 1765391771021,
+            "name": "/Users/macair/Desktop/Mentor/ventaro/server/log/info-2025-12-11.log",
+            "hash": "5870666f79aa964b4b32041b7fcf7e27fc8d8bdc3a2caa471d18cecb9adeeacb"
         }
     ],
     "hashType": "sha256"

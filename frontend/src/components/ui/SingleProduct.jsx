@@ -1,21 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Heart, ShoppingCart } from "lucide-react";
 
 export default function SingleProduct({ product = {} }) {
-
+  console.log('product in prost', product);
+  
   const images = Array.isArray(product.images) && product.images.length > 0
-    ? product.images
-    : product.image
-      ? [product.image]
-      : ["https://via.placeholder.com/400"];
+  ? product.images
+  : product.image
+  ? [product.image]
+  : ["https://via.placeholder.com/400"];
+  
+  const [mainImage, setMainImage] = useState(images[0])
 
-  const mainImage = images[0];
+  const changeMainImage = (e , i) => {
+    const image = e.target.src.split('http://localhost:5001')
+    setMainImage(image[1])
+  }
+
+    useEffect(() => {
+    setMainImage(images[0]);
+  }, [product, images]);
 
   return (
     <div className="w-full max-w-[1440px] mx-auto px-4 py-10 grid grid-cols-1 lg:grid-cols-2 gap-10">
       <div className="flex flex-col items-center">
         <img
-          src={mainImage}
+          
+          src={`http://localhost:5001${mainImage}`}
           alt={product.name || "product"}
           className="w-[380px] h-[420px] object-contain rounded-lg mb-6"
         />
@@ -24,7 +35,8 @@ export default function SingleProduct({ product = {} }) {
           {images.map((src, i) => (
             <img
               key={i}
-              src={src}
+              onClick={(e, i)=> changeMainImage(e , i)}
+              src={`http://localhost:5001${src}`}
               alt={`${product.name || "thumb"}-${i}`}
               className="w-16 h-16 object-contain cursor-pointer border rounded-md p-1"
             />
@@ -41,8 +53,8 @@ export default function SingleProduct({ product = {} }) {
 
         <div className="mt-4 text-sm text-gray-700 space-y-1">
           <p><span className="font-semibold">SKU:</span> {product.sku ?? "-"}</p>
-          <p><span className="font-semibold">CATEGORY:</span> {product.category ?? "-"}</p>
-          <p><span className="font-semibold">BRAND:</span> <span className="text-green-600">{product.brand ?? "-"}</span></p>
+          <p><span className="font-semibold">CATEGORY:</span> {product.categoryId?.name ?? "-"}</p>
+          <p><span className="font-semibold">BRAND:</span> <span className="text-green-600">{product.brandName ?? "-"}</span></p>
         </div>
 
         <div className="flex gap-4 mt-6">

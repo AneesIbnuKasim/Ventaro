@@ -53,4 +53,15 @@ export const productAPI = {
       url: `api/product/${productId}`,
     });
   },
+
+  //USER PRODUCT PAGES
+
+  fetchSingleProduct: (productId) => {
+    console.log('here');
+    
+    return makeRequest({
+      method: "get",
+      url: `api/product/${productId}`,
+    });
+  }
 };

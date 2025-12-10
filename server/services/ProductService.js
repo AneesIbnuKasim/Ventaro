@@ -60,8 +60,10 @@ class ProductService {
     // GET SINGLE PRODUCT
     static getProduct = async(productId)=>{
         try {
-            const product = await Product.findById(productId)
-            return product
+            const product = await Product.findById(productId).populate('categoryId')
+            console.log('populated', product);
+            
+            return {product}
         } catch (error) {
             logger.error('Error fetching product') 
             throw error

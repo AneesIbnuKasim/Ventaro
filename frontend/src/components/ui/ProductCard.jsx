@@ -3,26 +3,29 @@ import { memo } from "react";
 
 const ProductCard = memo(({ product, handleClick}) => {
   const {
-    id,
+    _id,
     name,
+    brandName,
+    description,
     images,
     price,
     oldPrice,
     rating,
-    discountPercent,
+    discount,
   } = product;
+  
 
   return (
-    <div onClick={() => handleClick(id)} className="w-full max-w-[260px] bg-white rounded-xl border border-gray-200  p-4 shadow-md hover:shadow-xl transition cursor-pointer">
+    <div onClick={() => handleClick(_id)} className="w-full max-w-[260px] bg-white rounded-xl border border-gray-200  p-4 shadow-md hover:shadow-xl transition cursor-pointer">
       
       {/* --- Top badge + wishlist icon --- */}
       <div className="flex items-start justify-between">
         <button className="text-gray-500 hover:text-red-500">
           <Heart size={20} />
         </button>
-        {discountPercent && (
+        {discount && (
           <span className="bg-green-500 text-white text-xs font-medium px-3 py-[2px] rounded-md">
-            {discountPercent}% OFF
+            {discount}% OFF
           </span>
         )}
 
@@ -31,7 +34,7 @@ const ProductCard = memo(({ product, handleClick}) => {
       {/* --- Product Image --- */}
       <div className="w-full flex justify-center my-4">
         <img
-          src={images[0]}
+          src={`http://localhost:5001${images[0]}`}
           alt={name}
           className="h-40 object-contain"
         />
@@ -41,8 +44,12 @@ const ProductCard = memo(({ product, handleClick}) => {
       <h3 className="font-semibold text-[15px] leading-tight">
         {name}
       </h3>
+      <span className="helper leading-tight">
+        {brandName}
+      </span>
 
       {/* --- Rating --- */}
+      {rating && 
       <div className="flex items-center gap-1 py-1">
         <div className="flex text-yellow-400 text-sm">
           {"★".repeat(Math.floor(rating))}
@@ -51,6 +58,7 @@ const ProductCard = memo(({ product, handleClick}) => {
 
         <span className="text-gray-500 text-sm">({rating})</span>
       </div>
+      }
 
       {/* --- Price Section --- */}
       <div className="flex items-center gap-2 mt-1">

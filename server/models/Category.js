@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const categorySchema = new mongoose.Schema({
+const CategorySchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, 'Name is required'],
@@ -15,4 +15,4 @@ const categorySchema = new mongoose.Schema({
     }
 }, {timestamps: true})
 
-module.exports = mongoose.model('Categories', categorySchema)
+module.exports = mongoose.model('Category', CategorySchema)
