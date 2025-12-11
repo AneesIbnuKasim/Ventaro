@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Heart, ShoppingCart } from "lucide-react";
+import { useProduct } from "../../context/ProductContext";
 
 export default function SingleProduct({ product = {} }) {
   console.log('product in prost', product);
@@ -11,6 +12,7 @@ export default function SingleProduct({ product = {} }) {
   : ["https://via.placeholder.com/400"];
   
   const [mainImage, setMainImage] = useState(images[0])
+  const {handleAddToCart} = useProduct()
 
   const changeMainImage = (e , i) => {
     const image = e.target.src.split('http://localhost:5001')
@@ -20,6 +22,10 @@ export default function SingleProduct({ product = {} }) {
     useEffect(() => {
     setMainImage(images[0]);
   }, [product, images]);
+
+  const addToCart = (id) => {
+    handleAddToCart(id)
+  }
 
   return (
     <div className="w-full max-w-[1440px] mx-auto px-4 py-10 grid grid-cols-1 lg:grid-cols-2 gap-10">
@@ -58,7 +64,7 @@ export default function SingleProduct({ product = {} }) {
         </div>
 
         <div className="flex gap-4 mt-6">
-          <button type="button" className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-md text-sm font-medium shadow-sm">
+          <button onClick={()=>addToCart(product)} type="button" className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-md text-sm font-medium shadow-sm">
             <ShoppingCart /> ADD TO CART
           </button>
 

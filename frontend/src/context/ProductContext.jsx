@@ -10,8 +10,9 @@ import {
 import { toast } from "react-toastify";
 import { productAPI } from "../services/productService";
 import useDebounce from "../hooks/useDebounce";
-import  useSyncedReducer  from "../hooks/useSyncReducer";
-import { clearTokens } from "../utils/apiClient";
+import useSyncedReducer from "../hooks/useSyncReducer";
+import { clearTokens, getAuthToken } from "../utils/apiClient";
+import { useAdmin } from "./AdminContext";
 
 const ProductContext = createContext();
 
@@ -24,15 +25,15 @@ const initialState = {
     sortBy: "createdAt",
     sortOrder: "asc",
     rating: [],
-    category: []
+    category: [],
   },
   pagination: {
     page: 1,
     limit: 10,
   },
-}
+};
 
-const ARRAY_FILTERS = ['rating', 'category']
+const ARRAY_FILTERS = ["rating", "category"];
 
 const PRODUCT_ACTIONS = {
   SET_LOADING: "SET_LOADING",
@@ -48,8 +49,7 @@ const PRODUCT_ACTIONS = {
 
 const ProductReducer = (state, action) => {
   switch (action.type) {
-
-        case "SET_FROM_URL":
+    case "SET_FROM_URL":
       return {
         ...state,
         filters: { ...state.filters, ...action.payload.filters },
@@ -60,41 +60,42 @@ const ProductReducer = (state, action) => {
       return { ...state, loading: action.payload, error: null };
 
     case PRODUCT_ACTIONS.SET_FILTERS:
-      console.log(('action payyyy new', action.payload));
-      
-      const {key, value} = action.payload
-      const isArrayFilter = ARRAY_FILTERS.includes(key)
+      console.log(("action payyyy new", action.payload));
 
-      console.log('isa araaY:', isArrayFilter);
-      
-      
+      const { key, value } = action.payload;
+      const isArrayFilter = ARRAY_FILTERS.includes(key);
+
+      console.log("isa araaY:", isArrayFilter);
+
       if (isArrayFilter) {
-        const current = state.filters[key] || []
-        const exist = current.includes(value)
-      
+        const current = state.filters[key] || [];
+        const exist = current.includes(value);
+
+        return {
+          ...state,
+          filters: {
+            ...state.filters,
+            [key]: exist
+              ? current.filter((v) => v !== value)
+              : [...current, value],
+          },
+          pagination: {
+            ...state.pagination,
+            page: 1,
+          },
+        };
+      }
       return {
         ...state,
         filters: {
           ...state.filters,
-          [key] : exist ? current.filter(v => v!==value) : [...current, value]
+          [key]: value,
         },
         pagination: {
-      ...state.pagination,
-      page: 1,
-      }
-    }
-      }
-      return {
-        ...state,
-        filters: {
-          ...state.filters,
-          [key]: value
+          ...state.pagination,
+          page: 1,
         },
-        pagination: {
-      ...state.pagination,
-      page: 1
-      }
-    }
+      };
 
     case PRODUCT_ACTIONS.SET_ERROR:
       return { ...state, error: action.payload.error, loading: false };
@@ -103,8 +104,11 @@ const ProductReducer = (state, action) => {
       return { ...state, error: null, loading: false };
 
     case PRODUCT_ACTIONS.SET_PRODUCT:
-      return { ...state,     products: action.payload.products || [],
-    pagination: action.payload.pagination || state.pagination, };
+      return {
+        ...state,
+        products: action.payload.products || [],
+        pagination: action.payload.pagination || state.pagination,
+      };
 
     case PRODUCT_ACTIONS.ADD_PRODUCT:
       return {
@@ -114,7 +118,6 @@ const ProductReducer = (state, action) => {
       };
 
     case PRODUCT_ACTIONS.DELETE_PRODUCT:
-      
       return {
         ...state,
         products: state.products.filter(
@@ -150,9 +153,9 @@ const ProductReducer = (state, action) => {
 };
 
 export const ProductProvider = ({ children }) => {
-  const [ state, dispatch ] = useSyncedReducer(ProductReducer, initialState);
-  const [ product, setProduct ] = useState()
-
+  const [state, dispatch] = useSyncedReducer(ProductReducer, initialState);
+  const [product, setProduct] = useState();
+  const { isAuthenticated } = useAdmin();
 
   const [allCategories, setAllCategories] = useState();
   const debouncedSearch = useDebounce(state.filters.search, 500);
@@ -164,18 +167,16 @@ export const ProductProvider = ({ children }) => {
     }
   }, [state.error]);
 
-  useEffect(()=>{
-    console.log('all filters:', state.filters);
-    
-  }, [state.filters])
+  useEffect(() => {
+    console.log("all filters:", state.filters);
+  }, [state.filters]);
 
   const setPagination = useCallback((payload) => {
     dispatch({ type: PRODUCT_ACTIONS.SET_PAGINATION, payload });
   }, []);
 
   const setFilters = useCallback((key, value) => {
-
-    dispatch({ type: PRODUCT_ACTIONS.SET_FILTERS, payload: {key, value} });
+    dispatch({ type: PRODUCT_ACTIONS.SET_FILTERS, payload: { key, value } });
   }, []);
 
   const fetchProduct = async () => {
@@ -206,7 +207,7 @@ export const ProductProvider = ({ children }) => {
         payload: { products: products, pagination },
       });
 
-      setAllCategories(allCategories)
+      setAllCategories(allCategories);
 
       return { success: true };
     } catch (error) {
@@ -223,14 +224,17 @@ export const ProductProvider = ({ children }) => {
 
       const response = await productAPI.addProduct(ProductData);
 
-      dispatch({ type: PRODUCT_ACTIONS.ADD_PRODUCT, payload: response.data.product });
+      dispatch({
+        type: PRODUCT_ACTIONS.ADD_PRODUCT,
+        payload: response.data.product,
+      });
 
       toast(response.message);
 
       return { success: true };
     } catch (error) {
       dispatch({ type: PRODUCT_ACTIONS.SET_ERROR, payload: error.message });
-      toast.error(error.message)
+      toast.error(error.message);
       console.log(error);
       // if (error.status === 401 || error.status === 403 ) {
       //   clearTokens()
@@ -276,32 +280,104 @@ export const ProductProvider = ({ children }) => {
     }
   };
 
-
   //USER PRODUCT HANDLE
 
-  const fetchSingleProduct = useCallback(async(productId) => {
-      try {
-        dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true})
+  const fetchSingleProduct = useCallback(async (productId) => {
+    try {
+      dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
 
-      const response = await productAPI.fetchSingleProduct(productId)
+      const response = await productAPI.fetchSingleProduct(productId);
 
-      dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: false})
+      dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: false });
 
-      console.log('product', response.data.product);
-      
+      console.log("product", response.data.product);
 
-      setProduct(response.data.product)
+      setProduct(response.data.product);
 
-      return {success: true}
-      
-      } catch (error) {
-        dispatch({ type: PRODUCT_ACTIONS.SET_ERROR, payload: error.message });
+      return { success: true };
+    } catch (error) {
+      dispatch({ type: PRODUCT_ACTIONS.SET_ERROR, payload: error.message });
       console.log(error);
       return { success: false, error: error.message };
+    }
+  }, []);
+
+  //LOAD NOT LOGGED IN USER CART FROM LOCAL STORAGE
+  const loadCart = () => {
+    try {
+      console.log("loading Cart:");
+
+      const data = localStorage.getItem("cart");
+
+      if (!data) return [];
+
+      const parsed = JSON.parse(data);
+      console.log("cart value", parsed);
+
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (error) {
+      console.log("Loading cart failed");
+      return [];
+    }
+  };
+
+  //cCLEAN PRODUCT BEFORE ADDING TO CART
+  const cleanCartItem = (product) => ({
+    _id: product._id,
+    name: product.name,
+    price: product.price,
+    image: product.images?.[0] || "",
+    quantity: 1,
+  });
+
+  //ADDING PRODUCT TO TEMP CART FOR NON LOGGED IN USERS
+  const handleAddToCart = useCallback((product) => {
+    try {
+      const token = getAuthToken();
+      const isAuthenticated = !!token;
+
+      if (isAuthenticated) {
+        console.log("logged in user cart");
+        return;
+      } else {
+        const existingCart = loadCart();
+
+        //validate if cart value is valid
+        if (!Array.isArray(existingCart)) {
+          toast.error("Cart is corrupted, Resetting cart...");
+          return;
+        }
+
+        product = cleanCartItem(product)
+
+        const exist = existingCart.find((item) => item._id === product._id);
+
+        let updatedCart;
+
+        if (exist) {
+          // product already exist increase quantity
+          const updatedCart = existingCart.map((item) =>
+            item._id === product._id
+              ? { ...item, quantity: item.quantity + 1 }
+              : item
+          );
+
+          localStorage.setItem("cart", JSON.stringify(updatedCart));
+        } else {
+          //add new product
+          updatedCart = [...existingCart, { ...product, quantity: 1 }];
+
+          localStorage.setItem("cart", JSON.stringify(updatedCart));
+        }
+
+        toast.success("Product added to cart");
       }
-
-
-  }, [])
+    } catch (error) {
+      dispatch({ type: PRODUCT_ACTIONS.SET_ERROR, payload: error.message });
+      console.log(error.message);
+      return { success: false, error: error.message };
+    }
+  }, []);
 
   const values = {
     products: state.products,
@@ -313,12 +389,13 @@ export const ProductProvider = ({ children }) => {
     updateProduct,
     deleteProduct,
     fetchSingleProduct,
+    handleAddToCart,
     filters: state.filters,
     setFilters,
     setPagination,
     debouncedSearch,
     allCategories,
-    product
+    product,
   };
 
   return (

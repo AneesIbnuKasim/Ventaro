@@ -30,7 +30,7 @@ const CategoryFilter = memo(() => {
 
         {/* Category list */}
         <div className="flex flex-col gap-2 text-sm">
-          {allCategories.map((c) => (
+          {allCategories?.map((c) => (
             <label key={c} className="flex items-center gap-2">
               <input
                 type="checkbox"
