@@ -20,7 +20,7 @@ class ProductService {
             
             if (search) filter.name = {$regex: search, $options: 'i'}
 
-            if (category) filter.category = category.split(',')
+            if (category) filter.category = {$in: category.split(',')}
 
             if(minPrice||maxPrice) {
                 if(minPrice&&maxPrice) {
@@ -30,7 +30,7 @@ class ProductService {
                 else if(maxPrice) filter.price ={$lte:maxPrice}
             }
 
-            if (rating) filter.rating = {$lte: rating}
+            if (rating) filter.rating = {$gte: rating}
 
             const sortObj = { [sortBy]: sortOrder }
 
@@ -38,16 +38,20 @@ class ProductService {
             const productPerPage = limit || 6
             const skipValue = (currentPage-1)*productPerPage
 
-            const [products, totalProducts, categories] = await Promise.all([
+            const totalProducts = await Product.find(filter)
+
+            const [products, categories] = await Promise.all([
                 Product.find(filter).sort(sortObj).skip(skipValue).limit(limit),
-                Product.countDocuments(filter),
-                await Category.distinct('name')
+                Category.distinct('name')
             ])
+
+            console.log('products:', products);
+            
             return {products,
                 pagination: {
                     currentPage,
-                    totalPages: Math.ceil(products.length/limit),
-                    totalProducts: totalProducts
+                    totalPages: Math.ceil(totalProducts.length/limit),
+                    totalProducts: totalProducts.length
                 },
                 allCategories: categories
             }

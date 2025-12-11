@@ -2,12 +2,12 @@ import axios from "axios";
 import { makeRequest } from "../utils/apiClient";
 
 export const productAPI = {
-  getAllProduct: (params = {}) => {
+  getProductByCategory: (category, params = {}) => {
     console.log("search in api:", params);
 
     return makeRequest({
       method: "get",
-      url: `api/product`,
+      url: `api/products/${category}`,
       params,
     });
   },

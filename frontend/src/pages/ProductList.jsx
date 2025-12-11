@@ -6,26 +6,59 @@ import ProductCard from "../components/ui/ProductCard";
 import { IoSearch } from "react-icons/io5";
 import { useProduct } from "../context/ProductContext";
 import { Search } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import PriceFilter from "../components/ui/PriceFilter";
+import RatingFilter from "../components/ui/RatingFilter";
+import CategoryFilter from "../components/ui/CategoryFilter";
 
 //USER PRODUCTS UI PAGE
 const ProductList = memo(() => {
+  const {
+    filters,
+    setFilters,
+    pagination,
+    products,
+    fetchProduct,
+    resetAllFilters,
+    fetchSingleProduct,
+    allCategories,
+    debouncedSearch,
+  } = useProduct();
+  const { category } = useParams();
 
-  const { filters, setFilters, products, fetchProduct, fetchSingleProduct, allCategories } = useProduct();
   useEffect(() => {
-    fetchProduct()
-  },[])
+    // remove category filter for category page
+    setFilters("category", null);
 
+    // fetch products for this category
+    fetchProduct(category);
+  }, [
+    category,
+    filters.sortBy,
+    filters.sortOrder,
+    filters.minPrice,
+    filters.maxPrice,
+    pagination.page,
+    pagination.limit,
+  ]);
 
-  const [searchQuery] = useState("Mobile");
-  const navigate = useNavigate()
+  // useEffect(() => {
+  //   fetchProduct()
+  // },[
+  //       filters.sortBy,
+  //       filters.sortOrder,
+  //       filters.minPrice,
+  //       filters.maxPrice,
+  //       pagination.page,
+  //       pagination.limit])
 
-  console.log('products', products);
-  
+  const navigate = useNavigate();
+
+  const resetAll = () => {};
 
   const handleClick = (id) => {
-    navigate(`/products/${id}`)
-  }
+    navigate(`/product/${id}`);
+  };
 
   return (
     <>
@@ -33,34 +66,28 @@ const ProductList = memo(() => {
         <div className="flex ml-0 m-2">
           {/* filters */}
           <div className="w-[20%]">
-            <ProductFilter />
+            <aside className="w-full p-5 bg-white shadow-md">
+              {/* Header */}
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="font-semibold text-[18px]">FILTERS</h3>
+                <button
+                  className="text-sm text-purple-600 font-medium hover:underline"
+                  onClick={resetAll}
+                >
+                  Reset All
+                </button>
+              </div>
+              <PriceFilter applyPrice={() => console.log("price applied")} />
+              {/* <GenderFilter /> */}
+              <RatingFilter ratingsCount={2} />
+              {/* <CategoryFilter /> */}
+            </aside>
           </div>
 
           {/* MAIN CONTENT AREA */}
           <div className="flex flex-col w-full m-5">
             <div className=" w-full flex justify-between p-5">
-              <h1>Showing Search result for '{searchQuery}'</h1>
-
-              <div className="hidden sm:block relative w-64">
-                <input
-                  type="text"
-                  value={filters.search}
-                  onChange={(e) => setFilters('search', e.target.value)}
-                  placeholder="Search products..."
-                  className="w-full bg-[#F3F3F5] rounded-full py-2.5 pl-5 pr-12 text-sm outline-none border border-transparent focus:border-gray-300 transition"
-                />
-
-                <button
-                  className="absolute right-3 top-1/2 -translate-y-1/2"
-                  onClick={() => console.log("Button clicked")}
-                >
-                  <Search
-                    color="orange"
-                    size={22}
-                    className="text-white bg-[#6D3CF8] p-1 rounded-full"
-                  />
-                </button>
-              </div>
+              <h1>{}</h1>
 
               <div>
                 <label>sortBy</label>
@@ -75,7 +102,9 @@ const ProductList = memo(() => {
             {/* card layout */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-2">
               {products &&
-                products.map((item) => <ProductCard handleClick={handleClick} product={item} />)}
+                products.map((item) => (
+                  <ProductCard handleClick={handleClick} product={item} />
+                ))}
             </div>
 
             {/* PAGINATION */}

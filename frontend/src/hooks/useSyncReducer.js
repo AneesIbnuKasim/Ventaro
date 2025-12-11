@@ -45,7 +45,7 @@
 
 // //     syncKeys.forEach((key) => {
 // //       if (key === pageKey) return;
-// //       if (key === searchKey) return; 
+// //       if (key === searchKey) return;
 // //       if (prev[key] !== state[key]) shouldResetPage = true;
 // //     });
 
@@ -73,19 +73,8 @@
 // //   return { state, dispatch, debouncedSearch };
 // // }
 
-
-
-
-
-
-
-
-
-
-
 // // import { useReducer, useEffect, useRef, useState } from "react";
 // // import { useSearchParams } from "react-router-dom";
-
 
 // // // Get nested value from dot notation
 
@@ -93,7 +82,6 @@
 // //     return path.split(".").reduce((o, k) =>
 // //     (o ? o[k] : undefined), obj);
 // // }
-
 
 // // //Set nested value into an object
 
@@ -107,13 +95,11 @@
 // //   target[last] = value;
 // // }
 
-
 // // // Debounce Hook
 // // function useDebounce(value, delay = 8000) {
 // //   const [debouncedValue, setDebouncedValue] = useState(value);
 
 // //   console.log('search values in:', value);
-  
 
 // //   useEffect(() => {
 // //     const timer = setTimeout(() => setDebouncedValue(value), delay);
@@ -122,7 +108,6 @@
 
 // //   return debouncedValue;
 // // }
-
 
 // // // Main Hook: Synced + Debounced + Nested
 // // export function useSyncedReducer(reducer, initialState, options = {}) {
@@ -134,11 +119,9 @@
 
 // //   const [searchParams, setSearchParams] = useSearchParams();
 
-
 // //   // Merge URL to initialState
 
 // //   const urlState = {};
-
 
 // //   syncKeys.forEach((key) => {
 // //     const paramName = key.replace(/^pagination\./,'').replace(/^filters\./,''); // pagination.page to page
@@ -153,19 +136,16 @@
 // //   const mergedInitial = { ...initialState, ...urlState };
 // //   const [state, dispatch] = useReducer(reducer, mergedInitial);
 
-  
 // //   // Debounce ONLY search
-  
+
 // //   const searchValue = getNested(state, searchKey);
 // //   console.log('search val:', searchValue);
-  
+
 // //   const debouncedSearch = useDebounce(searchValue, 500);
 
-  
 // //   // Auto-reset page when filters change
 
 // //   const prevRef = useRef({});
-
 
 // ///prev useffect
 // //   useEffect(() => {
@@ -189,10 +169,6 @@
 
 // //     prevRef.current = JSON.parse(JSON.stringify(state));
 // //   }, [state, syncKeys, pageKey]);
-
-
-
-
 
 // // //new useffect
 // // useEffect(() => {
@@ -239,10 +215,9 @@
 // //         (key === "filters.sortOrder" && value === "asc") ||
 // //         (key === "pagination.page" && value === 1) ||
 // //         (key === "pagination.limit" && value === 10)
-        
-        
+
 // //       ) {
-        
+
 // //         updated.delete(paramName);
 // //       } else {
 // //         updated.set(paramName, value);
@@ -263,18 +238,14 @@
 // //   return { state, dispatch, debouncedSearch };
 // // }
 
-
-
-
-// //without debounce. 
+// //without debounce.
 
 // import { useReducer, useEffect, useRef } from "react";
 // import { useSearchParams, useLocation } from "react-router-dom";
 
-
 // // Nested getter
 // function getNested(obj, path) {
-  
+
 //   return path.split(".").reduce((o, k) => (o ? o[k] : undefined), obj);
 // }
 
@@ -286,7 +257,7 @@
 //     if (!o[k]) o[k] = {};
 //     return o[k];
 //   }, obj);
-  
+
 //   last === 'limit' ? value || 10 : null
 //   target[last] = value;
 // }
@@ -311,7 +282,7 @@
 //   syncKeys.forEach((key) => {
 //     const param = key.replace(/^pagination\./, "").replace(/^filters\./, "");
 //     const value = searchParams.get(param);
-    
+
 //     if (value !== null) {
 //       setNested(urlState, key, isNaN(value) ? value : Number(value));
 //     }
@@ -336,7 +307,7 @@
 //     let resetPage = false;
 
 //     syncKeys.forEach((key) => {
-      
+
 //       if (key === pageKey) return;
 //       const curr = getNested(state, key);
 
@@ -370,7 +341,6 @@
 //         value === undefined ||
 //         (key === "filters.sortBy" && value === "createdAt") ||
 //         (key === "filters.sortOrder" && value === "asc")
-        
 
 //       if (!isDefault) params.set(param, value);
 //     });
@@ -418,12 +388,10 @@
 //     });
 //   }
 
-// }, [location.search]); 
+// }, [location.search]);
 
 //   return { state, dispatch };
 // }
-
-
 
 // import { useEffect, useReducer } from "react";
 // import { useLocation, useNavigate } from "react-router-dom";
@@ -455,7 +423,6 @@
 
 //   return [state, dispatch];
 // }
-
 
 // import { useEffect, useReducer, useRef } from "react";
 
@@ -515,7 +482,7 @@
 
 //     // Sync filters
 //     Object.entries(state.filters).forEach(([key, value]) => {
-//       if (!key) return; 
+//       if (!key) return;
 //       if (Array.isArray(value) || typeof value === "object") {
 //         params.set(key, JSON.stringify(value));
 //       } else {
@@ -534,10 +501,14 @@
 //   return [state, dispatch];
 // }
 
-
 import { useEffect, useReducer, useRef } from "react";
 
-export default function useSyncReducer(reducer, initialState, enabled) {
+export default function useSyncReducer(
+  reducer,
+  initialState,
+  enabled,
+  skipKeys = []
+) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const isInitial = useRef(true);
 
@@ -545,23 +516,24 @@ export default function useSyncReducer(reducer, initialState, enabled) {
   // 1) URL → STATE (load initial)
   // -------------------------------
   useEffect(() => {
-    
-    if (!enabled) return
+    if (!enabled) return;
     const params = new URLSearchParams(window.location.search);
     const newState = structuredClone(initialState);
 
     // Load filters
     Object.entries(newState.filters).forEach(([key]) => {
       if (!key) return; // skip invalid keys
+
+      if (skipKeys.includes(key)) return; //skip skipKeys
+
       if (params.has(key)) {
         const raw = params.get(key);
         if (!raw) return;
 
         try {
           const parsed = JSON.parse(raw);
-          
+
           newState.filters[key] = parsed;
-          
         } catch {
           newState.filters[key] = raw; // simple string
         }
@@ -585,10 +557,10 @@ export default function useSyncReducer(reducer, initialState, enabled) {
   // -----------------------------------
   useEffect(() => {
     // Skip syncing first hydration
-    console.log('still working:', enabled);
-    if (enabled === false) return
-    console.log('is working:', enabled);
-    
+    console.log("still working:", enabled);
+    if (enabled === false) return;
+    console.log("is working:", enabled);
+
     if (isInitial.current) {
       isInitial.current = false;
       return;
@@ -599,6 +571,8 @@ export default function useSyncReducer(reducer, initialState, enabled) {
     // Sync filters
     Object.entries(state.filters).forEach(([key, value]) => {
       if (!key || value === undefined || value === null) return;
+
+      if (skipKeys.includes(key)) return;
 
       if (Array.isArray(value) || typeof value === "object") {
         params.set(key, JSON.stringify(value));

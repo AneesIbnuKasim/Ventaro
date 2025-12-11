@@ -27,6 +27,7 @@ import Test from "./components/ui/ProductFilter.jsx";
 import ProductDetails from "./pages/ProductDetails.jsx";
 import { CategoryProvider } from "./context/CategoryContext.jsx";
 import { ProductProvider } from "./context/ProductContext.jsx";
+import SearchPage from "./pages/SearchPage.jsx";
 
 const App = () => (
   <BrowserRouter>
@@ -44,7 +45,7 @@ const App = () => (
               }
             />
             <Route
-              path="/products/:id"
+              path="/product/:id"
               element={
                 <PublicRoute>
                   <ProductDetails />
@@ -100,10 +101,19 @@ const App = () => (
               }
             />
             <Route
-              path="/products"
+              path="/products/:category"
               element={
                 <PublicRoute>
                   <ProductList />
+                </PublicRoute>
+              }
+            />
+
+            <Route
+              path="/products/search"
+              element={
+                <PublicRoute>
+                  <SearchPage />
                 </PublicRoute>
               }
             />

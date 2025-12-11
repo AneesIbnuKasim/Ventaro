@@ -9,22 +9,33 @@ import {
 } from "lucide-react";
 import { FormInput } from ".";
 import Footer from "./Footer";
+import { useProduct } from "../../context/ProductContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar({
   logo = "Logo",
-  categories = ["MOBILES", "LAPTOPS", "AIR CONDITIONERS", "TABLETS", 'MOBILE ACCESSORIES'],
-  searchValue = "",
-  onSearch = () => {},
+  categories = ["mobiles", "laptops", "air conditioners", "tablets", 'mobile accessories'],
   showProfile = true,
   showWishlist = true,
   showBag = true,
 }) {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [ search, setSearch ] = useState()
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    globalProductSearch()
-  })
+  
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { filters, setFilters, setGlobalCategory } = useProduct()
+  const [ suggestion, setSuggestion ] = useState()
+  const navigateToCategory = (cat) => {
+    setGlobalCategory(cat)
+    navigate(`/products/${cat}`)
+  }
+
+  const handleSearchNavigate = () => {
+  if (!suggestion.trim()) return;
+  const searchTerm = suggestion.trim()
+  setFilters('search', searchTerm)
+  navigate(`/search`);
+}
 
   return (
     <>
@@ -60,8 +71,9 @@ export default function Navbar({
                 <li
                   key={cat}
                   className="cursor-pointer hover:text-gray-700"
+                  onClick={() => navigateToCategory(cat)}
                 >
-                  {cat}
+                  {cat.toUpperCase()}
                 </li>
               ))}
             </ul>
@@ -70,14 +82,14 @@ export default function Navbar({
             <div className="hidden sm:block relative w-64">
               <input
                 type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                value={suggestion}
+                onChange={(e) => setSuggestion(e.target.value)}
                 placeholder="Search products..."
                 className="w-full bg-[#F3F3F5] rounded-full py-2.5 pl-5 pr-12 text-sm outline-none border border-transparent focus:border-gray-300 transition"
               />
 
               <button className="absolute right-3 top-1/2 -translate-y-1/2"
-              onClick={()=>console.log('Button clicked')}
+              onClick={handleSearchNavigate}
               >
                 <Search color="orange"
                   size={22}

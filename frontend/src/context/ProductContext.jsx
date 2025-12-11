@@ -43,6 +43,7 @@ const PRODUCT_ACTIONS = {
   UPDATE_PRODUCT: "UPDATE_PRODUCT",
   DELETE_PRODUCT: "DELETE_PRODUCT",
   SET_FILTERS: "SET_FILTERS",
+  CLEAR_FILTERS: "CLEAR_FILTERS",
   SET_PAGINATION: "SET_PAGINATION",
   SET_ALL_CATEGORIES: "SET_ALL_CATEGORIES",
   CLEAR_ERROR: "CLEAR_ERROR",
@@ -93,6 +94,9 @@ const ProductReducer = (state, action) => {
           page: 1,
         },
       };
+
+    case PRODUCT_ACTIONS.SET_FILTERS: 
+      return { ...state, filters: action.payload}
 
     case PRODUCT_ACTIONS.SET_ERROR:
       return { ...state, error: action.payload.error, loading: false };
@@ -151,13 +155,14 @@ const ProductReducer = (state, action) => {
 
 export const ProductProvider = ({ children }) => {
   const [product, setProduct] = useState();
+  const [ globalCategory, setGlobalCategory ] = useState()
   const [allCategories, setAllCategories] = useState();
   const location = useLocation()
   const isListingPage = /^\/products\/?$/.test(location.pathname);
+  // const isCategoryPage = /^\/products\/[^/]+$/.test(location.pathname);
 
-  console.log('listing page:',isListingPage);
-  
-  const [state, dispatch] = useSyncedReducer(ProductReducer, initialState, isListingPage);
+
+  const [state, dispatch] = useSyncedReducer(ProductReducer, initialState, true, ['category', 'currentPage', 'totalProducts', 'totalPages']);
   
   const debouncedSearch = useDebounce(state.filters.search, 500);
 
@@ -180,16 +185,19 @@ export const ProductProvider = ({ children }) => {
     dispatch({ type: PRODUCT_ACTIONS.SET_FILTERS, payload: { key, value } });
   }, []);
 
-  const fetchProduct = async () => {
+  const resetAllFilters = useCallback(() => {
+    dispatch({ type: PRODUCT_ACTIONS.CLEAR_FILTERS, payload: initialState.filters})
+  })
+
+  const fetchProduct = async (category) => {
     try {
       dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
 
       const { category, sortBy, sortOrder, minPrice, maxPrice } = state.filters;
       const { page, limit } = state.pagination;
 
-      const response = await productAPI.getAllProduct({
+      const response = await productAPI.getProductByCategory(category, {
         search: debouncedSearch,
-        category,
         sortBy,
         sortOrder,
         minPrice,
@@ -386,12 +394,15 @@ export const ProductProvider = ({ children }) => {
     deleteProduct,
     fetchSingleProduct,
     handleAddToCart,
+    resetAllFilters,
     filters: state.filters,
     setFilters,
     setPagination,
     debouncedSearch,
     allCategories,
     product,
+    globalCategory,
+    setGlobalCategory
   };
 
   return (
