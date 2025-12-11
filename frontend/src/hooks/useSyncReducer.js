@@ -537,7 +537,7 @@
 
 import { useEffect, useReducer, useRef } from "react";
 
-export default function useSyncReducer(reducer, initialState) {
+export default function useSyncReducer(reducer, initialState, enabled) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const isInitial = useRef(true);
 
@@ -545,6 +545,8 @@ export default function useSyncReducer(reducer, initialState) {
   // 1) URL → STATE (load initial)
   // -------------------------------
   useEffect(() => {
+    
+    if (!enabled) return
     const params = new URLSearchParams(window.location.search);
     const newState = structuredClone(initialState);
 
@@ -583,6 +585,10 @@ export default function useSyncReducer(reducer, initialState) {
   // -----------------------------------
   useEffect(() => {
     // Skip syncing first hydration
+    console.log('still working:', enabled);
+    if (enabled === false) return
+    console.log('is working:', enabled);
+    
     if (isInitial.current) {
       isInitial.current = false;
       return;

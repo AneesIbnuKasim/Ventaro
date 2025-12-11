@@ -29,7 +29,6 @@ const ResetPassword = memo(() => {
 
     const onSubmit = useCallback(async(data)=>{
         
-      console.log('data on form::', data);
       let response
         try {
           response = await authAPI.resetPassword({
@@ -48,9 +47,6 @@ const ResetPassword = memo(() => {
           console.log('error:',error);
           return 
         }
-
-        console.log('res:',response)
-
     })
     
 

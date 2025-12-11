@@ -93,9 +93,6 @@ class UserService {
             data.isDefault = true
         }
 
-        console.log('dta: ', data);
-        
-            
         const address = await Address.create(data)
 
         await user.updateOne({$push: {addresses: address._id}}, {new: true})

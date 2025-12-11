@@ -58,8 +58,6 @@ const Categories = memo(() => {
 
   //fetch categories on load
   useEffect(() => {
-    console.log('called');
-    
     fetchCategories();
   }, [pagination.page, pagination.limit, debouncedSearch]);
 

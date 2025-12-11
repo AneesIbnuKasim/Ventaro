@@ -72,15 +72,10 @@ class ProductService {
 
     static addProduct = async(req)=>{
         try {
-            console.log('image:', req.files);
-            console.log('data:', req.body);
             const productData = req.body
             if (!productData) {
             throw new NotFoundError('No product to add')
         }        
-
-        console.log('productdata:', productData);
-        
 
         const { name, categoryId, brandName } = productData
         const existing = await Product.findOne({ name:name, categoryId:categoryId,
@@ -101,9 +96,6 @@ class ProductService {
             images: req.files?.map(file=>`/uploads/${file.filename}`)
         })
 
-        console.log('product',product);
-        
-        
         await product.save()
 
         return {product}

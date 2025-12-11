@@ -3,8 +3,6 @@ const { ErrorUtils } = require('./errors')
 class ResponseFormatter {
   static success(res, message, data = null, statusCode = 200, meta = null) {
 
-    console.log('data in formatter', data);
-    
     const response = {
       success: true,
       message,

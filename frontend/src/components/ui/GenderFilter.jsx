@@ -4,7 +4,6 @@ import { useProduct } from '../../context/ProductContext'
 const GenderFilter = memo(() => {
 
   const { filters, setFilters } = useProduct()
-  // console.log('gender', filters.gender);
   const gender = ['Men']
   
   return (

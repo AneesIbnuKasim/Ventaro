@@ -24,7 +24,7 @@ const ProductList = memo(() => {
   
 
   const handleClick = (id) => {
-    navigate(`/product/${id}`)
+    navigate(`/products/${id}`)
   }
 
   return (

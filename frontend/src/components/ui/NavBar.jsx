@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Search,
   User,
@@ -20,6 +20,11 @@ export default function Navbar({
   showBag = true,
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [ search, setSearch ] = useState()
+
+  useEffect(() => {
+    globalProductSearch()
+  })
 
   return (
     <>
@@ -65,8 +70,8 @@ export default function Navbar({
             <div className="hidden sm:block relative w-64">
               <input
                 type="text"
-                value={searchValue}
-                onChange={(e) => onSearch(e.target.value)}
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search products..."
                 className="w-full bg-[#F3F3F5] rounded-full py-2.5 pl-5 pr-12 text-sm outline-none border border-transparent focus:border-gray-300 transition"
               />

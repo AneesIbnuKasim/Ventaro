@@ -12,7 +12,6 @@ function ProductDetails() {
 
     const {id} = useParams()
     const { fetchSingleProduct, products, product, loading, fetchProduct } = useProduct()
-    console.log('products now :', products);
     
     const navigate = useNavigate()
 
@@ -35,7 +34,7 @@ function ProductDetails() {
     }, [products])
 
   const handleClick = (id) => {
-    navigate(`/product/${id}`)
+    navigate(`/products/${id}`)
   }
 
 

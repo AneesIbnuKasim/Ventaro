@@ -8,9 +8,7 @@ const CategoryFilter = memo(() => {
   console.log('filters on category page::', filters);
 
   const handleFilter = (e) => {
-    console.log('e.target', e.target.value);
     setFilters('category', e.target.value)
-    
   }
   
   return (

@@ -19,7 +19,6 @@ export const ForgotPassword = memo(() => {
         e.preventDefault()
         const email = inputRef.current.value
         const res = await authAPI.forgetPassword({email})
-        console.log(res);
         
         toast.success(res.message)
 

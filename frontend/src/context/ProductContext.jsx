@@ -13,6 +13,7 @@ import useDebounce from "../hooks/useDebounce";
 import useSyncedReducer from "../hooks/useSyncReducer";
 import { clearTokens, getAuthToken } from "../utils/apiClient";
 import { useAdmin } from "./AdminContext";
+import { useLocation } from "react-router-dom";
 
 const ProductContext = createContext();
 
@@ -60,12 +61,8 @@ const ProductReducer = (state, action) => {
       return { ...state, loading: action.payload, error: null };
 
     case PRODUCT_ACTIONS.SET_FILTERS:
-      console.log(("action payyyy new", action.payload));
-
       const { key, value } = action.payload;
       const isArrayFilter = ARRAY_FILTERS.includes(key);
-
-      console.log("isa araaY:", isArrayFilter);
 
       if (isArrayFilter) {
         const current = state.filters[key] || [];
@@ -153,11 +150,15 @@ const ProductReducer = (state, action) => {
 };
 
 export const ProductProvider = ({ children }) => {
-  const [state, dispatch] = useSyncedReducer(ProductReducer, initialState);
   const [product, setProduct] = useState();
-  const { isAuthenticated } = useAdmin();
-
   const [allCategories, setAllCategories] = useState();
+  const location = useLocation()
+  const isListingPage = /^\/products\/?$/.test(location.pathname);
+
+  console.log('listing page:',isListingPage);
+  
+  const [state, dispatch] = useSyncedReducer(ProductReducer, initialState, isListingPage);
+  
   const debouncedSearch = useDebounce(state.filters.search, 500);
 
   useEffect(() => {
@@ -182,7 +183,6 @@ export const ProductProvider = ({ children }) => {
   const fetchProduct = async () => {
     try {
       dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
-      console.log("here");
 
       const { category, sortBy, sortOrder, minPrice, maxPrice } = state.filters;
       const { page, limit } = state.pagination;
@@ -290,8 +290,6 @@ export const ProductProvider = ({ children }) => {
 
       dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: false });
 
-      console.log("product", response.data.product);
-
       setProduct(response.data.product);
 
       return { success: true };
@@ -305,17 +303,15 @@ export const ProductProvider = ({ children }) => {
   //LOAD NOT LOGGED IN USER CART FROM LOCAL STORAGE
   const loadCart = () => {
     try {
-      console.log("loading Cart:");
-
       const data = localStorage.getItem("cart");
 
       if (!data) return [];
 
       const parsed = JSON.parse(data);
-      console.log("cart value", parsed);
 
       return Array.isArray(parsed) ? parsed : [];
     } catch (error) {
+      toast.error("Loading cart failed")
       console.log("Loading cart failed");
       return [];
     }
