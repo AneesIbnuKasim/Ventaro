@@ -11,7 +11,7 @@ import { useProduct } from '../context/ProductContext';
 function ProductDetails() {
 
     const {id} = useParams()
-    const { fetchSingleProduct, products, product, loading, fetchProduct } = useProduct()
+    const { fetchSingleProduct, products, product, loading, fetchProductsByCategory } = useProduct()
     
     const navigate = useNavigate()
 
@@ -27,7 +27,7 @@ function ProductDetails() {
   useEffect(() => {
     if (!products?.length) {
       const load = async () => {
-      await fetchProduct()
+      await fetchProductsByCategory()
     }
     load()
   }

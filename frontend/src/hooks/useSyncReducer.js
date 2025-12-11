@@ -501,94 +501,183 @@
 //   return [state, dispatch];
 // }
 
+// import { useEffect, useReducer, useRef } from "react";
+
+// export default function useSyncReducer(
+//   reducer,
+//   initialState,
+//   enabled,
+//   skipKeys = []
+// ) {
+//   const [state, dispatch] = useReducer(reducer, initialState);
+//   const isInitial = useRef(true);
+
+//   // -------------------------------
+//   // 1) URL → STATE (load initial)
+//   // -------------------------------
+//   useEffect(() => {
+//     if (!enabled) return;
+//     const params = new URLSearchParams(window.location.search);
+//     const newState = structuredClone(initialState);
+
+//     // Load filters
+//     Object.entries(newState.filters).forEach(([key]) => {
+//       if (!key) return; // skip invalid keys
+
+//       if (skipKeys.includes(key)) return; //skip skipKeys
+
+//       if (params.has(key)) {
+//         const raw = params.get(key);
+//         if (!raw) return;
+
+//         try {
+//           const parsed = JSON.parse(raw);
+
+//           newState.filters[key] = parsed;
+//         } catch {
+//           newState.filters[key] = raw; // simple string
+//         }
+//       }
+//     });
+
+//     // Load pagination
+//     Object.entries(newState.pagination).forEach(([key]) => {
+//       if (!key) return;
+//       if (params.has(key)) {
+//         const val = Number(params.get(key));
+//         newState.pagination[key] = isNaN(val) ? 1 : val;
+//       }
+//     });
+
+//     dispatch({ type: "SET_FROM_URL", payload: newState });
+//   }, []);
+
+//   // -----------------------------------
+//   // 2) STATE → URL (sync back to URL)
+//   // -----------------------------------
+//   useEffect(() => {
+//     // Skip syncing first hydration
+//     console.log("still working:", enabled);
+//     if (enabled === false) return;
+//     console.log("is working:", enabled);
+
+//     if (isInitial.current) {
+//       isInitial.current = false;
+//       return;
+//     }
+
+//     const params = new URLSearchParams(window.location.search);
+
+//     // Sync filters
+//     Object.entries(state.filters).forEach(([key, value]) => {
+//       if (!key || value === undefined || value === null) return;
+
+//       if (skipKeys.includes(key)) return;
+
+//       if (Array.isArray(value) || typeof value === "object") {
+//         params.set(key, JSON.stringify(value));
+//       } else {
+//         params.set(key, value);
+//       }
+//     });
+
+//     // Sync pagination
+//     Object.entries(state.pagination).forEach(([key, value]) => {
+//       if (!key || value === undefined || value === null) return;
+//       params.set(key, value);
+//     });
+
+//     window.history.replaceState({}, "", `?${params.toString()}`);
+//   }, [state]);
+
+//   return [state, dispatch];
+// }
+
+
+
 import { useEffect, useReducer, useRef } from "react";
 
 export default function useSyncReducer(
   reducer,
   initialState,
-  enabled,
-  skipKeys = []
+  enabled = false,
+  excludeKeys = []
 ) {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const isInitial = useRef(true);
+
+  // Track first load
+  const initialLoad = useRef(true);
+
+  // Keep last synced URL state to avoid loops
+  const lastSyncedState = useRef(null);
 
   // -------------------------------
-  // 1) URL → STATE (load initial)
+  // 1) URL → STATE (ONLY ON FIRST LOAD)
   // -------------------------------
   useEffect(() => {
     if (!enabled) return;
+
+    if (!initialLoad.current) return;
+    initialLoad.current = false;
+
     const params = new URLSearchParams(window.location.search);
-    const newState = structuredClone(initialState);
+    const newFilters = {};
+    const newPagination = {};
 
-    // Load filters
-    Object.entries(newState.filters).forEach(([key]) => {
-      if (!key) return; // skip invalid keys
+    for (const [key, value] of params.entries()) {
+      if (excludeKeys.includes(key)) continue;
 
-      if (skipKeys.includes(key)) return; //skip skipKeys
-
-      if (params.has(key)) {
-        const raw = params.get(key);
-        if (!raw) return;
-
-        try {
-          const parsed = JSON.parse(raw);
-
-          newState.filters[key] = parsed;
-        } catch {
-          newState.filters[key] = raw; // simple string
-        }
+      if (key === "page" || key === "limit") {
+        newPagination[key] = Number(value);
+      } else {
+        newFilters[key] = value;
       }
-    });
-
-    // Load pagination
-    Object.entries(newState.pagination).forEach(([key]) => {
-      if (!key) return;
-      if (params.has(key)) {
-        const val = Number(params.get(key));
-        newState.pagination[key] = isNaN(val) ? 1 : val;
-      }
-    });
-
-    dispatch({ type: "SET_FROM_URL", payload: newState });
-  }, []);
-
-  // -----------------------------------
-  // 2) STATE → URL (sync back to URL)
-  // -----------------------------------
-  useEffect(() => {
-    // Skip syncing first hydration
-    console.log("still working:", enabled);
-    if (enabled === false) return;
-    console.log("is working:", enabled);
-
-    if (isInitial.current) {
-      isInitial.current = false;
-      return;
     }
 
-    const params = new URLSearchParams(window.location.search);
+    // Save URL state snapshot
+    lastSyncedState.current = { filters: newFilters, pagination: newPagination };
 
-    // Sync filters
+    dispatch({
+      type: "SET_FROM_URL",
+      payload: { filters: newFilters, pagination: newPagination },
+    });
+  }, [enabled]);
+
+  // -------------------------------
+  // 2) STATE → URL (only if it actually changed)
+  // -------------------------------
+  useEffect(() => {
+    if (!enabled) return;
+    if (initialLoad.current) return;
+
+    const current = {
+      filters: state.filters,
+      pagination: state.pagination,
+    };
+
+    const prev = lastSyncedState.current;
+
+    // Prevent infinite loop by comparing deeply
+    if (JSON.stringify(prev) === JSON.stringify(current)) return;
+
+    lastSyncedState.current = current;
+
+    const params = new URLSearchParams();
+
     Object.entries(state.filters).forEach(([key, value]) => {
-      if (!key || value === undefined || value === null) return;
-
-      if (skipKeys.includes(key)) return;
-
-      if (Array.isArray(value) || typeof value === "object") {
-        params.set(key, JSON.stringify(value));
-      } else {
-        params.set(key, value);
-      }
+      if (excludeKeys.includes(key)) return;
+      if (value !== "" && value != null) params.set(key, value);
     });
 
-    // Sync pagination
     Object.entries(state.pagination).forEach(([key, value]) => {
-      if (!key || value === undefined || value === null) return;
-      params.set(key, value);
+      if (excludeKeys.includes(key)) return;
+      if (value) params.set(key, value);
     });
 
-    window.history.replaceState({}, "", `?${params.toString()}`);
-  }, [state]);
+    const newURL = `${window.location.pathname}?${params.toString()}`;
+    window.history.replaceState({}, "", newURL);
+
+  }, [enabled, state]);
 
   return [state, dispatch];
 }

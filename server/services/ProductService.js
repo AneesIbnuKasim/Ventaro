@@ -9,6 +9,7 @@ class ProductService {
         try {
 
             const { search, sortBy, sortOrder='asc', category  } = req.query
+            
 
             const minPrice = parseInt(req.query.minPrice)
             const maxPrice = parseInt(req.query.maxPrice)
@@ -54,6 +55,63 @@ class ProductService {
                     totalProducts: totalProducts.length
                 },
                 allCategories: categories
+            }
+        } catch (error) {
+            logger.error('Error fetching products') 
+            throw error
+        }
+    }
+
+
+    //GET PRODUCTS BY CATEGORY
+    static getProductsByCategory = async(req, res)=>{
+        try {
+
+            const { sortBy, sortOrder='asc'  } = req.query
+            const category = req.params.category
+
+            console.log('category in server', category);
+            
+            const minPrice = parseInt(req.query.minPrice)
+            const maxPrice = parseInt(req.query.maxPrice)
+            const rating = parseInt(req.query.rating)
+            const page = parseInt(req.query.page)
+            const limit = parseInt(req.query.limit) || 10
+            
+            const filter = {}
+
+            if (category) filter.category = category
+            
+            if(minPrice||maxPrice) {
+                if(minPrice&&maxPrice) {
+                filter.price = {$gte:minPrice,$lte:maxPrice}
+            }
+                else if(minPrice) filter.price = {$gte:minPrice}
+                else if(maxPrice) filter.price ={$lte:maxPrice}
+            }
+
+            if (rating) filter.rating = {$gte: rating}
+
+            const sortObj = { [sortBy]: sortOrder }
+
+            const currentPage = page || 1
+            const productPerPage = limit || 6
+            const skipValue = (currentPage-1)*productPerPage
+
+            const totalProducts = await Product.find(filter)
+
+            const [products] = await Promise.all([
+                Product.find(filter).sort(sortObj).skip(skipValue).limit(limit),
+            ])
+
+            console.log('products:', products);
+            
+            return {products,
+                pagination: {
+                    currentPage,
+                    totalPages: Math.ceil(totalProducts.length/limit),
+                    totalProducts: totalProducts.length
+                }
             }
         } catch (error) {
             logger.error('Error fetching products') 

@@ -18,7 +18,7 @@ const ProductList = memo(() => {
     setFilters,
     pagination,
     products,
-    fetchProduct,
+    fetchProductByCategory,
     resetAllFilters,
     fetchSingleProduct,
     allCategories,
@@ -26,31 +26,25 @@ const ProductList = memo(() => {
   } = useProduct();
   const { category } = useParams();
 
+  //CLEAR CATEGORY FILTER IF ANY
   useEffect(() => {
-    // remove category filter for category page
+  if (filters.category !== null) {
     setFilters("category", null);
+  }
+}, [category]);
 
-    // fetch products for this category
-    fetchProduct(category);
-  }, [
-    category,
-    filters.sortBy,
-    filters.sortOrder,
-    filters.minPrice,
-    filters.maxPrice,
-    pagination.page,
-    pagination.limit,
-  ]);
-
-  // useEffect(() => {
-  //   fetchProduct()
-  // },[
-  //       filters.sortBy,
-  //       filters.sortOrder,
-  //       filters.minPrice,
-  //       filters.maxPrice,
-  //       pagination.page,
-  //       pagination.limit])
+  useEffect(() => {
+  fetchProductByCategory(category);
+}, [
+  category,
+  filters.sortBy,
+  filters.sortOrder,
+  filters.minPrice,
+  filters.maxPrice,
+  filters.rating,
+  pagination.page,
+  pagination.limit,
+]);
 
   const navigate = useNavigate();
 
@@ -108,9 +102,11 @@ const ProductList = memo(() => {
             </div>
 
             {/* PAGINATION */}
+            {pagination.page>1 && 
             <div className="mt-5">
               <Pagination className="mr-20" />
             </div>
+            }
           </div>
         </div>
       </AppLayout>

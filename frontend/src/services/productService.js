@@ -2,7 +2,17 @@ import axios from "axios";
 import { makeRequest } from "../utils/apiClient";
 
 export const productAPI = {
-  getProductByCategory: (category, params = {}) => {
+  getAllProduct: (params = {}) => {
+    console.log("search in api:", params);
+
+    return makeRequest({
+      method: "get",
+      url: `api/products`,
+      params,
+    });
+  },
+
+  fetchProductByCategory: (category, params = {}) => {
     console.log("search in api:", params);
 
     return makeRequest({
@@ -28,7 +38,7 @@ export const productAPI = {
     });
 
     const token = localStorage.getItem("adminToken");
-    const res = await axios.post("http://localhost:5001/api/product", formData, {
+    const res = await axios.post("http://localhost:5001/api/products", formData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -42,7 +52,7 @@ export const productAPI = {
   updateProduct: (productId, editData) => {
     return makeRequest({
       method: "put",
-      url: `api/product/${productId}`,
+      url: `api/products/${productId}`,
       data: editData,
     });
   },
@@ -50,7 +60,7 @@ export const productAPI = {
   deleteProduct: (productId) => {
     return makeRequest({
       method: "delete",
-      url: `api/product/${productId}`,
+      url: `api/products/${productId}`,
     });
   },
 
@@ -61,7 +71,7 @@ export const productAPI = {
     
     return makeRequest({
       method: "get",
-      url: `api/product/${productId}`,
+      url: `api/products/details/${productId}`,
     });
   }
 };

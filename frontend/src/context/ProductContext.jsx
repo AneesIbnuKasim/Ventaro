@@ -95,9 +95,6 @@ const ProductReducer = (state, action) => {
         },
       };
 
-    case PRODUCT_ACTIONS.SET_FILTERS: 
-      return { ...state, filters: action.payload}
-
     case PRODUCT_ACTIONS.SET_ERROR:
       return { ...state, error: action.payload.error, loading: false };
 
@@ -155,15 +152,21 @@ const ProductReducer = (state, action) => {
 
 export const ProductProvider = ({ children }) => {
   const [product, setProduct] = useState();
-  const [ globalCategory, setGlobalCategory ] = useState()
+  const [globalCategory, setGlobalCategory] = useState();
   const [allCategories, setAllCategories] = useState();
-  const location = useLocation()
-  const isListingPage = /^\/products\/?$/.test(location.pathname);
-  // const isCategoryPage = /^\/products\/[^/]+$/.test(location.pathname);
+  const location = useLocation();
+  const isProductPage = /^\/products\/[^/]+$/.test(location.pathname);
+  console.log("location.pathname", location.pathname);
 
+  console.log("is category", isCategoryPage);
 
-  const [state, dispatch] = useSyncedReducer(ProductReducer, initialState, true, ['category', 'currentPage', 'totalProducts', 'totalPages']);
-  
+  const [state, dispatch] = useSyncedReducer(
+    ProductReducer,
+    initialState,
+    isProductPage,
+    ["category", "currentPage", "totalProducts", "totalPages"]
+  );
+
   const debouncedSearch = useDebounce(state.filters.search, 500);
 
   useEffect(() => {
@@ -186,18 +189,23 @@ export const ProductProvider = ({ children }) => {
   }, []);
 
   const resetAllFilters = useCallback(() => {
-    dispatch({ type: PRODUCT_ACTIONS.CLEAR_FILTERS, payload: initialState.filters})
-  })
+    dispatch({
+      type: PRODUCT_ACTIONS.CLEAR_FILTERS,
+      payload: initialState.filters,
+    });
+  });
 
-  const fetchProduct = async (category) => {
+  //ADMIN FETCHES ALL PRODUCTS
+  const fetchProduct = async () => {
     try {
       dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
 
       const { category, sortBy, sortOrder, minPrice, maxPrice } = state.filters;
       const { page, limit } = state.pagination;
 
-      const response = await productAPI.getProductByCategory(category, {
+      const response = await productAPI.getAllProduct({
         search: debouncedSearch,
+        category,
         sortBy,
         sortOrder,
         minPrice,
@@ -225,6 +233,39 @@ export const ProductProvider = ({ children }) => {
       return { success: false, error: errorMessage };
     }
   };
+
+  //USER PRODUCTS PAGE BY CATEGORY
+  const fetchProductByCategory = useCallback(
+    async (category) => {
+      try {
+        dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
+
+        const { sortBy, sortOrder, rating, minPrice, maxPrice } = state.filters;
+
+        const response = await productAPI.fetchProductByCategory(category, {
+          sortBy,
+          sortOrder,
+          rating,
+          minPrice,
+          maxPrice,
+          page: state.pagination.page,
+          limit: state.pagination.limit,
+        });
+
+        dispatch({
+          type: PRODUCT_ACTIONS.SET_PRODUCT,
+          payload: {
+            products: response.data.products,
+            pagination: response.data.pagination,
+          },
+        });
+
+      } catch (error) {
+        dispatch({ type: PRODUCT_ACTIONS.SET_ERROR, payload: error.message });
+      }
+    },
+    [state.filters, state.pagination]
+  );
 
   const addProduct = async (ProductData) => {
     try {
@@ -319,7 +360,7 @@ export const ProductProvider = ({ children }) => {
 
       return Array.isArray(parsed) ? parsed : [];
     } catch (error) {
-      toast.error("Loading cart failed")
+      toast.error("Loading cart failed");
       console.log("Loading cart failed");
       return [];
     }
@@ -352,7 +393,7 @@ export const ProductProvider = ({ children }) => {
           return;
         }
 
-        product = cleanCartItem(product)
+        product = cleanCartItem(product);
 
         const exist = existingCart.find((item) => item._id === product._id);
 
@@ -383,27 +424,52 @@ export const ProductProvider = ({ children }) => {
     }
   }, []);
 
-  const values = {
-    products: state.products,
-    loading: state.loading,
-    error: state.error,
-    pagination: state.pagination,
-    fetchProduct,
-    addProduct,
-    updateProduct,
-    deleteProduct,
-    fetchSingleProduct,
-    handleAddToCart,
-    resetAllFilters,
-    filters: state.filters,
-    setFilters,
-    setPagination,
-    debouncedSearch,
-    allCategories,
-    product,
-    globalCategory,
-    setGlobalCategory
-  };
+  const values = useMemo(
+    () => ({
+      products: state.products,
+      loading: state.loading,
+      error: state.error,
+      pagination: state.pagination,
+      fetchProduct,
+      fetchProductByCategory,
+      addProduct,
+      updateProduct,
+      deleteProduct,
+      fetchSingleProduct,
+      handleAddToCart,
+      resetAllFilters,
+      filters: state.filters,
+      setFilters,
+      setPagination,
+      debouncedSearch,
+      allCategories,
+      product,
+      globalCategory,
+      setGlobalCategory,
+    }),
+    [
+      state.products,
+      state.loading,
+      state.error,
+      state.pagination,
+      state.filters,
+      fetchProduct,
+      fetchProductByCategory,
+      addProduct,
+      updateProduct,
+      deleteProduct,
+      fetchSingleProduct,
+      handleAddToCart,
+      resetAllFilters,
+      setFilters,
+      setPagination,
+      debouncedSearch,
+      allCategories,
+      product,
+      globalCategory,
+      setGlobalCategory,
+    ]
+  );
 
   return (
     <ProductContext.Provider value={values}>{children}</ProductContext.Provider>

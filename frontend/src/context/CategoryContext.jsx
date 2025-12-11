@@ -107,8 +107,11 @@ const categoryReducer = (state, action) => {
   }
 };
 
+const isCategoryPage = /^\/categories\/[^/]+$/.test(location.pathname);
+  console.log("location.pathname", location.pathname);
+
 export const CategoryProvider = ({ children }) => {
-  const { state, dispatch } = useSyncedReducer(categoryReducer, initialState, {
+  const { state, dispatch } = useSyncedReducer(categoryReducer, initialState, isCategoryPage, {
     syncKeys,
     pageKey: "pagination.page",
   });
