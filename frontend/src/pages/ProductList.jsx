@@ -10,6 +10,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import PriceFilter from "../components/ui/PriceFilter";
 import RatingFilter from "../components/ui/RatingFilter";
 import CategoryFilter from "../components/ui/CategoryFilter";
+import SortFilter from "../components/ui/SortFilter";
 
 //USER PRODUCTS UI PAGE
 const ProductList = memo(() => {
@@ -29,9 +30,13 @@ const ProductList = memo(() => {
   //CLEAR CATEGORY FILTER IF ANY
   useEffect(() => {
   if (filters.category !== null) {
-    setFilters("category", null);
+    setFilters({search:'cat'});
   }
-}, [category]);
+}, [filters.category]);
+
+useEffect(()=>{
+  console.log('filters.sortBy',filters.sortBy);
+}, [filters.sortBy])
 
   useEffect(() => {
   fetchProductByCategory(category);
@@ -59,22 +64,28 @@ const ProductList = memo(() => {
       <AppLayout>
         <div className="flex ml-0 m-2">
           {/* filters */}
-          <div className="w-[20%]">
+          <div className="w-[50%] md:w-[20%] lg:w-[25%]">
             <aside className="w-full p-5 bg-white shadow-md">
               {/* Header */}
               <div className="flex justify-between items-center mb-3">
                 <h3 className="font-semibold text-[18px]">FILTERS</h3>
                 <button
-                  className="text-sm text-purple-600 font-medium hover:underline"
+                  className="text-sm text-purple-500 font-medium hover:underline"
                   onClick={resetAll}
                 >
                   Reset All
                 </button>
               </div>
+              <div className="flex flex-col gap-5">
+              <SortFilter
+              setFilters= {setFilters}
+              filters
+              />
+                {/* <PRICE FILTER /> */}
               <PriceFilter applyPrice={() => console.log("price applied")} />
-              {/* <GenderFilter /> */}
+              {/* <RATING FILTER /> */}
               <RatingFilter ratingsCount={2} />
-              {/* <CategoryFilter /> */}
+              </div>
             </aside>
           </div>
 
@@ -83,14 +94,7 @@ const ProductList = memo(() => {
             <div className=" w-full flex justify-between p-5">
               <h1>{}</h1>
 
-              <div>
-                <label>sortBy</label>
-                <select name="sortBy" className="border ml-1" id="">
-                  <option>Name</option>
-                  <option>Price</option>
-                  <option>Relevant</option>
-                </select>
-              </div>
+              
             </div>
 
             {/* card layout */}

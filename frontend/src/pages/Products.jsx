@@ -57,6 +57,11 @@ const Products = memo(() => {
     setDeleteData(product);
   }, []);
 
+  const handleDeleteCancel = () => {
+    setIsDelete(false)
+    setDeleteData(null)
+  }
+
   const handleDeleteSubmit = useCallback(() => {
     setIsDelete(false);
 
@@ -68,6 +73,8 @@ const Products = memo(() => {
   //open product form edit/add
   const handleProductForm = useCallback((product) => {
     if (product) setEditData(product);
+    console.log('editData', product);
+    
     setOpen(true);
   }, []);
 
@@ -111,7 +118,7 @@ const Products = memo(() => {
           className= 'overflow-y-auto'
           title={editData ? "Edit Product" : "Add Product"}
         >
-          <ProductForm onConfirm={handleSubmit} onCancel={handleCancel} />
+          <ProductForm onConfirm={handleSubmit} editData={editData} onCancel={handleCancel} />
         </Modal>
       )}
 
@@ -120,7 +127,7 @@ const Products = memo(() => {
         <ConfirmDialog
           isOpen={isDelete}
           title="Are you sure to delete"
-          onCancel={handleDeleteProduct}
+          onCancel={handleDeleteCancel}
           onConfirm={handleDeleteSubmit}
         />
       )}

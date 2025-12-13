@@ -35,7 +35,7 @@ const App = () => (
       <AuthProvider>
         <ProductProvider>
           <Routes>
-            Public Auth Routes
+            {/* Public User Routes */}
             <Route
               path="/test"
               element={

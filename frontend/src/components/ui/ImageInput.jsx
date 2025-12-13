@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { ImagePlus } from "lucide-react";
 
-export const ImageInput = memo(({handleMultiple}) => {
+export const ImageInput = memo(({handleMultiple, editData}) => {
   return (
     <>
       <label

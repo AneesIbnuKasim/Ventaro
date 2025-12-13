@@ -44,8 +44,6 @@ export const productAPI = {
       },
     })
 
-    console.log('res in api', res);
-    
     return res.data
   },
 

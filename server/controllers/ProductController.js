@@ -34,7 +34,7 @@ class ProductController extends BaseController {
     static editProduct = BaseController.asyncHandler(async(req, res)=>{
         const { images, ...formData } = req.body
         const validatedData = BaseController.validateRequest(productValidation, formData)
-        const updated = await ProductService.editProduct(req.params.id, validatedData)
+        const updated = await ProductService.editProduct(req.params.id, validatedData, req)
         BaseController.logAction('EDIT_PRODUCT', updated)
         BaseController.sendSuccess(res, 'Product updated successfully', updated, 200)
     })

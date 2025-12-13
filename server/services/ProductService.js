@@ -1,213 +1,222 @@
-const Category = require("../models/Category")
-const Product = require("../models/Product")
-const { ConflictError, NotFoundError } = require("../utils/errors")
-const logger = require("../utils/logger")
+const { sendError } = require("../controllers/baseController");
+const Category = require("../models/Category");
+const Product = require("../models/Product");
+const { ConflictError, NotFoundError } = require("../utils/errors");
+const logger = require("../utils/logger");
 
 class ProductService {
-    //GET ALL PRODUCTS
-    static getProducts = async(req, res)=>{
-        try {
+  //GET ALL PRODUCTS
+  static getProducts = async (req, res) => {
+    try {
+      const { search, sortBy, sortOrder = "asc", category } = req.query;
 
-            const { search, sortBy, sortOrder='asc', category  } = req.query
-            
+      const minPrice = parseInt(req.query.minPrice);
+      const maxPrice = parseInt(req.query.maxPrice);
+      const rating = parseInt(req.query.rating);
+      const page = parseInt(req.query.page);
+      const limit = parseInt(req.query.limit) || 10;
 
-            const minPrice = parseInt(req.query.minPrice)
-            const maxPrice = parseInt(req.query.maxPrice)
-            const rating = parseInt(req.query.rating)
-            const page = parseInt(req.query.page)
-            const limit = parseInt(req.query.limit) || 10
-            
-            const filter = {}
-            
-            if (search) filter.name = {$regex: search, $options: 'i'}
+      const filter = {};
 
-            if (category) filter.category = {$in: category.split(',')}
+      if (search) filter.name = { $regex: search, $options: "i" };
 
-            if(minPrice||maxPrice) {
-                if(minPrice&&maxPrice) {
-                filter.price = {$gte:minPrice,$lte:maxPrice}
-            }
-                else if(minPrice) filter.price = {$gte:minPrice}
-                else if(maxPrice) filter.price ={$lte:maxPrice}
-            }
+      if (category) filter.category = { $in: category.split(",") };
 
-            if (rating) filter.rating = {$gte: rating}
+      if (minPrice || maxPrice) {
+        if (minPrice && maxPrice) {
+          filter.price = { $gte: minPrice, $lte: maxPrice };
+        } else if (minPrice) filter.price = { $gte: minPrice };
+        else if (maxPrice) filter.price = { $lte: maxPrice };
+      }
 
-            const sortObj = { [sortBy]: sortOrder }
+      if (rating) filter.rating = { $gte: rating };
 
-            const currentPage = page || 1
-            const productPerPage = limit || 6
-            const skipValue = (currentPage-1)*productPerPage
+      const sortObj = { [sortBy]: sortOrder };
 
-            const totalProducts = await Product.find(filter)
+      const currentPage = page || 1;
+      const productPerPage = limit || 6;
+      const skipValue = (currentPage - 1) * productPerPage;
 
-            const [products, categories] = await Promise.all([
-                Product.find(filter).sort(sortObj).skip(skipValue).limit(limit),
-                Category.distinct('name')
-            ])
+      const totalProducts = await Product.find(filter);
 
-            console.log('products:', products);
-            
-            return {products,
-                pagination: {
-                    currentPage,
-                    totalPages: Math.ceil(totalProducts.length/limit),
-                    totalProducts: totalProducts.length
-                },
-                allCategories: categories
-            }
-        } catch (error) {
-            logger.error('Error fetching products') 
-            throw error
-        }
+      const [products, categories] = await Promise.all([
+        Product.find(filter).sort(sortObj).skip(skipValue).limit(limit),
+        Category.distinct("name"),
+      ]);
+
+      console.log("products:", products);
+
+      return {
+        products,
+        pagination: {
+          currentPage,
+          totalPages: Math.ceil(totalProducts.length / limit),
+          totalProducts: totalProducts.length,
+        },
+        allCategories: categories,
+      };
+    } catch (error) {
+      logger.error("Error fetching products");
+      throw error;
     }
+  };
 
+  //GET PRODUCTS BY CATEGORY
+  static getProductsByCategory = async (req, res) => {
+    try {
+      const { sortBy, sortOrder = "asc" } = req.query;
+      const category = req.params.category;
 
-    //GET PRODUCTS BY CATEGORY
-    static getProductsByCategory = async(req, res)=>{
-        try {
+      const categoryDoc = await Category.findOne({
+        name: { $regex: `^${category}$`, $options: "i" },
+      });
 
-            const { sortBy, sortOrder='asc'  } = req.query
-            const category = req.params.category
+      if (!categoryDoc) sendError(res, "Category not found", 404);
 
-            console.log('category in server', category);
-            
-            const minPrice = parseInt(req.query.minPrice)
-            const maxPrice = parseInt(req.query.maxPrice)
-            const rating = parseInt(req.query.rating)
-            const page = parseInt(req.query.page)
-            const limit = parseInt(req.query.limit) || 10
-            
-            const filter = {}
+      const minPrice = parseInt(req.query.minPrice);
+      const maxPrice = parseInt(req.query.maxPrice);
+      const rating = parseInt(req.query.rating);
+      const page = parseInt(req.query.page);
+      const limit = parseInt(req.query.limit) || 10;
 
-            if (category) filter.category = category
-            
-            if(minPrice||maxPrice) {
-                if(minPrice&&maxPrice) {
-                filter.price = {$gte:minPrice,$lte:maxPrice}
-            }
-                else if(minPrice) filter.price = {$gte:minPrice}
-                else if(maxPrice) filter.price ={$lte:maxPrice}
-            }
+      const filter = {};
 
-            if (rating) filter.rating = {$gte: rating}
+      if (categoryDoc) filter.categoryId = categoryDoc._id;
 
-            const sortObj = { [sortBy]: sortOrder }
+      if (minPrice || maxPrice) {
+        if (minPrice && maxPrice) {
+          filter.price = { $gte: minPrice, $lte: maxPrice };
+        } else if (minPrice) filter.price = { $gte: minPrice };
+        else if (maxPrice) filter.price = { $lte: maxPrice };
+      }
 
-            const currentPage = page || 1
-            const productPerPage = limit || 6
-            const skipValue = (currentPage-1)*productPerPage
+      if (rating) filter.rating = { $gte: rating };
 
-            const totalProducts = await Product.find(filter)
+      sortOrder = sortOrder === 'asc' ? 1 : -1
+      const sortObj = { [sortBy]: sortOrder };
+      console.log('sortBy', sortBy);
+      
 
-            const [products] = await Promise.all([
-                Product.find(filter).sort(sortObj).skip(skipValue).limit(limit),
-            ])
+      const currentPage = page || 1;
+      const productPerPage = limit || 6;
+      const skipValue = (currentPage - 1) * productPerPage;
+      console.log("filter", filter);
 
-            console.log('products:', products);
-            
-            return {products,
-                pagination: {
-                    currentPage,
-                    totalPages: Math.ceil(totalProducts.length/limit),
-                    totalProducts: totalProducts.length
-                }
-            }
-        } catch (error) {
-            logger.error('Error fetching products') 
-            throw error
-        }
+      const totalProducts = await Product.countDocuments(filter);
+
+      const products = await Product.find(filter).sort(sortObj);
+      console.log("products:", products);
+
+      return {
+        products,
+        pagination: {
+          page,
+          totalPages: Math.ceil(totalProducts.length / limit),
+          totalProducts: totalProducts.length,
+        },
+      };
+    } catch (error) {
+      logger.error("Error fetching products");
+      throw error;
     }
+  };
 
-    // GET SINGLE PRODUCT
-    static getProduct = async(productId)=>{
-        try {
-            const product = await Product.findById(productId).populate('categoryId')
-            console.log('populated', product);
-            
-            return {product}
-        } catch (error) {
-            logger.error('Error fetching product') 
-            throw error
-        }
+  // GET SINGLE PRODUCT
+  static getProduct = async (productId) => {
+    try {
+      const product = await Product.findById(productId).populate("categoryId");
+      console.log("populated", product);
+
+      return { product };
+    } catch (error) {
+      logger.error("Error fetching product");
+      throw error;
     }
+  };
 
-    static addProduct = async(req)=>{
-        try {
-            const productData = req.body
-            if (!productData) {
-            throw new NotFoundError('No product to add')
-        }        
+  static addProduct = async (req) => {
+    try {
+      const productData = req.body;
+      if (!productData) {
+        throw new NotFoundError("No product to add");
+      }
 
-        const { name, categoryId, brandName } = productData
-        const existing = await Product.findOne({ name:name, categoryId:categoryId,
-            brandName:brandName })
+      const { name, categoryId, brandName } = productData;
+      const existing = await Product.findOne({
+        name: name,
+        categoryId: categoryId,
+        brandName: brandName,
+      });
 
-        if (existing) {
-            logger.error('Product already exist')
-            throw new ConflictError('Product already exist')
-        }
+      if (existing) {
+        logger.error("Product already exist");
+        throw new ConflictError("Product already exist");
+      }
 
-        if (!req.files?.length>0) {
-            logger.error('No images selected to upload')
-            throw new NotFoundError('No images selected to upload')
-        }
+      if (!req.files?.length > 0) {
+        logger.error("No images selected to upload");
+        throw new NotFoundError("No images selected to upload");
+      }
 
-        const product = new Product({
-            ...productData,
-            images: req.files?.map(file=>`/uploads/${file.filename}`)
-        })
+      const product = new Product({
+        ...productData,
+        images: req.files?.map((file) => `/uploads/${file.filename}`),
+      });
 
-        await product.save()
+      await product.save();
 
-        return {product}
-        } catch (error) {
-            logger.error('Adding product failed')
-            throw error
-        }
+      return { product };
+    } catch (error) {
+      logger.error("Adding product failed");
+      throw error;
     }
+  };
 
-    static editProduct = async(productId, productData)=>{
-        try {
+  static editProduct = async (productId, productData, req) => {
+    try {
+      const product = await Product.findById(productId);
 
-            const product = await Product.findById(productId)
+      if (!product) {
+        logger.error("Product not found");
+        throw new NotFoundError("Product not found");
+      }
 
-        if (!product) {
-            logger.error('Product not found')
-            throw new NotFoundError('Product not found')
-        }
+      if (req.files?.length > 0) {
+        productData = {
+          ...productData,
+          images: req.files?.map((file) => `/uploads/${file.filename}`),
+        };
+      }
 
-        Object.assign(product, productData)
+      Object.assign(product, productData);
 
-        await product.save()
+      await product.save();
 
-        return product
+      return product;
+    } catch (error) {
+      logger.error("Product update failed");
+      throw error;
     }
-        catch (error) {
-            logger.error('Product update failed')
-            throw error
-        }
+  };
+
+  static deleteProduct = async (productId) => {
+    try {
+      const existing = await Product.findById(productId);
+
+      if (!existing) {
+        logger.error("Product not found");
+        throw NotFoundError("Product not found");
+      }
+
+      logger.info("Product deleted successfully");
+      await Product.findByIdAndDelete(productId);
+
+      return productId;
+    } catch (error) {
+      logger.error("Product deletion failed");
+      throw error;
     }
-
-    static deleteProduct = async(productId)=>{
-        try {
-            const existing = await Product.findById(productId)
-
-        if (!existing) {
-            logger.error('Product not found')
-            throw NotFoundError('Product not found')
-        }
-
-        logger.info('Product deleted successfully')
-        await Product.findByIdAndDelete(productId)
-
-        return productId
-        } catch (error) {
-            logger.error('Product deletion failed')
-            throw error
-        }
-    }
-
+  };
 }
 
-module.exports = ProductService
+module.exports = ProductService;

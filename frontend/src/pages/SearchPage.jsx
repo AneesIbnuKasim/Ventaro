@@ -11,9 +11,9 @@ import { useNavigate } from "react-router-dom";
 //USER PRODUCTS UI PAGE
 const SearchPage = memo(() => {
 
-  const { filters, setFilters, pagination, products, fetchSearchResult, allCategories, debouncedSearch, resetAllFilters } = useProduct();
+  const { filters, setFilters, pagination, products, fetchSearch, allCategories, debouncedSearch, resetAllFilters } = useProduct();
   useEffect(() => {
-    fetchSearchResult()
+    fetchSearch()
   },[   debouncedSearch,
         filters.category,
         filters.sortBy,
@@ -44,7 +44,7 @@ const SearchPage = memo(() => {
           </div>
 
           {/* MAIN CONTENT AREA */}
-          <div className="flex flex-col w-full m-5">
+          <div className="flex flex-col items-center w-full m-5">
             <div className=" w-full flex justify-between p-5">
               <h1>Showing Search result for '{filters.search || null}'</h1>
 
@@ -65,7 +65,7 @@ const SearchPage = memo(() => {
             </div>
 
             {/* PAGINATION */}
-            <div className="mt-5">
+            <div className="mt-5 w-[70vw]">
               <Pagination className="mr-20" />
             </div>
           </div>

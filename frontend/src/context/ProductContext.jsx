@@ -23,18 +23,20 @@ const initialState = {
   products: [],
   filters: {
     search: "",
+    minPrice: "",
+    maxPrice: "",
     sortBy: "createdAt",
     sortOrder: "asc",
     rating: [],
-    category: [],
+    category: ''
   },
   pagination: {
     page: 1,
     limit: 10,
+    totalPages: "",
+    totalProducts: "",
   },
 };
-
-const ARRAY_FILTERS = ["rating", "category"];
 
 const PRODUCT_ACTIONS = {
   SET_LOADING: "SET_LOADING",
@@ -54,40 +56,25 @@ const ProductReducer = (state, action) => {
     case "SET_FROM_URL":
       return {
         ...state,
-        filters: { ...state.filters, ...action.payload.filters },
-        pagination: { ...state.pagination, ...action.payload.pagination },
+        filters: {
+          ...state.filters,
+          ...action.payload.filters,
+        },
+        pagination: {
+          ...state.pagination,
+          ...action.payload.pagination,
+        },
       };
 
     case PRODUCT_ACTIONS.SET_LOADING:
       return { ...state, loading: action.payload, error: null };
 
     case PRODUCT_ACTIONS.SET_FILTERS:
-      const { key, value } = action.payload;
-      const isArrayFilter = ARRAY_FILTERS.includes(key);
-
-      if (isArrayFilter) {
-        const current = state.filters[key] || [];
-        const exist = current.includes(value);
-
-        return {
-          ...state,
-          filters: {
-            ...state.filters,
-            [key]: exist
-              ? current.filter((v) => v !== value)
-              : [...current, value],
-          },
-          pagination: {
-            ...state.pagination,
-            page: 1,
-          },
-        };
-      }
       return {
         ...state,
         filters: {
           ...state.filters,
-          [key]: value,
+          ...action.payload,
         },
         pagination: {
           ...state.pagination,
@@ -106,6 +93,7 @@ const ProductReducer = (state, action) => {
         ...state,
         products: action.payload.products || [],
         pagination: action.payload.pagination || state.pagination,
+        loading: false
       };
 
     case PRODUCT_ACTIONS.ADD_PRODUCT:
@@ -125,6 +113,8 @@ const ProductReducer = (state, action) => {
       };
 
     case PRODUCT_ACTIONS.SET_PAGINATION:
+      console.log("pagin", action.payload);
+
       return {
         ...state,
         pagination: {
@@ -156,15 +146,12 @@ export const ProductProvider = ({ children }) => {
   const [allCategories, setAllCategories] = useState();
   const location = useLocation();
   const isProductPage = /^\/products\/[^/]+$/.test(location.pathname);
-  console.log("location.pathname", location.pathname);
-
-  console.log("is category", isCategoryPage);
 
   const [state, dispatch] = useSyncedReducer(
     ProductReducer,
     initialState,
     isProductPage,
-    ["category", "currentPage", "totalProducts", "totalPages"]
+    { filterKeys: ["search", "sortBy"], paginationKeys: ["page", "limit"] }
   );
 
   const debouncedSearch = useDebounce(state.filters.search, 500);
@@ -177,15 +164,21 @@ export const ProductProvider = ({ children }) => {
   }, [state.error]);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [state.pagination.page]);
+
+  useEffect(() => {
     console.log("all filters:", state.filters);
-  }, [state.filters]);
+  }, [state.filters.category]);
 
   const setPagination = useCallback((payload) => {
     dispatch({ type: PRODUCT_ACTIONS.SET_PAGINATION, payload });
   }, []);
 
-  const setFilters = useCallback((key, value) => {
-    dispatch({ type: PRODUCT_ACTIONS.SET_FILTERS, payload: { key, value } });
+  const setFilters = useCallback((payload) => {
+    console.log('pay',payload);
+
+    dispatch({ type: PRODUCT_ACTIONS.SET_FILTERS, payload });
   }, []);
 
   const resetAllFilters = useCallback(() => {
@@ -259,12 +252,11 @@ export const ProductProvider = ({ children }) => {
             pagination: response.data.pagination,
           },
         });
-
       } catch (error) {
         dispatch({ type: PRODUCT_ACTIONS.SET_ERROR, payload: error.message });
       }
     },
-    [state.filters, state.pagination]
+    [state.filters.sortBy, state.pagination]
   );
 
   const addProduct = async (ProductData) => {
@@ -328,6 +320,11 @@ export const ProductProvider = ({ children }) => {
       return { success: false, error: error.message };
     }
   };
+
+  //HANDLE GLOBAL SEARCH
+  const fetchSearch = useCallback(() => {
+    console.log("in global search");
+  }, []);
 
   //USER PRODUCT HANDLE
 
@@ -446,6 +443,7 @@ export const ProductProvider = ({ children }) => {
       product,
       globalCategory,
       setGlobalCategory,
+      fetchSearch,
     }),
     [
       state.products,
@@ -468,6 +466,7 @@ export const ProductProvider = ({ children }) => {
       product,
       globalCategory,
       setGlobalCategory,
+      fetchSearch,
     ]
   );
 

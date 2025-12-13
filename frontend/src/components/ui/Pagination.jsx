@@ -78,7 +78,7 @@ const Pagination = ({
                       ? "bg-blue-600 text-white border-blue-600"
                       : "bg-white text-gray-700 hover:bg-gray-100"
                   }`}
-                  onClick={() => onPageChange(page)}
+                  onClick={() => setPagination('page',page)}
                 >
                   {page}
                 </button>

@@ -9,15 +9,18 @@ export const adminAPI = {
         })
     },
 
-    uploadImages: (formData)=>{
-        return makeRequest({
-            method: 'post',
-            url: 'api/admin/upload-images',
-            data: formData
-        })
-    },
+    // uploadImages: (formData)=>{
+    //     return makeRequest({
+    //         method: 'post',
+    //         url: 'api/admin/upload-images',
+    //         data: formData
+    //     })
+    // },
 
-    getAllCategory: (params= {})=>{
+    getAllCategory: (params = {})=>{
+        const { limit, page } = params
+        console.log('last page, limit', limit, page);
+        
         return makeRequest({
             method: 'get',
             url: `api/category`,

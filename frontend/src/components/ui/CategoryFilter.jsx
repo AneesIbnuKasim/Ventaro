@@ -6,9 +6,14 @@ const CategoryFilter = memo(() => {
   // const { allCategories } = useProduct(['mobile','shirt'])
   const {filters, setFilters, allCategories } = useProduct()
   console.log('filters on category page::', filters);
+  const [categories, setCategories] = useState([])
 
-  const handleFilter = (e) => {
-    setFilters('category', e.target.value)
+
+  const handleFilter = (c) => {
+    const updatedCategories = categories.includes(c) ? categories.filter(category=> category!==c) : [...categories, c] 
+    console.log('updated cats', updatedCategories);
+    
+    setFilters({'category': updatedCategories})
   }
   
   return (
@@ -34,7 +39,7 @@ const CategoryFilter = memo(() => {
                 type="checkbox"
                 value={c}
                 checked={filters.category.includes(c)}
-                onChange={(e) => handleFilter(e)}
+                onChange={() => handleFilter(c)}
               />
               {c}
             </label>

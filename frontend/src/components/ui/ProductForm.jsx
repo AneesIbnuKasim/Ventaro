@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik, FieldArray } from "formik";
 
 import Button from "./Button";
@@ -11,9 +11,17 @@ import FormSelect from "./FormSelect";
 import { ImageInput } from "./imageInput";
 import { productAddSchema } from "../../validation/userSchema";
 
-export default function ProductForm({ onConfirm, onCancel }) {
+export default function ProductForm({ onConfirm, onCancel, editData = '' }) {
   const { loading } = useProduct();
-  const { categories } = useCategory();
+  const { categories, fetchCategories } = useCategory();
+  useEffect(() => {
+    if (categories.length === 0) {
+      const load = async () => {
+        await fetchCategories()
+      }
+      load()
+    }
+  },[])
 
   const [previews, setPreviews] = useState([]);
   const [images, setImages] = useState([]);
@@ -29,15 +37,25 @@ export default function ProductForm({ onConfirm, onCancel }) {
 
   // ---- FORM STATE ----
   const formik = useFormik({
-    initialValues: {
+    initialValues:
+      editData ? {
+      name: editData.name,
+      categoryId: editData.categoryId,
+      brandName: editData.brandName,
+      price: editData.price,
+      discount: editData.discount,
+      description: editData.description,
+      stock: editData.stock
+    } : {
       name: "",
       categoryId: "",
       brandName: "",
       price: '',
-      discount: 0,
+      discount: '',
       description: "",
       stock: ""
-    },
+    }
+     ,
 
     validationSchema: productAddSchema,
 
@@ -135,10 +153,10 @@ export default function ProductForm({ onConfirm, onCancel }) {
           name="brandName"
           required
           placeholder="Enter brand name..."
-          value={formik.values.brand}
+          value={formik.values.brandName}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          error={formik.touched.brand && formik.errors.brand}
+          error={formik.touched.brandName && formik.errors.brandName}
         />
 
         {/* Description */}
@@ -168,7 +186,7 @@ export default function ProductForm({ onConfirm, onCancel }) {
           ))}
         </div>
 
-        <ImageInput handleMultiple={handleMultiple} />
+        <ImageInput handleMultiple={handleMultiple} editData={editData} />
 
         <div className="flex justify-end gap-4 mt-4">
           <Button
@@ -181,7 +199,7 @@ export default function ProductForm({ onConfirm, onCancel }) {
           </Button>
 
           <Button type="submit" variant="primary" size="md" loading={loading}>
-            ADD PRODUCT
+           {editData ?  'UPDATE PRODUCT' : 'ADD PRODUCT'}
           </Button>
         </div>
       </div>
