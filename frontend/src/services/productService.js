@@ -63,7 +63,6 @@ export const productAPI = {
   },
 
   //USER PRODUCT PAGES
-
   fetchSingleProduct: (productId) => {
     console.log('here');
     
@@ -71,5 +70,17 @@ export const productAPI = {
       method: "get",
       url: `api/products/details/${productId}`,
     });
-  }
+  },
+
+  //SEARCH SUGGESTION 
+ searchSuggestion: (params) => {
+
+  console.log(params);
+  
+  return makeRequest({
+      method: "get",
+      url: `api/products/suggestions`,
+      params
+    });
+ }
 };

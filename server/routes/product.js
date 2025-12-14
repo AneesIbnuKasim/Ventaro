@@ -16,6 +16,7 @@ router.delete('/:id', authenticateAdmin, ProductController.deleteProduct)
 
 //USER PRODUCT ROUTES
 
+router.get('/suggestions',ProductController.searchSuggestions)
 router.get('/:category',ProductController.getProductsByCategory)
 
 module.exports = router

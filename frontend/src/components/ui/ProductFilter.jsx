@@ -3,9 +3,13 @@ import PriceFilter from './PriceFilter'
 import GenderFilter from './GenderFilter'
 import RatingFilter from './RatingFilter'
 import CategoryFilter from './CategoryFilter'
+import SortFilter from "./SortFilter";
 
 function ProductFilter({
-    resetAll
+    resetAll,
+    filters,
+    setFilters,
+    allCategories
 }) {
   return (
     <aside className="w-full p-5 bg-white shadow-md">
@@ -19,12 +23,15 @@ function ProductFilter({
           Reset All
         </button>
       </div>
+      <SortFilter setFilters={setFilters} filters={filters} />
       <PriceFilter
+      filters={filters}
+      setFilters={setFilters}
       applyPrice = {()=>console.log('price applied')}
        />
       {/* <GenderFilter /> */}
-      <RatingFilter ratingsCount= {2} />
-      <CategoryFilter />
+      <RatingFilter filters={filters} setFilters={setFilters} ratingsCount= {2} />
+      <CategoryFilter filters={filters} setFilters={setFilters} allCategories= {allCategories}  />
 
     </aside>
   )

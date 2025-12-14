@@ -13,6 +13,12 @@ export default function PriceFilter({
   const handleChange = (val) => {
     setValues(val)
   };
+
+  useEffect(() => {
+    const minVal = filters.minPrice || values[0]
+    const maxVal = filters.maxPrice || values[1]
+    setValues([minVal, maxVal])
+  }, [filters.minPrice, filters.maxPrice])
   
   const handlePriceFilter = ()=>{
     setFilters({minPrice: values[0]})
@@ -27,7 +33,7 @@ export default function PriceFilter({
      <div className="flex items-center gap-5  ">
          <RangeSlider
         min={0}
-        max={2000}
+        max={10000}
         step={10}
         value={values}
         thumbSize={4}

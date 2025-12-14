@@ -110,7 +110,7 @@ const App = () => (
             />
 
             <Route
-              path="/products/search"
+              path="/search"
               element={
                 <PublicRoute>
                   <SearchPage />

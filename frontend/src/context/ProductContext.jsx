@@ -28,7 +28,7 @@ const initialState = {
     sortBy: "createdAt",
     sortOrder: "asc",
     rating: [],
-    category: ''
+    category: [],
   },
   pagination: {
     page: 1,
@@ -85,6 +85,16 @@ const ProductReducer = (state, action) => {
     case PRODUCT_ACTIONS.SET_ERROR:
       return { ...state, error: action.payload.error, loading: false };
 
+    case PRODUCT_ACTIONS.CLEAR_FILTERS:
+      return {
+        ...state,
+        filters: initialState.filters,
+        pagination: {
+          ...state.pagination,
+          page: 1,
+        },
+      };
+
     case PRODUCT_ACTIONS.CLEAR_ERROR:
       return { ...state, error: null, loading: false };
 
@@ -93,7 +103,7 @@ const ProductReducer = (state, action) => {
         ...state,
         products: action.payload.products || [],
         pagination: action.payload.pagination || state.pagination,
-        loading: false
+        loading: false,
       };
 
     case PRODUCT_ACTIONS.ADD_PRODUCT:
@@ -113,8 +123,6 @@ const ProductReducer = (state, action) => {
       };
 
     case PRODUCT_ACTIONS.SET_PAGINATION:
-      console.log("pagin", action.payload);
-
       return {
         ...state,
         pagination: {
@@ -145,16 +153,29 @@ export const ProductProvider = ({ children }) => {
   const [globalCategory, setGlobalCategory] = useState();
   const [allCategories, setAllCategories] = useState();
   const location = useLocation();
-  const isProductPage = /^\/products\/[^/]+$/.test(location.pathname);
+  const isEnabled = /^\/products/.test(location.pathname);
 
   const [state, dispatch] = useSyncedReducer(
     ProductReducer,
     initialState,
-    isProductPage,
-    { filterKeys: ["search", "sortBy"], paginationKeys: ["page", "limit"] }
+    location.pathname.startsWith("/products"),
+    {
+      filterKeys: [
+        "search",
+        "sortBy",
+        "sortOrder",
+        "rating",
+        "minPrice",
+        "maxPrice",
+      ],
+      paginationKeys: ["page", "limit"],
+    }
   );
 
   const debouncedSearch = useDebounce(state.filters.search, 500);
+  const { category, sortBy, sortOrder, minPrice, maxPrice, rating } =
+    state.filters;
+  const { page, limit } = state.pagination;
 
   useEffect(() => {
     if (state.error) {
@@ -168,6 +189,10 @@ export const ProductProvider = ({ children }) => {
   }, [state.pagination.page]);
 
   useEffect(() => {
+    resetAllFilters();
+  }, [location.pathname]);
+
+  useEffect(() => {
     console.log("all filters:", state.filters);
   }, [state.filters]);
 
@@ -176,8 +201,6 @@ export const ProductProvider = ({ children }) => {
   }, []);
 
   const setFilters = useCallback((payload) => {
-    console.log('pay',payload);
-
     dispatch({ type: PRODUCT_ACTIONS.SET_FILTERS, payload });
   }, []);
 
@@ -186,15 +209,12 @@ export const ProductProvider = ({ children }) => {
       type: PRODUCT_ACTIONS.CLEAR_FILTERS,
       payload: initialState.filters,
     });
-  });
+  }, [dispatch]);
 
   //ADMIN FETCHES ALL PRODUCTS
-  const fetchProduct = async () => {
+  const fetchProduct = useCallback(async () => {
     try {
       dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
-
-      const { category, sortBy, sortOrder, minPrice, maxPrice } = state.filters;
-      const { page, limit } = state.pagination;
 
       const response = await productAPI.getAllProduct({
         search: debouncedSearch,
@@ -209,8 +229,6 @@ export const ProductProvider = ({ children }) => {
 
       const { products, pagination, allCategories } = response.data;
 
-      console.log("product response:", response);
-
       dispatch({
         type: PRODUCT_ACTIONS.SET_PRODUCT,
         payload: { products: products, pagination },
@@ -221,11 +239,25 @@ export const ProductProvider = ({ children }) => {
       return { success: true };
     } catch (error) {
       const errorMessage = error.message;
-      dispatch({ type: PRODUCT_ACTIONS.SET_ERROR, payload: error.message });
+      dispatch({
+        type: PRODUCT_ACTIONS.SET_ERROR,
+        payload: { error: error.message },
+      });
 
       return { success: false, error: errorMessage };
     }
-  };
+  }, [
+    dispatch,
+    debouncedSearch,
+    category,
+    sortBy,
+    sortOrder,
+    minPrice,
+    maxPrice,
+    page,
+    limit,
+    setAllCategories,
+  ]);
 
   //USER PRODUCTS PAGE BY CATEGORY
   const fetchProductByCategory = useCallback(
@@ -233,18 +265,14 @@ export const ProductProvider = ({ children }) => {
       try {
         dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
 
-        const { sortBy, sortOrder, rating, minPrice, maxPrice } = state.filters;
-        console.log('rating before sent:', rating);
-        
-
         const response = await productAPI.fetchProductByCategory(category, {
           sortBy,
           sortOrder,
           rating,
           minPrice,
           maxPrice,
-          page: state.pagination.page,
-          limit: state.pagination.limit,
+          page,
+          limit,
         });
 
         dispatch({
@@ -255,13 +283,51 @@ export const ProductProvider = ({ children }) => {
           },
         });
       } catch (error) {
-        dispatch({ type: PRODUCT_ACTIONS.SET_ERROR, payload: error.message });
+        dispatch({
+          type: PRODUCT_ACTIONS.SET_ERROR,
+          payload: { error: error.message },
+        });
       }
     },
-    [state.filters.sortBy, state.pagination.page, state.filters.rating, state.filters.sortOrder]
+    [dispatch, sortBy, limit, page, minPrice, maxPrice, rating, sortOrder]
   );
 
-  const addProduct = async (ProductData) => {
+  //GET SEARCH SUGGESTION
+  const searchSuggestion = useCallback(async (search) => {
+    try {
+      const response = await productAPI.searchSuggestion({ search });
+
+      return response.data.suggestions;
+    } catch (error) {
+      dispatch({
+        type: PRODUCT_ACTIONS.SET_ERROR,
+        payload: { error: error.message },
+      });
+      console.log(error);
+    }
+  }, []);
+
+  //HANDLE GLOBAL SEARCH
+  const fetchSearch = useCallback((search) => {
+    try {
+      
+    } catch (error) {
+      dispatch({
+        type: PRODUCT_ACTIONS.SET_ERROR,
+        payload: { error: error.message },
+      });
+    }
+  }, [
+    category,
+    sortBy,
+    sortOrder,
+    minPrice,
+    maxPrice,
+    page,
+    limit,
+  ]);
+
+  const addProduct = useCallback(async (ProductData) => {
     try {
       dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
 
@@ -276,7 +342,10 @@ export const ProductProvider = ({ children }) => {
 
       return { success: true };
     } catch (error) {
-      dispatch({ type: PRODUCT_ACTIONS.SET_ERROR, payload: error.message });
+      dispatch({
+        type: PRODUCT_ACTIONS.SET_ERROR,
+        payload: { error: error.message },
+      });
       toast.error(error.message);
       console.log(error);
       // if (error.status === 401 || error.status === 403 ) {
@@ -284,9 +353,9 @@ export const ProductProvider = ({ children }) => {
       //   window.location.href = '/login'
       // }
     }
-  };
+  }, []);
 
-  const updateProduct = async (ProductId, ProductData) => {
+  const updateProduct = useCallback(async (ProductId, ProductData) => {
     try {
       dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
 
@@ -301,11 +370,14 @@ export const ProductProvider = ({ children }) => {
 
       return { success: true };
     } catch (error) {
-      dispatch({ type: PRODUCT_ACTIONS.SET_ERROR, payload: error.message });
+      dispatch({
+        type: PRODUCT_ACTIONS.SET_ERROR,
+        payload: { error: error.message },
+      });
       console.log(error);
       return { success: false, error: error.message };
     }
-  };
+  }, []);
 
   const deleteProduct = async (ProductId) => {
     try {
@@ -317,16 +389,14 @@ export const ProductProvider = ({ children }) => {
 
       toast(response.message);
     } catch (error) {
-      dispatch({ type: PRODUCT_ACTIONS.SET_ERROR, payload: error.message });
+      dispatch({
+        type: PRODUCT_ACTIONS.SET_ERROR,
+        payload: { error: error.message },
+      });
       console.log(error);
       return { success: false, error: error.message };
     }
   };
-
-  //HANDLE GLOBAL SEARCH
-  const fetchSearch = useCallback(() => {
-    console.log("in global search");
-  }, []);
 
   //USER PRODUCT HANDLE
 
@@ -342,7 +412,10 @@ export const ProductProvider = ({ children }) => {
 
       return { success: true };
     } catch (error) {
-      dispatch({ type: PRODUCT_ACTIONS.SET_ERROR, payload: error.message });
+      dispatch({
+        type: PRODUCT_ACTIONS.SET_ERROR,
+        payload: { error: error.message },
+      });
       console.log(error);
       return { success: false, error: error.message };
     }
@@ -365,7 +438,7 @@ export const ProductProvider = ({ children }) => {
     }
   };
 
-  //cCLEAN PRODUCT BEFORE ADDING TO CART
+  //CLEAN PRODUCT BEFORE ADDING TO CART
   const cleanCartItem = (product) => ({
     _id: product._id,
     name: product.name,
@@ -417,7 +490,10 @@ export const ProductProvider = ({ children }) => {
         toast.success("Product added to cart");
       }
     } catch (error) {
-      dispatch({ type: PRODUCT_ACTIONS.SET_ERROR, payload: error.message });
+      dispatch({
+        type: PRODUCT_ACTIONS.SET_ERROR,
+        payload: { error: error.message },
+      });
       console.log(error.message);
       return { success: false, error: error.message };
     }
@@ -446,13 +522,13 @@ export const ProductProvider = ({ children }) => {
       globalCategory,
       setGlobalCategory,
       fetchSearch,
+      searchSuggestion,
     }),
     [
       state.products,
       state.loading,
       state.error,
       state.pagination,
-      state.filters,
       fetchProduct,
       fetchProductByCategory,
       addProduct,
@@ -469,6 +545,7 @@ export const ProductProvider = ({ children }) => {
       globalCategory,
       setGlobalCategory,
       fetchSearch,
+      searchSuggestion,
     ]
   );
 

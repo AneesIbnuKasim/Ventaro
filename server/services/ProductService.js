@@ -91,12 +91,11 @@ class ProductService {
         else if (maxPrice) filter.price = { $lte: maxPrice };
       }
 
-      if (rating) filter.rating = { $gte: rating };
+      if (rating) filter.rating = { $lte: rating };
 
-      sortOrder = sortOrder === 'asc' ? 1 : -1
+      sortOrder = sortOrder === "asc" ? 1 : -1;
       const sortObj = { [sortBy]: sortOrder };
-      console.log('sortBy', sortBy);
-      
+      console.log("sortBy", sortBy);
 
       const currentPage = page || 1;
       const productPerPage = limit || 6;
@@ -105,7 +104,10 @@ class ProductService {
 
       const totalProducts = await Product.countDocuments(filter);
 
-      const products = await Product.find(filter).sort(sortObj).skip(skipValue).limit(limit);
+      const products = await Product.find(filter)
+        .sort(sortObj)
+        .skip(skipValue)
+        .limit(limit);
       console.log("products:", products);
 
       return {
@@ -113,7 +115,7 @@ class ProductService {
         pagination: {
           page,
           totalPages: Math.ceil(totalProducts / limit),
-          totalProducts: totalProducts
+          totalProducts: totalProducts,
         },
       };
     } catch (error) {
@@ -215,6 +217,34 @@ class ProductService {
       return productId;
     } catch (error) {
       logger.error("Product deletion failed");
+      throw error;
+    }
+  };
+
+  static searchSuggestions = async (req) => {
+    try {
+        console.log('in api');
+        
+      const { search } = req.query;
+
+      const filter = {};
+
+      if (search) filter.$or = [
+          { name: { $regex: search, $options: "i" } },
+          { description: { $regex: search, $options: "i" } },
+          { brandName: { $regex: search, $options: "i" } },
+        ];
+      const suggestions = await Product.find(filter).select('name brandName')
+
+
+
+      console.log('suggestions:', suggestions);
+      
+
+      logger.info("Search suggestion generated");
+
+      return {suggestions};
+    } catch (error) {
       throw error;
     }
   };

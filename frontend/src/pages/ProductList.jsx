@@ -31,28 +31,15 @@ const ProductList = memo(() => {
   const { category } = useParams();
 
   //CLEAR CATEGORY FILTER IF ANY
-  useEffect(() => {
-  if (filters.category !== null) {
-    setFilters({search:'cat'});
-  }
-}, [filters.category]);
-
-useEffect(()=>{
-  console.log('filters.sortBy',filters.sortBy);
-}, [filters.sortBy])
+  //   useEffect(() => {
+  //   if (filters.category !== null) {
+  //     setFilters({category: null});
+  //   }
+  // }, [filters.category]);
 
   useEffect(() => {
-  fetchProductByCategory(category);
-}, [
-  category,
-  filters.sortBy,
-  filters.sortOrder,
-  filters.minPrice,
-  filters.maxPrice,
-  filters.rating,
-  pagination.page,
-  pagination.limit,
-]);
+    fetchProductByCategory(category);
+  }, [category, fetchProductByCategory]);
 
   const navigate = useNavigate();
 
@@ -74,58 +61,57 @@ useEffect(()=>{
                 <h3 className="font-semibold text-[18px]">FILTERS</h3>
                 <button
                   className="text-sm text-purple-500 font-medium hover:underline"
-                  onClick={resetAll}
+                  onClick={resetAllFilters}
                 >
                   Reset All
                 </button>
               </div>
               <div className="flex flex-col gap-5">
-              <SortFilter
-              setFilters= {setFilters}
-              filters = {filters}
-              />
+                <SortFilter setFilters={setFilters} filters={filters} />
                 {/* <PRICE FILTER /> */}
-              <PriceFilter setFilters={setFilters} />
-              {/* <RATING FILTER /> */}
-              <RatingFilter filters={filters} setFilters={setFilters} ratingsCount={2} />
+                <PriceFilter setFilters={setFilters} filters={filters} />
+                {/* <RATING FILTER /> */}
+                <RatingFilter
+                  filters={filters}
+                  setFilters={setFilters}
+                  ratingsCount={2}
+                />
               </div>
             </aside>
           </div>
 
           {/* MAIN CONTENT AREA */}
-          { products.length > 0 ? (
+          {products.length > 0 ? (
             <div className="flex flex-col w-full m-5">
-            <div className=" w-full flex justify-between p-5">
-              <h1>{}</h1>
+              <div className=" w-full flex h2 justify-between p-5">
+                <h1>{category.charAt(0).toUpperCase()+category.slice(1)}</h1>
+              </div>
 
-              
-            </div>
+              {/* card layout */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-2">
+                {products &&
+                  products.map((item) => (
+                    <ProductCard handleClick={handleClick} product={item} />
+                  ))}
+              </div>
 
-            {/* card layout */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-2">
-              {products &&
-                products.map((item) => (
-                  <ProductCard handleClick={handleClick} product={item} />
-                ))}
+              {/* PAGINATION */}
+              {pagination.totalPages > 1 && (
+                <div className="mt-5">
+                  <Pagination
+                    currentPage={pagination.page}
+                    totalItems={pagination.totalProducts}
+                    totalPages={pagination.totalPages}
+                    itemsPerPage={pagination.limit}
+                    onPageChange={setPagination}
+                    className="mr-20"
+                  />
+                </div>
+              )}
             </div>
-
-            {/* PAGINATION */}
-            {pagination.totalPages>1 && 
-            <div className="mt-5">
-              <Pagination 
-              currentPage={pagination.page}
-              totalItems={pagination.totalProducts}
-              totalPages={pagination.totalPages}
-              itemsPerPage={pagination.limit}
-              onPageChange={setPagination}
-              className="mr-20" />
-            </div>
-            }
-          </div>
-          ):
-          (
+          ) : (
             <div className="flex w-full bg-blend-hard-light items-center justify-center">
-              <ProductNotFound keyWord='No products found...' />
+              <ProductNotFound keyWord="No products found..." />
             </div>
           )}
         </div>

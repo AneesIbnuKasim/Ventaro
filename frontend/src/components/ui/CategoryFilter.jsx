@@ -1,19 +1,22 @@
 import { Search } from 'lucide-react'
-import React, { memo, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import { useProduct } from '../../context/ProductContext'
 
-const CategoryFilter = memo(() => {
-  // const { allCategories } = useProduct(['mobile','shirt'])
-  const {filters, setFilters, allCategories } = useProduct()
-  console.log('filters on category page::', filters);
-  const [categories, setCategories] = useState([])
-
+const CategoryFilter = memo(({
+  filters,
+  setFilters,
+  allCategories
+}) => {
 
   const handleFilter = (c) => {
+    console.log('c', c);
+    const categories = filters.category ?? []
+    console.log('categories:', categories);
+    
     const updatedCategories = categories.includes(c) ? categories.filter(category=> category!==c) : [...categories, c] 
     console.log('updated cats', updatedCategories);
     
-    setFilters({'category': updatedCategories})
+    setFilters({category: updatedCategories})
   }
   
   return (

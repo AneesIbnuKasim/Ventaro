@@ -44,6 +44,14 @@ class ProductController extends BaseController {
         BaseController.logAction('DELETE_PRODUCT', product)
         BaseController.sendSuccess(res, 'Product deleted successfully')
     })
+
+    static searchSuggestions = BaseController.asyncHandler(async(req, res)=>{
+        const suggestions = await ProductService.searchSuggestions(req)
+        console.log('suggs:',suggestions);
+        
+        BaseController.logAction('GET_SUGGESTIONS', suggestions)
+        BaseController.sendSuccess(res, 'Suggestion fetched successfully', suggestions, 200)
+    })
 }
 
 module.exports = ProductController

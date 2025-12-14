@@ -11,6 +11,7 @@ import { FormInput } from ".";
 import Footer from "./Footer";
 import { useProduct } from "../../context/ProductContext";
 import { useNavigate } from "react-router-dom";
+import SearchInput from "./SearchInput";
 
 export default function Navbar({
   logo = "Logo",
@@ -29,13 +30,6 @@ export default function Navbar({
     setGlobalCategory(cat)
     navigate(`/products/${cat}`)
   }
-
-  const handleSearchNavigate = () => {
-  if (!suggestion.trim()) return;
-  const searchTerm = suggestion.trim()
-  setFilters('search', searchTerm)
-  navigate(`/search`);
-}
 
   return (
     <>
@@ -79,11 +73,11 @@ export default function Navbar({
             </ul>
 
             {/* Search input */}
-            <div className="hidden sm:block relative w-64">
+            {/* <div className="hidden sm:block relative w-64">
               <input
                 type="text"
-                value={suggestion}
-                onChange={(e) => setSuggestion(e.target.value)}
+                value={query}
+                setSuggestion = {setSuggestion}
                 placeholder="Search products..."
                 className="w-full bg-[#F3F3F5] rounded-full py-2.5 pl-5 pr-12 text-sm outline-none border border-transparent focus:border-gray-300 transition"
               />
@@ -96,7 +90,9 @@ export default function Navbar({
                   className="text-white bg-[#6D3CF8] p-1 rounded-full"
                 />
               </button>
-            </div>
+            </div> */}
+
+            <SearchInput />
           </div>
 
           {/* RIGHT: Icons */}
