@@ -15,8 +15,8 @@ export default function PriceFilter({
   };
   
   const handlePriceFilter = ()=>{
-    setFilters('minPrice', values[0])
-    setFilters('maxPrice', values[1])
+    setFilters({minPrice: values[0]})
+    setFilters({maxPrice: values[1]})
   }
 
   return (

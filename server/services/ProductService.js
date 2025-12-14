@@ -64,7 +64,8 @@ class ProductService {
   //GET PRODUCTS BY CATEGORY
   static getProductsByCategory = async (req, res) => {
     try {
-      const { sortBy, sortOrder = "asc" } = req.query;
+      const { sortBy } = req.query;
+      let { sortOrder = "asc" } = req.query;
       const category = req.params.category;
 
       const categoryDoc = await Category.findOne({
@@ -104,15 +105,15 @@ class ProductService {
 
       const totalProducts = await Product.countDocuments(filter);
 
-      const products = await Product.find(filter).sort(sortObj);
+      const products = await Product.find(filter).sort(sortObj).skip(skipValue).limit(limit);
       console.log("products:", products);
 
       return {
         products,
         pagination: {
           page,
-          totalPages: Math.ceil(totalProducts.length / limit),
-          totalProducts: totalProducts.length,
+          totalPages: Math.ceil(totalProducts / limit),
+          totalProducts: totalProducts
         },
       };
     } catch (error) {

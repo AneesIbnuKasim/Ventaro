@@ -2,15 +2,19 @@ import React, { memo, useState } from 'react'
 import { useProduct } from '../../context/ProductContext'
 
 const RatingFilter = memo(({
+  filters,
+  setFilters,
   ratingsCount
 }) => {
-  const { filters, setFilters } = useProduct()
   console.log('rat', filters.rating);
   
     const handleFilter = (e) => {
     const star = Number(e.target.value); 
-    console.log('e.target', e.target.value);
-    setFilters('rating', star)
+    const rating = filters.rating ?? []
+
+    const updatedRating = rating.includes(star) ? rating.filter(r => r !== star) : [...rating, star]
+
+    setFilters({rating: updatedRating})
     
   }
   

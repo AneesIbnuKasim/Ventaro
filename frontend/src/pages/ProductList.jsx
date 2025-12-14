@@ -11,12 +11,15 @@ import PriceFilter from "../components/ui/PriceFilter";
 import RatingFilter from "../components/ui/RatingFilter";
 import CategoryFilter from "../components/ui/CategoryFilter";
 import SortFilter from "../components/ui/SortFilter";
+import SearchNotFound from "../components/ui/SearchNotFound";
+import ProductNotFound from "../components/ui/ProductNotFound";
 
 //USER PRODUCTS UI PAGE
 const ProductList = memo(() => {
   const {
     filters,
     setFilters,
+    setPagination,
     pagination,
     products,
     fetchProductByCategory,
@@ -79,18 +82,19 @@ useEffect(()=>{
               <div className="flex flex-col gap-5">
               <SortFilter
               setFilters= {setFilters}
-              filters
+              filters = {filters}
               />
                 {/* <PRICE FILTER /> */}
-              <PriceFilter applyPrice={() => console.log("price applied")} />
+              <PriceFilter setFilters={setFilters} />
               {/* <RATING FILTER /> */}
-              <RatingFilter ratingsCount={2} />
+              <RatingFilter filters={filters} setFilters={setFilters} ratingsCount={2} />
               </div>
             </aside>
           </div>
 
           {/* MAIN CONTENT AREA */}
-          <div className="flex flex-col w-full m-5">
+          { products.length > 0 ? (
+            <div className="flex flex-col w-full m-5">
             <div className=" w-full flex justify-between p-5">
               <h1>{}</h1>
 
@@ -106,12 +110,24 @@ useEffect(()=>{
             </div>
 
             {/* PAGINATION */}
-            {pagination.page>1 && 
+            {pagination.totalPages>1 && 
             <div className="mt-5">
-              <Pagination className="mr-20" />
+              <Pagination 
+              currentPage={pagination.page}
+              totalItems={pagination.totalProducts}
+              totalPages={pagination.totalPages}
+              itemsPerPage={pagination.limit}
+              onPageChange={setPagination}
+              className="mr-20" />
             </div>
             }
           </div>
+          ):
+          (
+            <div className="flex w-full bg-blend-hard-light items-center justify-center">
+              <ProductNotFound keyWord='No products found...' />
+            </div>
+          )}
         </div>
       </AppLayout>
     </>

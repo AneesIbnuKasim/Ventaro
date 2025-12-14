@@ -3,7 +3,7 @@ import React from "react";
 const Pagination = ({
   currentPage = 1,
   totalPages = 10,
-  onPageChange,
+  onPageChange = setPagination,
   totalItems = 232,
   itemsPerPage = 10,
   className= ''
@@ -59,7 +59,7 @@ const Pagination = ({
                   ? "bg-gray-200 text-gray-400 cursor-not-allowed"
                   : "bg-white hover:bg-gray-100 text-gray-700"
               }`}
-              onClick={() => currentPage !== 1 && onPageChange(currentPage - 1)}
+              onClick={() => currentPage !== 1 && onPageChange({page: currentPage - 1})}
               disabled={currentPage === 1}
             >
               ← Previous
@@ -95,7 +95,7 @@ const Pagination = ({
                   : "bg-white hover:bg-gray-100 text-gray-700"
               }`}
               onClick={() =>
-                {currentPage !== totalPages && onPageChange(currentPage + 1)
+                {currentPage !== totalPages && onPageChange({page: currentPage + 1})
                 console.log(currentPage+1);
                 }
               }
@@ -108,7 +108,7 @@ const Pagination = ({
       </nav>
 
       <div className="text-sm text-gray-600">
-        Showing {startItem}-{endItem} of {totalItems} users
+        Showing {startItem}-{endItem} of {totalItems} items
       </div>
       </div>
     </div>

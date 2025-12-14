@@ -169,7 +169,7 @@ export const ProductProvider = ({ children }) => {
 
   useEffect(() => {
     console.log("all filters:", state.filters);
-  }, [state.filters.category]);
+  }, [state.filters]);
 
   const setPagination = useCallback((payload) => {
     dispatch({ type: PRODUCT_ACTIONS.SET_PAGINATION, payload });
@@ -234,6 +234,8 @@ export const ProductProvider = ({ children }) => {
         dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
 
         const { sortBy, sortOrder, rating, minPrice, maxPrice } = state.filters;
+        console.log('rating before sent:', rating);
+        
 
         const response = await productAPI.fetchProductByCategory(category, {
           sortBy,
@@ -256,7 +258,7 @@ export const ProductProvider = ({ children }) => {
         dispatch({ type: PRODUCT_ACTIONS.SET_ERROR, payload: error.message });
       }
     },
-    [state.filters.sortBy, state.pagination]
+    [state.filters.sortBy, state.pagination.page, state.filters.rating, state.filters.sortOrder]
   );
 
   const addProduct = async (ProductData) => {
