@@ -313,7 +313,15 @@ export const ProductProvider = ({ children }) => {
       try {
         dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
 
-        const res = await productAPI.fetchSearch({ search });
+        const res = await productAPI.fetchSearch({ 
+          search,
+          sortBy,
+          sortOrder,
+          minPrice,
+          maxPrice,
+          rating,
+          category
+         });
 
         dispatch({
           type: PRODUCT_ACTIONS.SET_PRODUCT,
