@@ -12,6 +12,8 @@ import Footer from "./Footer";
 import { useProduct } from "../../context/ProductContext";
 import { useNavigate } from "react-router-dom";
 import SearchInput from "./SearchInput";
+import { useNavigateWithReset } from "../../hooks/useNavigateWithReset";
+
 
 export default function Navbar({
   logo = "Logo",
@@ -21,14 +23,15 @@ export default function Navbar({
   showBag = true,
 }) {
   const navigate = useNavigate();
-
+  const navigateWithReset = useNavigateWithReset();
+  
   
   const [menuOpen, setMenuOpen] = useState(false);
   const { filters, setFilters, setGlobalCategory } = useProduct()
   const [ suggestion, setSuggestion ] = useState()
   const navigateToCategory = (cat) => {
     setGlobalCategory(cat)
-    navigate(`/products/${cat}`)
+    navigateWithReset(`/products/${cat}`)
   }
 
   return (

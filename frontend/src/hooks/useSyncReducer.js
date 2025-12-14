@@ -114,9 +114,13 @@ export default function useSyncReducer(
   const location = useLocation();
   const isHydrated = useRef(false);
   console.log("location :", location.pathname);
-  const isProductsRoute = location.pathname.startsWith("/products");
+  const isProductsRoute = location.pathname.startsWith("/products") || location.pathname.startsWith("/search");
 
   // URL → STATE (ONCE ON LOAD)
+
+  console.log('isProductsRoute', isProductsRoute);
+  console.log('isEnabled', isEnabled);
+  
 
   useEffect(() => {
     if (!isEnabled) return;
@@ -157,7 +161,7 @@ export default function useSyncReducer(
     });
 
     isHydrated.current = true;
-  }, [location.search]);
+  }, [location.search, location.pathname]);
 
   // 2️⃣ STATE → URL
 

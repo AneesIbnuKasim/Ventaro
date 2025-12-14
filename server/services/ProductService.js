@@ -244,6 +244,10 @@ class ProductService {
 
 
          const { search, sortBy, sortOrder = "asc", category } = req.query;
+         console.log('search', search);
+         console.log('sortBy', sortBy);
+         console.log('category', category);
+         
 
       const minPrice = parseInt(req.query.minPrice);
       const maxPrice = parseInt(req.query.maxPrice);

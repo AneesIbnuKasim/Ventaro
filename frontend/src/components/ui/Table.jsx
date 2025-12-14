@@ -1,6 +1,5 @@
-const Table = ({ data, columns, actions }) => {
 
-  console.log('data', data)
+const Table = ({ data, columns, actions }) => {
 
   return (
     <table className="w-full border bg-white border-gray-300 text-left">

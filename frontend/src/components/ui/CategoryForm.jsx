@@ -7,9 +7,6 @@ import { IoIosAddCircle } from "react-icons/io";
 
 const CategoryForm = ({ initialData= null, handleSubmit }) => {
 
-    console.log('editData', initialData);
-    
-
   const initialValues = {
     name: initialData?.name || "",
     description: initialData?.description || "",

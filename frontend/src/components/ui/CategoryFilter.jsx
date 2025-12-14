@@ -9,12 +9,9 @@ const CategoryFilter = memo(({
 }) => {
 
   const handleFilter = (c) => {
-    console.log('c', c);
     const categories = filters.category ?? []
-    console.log('categories:', categories);
     
     const updatedCategories = categories.includes(c) ? categories.filter(category=> category!==c) : [...categories, c] 
-    console.log('updated cats', updatedCategories);
     
     setFilters({category: updatedCategories})
   }

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Search } from 'lucide-react'
 import { useProduct } from '../../context/ProductContext'
 import useDebounce from '../../hooks/useDebounce'
+import { useNavigateWithReset } from '../../hooks/useNavigateWithReset'
 
 function SearchInput() {
   const { searchSuggestion, setFilters } = useProduct()
@@ -11,6 +12,9 @@ function SearchInput() {
   const [query, setQuery] = useState('')
   const wrapperRef = useRef(null)
   const navigate = useNavigate()
+  const navigateWithReset = useNavigateWithReset();
+
+  
 
   const debouncedQuery = useDebounce(query, 500)
 
@@ -23,7 +27,6 @@ function SearchInput() {
       }
 
       const res = await searchSuggestion(debouncedQuery)
-      console.log(res);
       
       if (res.length > 0) {
         setSuggestions(res)
@@ -48,18 +51,13 @@ function SearchInput() {
     return () => document.removeEventListener('mousedown', handleOutsideClick)
   }, [])
 
-  useEffect(()=>{
-    console.log('suggestion', suggestions);
-    
-  }, [suggestions])
-
-  // 🔎 Search submit
+  //Search submit
   const handleSearch = () => {
     if (!query) return
 
     setFilters({ search: query })
     setShowSuggestion(false)
-    navigate(`/search?search=${query}`)
+    navigateWithReset(`/search?search=${query}`)
     setQuery('')
   }
 
@@ -94,7 +92,7 @@ function SearchInput() {
               className="p-2 hover:bg-gray-100 cursor-pointer"
               onClick={() => {
                 setFilters({ search: item.name })
-                navigate(`/search?search=${encodeURIComponent(item.name)}`, { replace: true })
+                navigateWithReset(`/search?search=${encodeURIComponent(item.name)}`)
                 setQuery('')
                 setShowSuggestion(false)
               }}

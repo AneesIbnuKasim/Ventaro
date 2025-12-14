@@ -6,8 +6,6 @@ const RatingFilter = memo(({
   setFilters,
   ratingsCount
 }) => {
-  console.log('rat', filters.rating);
-  
     const handleFilter = (e) => {
     const star = Number(e.target.value); 
     const rating = filters.rating ?? []

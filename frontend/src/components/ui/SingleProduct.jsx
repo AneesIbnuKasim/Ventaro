@@ -3,8 +3,6 @@ import { Heart, ShoppingCart } from "lucide-react";
 import { useProduct } from "../../context/ProductContext";
 
 export default function SingleProduct({ product = {} }) {
-  console.log('product in prost', product);
-  
   const images = Array.isArray(product.images) && product.images.length > 0
   ? product.images
   : product.image

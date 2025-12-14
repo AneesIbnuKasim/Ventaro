@@ -5,6 +5,7 @@ import {
   useEffect,
   useMemo,
   useReducer,
+  useRef,
   useState,
 } from "react";
 import { toast } from "react-toastify";
@@ -153,12 +154,14 @@ export const ProductProvider = ({ children }) => {
   const [globalCategory, setGlobalCategory] = useState();
   const [allCategories, setAllCategories] = useState();
   const location = useLocation();
-  const isEnabled = /^\/products/.test(location.pathname);
+  const isEnabled =
+    /^\/products/.test(location.pathname) ||
+    /^\/search/.test(location.pathname);
 
   const [state, dispatch] = useSyncedReducer(
     ProductReducer,
     initialState,
-    location.pathname.startsWith("/products"),
+    isEnabled,
     {
       filterKeys: [
         "search",
@@ -167,6 +170,7 @@ export const ProductProvider = ({ children }) => {
         "rating",
         "minPrice",
         "maxPrice",
+        "category",
       ],
       paginationKeys: ["page", "limit"],
     }
@@ -187,10 +191,6 @@ export const ProductProvider = ({ children }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [state.pagination.page]);
-
-  useEffect(() => {
-    resetAllFilters();
-  }, [location.pathname]);
 
   useEffect(() => {
     console.log("all filters:", state.filters);
@@ -308,33 +308,32 @@ export const ProductProvider = ({ children }) => {
   }, []);
 
   //HANDLE GLOBAL SEARCH
-  const fetchSearch = useCallback(async(search) => {
-    try {
-      dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true})
+  const fetchSearch = useCallback(
+    async (search) => {
+      try {
+        dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
 
-      const res = await productAPI.fetchSearch({ search })
+        const res = await productAPI.fetchSearch({ search });
 
-      console.log('res', res);
-      
-
-      dispatch({type: PRODUCT_ACTIONS.SET_PRODUCT, payload: { products: res.data.products, pagination: res.data.pagination, loading: false }})
-
-      return { success: true }
-    } catch (error) {
-      dispatch({
-        type: PRODUCT_ACTIONS.SET_ERROR,
-        payload: { error: error.message },
-      });
-    }
-  }, [
-    category,
-    sortBy,
-    sortOrder,
-    minPrice,
-    maxPrice,
-    page,
-    limit,
-  ]);
+        dispatch({
+          type: PRODUCT_ACTIONS.SET_PRODUCT,
+          payload: {
+            products: res.data.products,
+            pagination: res.data.pagination,
+            loading: false,
+          },
+        });
+        setAllCategories(res.data.allCategories);
+        return { success: true };
+      } catch (error) {
+        dispatch({
+          type: PRODUCT_ACTIONS.SET_ERROR,
+          payload: { error: error.message },
+        });
+      }
+    },
+    [category, sortBy, sortOrder, minPrice, maxPrice, page, limit]
+  );
 
   const addProduct = useCallback(async (ProductData) => {
     try {
