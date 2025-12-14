@@ -47,10 +47,16 @@ class ProductController extends BaseController {
 
     static searchSuggestions = BaseController.asyncHandler(async(req, res)=>{
         const suggestions = await ProductService.searchSuggestions(req)
-        console.log('suggs:',suggestions);
-        
         BaseController.logAction('GET_SUGGESTIONS', suggestions)
         BaseController.sendSuccess(res, 'Suggestion fetched successfully', suggestions, 200)
+    })
+
+    static fetchSearch = BaseController.asyncHandler(async(req, res)=>{
+        const result = await ProductService.fetchSearch(req)
+        console.log('search result:',result);
+        
+        BaseController.logAction('SEARCH_PRODUCT', result)
+        BaseController.sendSuccess(res, 'Search products fetched successfully', result, 200)
     })
 }
 

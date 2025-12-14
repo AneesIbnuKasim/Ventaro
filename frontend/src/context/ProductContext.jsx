@@ -308,9 +308,18 @@ export const ProductProvider = ({ children }) => {
   }, []);
 
   //HANDLE GLOBAL SEARCH
-  const fetchSearch = useCallback((search) => {
+  const fetchSearch = useCallback(async(search) => {
     try {
+      dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true})
+
+      const res = await productAPI.fetchSearch({ search })
+
+      console.log('res', res);
       
+
+      dispatch({type: PRODUCT_ACTIONS.SET_PRODUCT, payload: { products: res.data.products, pagination: res.data.pagination, loading: false }})
+
+      return { success: true }
     } catch (error) {
       dispatch({
         type: PRODUCT_ACTIONS.SET_ERROR,

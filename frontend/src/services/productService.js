@@ -82,5 +82,17 @@ export const productAPI = {
       url: `api/products/suggestions`,
       params
     });
+ },
+
+  //SEARCH SUGGESTION 
+ fetchSearch: (params) => {
+
+  console.log('search para:',params);
+  
+  return makeRequest({
+      method: "get",
+      url: `api/search`,
+      params
+    });
  }
 };

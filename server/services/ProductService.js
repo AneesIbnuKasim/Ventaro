@@ -44,8 +44,6 @@ class ProductService {
         Category.distinct("name"),
       ]);
 
-      console.log("products:", products);
-
       return {
         products,
         pagination: {
@@ -95,7 +93,6 @@ class ProductService {
 
       sortOrder = sortOrder === "asc" ? 1 : -1;
       const sortObj = { [sortBy]: sortOrder };
-      console.log("sortBy", sortBy);
 
       const currentPage = page || 1;
       const productPerPage = limit || 6;
@@ -108,8 +105,6 @@ class ProductService {
         .sort(sortObj)
         .skip(skipValue)
         .limit(limit);
-      console.log("products:", products);
-
       return {
         products,
         pagination: {
@@ -128,7 +123,6 @@ class ProductService {
   static getProduct = async (productId) => {
     try {
       const product = await Product.findById(productId).populate("categoryId");
-      console.log("populated", product);
 
       return { product };
     } catch (error) {
@@ -223,7 +217,6 @@ class ProductService {
 
   static searchSuggestions = async (req) => {
     try {
-        console.log('in api');
         
       const { search } = req.query;
 
@@ -236,15 +229,74 @@ class ProductService {
         ];
       const suggestions = await Product.find(filter).select('name brandName')
 
-
-
-      console.log('suggestions:', suggestions);
-      
-
       logger.info("Search suggestion generated");
 
       return {suggestions};
     } catch (error) {
+      throw error;
+    }
+  };
+
+  static fetchSearch = async (req) => {
+    try {
+        console.log('in search');
+
+
+
+         const { search, sortBy, sortOrder = "asc", category } = req.query;
+
+      const minPrice = parseInt(req.query.minPrice);
+      const maxPrice = parseInt(req.query.maxPrice);
+      const rating = parseInt(req.query.rating);
+      const page = parseInt(req.query.page);
+      const limit = parseInt(req.query.limit) || 10;
+
+      const filter = {};
+
+      if (search) filter.$or = [
+          { name: { $regex: search, $options: "i" } },
+          { description: { $regex: search, $options: "i" } },
+          { brandName: { $regex: search, $options: "i" } },
+        ];
+
+      if (Array.isArray(category) && category.length > 0)  filter.category = { $in: category }
+
+      if (minPrice || maxPrice) {
+        if (minPrice && maxPrice) {
+          filter.price = { $gte: minPrice, $lte: maxPrice };
+        } else if (minPrice) filter.price = { $gte: minPrice };
+        else if (maxPrice) filter.price = { $lte: maxPrice };
+      }
+
+      if (rating) filter.rating = { $gte: rating };
+
+      const sortObj = { [sortBy]: sortOrder };
+
+      const currentPage = page || 1;
+      const productPerPage = limit || 6;
+      const skipValue = (currentPage - 1) * productPerPage;
+
+      const totalProducts = await Product.find(filter);
+
+      const [products, categories] = await Promise.all([
+        Product.find(filter).sort(sortObj).skip(skipValue).limit(limit),
+        Category.distinct("name"),
+      ]);
+
+      console.log("products:", products);
+
+      return {
+        products,
+        pagination: {
+          currentPage,
+          totalPages: Math.ceil(totalProducts.length / limit),
+          totalProducts: totalProducts.length,
+        },
+        allCategories: categories,
+      };
+
+    } catch (error) {
+    logger('Search product failed', error)
       throw error;
     }
   };

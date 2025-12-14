@@ -18,14 +18,17 @@ const SearchPage = memo(() => {
   const search = searchParams.get('search')
 
   const { filters, setFilters, pagination, setPagination, products, fetchProduct, fetchSearch, allCategories, debouncedSearch, resetAllFilters } = useProduct();
-  const [ searchProducts, setSearchProducts ] = useState([])
   useEffect(() => {
     const load = async() => {
-      const res = await fetchSearch(search)
-      setSearchProducts(res?.products)
+      await fetchSearch(search)
     }
     load()
   },[fetchSearch])
+
+  useEffect(()=>{
+    console.log('products', products);
+    
+  },[products])
 
   useEffect(() => {
     const load = async () => {
@@ -61,15 +64,15 @@ const SearchPage = memo(() => {
 
           {/* MAIN CONTENT AREA */}
           <div className="flex flex-col items-center w-full m-5">
-            <div className=" w-full flex justify-between p-5">
-              
-            </div>
-
-            {/* card layout */}
+            <div className=" w-full flex flex-col justify-between p-5">
+              {/* card layout */}
+             { products.length > 0 &&  <><h1 className='h3'>Showing Search result for '{filters.search || null}'</h1>
+             <h1 className=''> Total '{pagination.totalProducts || null}' Products found..</h1>
+             </>
+             }
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-2">
-             { searchProducts &&  <h1>Showing Search result for '{filters.search || null}'</h1>}
-              {searchProducts ? 
-                (searchProducts.map((item) => <ProductCard handleClick={handleClick} product={item} />)):
+              {products.length > 0 ? 
+                (products.map((item) => <ProductCard handleClick={handleClick} product={item} />)):
                 (
                   <div className='w-[80vw] flex justify-center items-center'>
                     <SearchNotFound searchQuery={filters.search} />
@@ -77,6 +80,9 @@ const SearchPage = memo(() => {
                 )
                 }
             </div>
+
+            </div>
+            
 
             {/* PAGINATION */}
             {
