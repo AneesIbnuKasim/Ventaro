@@ -110,7 +110,9 @@ const App = () => (
               path="/auth"
               element={
                 <UserProvider>
-                  <ProtectedRoute />
+                  <AppLayout>
+                    <ProtectedRoute />
+                  </AppLayout>
                 </UserProvider>
               }
             >

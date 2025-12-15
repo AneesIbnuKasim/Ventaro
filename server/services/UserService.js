@@ -51,6 +51,9 @@ class UserService {
     }
 
     static updateAvatar = async(req)=>{
+
+        console.log('in avatar');
+        
         try {
             if (!req.file) {
             logger.error('No file uploaded')
@@ -70,7 +73,7 @@ class UserService {
         user.avatar = req.file.filename
         await user.save()
         
-        return {user:user}
+        return {avatar: req.file.filename}
         } catch (error) {
             logger.error('Avatar updating failed')
             throw error

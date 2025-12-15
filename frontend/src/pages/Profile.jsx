@@ -440,9 +440,10 @@ import React, { useEffect, useState, useRef } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { ChevronRight } from "lucide-react";
-import { FormInput } from "../components/ui";
+import { Button, FormInput } from "../components/ui";
 import { MdEmail } from "react-icons/md";
 import { useUser } from "../context/UserContext";
+import { API_CONFIG } from "../config/app";
 
 const ProfileSchema = Yup.object({
   fName: Yup.string().required("First name is required"),
@@ -451,9 +452,11 @@ const ProfileSchema = Yup.object({
 });
 
 export default function ProfilePage() {
-  const { user, getProfile, updateProfile } = useUser();
+  const { user, getProfile, updateProfile, updateAvatar } = useUser();
   const [isEdit, setIsEdit] = useState(false);
   const isEditingRef = useRef(false);
+  const [avatarPreview, setAvatarPreview] = useState(null);
+  const [avatarFile, setAvatarFile] = useState(null);
 
   const userData = JSON.parse(localStorage.getItem("user"));
 
@@ -469,23 +472,89 @@ export default function ProfilePage() {
   const firstName = parts[0] || "";
   const lastName = parts.slice(1).join(" ") || "";
 
+  //HANDLE AVATAR PREVIEW WHEN SELECTED
+  const handleAvatarSelect = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setAvatarFile(file);
+    setAvatarPreview(URL.createObjectURL(file));
+  };
+
+  // HANDLE SAVING AVATAR TO BACKEND
+  const handleAvatarSave = async () => {
+    if (!avatarFile) return;
+
+    const res = await updateAvatar(avatarFile);
+    if (res?.success) {
+      setAvatarFile(null);
+      setAvatarPreview(null);
+    }
+  };
+
+  //CANCELLING AVATAR CHANGE
+  const handleAvatarCancel = () => {
+    setAvatarFile(null);
+    setAvatarPreview(null);
+  };
+
+  //CLEAN UP AVATAR PREVIEW
+  useEffect(() => {
+  return () => {
+    if (avatarPreview) {
+      URL.revokeObjectURL(avatarPreview);
+    }
+  };
+}, [avatarPreview]);
+
   return (
-    <div className="min-h-screen bg-slate-100 flex flex-col">
-      <div className="max-w-6xl w-full mx-auto p-6">
-        <div className="bg-white rounded-2xl shadow-sm flex overflow-hidden">
-          
+    <div className="min-h-[70vh] bg-slate-100 flex flex-col">
+      <div className="max-w-7xl w-full mx-auto p-6">
+        <div className="bg-white rounded-2xl h-[65vh] shadow-sm flex overflow-hidden">
           {/* SIDEBAR */}
           <aside className="w-64 border-r bg-white p-6">
-            <div className="flex flex-col items-center text-center mb-6">
-              <img
-                src="https://i.pravatar.cc/150?img=12"
-                alt="avatar"
-                className="w-24 h-24 rounded-xl mb-3"
-              />
-              <h3 className="font-semibold">{name}</h3>
-              <p className="text-sm text-gray-500">{email}</p>
+
+            {/* AVATAR PREVIEW AND EDIT SAVE SECTION */}
+            <div className="flex flex-col items-center gap-5 mb-5">
+              <div className="relative">
+                <img
+                  src={
+                    avatarPreview || `${API_CONFIG.imageURL}${user.avatar}`
+                  }
+                  alt="avatar"
+                  className="w-30 h-30 rounded-xl object-cover  cursor-pointer border"
+                  onClick={() => document.getElementById("avatarInput").click()}
+                />
+                
+                <input
+                  id="avatarInput"
+                  type="file"
+                  accept="image/*"
+                  hidden
+                  onChange={handleAvatarSelect}
+                />
+              </div>
+              {/* AVATAR PREVIEW */}
+              {avatarPreview && (
+                <div className="flex gap-3">
+                  <button
+                    onClick={handleAvatarSave}
+                    className="bg-green-600 text-white px-4 py-1 rounded-md"
+                  >
+                    SAVE
+                  </button>
+
+                  <button
+                    onClick={handleAvatarCancel}
+                    className="bg-gray-300 px-4 py-1 rounded-md"
+                  >
+                    CANCEL
+                  </button>
+                </div>
+              )}
             </div>
 
+            {/* NAVIGATION MENU SECTION */}
             <nav className="space-y-2">
               {[
                 "Account info",
@@ -516,16 +585,17 @@ export default function ProfilePage() {
 
               {/* EDIT BUTTON */}
               {!isEdit && (
-                <button
+                <Button
                   type="button"
                   onClick={() => {
                     isEditingRef.current = true;
                     setIsEdit(true);
                   }}
-                  className="bg-blue-600 text-white px-6 py-2 rounded-lg"
+                  size='md'
+                  className="bg-blue-600 text-white px-6 rounded-lg"
                 >
                   EDIT
-                </button>
+                </Button>
               )}
             </div>
 
@@ -558,7 +628,7 @@ export default function ProfilePage() {
                 isSubmitting,
               }) => (
                 <Form className="space-y-6 max-w-2xl">
-                  <div className="grid grid-cols-2 gap-6">
+                  <div className="grid md:grid-cols-2 gap-6">
                     <FormInput
                       label="First Name"
                       name="fName"
@@ -600,13 +670,14 @@ export default function ProfilePage() {
 
                   {/* SAVE ONLY */}
                   {isEdit && (
-                    <button
+                    <Button
                       type="submit"
+                      size='md'
                       disabled={isSubmitting}
-                      className="bg-green-600 text-white px-8 py-2 rounded-lg"
+                      className="bg-green-600 text-white px-8 mt-3 "
                     >
                       SAVE
-                    </button>
+                    </Button>
                   )}
                 </Form>
               )}
