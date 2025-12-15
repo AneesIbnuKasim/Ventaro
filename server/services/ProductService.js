@@ -249,22 +249,23 @@ class ProductService {
       const page = parseInt(req.query.page);
       const limit = parseInt(req.query.limit) || 10;
 
-      const rawCategory = req.query.category;
-      const rawRating = req.query.rating;
+      const rawCategory = req.query?.category;
+      const rawRating = req.query?.rating;
 
-      const category = rawCategory
+      const categoryNames = rawCategory
         ? Array.isArray(rawCategory)
           ? rawCategory
           : rawCategory.split(",")
         : [];
 
+        const categoryDoc = categoryNames.length ? await Category.find({ name: {$in: categoryNames}},{_id: 1}) : []
+        const categoryIds = categoryDoc.map(c=>c._id)
+        
       const rating = rawRating
         ? Array.isArray(rawRating)
           ? rawRating.map(Number)
           : [Number(rawRating)]
         : [];
-      console.log("cats", category);
-      console.log("rats", rating);
 
       const filter = {};
 
@@ -274,17 +275,14 @@ class ProductService {
           { description: { $regex: search, $options: "i" } },
           { brandName: { $regex: search, $options: "i" } },
         ];
-      console.log("isArray: ", search);
 
-      if (category.length) {
-        filter.category = { $in: category };
+      if (categoryIds.length) {
+        filter.categoryId = { $in: categoryIds };
       }
 
       if (rating.length) {
         filter.rating = { $gte: Math.max(...rating) };
       }
-
-      console.log("filter cat", filter);
 
       if (minPrice || maxPrice) {
         if (minPrice && maxPrice) {
@@ -319,7 +317,7 @@ class ProductService {
         allCategories: categories,
       };
     } catch (error) {
-      logger("Search product failed", error);
+      logger.error("Search product failed", error);
       throw error;
     }
   };
