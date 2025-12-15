@@ -58,6 +58,10 @@ class ProductController extends BaseController {
         BaseController.logAction('SEARCH_PRODUCT', result)
         BaseController.sendSuccess(res, 'Search products fetched successfully', result, 200)
     })
+
+    // static fetchSearch = (req) => {
+    //     console.log('req:'. req.query);
+    // }
 }
 
 module.exports = ProductController

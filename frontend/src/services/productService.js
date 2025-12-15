@@ -84,7 +84,7 @@ export const productAPI = {
     });
  },
 
-  //SEARCH SUGGESTION 
+  //GLOBAL SEARCH 
  fetchSearch: (params) => {
 
   console.log('search para:',params);

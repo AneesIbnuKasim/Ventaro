@@ -316,6 +316,9 @@ export const ProductProvider = ({ children }) => {
       try {
         dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
 
+        console.log('category in handler', category);
+        
+
         const res = await productAPI.fetchSearch({ 
           search,
           sortBy,
@@ -346,7 +349,7 @@ export const ProductProvider = ({ children }) => {
         });
       }
     },
-    [category, sortBy, sortOrder, minPrice, maxPrice, page, limit]
+    [category, rating, sortBy, sortOrder, minPrice, maxPrice, page, limit]
   );
 
   const addProduct = useCallback(async (ProductData) => {

@@ -61,7 +61,7 @@ class ProductService {
 
   //GET PRODUCTS BY CATEGORY
   static getProductsByCategory = async (req, res) => {
-    try {
+    try {        
       const { sortBy } = req.query;
       let { sortOrder = "asc" } = req.query;
       const category = req.params.category;
@@ -240,13 +240,31 @@ class ProductService {
 
   static fetchSearch = async (req) => {
     try {
-      const { search, sortBy, sortOrder = "asc", category } = req.query;
+      const { search, sortBy, sortOrder = "asc" } = req.query;
+
+      console.log("query:", req.query);
 
       const minPrice = parseInt(req.query.minPrice);
       const maxPrice = parseInt(req.query.maxPrice);
-      const rating = parseInt(req.query.rating);
       const page = parseInt(req.query.page);
       const limit = parseInt(req.query.limit) || 10;
+
+      const rawCategory = req.query.category;
+      const rawRating = req.query.rating;
+
+      const category = rawCategory
+        ? Array.isArray(rawCategory)
+          ? rawCategory
+          : rawCategory.split(",")
+        : [];
+
+      const rating = rawRating
+        ? Array.isArray(rawRating)
+          ? rawRating.map(Number)
+          : [Number(rawRating)]
+        : [];
+      console.log("cats", category);
+      console.log("rats", rating);
 
       const filter = {};
 
@@ -256,9 +274,17 @@ class ProductService {
           { description: { $regex: search, $options: "i" } },
           { brandName: { $regex: search, $options: "i" } },
         ];
+      console.log("isArray: ", search);
 
-      if (Array.isArray(category) && category.length > 0)
+      if (category.length) {
         filter.category = { $in: category };
+      }
+
+      if (rating.length) {
+        filter.rating = { $gte: Math.max(...rating) };
+      }
+
+      console.log("filter cat", filter);
 
       if (minPrice || maxPrice) {
         if (minPrice && maxPrice) {
@@ -266,8 +292,6 @@ class ProductService {
         } else if (minPrice) filter.price = { $gte: minPrice };
         else if (maxPrice) filter.price = { $lte: maxPrice };
       }
-
-      if (rating) filter.rating = { $gte: rating };
 
       const sortObj = { [sortBy]: sortOrder };
 
@@ -299,6 +323,75 @@ class ProductService {
       throw error;
     }
   };
+  //   static fetchSearch = async (req) => {
+  //     try {
+  //       const { search, sortBy, sortOrder = "asc", category } = req.query;
+
+  //       console.log('query:', req.query);
+
+  //       const minPrice = parseInt(req.query.minPrice);
+  //       const maxPrice = parseInt(req.query.maxPrice);
+  //       const rating = parseInt(req.query.rating);
+  //       const page = parseInt(req.query.page);
+  //       const limit = parseInt(req.query.limit) || 10;
+
+  //       console.log('rating:', rating);
+  //       console.log('minPrice:', minPrice);
+
+  //       const filter = {};
+
+  //       if (search)
+  //         filter.$or = [
+  //           { name: { $regex: search, $options: "i" } },
+  //           { description: { $regex: search, $options: "i" } },
+  //           { brandName: { $regex: search, $options: "i" } },
+  //         ];
+  //         console.log('isArray: ', search);
+
+  //       if (Array.isArray(category) && category.length > 0)
+  //         filter.category = { $in: category };
+
+  //       console.log('filter cat', filter);
+
+  //       if (minPrice || maxPrice) {
+  //         if (minPrice && maxPrice) {
+  //           filter.price = { $gte: minPrice, $lte: maxPrice };
+  //         } else if (minPrice) filter.price = { $gte: minPrice };
+  //         else if (maxPrice) filter.price = { $lte: maxPrice };
+  //       }
+
+  //       if (rating) filter.rating = { $gte: rating };
+
+  //       const sortObj = { [sortBy]: sortOrder };
+
+  //       const currentPage = page || 1;
+  //       const productPerPage = limit || 6;
+  //       const skipValue = (currentPage - 1) * productPerPage;
+
+  //       const totalProducts = await Product.find(filter);
+
+  //       const [products, categories] = await Promise.all([
+  //         Product.find(filter).sort(sortObj).skip(skipValue).limit(limit),
+  //         Category.distinct("name"),
+  //       ]);
+
+  //       console.log("page:", page);
+
+  //       return {
+  //         products,
+  //         pagination: {
+  //           page: currentPage,
+  //           limit,
+  //           totalPages: Math.ceil(totalProducts.length / limit),
+  //           totalProducts: totalProducts.length,
+  //         },
+  //         allCategories: categories,
+  //       };
+  //     } catch (error) {
+  //       logger("Search product failed", error);
+  //       throw error;
+  //     }
+  //   };
 }
 
 module.exports = ProductService;

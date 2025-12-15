@@ -113,15 +113,11 @@ export default function useSyncReducer(
   const [state, dispatch] = useReducer(reducer, initialState);
   const location = useLocation();
   const isHydrated = useRef(false);
-  console.log("location :", location.pathname);
   const isProductsRoute =
     location.pathname.startsWith("/products") ||
     location.pathname.startsWith("/search");
 
   // URL → STATE (ONCE ON LOAD)
-
-  console.log("isProductsRoute", isProductsRoute);
-  console.log("isEnabled", isEnabled);
 
   useEffect(() => {
     if (!isEnabled) return;
@@ -140,14 +136,17 @@ export default function useSyncReducer(
 
       // array support (rating)
       if (key === "rating") {
-        filters[key] = value.split(",").map(Number);
+        
+        filters[key] = value.split(",").map(Number).filter(v=> v!==0)
+        console.log('filters.rating:', filters['rating']);
       }
 
       // array support (category)
-      if (key === "category") {
-        filters[key] = value.split(",").map((v) => v.trim());
+      else if (key === "category") {
+        filters[key] = value.split(",").filter((v) => v!=='');
+
       }
-      
+
       // number support (price)
       else if (key === "minPrice" || key === "maxPrice") {
         filters[key] = Number(value);
@@ -184,6 +183,7 @@ export default function useSyncReducer(
 
       if (Array.isArray(value) && value.length) {
         params.set(key, value.join(","));
+        
       } else if (value !== "" && value !== null && value !== undefined) {
         params.set(key, value);
       }
@@ -196,7 +196,15 @@ export default function useSyncReducer(
       }
     });
 
+    for (const [key, value] of params.entries()) {
+  console.log(key, value);
+}
+    
+
     const newUrl = `${location.pathname}?${params.toString()}`;
+
+    console.log('new url:', newUrl);
+    
     window.history.replaceState({}, "", newUrl);
   }, [state.filters, state.pagination, location.pathname]);
 
