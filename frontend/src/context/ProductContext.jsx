@@ -234,6 +234,9 @@ export const ProductProvider = ({ children }) => {
         payload: { products: products, pagination },
       });
 
+      console.log('fetch product response:', res);
+      
+
       setAllCategories(allCategories);
 
       return { success: true };
@@ -322,6 +325,9 @@ export const ProductProvider = ({ children }) => {
           rating,
           category
          });
+
+         console.log('search response :', res);
+         
 
         dispatch({
           type: PRODUCT_ACTIONS.SET_PRODUCT,

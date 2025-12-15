@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaSpinner } from 'react-icons/fa';
 
 const Loading = ({
   size = 'md',
@@ -40,11 +41,12 @@ const Loading = ({
     <div className={containerClasses} style={containerStyle}>
       <div className="text-center">
         <div className={spinnerClasses} role="status">
-          <span className="visually-hidden">{text}</span>
+          <FaSpinner />
+          <span className="visually-hidden"> {text}</span>
         </div>
         {text && !fullScreen && (
-          <div className="mt-2 text-muted">
-            <small>{text}</small>
+          <div className="mt-2 text-muted flex flex-col">
+            <FaSpinner /> <small>{text}</small>
           </div>
         )}
       </div>

@@ -47,7 +47,7 @@ class ProductService {
       return {
         products,
         pagination: {
-          currentPage,
+          page,
           totalPages: Math.ceil(totalProducts.length / limit),
           totalProducts: totalProducts.length,
         },
@@ -108,6 +108,7 @@ class ProductService {
       return {
         products,
         pagination: {
+          limit,
           page,
           totalPages: Math.ceil(totalProducts / limit),
           totalProducts: totalProducts,
@@ -217,21 +218,21 @@ class ProductService {
 
   static searchSuggestions = async (req) => {
     try {
-        
       const { search } = req.query;
 
       const filter = {};
 
-      if (search) filter.$or = [
+      if (search)
+        filter.$or = [
           { name: { $regex: search, $options: "i" } },
           { description: { $regex: search, $options: "i" } },
           { brandName: { $regex: search, $options: "i" } },
         ];
-      const suggestions = await Product.find(filter).select('name brandName')
+      const suggestions = await Product.find(filter).select("name brandName");
 
       logger.info("Search suggestion generated");
 
-      return {suggestions};
+      return { suggestions };
     } catch (error) {
       throw error;
     }
@@ -239,15 +240,7 @@ class ProductService {
 
   static fetchSearch = async (req) => {
     try {
-        console.log('in search');
-
-
-
-         const { search, sortBy, sortOrder = "asc", category } = req.query;
-         console.log('search', search);
-         console.log('sortBy', sortBy);
-         console.log('category', category);
-         
+      const { search, sortBy, sortOrder = "asc", category } = req.query;
 
       const minPrice = parseInt(req.query.minPrice);
       const maxPrice = parseInt(req.query.maxPrice);
@@ -257,13 +250,15 @@ class ProductService {
 
       const filter = {};
 
-      if (search) filter.$or = [
+      if (search)
+        filter.$or = [
           { name: { $regex: search, $options: "i" } },
           { description: { $regex: search, $options: "i" } },
           { brandName: { $regex: search, $options: "i" } },
         ];
 
-      if (Array.isArray(category) && category.length > 0)  filter.category = { $in: category }
+      if (Array.isArray(category) && category.length > 0)
+        filter.category = { $in: category };
 
       if (minPrice || maxPrice) {
         if (minPrice && maxPrice) {
@@ -287,20 +282,20 @@ class ProductService {
         Category.distinct("name"),
       ]);
 
-      console.log("products:", products);
+      console.log("page:", page);
 
       return {
         products,
         pagination: {
-          currentPage,
+          page: currentPage,
+          limit,
           totalPages: Math.ceil(totalProducts.length / limit),
           totalProducts: totalProducts.length,
         },
         allCategories: categories,
       };
-
     } catch (error) {
-    logger('Search product failed', error)
+      logger("Search product failed", error);
       throw error;
     }
   };

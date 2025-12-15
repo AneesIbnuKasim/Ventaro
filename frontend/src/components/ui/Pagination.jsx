@@ -1,16 +1,19 @@
 import React from "react";
 
 const Pagination = ({
-  currentPage = 1,
-  totalPages = 10,
-  onPageChange = setPagination,
-  totalItems = 232,
-  itemsPerPage = 10,
+  currentPage,
+  totalPages,
+  onPageChange,
+  totalItems,
+  itemsPerPage,
   className= ''
 }) => {
   const getVisiblePages = () => {
     const pages = [];
     const maxVisible = 5;
+
+    console.log('itemsperpage', typeof currentPage);
+    
 
     if (totalPages <= maxVisible) {
       for (let i = 1; i <= totalPages; i++) pages.push(i);

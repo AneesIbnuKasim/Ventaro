@@ -114,13 +114,14 @@ export default function useSyncReducer(
   const location = useLocation();
   const isHydrated = useRef(false);
   console.log("location :", location.pathname);
-  const isProductsRoute = location.pathname.startsWith("/products") || location.pathname.startsWith("/search");
+  const isProductsRoute =
+    location.pathname.startsWith("/products") ||
+    location.pathname.startsWith("/search");
 
   // URL → STATE (ONCE ON LOAD)
 
-  console.log('isProductsRoute', isProductsRoute);
-  console.log('isEnabled', isEnabled);
-  
+  console.log("isProductsRoute", isProductsRoute);
+  console.log("isEnabled", isEnabled);
 
   useEffect(() => {
     if (!isEnabled) return;
@@ -141,6 +142,12 @@ export default function useSyncReducer(
       if (key === "rating") {
         filters[key] = value.split(",").map(Number);
       }
+
+      // array support (category)
+      if (key === "category") {
+        filters[key] = value.split(",").map((v) => v.trim());
+      }
+      
       // number support (price)
       else if (key === "minPrice" || key === "maxPrice") {
         filters[key] = Number(value);

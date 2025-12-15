@@ -13,6 +13,8 @@ const CategoryFilter = memo(({
     
     const updatedCategories = categories.includes(c) ? categories.filter(category=> category!==c) : [...categories, c] 
     
+    console.log('updatedCategory', updatedCategories);
+    
     setFilters({category: updatedCategories})
   }
   
