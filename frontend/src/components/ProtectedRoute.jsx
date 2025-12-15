@@ -20,7 +20,7 @@ export const ProtectedRoute = memo(({
         return <Navigate to={redirectTo} state={{from: location}} replace />
     }
 
-    return children
+    return <Outlet />
 })
 
 export const PublicRoute = memo(({

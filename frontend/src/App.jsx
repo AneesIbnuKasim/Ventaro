@@ -28,6 +28,8 @@ import ProductDetails from "./pages/ProductDetails.jsx";
 import { CategoryProvider } from "./context/CategoryContext.jsx";
 import { ProductProvider } from "./context/ProductContext.jsx";
 import SearchPage from "./pages/SearchPage.jsx";
+import AppLayout from "./components/AppLayout.jsx";
+import { UserProvider } from "./context/UserContext.jsx";
 
 const App = () => (
   <BrowserRouter>
@@ -36,20 +38,18 @@ const App = () => (
         <ProductProvider>
           <Routes>
             {/* Public User Routes */}
-            <Route
+            {/* <Route
               path="/test"
               element={
                 <PublicRoute>
                   <Test />
                 </PublicRoute>
               }
-            />
+            /> */}
             <Route
               path="/product/:id"
               element={
-                <PublicRoute>
                   <ProductDetails />
-                </PublicRoute>
               }
             />
             <Route
@@ -61,15 +61,7 @@ const App = () => (
               }
             />
             <Route
-              path="/test"
-              element={
-                <PublicRoute>
-                  <Test />
-                </PublicRoute>
-              }
-            />
-            <Route
-              path="/register"
+              path="/auth/register"
               element={
                 <PublicRoute>
                   <Register />
@@ -103,28 +95,28 @@ const App = () => (
             <Route
               path="/products/:category"
               element={
-                <PublicRoute>
                   <ProductList />
-                </PublicRoute>
               }
             />
 
             <Route
               path="/search"
               element={
-                <PublicRoute>
                   <SearchPage />
-                </PublicRoute>
               }
             />
             {/*         protected user routes        */}
             <Route
               path="/auth"
               element={
-                <ProtectedRoute>{/* protected page layout */}</ProtectedRoute>
+                <UserProvider>
+                  <ProtectedRoute />
+                </UserProvider>
               }
             >
-              {/* Protected pages */}
+              <Route  path="profile" element={
+                <Profile />
+              } />
             </Route>
             {/*         ADMIN PUBLIC ROUTE              */}
             <Route

@@ -41,4 +41,5 @@ export const authAPI = {
             data: credentials
         })
     },
+
 }

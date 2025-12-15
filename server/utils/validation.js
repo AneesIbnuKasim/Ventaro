@@ -4,6 +4,7 @@ const commonPatterns = {
     name: Joi.string().min(2).max(100).trim().required(),
     email: Joi.string().email().lowercase().trim().required(),
     password: Joi.string().min(8).max(128).required(),
+    phone: Joi.number().optional(),
     objectId: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
     price: Joi.number().required(),
     sizes: Joi.array().items(Joi.string()).optional(),
@@ -35,6 +36,27 @@ const registerValidation = Joi.object({
     email: commonPatterns.email.messages(customMessages),
     password: strongPasswordValidation
 })
+
+const phoneValidation = Joi.string()
+    .pattern(/^[0-9]{10}$/)
+    .required()
+    .messages({
+      'string.pattern.base': 'Phone must be a valid 10-digit number',
+      ...customMessages
+    })
+
+const updateProfileValidation = Joi.object({
+    name: commonPatterns.name.messages(customMessages),
+    phone: Joi.string().pattern(/^[0-9]{10}$/).optional()
+})
+
+const pinCodeValidation = Joi.string()
+    .pattern(/^[0-9]{6}$/)
+    .required()
+    .messages({
+      'string.pattern.base': 'Pin Code must be a valid 6-digit number',
+      ...customMessages
+    })
 
 const loginValidation = Joi.object({
     email: commonPatterns.email.messages(customMessages),
@@ -74,25 +96,7 @@ const productValidation = Joi.object({
     stock: commonPatterns.price.messages(customMessages),
 })
 
-const updateProfileValidation = Joi.object({
-    name: commonPatterns.name.messages(customMessages)
-})
 
-const phoneValidation = Joi.string()
-    .pattern(/^[0-9]{10}$/)
-    .required()
-    .messages({
-      'string.pattern.base': 'Phone must be a valid 10-digit number',
-      ...customMessages
-    })
-
-const pinCodeValidation = Joi.string()
-    .pattern(/^[0-9]{6}$/)
-    .required()
-    .messages({
-      'string.pattern.base': 'Pin Code must be a valid 6-digit number',
-      ...customMessages
-    })
 
 
 // const addressValidation = Joi.object({

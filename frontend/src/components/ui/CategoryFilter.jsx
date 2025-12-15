@@ -8,15 +8,23 @@ const CategoryFilter = memo(({
   allCategories
 }) => {
 
+  const [ search, setSearch ] = useState('')
+  console.log('local search:', search);
+  
+
   const handleFilter = (c) => {
     const categories = filters.category ?? []
+
+    console.log('cats:', categories);
+    
     
     const updatedCategories = categories.includes(c) ? categories.filter(category=> category!==c) : [...categories, c] 
     
-    console.log('updatedCategory', updatedCategories);
-    
     setFilters({category: updatedCategories})
+    setSearch('')
   }
+  
+  const visibleCategories = search.trim() ? allCategories.filter(cat => cat.toLowerCase().includes(search.toLowerCase())) : allCategories
   
   return (
     <>
@@ -27,6 +35,8 @@ const CategoryFilter = memo(({
         <div className="relative mb-3">
           <input
             type="text"
+            value={search}
+            onChange={(e)=>setSearch(e.target.value)}
             placeholder="Search categories..."
             className="w-full p-2 pl-4 pr-10 rounded-full border text-sm"
           />
@@ -35,12 +45,12 @@ const CategoryFilter = memo(({
 
         {/* Category list */}
         <div className="flex flex-col gap-2 text-sm">
-          {allCategories?.map((c) => (
+          {visibleCategories?.map((c) => (
             <label key={c} className="flex items-center gap-2">
               <input
                 type="checkbox"
                 value={c}
-                checked={filters.category.includes(c)}
+                checked={filters.category?.includes(c)}
                 onChange={() => handleFilter(c)}
               />
               {c}

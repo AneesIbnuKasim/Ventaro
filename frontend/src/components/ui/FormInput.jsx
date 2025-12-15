@@ -64,7 +64,7 @@ const FormInput = memo(
             <input
               ref={ref}
               type={type}
-              className="block min-h-full border-0  focus:ring-0 focus:outline-0 text-md text-gray-900 placeholder-gray-400"
+              className="block w-full min-h-full border-0 focus:ring-0 focus:outline-0 text-md text-gray-900 placeholder-gray-400"
               id={inputId}
               placeholder={placeholder}
               required={required}

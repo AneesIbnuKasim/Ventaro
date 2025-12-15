@@ -17,7 +17,7 @@ class UserService {
                 throw sendError(res, 'User not found', 404)
             }
             const profileData = user.getPublicProfile()
-            return profileData
+            return {user: profileData}
             
         } catch (error) {
             logger.error('Error loading user profile')
@@ -42,7 +42,7 @@ class UserService {
                 throw NotFoundError('User not found')
             }
 
-            return user
+            return {user: user.getPublicProfile()}
             
         } catch (error) {
             logger.error('Profile update failed')
