@@ -5,6 +5,7 @@ import ProductNotFound from "./ProductNotFound";
 import Button from "./Button";
 import Modal from "./Modal";
 import AddressForm from "./AddressForm";
+import ConfirmDialog from "./ConfirmDialog";
 
 export default function AddressCard({
   name = "Jhon doe",
@@ -16,10 +17,11 @@ export default function AddressCard({
   onEdit,
   onRemove,
 }) {
-  const { user, addAddress, editAddress } = useUser();
+  const { user, addAddress, editAddress, deleteAddress } = useUser();
   const [isAdd, setIsAdd] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const [editData, setEditData] = useState('');
+  const [editData, setEditData] = useState("");
+  const [deleteId, setDeleteId] = useState("");
 
   const handleAddButton = () => {
     setIsAdd(true);
@@ -27,40 +29,58 @@ export default function AddressCard({
 
   // HANDLE EDIT BUTTON ONCLICK
   const handleEditButton = (address) => {
-    setIsEdit(true)
-    setEditData(address)
-  }
+    setIsEdit(true);
+    setEditData(address);
+  };
 
   const handleSubmit = async (values) => {
-
     if (editData) {
-      const res = await editAddress(editData._id, values)
+      const res = await editAddress(editData._id, values);
       if (res.success) {
-        setEditData(null)
-        setIsEdit(false)
+        setEditData(null);
+        setIsEdit(false);
       }
-    else {
-        const res = await addAddress(values);
-    console.log("add values", values);
-   if (res.success)  setIsAdd(false);
+    } else {
+      console.log("add values", values);
+      const res = await addAddress(values);
+      res.success ? setIsAdd(false) : null;
     }
-    
-  }
-}
+  };
 
+  const handleDeleteButton = (addressId) => {
+    setDeleteId(addressId);
+  };
+
+  const handleDeleteSubmit = async (deleteId) => {
+    const res = await deleteAddress(deleteId);
+    res.success ? setDeleteId(null) : null;
+  };
+
+  //HANDLE FORM MODAL CLOSE BUTTON
   const handleModalClose = () => {
     if (isAdd) {
-      setIsAdd(false) 
+      setIsAdd(false);
     }
-    if(isEdit) {
-      setEditData(null)
-      setIsEdit(false)
+    if (isEdit) {
+      setEditData(null);
+      setIsEdit(false);
     }
-  }
+  };
+
+  //HANDLE DELETE MODAL CLOSE
+  const handleDeleteModalClose = () => {
+    if (deleteId) {
+      setDeleteId(null);
+    }
+  };
   return (
     <>
       <div className="w-full flex justify-end mb-4">
-        <Button size="md" onClick={handleAddButton}>
+        <Button
+          size="md"
+          className=" text-white py-2 rounded-lg text-sm font-medium"
+          onClick={handleAddButton}
+        >
           ADD ADDRESS
         </Button>
       </div>
@@ -84,8 +104,9 @@ export default function AddressCard({
                     {address?.phone}
                   </p>
                   <p>
-                    <span className="font-medium text-gray-700">{address?.label}</span>{" "}
-                    
+                    <span className="font-medium text-gray-700">
+                      {address?.label}
+                    </span>{" "}
                   </p>
                 </div>
 
@@ -93,13 +114,15 @@ export default function AddressCard({
                 <div className="flex gap-4 mt-6">
                   <Button
                     onClick={() => handleEditButton(address)}
-                    className="flex-1 bg-blue-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-blue-700"
+                    variant="primary"
+                    className="flex-1 text-white py-2 rounded-lg text-sm font-medium "
                   >
                     EDIT
                   </Button>
                   <Button
-                    onClick={onRemove}
-                    className="flex-1 bg-red-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-red-700"
+                    onClick={() => handleDeleteButton(address._id)}
+                    variant="danger"
+                    className="flex-1 text-white py-2 rounded-lg text-sm font-medium"
                   >
                     REMOVE
                   </Button>
@@ -119,13 +142,28 @@ export default function AddressCard({
 
       {(isAdd || isEdit) && (
         <Modal
-          isOpen={(isAdd || isEdit)}
+          isOpen={isAdd || isEdit}
           size="xl"
           onClose={handleModalClose}
           title={isAdd ? "Add Address" : "Edit address"}
         >
-          <AddressForm userId={user._id} editData= {editData} onSubmit={handleSubmit} />
+          <AddressForm
+            userId={user._id}
+            editData={editData}
+            onSubmit={handleSubmit}
+          />
         </Modal>
+      )}
+      {deleteId && (
+        <ConfirmDialog
+          isOpen={deleteId ? true : false}
+          onCancel={() => setDeleteId(null)}
+          onConfirm={() => handleDeleteSubmit(deleteId)}
+          title="Are you sure to delete?"
+          message="This cannot be undone!"
+          confirm="Confirm"
+          cancel="Cancel"
+        />
       )}
     </>
   );

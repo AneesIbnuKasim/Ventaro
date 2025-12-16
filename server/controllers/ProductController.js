@@ -1,4 +1,4 @@
-const ProductService = require("../services/");
+const ProductService = require("../services/ProductService");
 const { productValidation } = require("../utils/validation");
 const BaseController = require("./baseController");
 

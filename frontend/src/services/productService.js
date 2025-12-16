@@ -3,7 +3,7 @@ import { makeRequest } from "../utils/apiClient";
 
 export const productAPI = {
   getAllProduct: (params = {}) => {
-    console.log("search in api:", params);
+    console.log("get all products:", params);
 
     return makeRequest({
       method: "get",

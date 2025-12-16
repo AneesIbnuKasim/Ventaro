@@ -50,8 +50,6 @@ const Products = memo(() => {
     debouncedSearch,
   ]);
 
-
-
   const handleDeleteProduct = useCallback((product) => {
     setIsDelete(true);
     setDeleteData(product);
@@ -163,10 +161,11 @@ const Products = memo(() => {
       {totalPages > 1 && (
         <Pagination
           setPagination={setPagination}
-          currentPage={pagination.currentPage}
+          currentPage={pagination.page}
           totalPages={pagination.totalPages}
           itemsPerPage={pagination.limit}
-          totalItems={totalItems}
+          totalItems={pagination.totalProducts}
+          onPageChange={setPagination}
         />
       )}
     </>

@@ -60,4 +60,12 @@ export const userAPI = {
         data: addressData
       });
     },
+
+    // DELETE ADDRESS
+    deleteAddress: (addressId) => {
+      return makeRequest({
+        method: "delete",
+        url: `api/user/addresses/${addressId}`,
+      });
+    },
 };

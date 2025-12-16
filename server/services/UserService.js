@@ -1,154 +1,160 @@
-const User = require("../models/User")
-const { NotFoundError } = require("../utils/errors")
-const logger = require("../utils/logger")
-const { sendError } = require("../utils/response")
-const path = require('path')
-const fs = require('fs')
-const Address = require("../models/Address")
-const mongoose = require('mongoose')
+const User = require("../models/User");
+const { NotFoundError } = require("../utils/errors");
+const logger = require("../utils/logger");
+const { sendError } = require("../utils/response");
+const path = require("path");
+const fs = require("fs");
+const Address = require("../models/Address");
+const mongoose = require("mongoose");
 
 class UserService {
-    static getProfile = async(req, res)=>{
-        try {
+  static getProfile = async (req, res) => {
+    try {
+      const id = req?.user?._id?.toString();
 
-            
-            const id = req?.user?._id?.toString()
-            
-            const user = await User.findById(id).populate('addresses')
-            
-            if (!user) {
-                logger.error('User not found', id)
-                throw sendError(res, 'User not found', 404)
-            }
-            const profileData = user.getPublicProfile()
-            
-            return {user: profileData}
-            
-        } catch (error) {
-            logger.error('Error loading user profile')
-            throw error
-        }
+      const user = await User.findById(id).populate("addresses");
+
+      if (!user) {
+        logger.error("User not found", id);
+        throw sendError(res, "User not found", 404);
+      }
+      const profileData = user.getPublicProfile();
+
+      return { user: profileData };
+    } catch (error) {
+      logger.error("Error loading user profile");
+      throw error;
     }
+  };
 
-    static updateProfile = async(userId, updateData)=>{
-        try {
-            delete updateData?.password
-            delete updateData?.email
-            delete updateData?.role
-            delete updateData?.status
-            delete updateData?.isVerified
+  static updateProfile = async (userId, updateData) => {
+    try {
+      delete updateData?.password;
+      delete updateData?.email;
+      delete updateData?.role;
+      delete updateData?.status;
+      delete updateData?.isVerified;
 
-            const user = await User.findByIdAndUpdate(userId, updateData,{
-                new: true, runValidators: true
-            })
+      const user = await User.findByIdAndUpdate(userId, updateData, {
+        new: true,
+        runValidators: true,
+      });
 
-            if (!user) {
-                logger.error('User not found')
-                throw NotFoundError('User not found')
-            }
+      if (!user) {
+        logger.error("User not found");
+        throw NotFoundError("User not found");
+      }
 
-            return {user: user.getPublicProfile()}
-            
-        } catch (error) {
-            logger.error('Profile update failed')
-            throw error
-        }
+      return { user: user.getPublicProfile() };
+    } catch (error) {
+      logger.error("Profile update failed");
+      throw error;
     }
+  };
 
-    static updateAvatar = async(req)=>{
+  static updateAvatar = async (req) => {
+    try {
+      if (!req.file) {
+        logger.error("No file uploaded");
+        throw new Error("No file uploaded");
+      }
+      const userId = req.user._id.toString();
+      const user = await User.findById(userId);
 
-        try {
-            if (!req.file) {
-            logger.error('No file uploaded')
-            throw new Error('No file uploaded')
+      if (user.avatar) {
+        const oldPath = path.join("uploads/avatars", user.avatar);
+
+        if (fs.existsSync(oldPath)) {
+          fs.unlinkSync(oldPath);
         }
-        const userId = req.user._id.toString()
-        const user = await User.findById(userId)
+      }
 
-        if (user.avatar) {
-            const oldPath = path.join('uploads/avatars', user.avatar)
+      user.avatar = req.file.filename;
+      await user.save();
 
-            if (fs.existsSync(oldPath)) {
-                fs.unlinkSync(oldPath)
-            }
-        }
-        
-        user.avatar = req.file.filename
-        await user.save()
-        
-        return {avatar: req.file.filename}
-        } catch (error) {
-            logger.error('Avatar updating failed')
-            throw error
-        }
+      return { avatar: req.file.filename };
+    } catch (error) {
+      logger.error("Avatar updating failed");
+      throw error;
     }
+  };
 
-    static addAddress = async(req, addressData)=>{
-        try {
-            const userId = req.user._id.toString()
-            const user = await User.findById(userId)
-            if (!user) {
-                logger.error('User not found')
-                throw new NotFoundError('User not found')
-            }
-            
-        const data = {...addressData, userId}
-        
-        if (user.addresses.length === 0) {
-            
-            data.isDefault = true
-        }
-        else if (addressData.isDefault) {
-            await Address.updateMany({isDefault: false})
-        }
+  static addAddress = async (req, addressData) => {
+    try {
+      const userId = req.user._id.toString();
+      const user = await User.findById(userId);
+      if (!user) {
+        logger.error("User not found");
+        throw new NotFoundError("User not found");
+      }
 
-        const address = await Address.create(data)
+      const data = { ...addressData, userId };
 
-        await user.updateOne({$push: {addresses: address._id}}, {new: true})
+      if (user.addresses.length === 0) {
+        data.isDefault = true;
+      } else if (addressData.isDefault) {
+        await Address.updateMany({ isDefault: false });
+      }
 
-        logger.info('Address added successfully')
-        return address
-        } catch (error) {
-            logger.error('Adding address failed')
-            throw error
-        }
+      const address = await Address.create(data);
+
+      await user.updateOne(
+        { $push: { addresses: address._id } },
+        { new: true }
+      );
+
+      logger.info("Address added successfully");
+      return address;
+    } catch (error) {
+      logger.error("Adding address failed");
+      throw error;
     }
+  };
 
-    static updateAddress = async(addressId, updateData)=>{
-        try {
-        console.log('updateData', updateData);
-        
+  static updateAddress = async (addressId, updateData) => {
+    try {
 
-        console.log('addrssId:',addressId);
-        
-
-        const updatedAddress = await Address.findByIdAndUpdate(addressId, updateData, {
-            new: true
-        })
-        
-        logger.info('Address updated successfully', updatedAddress)
-
-        return updatedAddress
-        } catch (error) {
-            logger.error('Address updating failed')
-            throw error
+      const updatedAddress = await Address.findByIdAndUpdate(
+        addressId,
+        updateData,
+        {
+          new: true,
         }
+      );
+
+      logger.info("Address updated successfully", updatedAddress);
+
+      return updatedAddress;
+    } catch (error) {
+      logger.error("Address updating failed");
+      throw error;
     }
+  };
 
-    static deleteAddress = async(req)=>{
-        const addressId = req.params.id
+  static deleteAddress = async (req) => {
+    try {
+      const addressId = req.params.id;
 
-        const user = await User.find()
-        if (user.addresses.length === 1) {
-            return sendError(res, 'Primary address cannot be deleted')
-        }
-        
-        await User.findOneAndUpdate({addresses: new mongoose.Types.ObjectId(addressId)},{$pull:{addresses: addressId}},{new: true})
+      const user = await User.findOne(req.user._id);
 
-        await Address.findOneAndDelete({_id: addressId})
+      if (user.addresses.length === 1) {
+        return sendError(res, "Primary address cannot be deleted");
+      }
 
-        return true
+      const res = await User.findOneAndUpdate(
+        { addresses: new mongoose.Types.ObjectId(addressId) },
+        { $pull: { addresses: addressId } },
+        { new: true }
+      );
+
+      await Address.findByIdAndDelete(addressId);
+
+      return addressId;
+    } catch (error) {
+      logger.error(error.message);
+      throw error;
     }
+  };
 }
 
-module.exports = UserService
+module.exports = UserService;

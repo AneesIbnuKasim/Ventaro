@@ -38,9 +38,9 @@ class UserController extends BaseController {
     })
 
     static deleteAddress = BaseController.asyncHandler(async(req, res)=>{
-        const address = await UserService.deleteAddress(req)
-        BaseController.logAction('DELETE_ADDRESS','Address deleted successfully')
-        BaseController.sendSuccess(res, 'Address deleted successfully')
+        const addressId = await UserService.deleteAddress(req)
+        BaseController.logAction('DELETE_ADDRESS','Address deleted successfully', addressId)
+        BaseController.sendSuccess(res, 'Address deleted successfully', addressId)
     })
 
 }

@@ -216,6 +216,9 @@ export const ProductProvider = ({ children }) => {
     try {
       dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
 
+      console.log('here');
+      
+
       const response = await productAPI.getAllProduct({
         search: debouncedSearch,
         category,
@@ -233,9 +236,6 @@ export const ProductProvider = ({ children }) => {
         type: PRODUCT_ACTIONS.SET_PRODUCT,
         payload: { products: products, pagination },
       });
-
-      console.log('fetch product response:', res);
-      
 
       setAllCategories(allCategories);
 

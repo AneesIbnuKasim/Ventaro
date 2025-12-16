@@ -36,6 +36,7 @@ const USER_ACTIONS = {
   SET_USER: "SET_USER",
   UPDATE_USER: "UPDATE_USER",
   UPDATE_AVATAR: "UPDATE_AVATAR",
+  DELETE_ADDRESS: "DELETE_ADDRESS",
 };
 
 const userReducer = (state, action) => {
@@ -60,6 +61,14 @@ const userReducer = (state, action) => {
       return {
         ...state,
         user: { ...state.user, ...action.payload },
+        loading: false,
+      };
+
+    case USER_ACTIONS.DELETE_ADDRESS:
+        console.log('pay', {...state.user})
+      return {
+        ...state,
+        user: { ...state.user, addresses: [state.user.addresses.filter(address => address._id !== action.payload )] },
         loading: false,
       };
 
@@ -165,6 +174,10 @@ export const UserProvider = ({ children }) => {
 const addAddress = useCallback(async(addressData) => {
     dispatch({ type: USER_ACTIONS.SET_LOADING, payload: true })
     try {
+        dispatch({ type: USER_ACTIONS.SET_LOADING, payload: true})
+
+        console.log('in handler');
+        
         const response = await userAPI.addAddress(addressData)
 
         console.log('addaddress response:', response);
@@ -172,6 +185,8 @@ const addAddress = useCallback(async(addressData) => {
         await getProfile()
 
         dispatch({type: USER_ACTIONS.UPDATE_USER, payload: response.data.address})
+
+        toast.success(response.message)
 
         return { success: true }
     } catch (error) {
@@ -201,6 +216,25 @@ const editAddress = useCallback(async(addressId, addressData) => {
     }
 }, [])
 
+//DELETE ADDRESS
+const deleteAddress = useCallback(async(addressId) => {
+    dispatch({ type: USER_ACTIONS.SET_LOADING, payload: true })
+    try {
+        const response = await userAPI.deleteAddress(addressId)
+
+        console.log('delete response:', response);
+
+        dispatch({type: USER_ACTIONS.DELETE_ADDRESS, payload: addressId})
+        
+        toast.success(response.message)
+
+        return { success: true }
+    } catch (error) {
+        dispatch({ type: USER_ACTIONS.SET_ERROR, payload: error.message})
+        console.log(error)
+    }
+}, [])
+
   const values = useMemo(
     () => ({
       user,
@@ -210,7 +244,8 @@ const editAddress = useCallback(async(addressId, addressData) => {
       updateProfile,
       updateAvatar,
       addAddress,
-      editAddress
+      editAddress,
+      deleteAddress
     }),
     [user, loading, isAuthenticated, getProfile, updateProfile, addAddress, editAddress]
   );

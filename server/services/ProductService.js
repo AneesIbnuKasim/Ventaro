@@ -8,12 +8,12 @@ class ProductService {
   //GET ALL PRODUCTS
   static getProducts = async (req, res) => {
     try {
-      const { search, sortBy, sortOrder = "asc", category } = req.query;
+      const { search='', sortBy='createdAt', sortOrder = "asc", category='' } = req.query;
 
       const minPrice = parseInt(req.query.minPrice);
       const maxPrice = parseInt(req.query.maxPrice);
       const rating = parseInt(req.query.rating);
-      const page = parseInt(req.query.page);
+      const page = parseInt(req.query.page) || 1;
       const limit = parseInt(req.query.limit) || 10;
 
       const filter = {};
@@ -33,23 +33,28 @@ class ProductService {
 
       const sortObj = { [sortBy]: sortOrder };
 
-      const currentPage = page || 1;
       const productPerPage = limit || 6;
-      const skipValue = (currentPage - 1) * productPerPage;
+      const skipValue = (page - 1) * productPerPage;
 
-      const totalProducts = await Product.find(filter);
+
+      
+
+      const totalProducts = await Product.find(filter).countDocuments()
 
       const [products, categories] = await Promise.all([
-        Product.find(filter).sort(sortObj).skip(skipValue).limit(limit),
+        Product.find(filter).skip(skipValue).limit(limit),
         Category.distinct("name"),
       ]);
+
+      const totalPages = Math.ceil(totalProducts / limit)
 
       return {
         products,
         pagination: {
+          limit,
           page,
-          totalPages: Math.ceil(totalProducts.length / limit),
-          totalProducts: totalProducts.length,
+          totalPages,
+          totalProducts
         },
         allCategories: categories,
       };
@@ -321,6 +326,12 @@ class ProductService {
       throw error;
     }
   };
+
+
+
+
+
+
   //   static fetchSearch = async (req) => {
   //     try {
   //       const { search, sortBy, sortOrder = "asc", category } = req.query;
