@@ -41,12 +41,22 @@ export const userAPI = {
         return res.data;
     },
 
+    // ADD ADDRESS ID TO USER AND ADDRESS TO ADDRESS SCHEMA
     addAddress: (addressData) => {
-      console.log("editData", addressData);
-  
       return makeRequest({
         method: "post",
         url: "api/user/addresses",
+        data: addressData
+      });
+    },
+
+     // UPDATE ADDRESS 
+    editAddress: (addressId, addressData) => {
+        console.log('addressId', addressId);
+        
+      return makeRequest({
+        method: "put",
+        url: `api/user/addresses/${addressId}`,
         data: addressData
       });
     },

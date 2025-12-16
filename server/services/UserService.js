@@ -15,14 +15,12 @@ class UserService {
             const id = req?.user?._id?.toString()
             
             const user = await User.findById(id).populate('addresses')
-            console.log('user:', user);
             
             if (!user) {
                 logger.error('User not found', id)
                 throw sendError(res, 'User not found', 404)
             }
             const profileData = user.getPublicProfile()
-            console.log('prof data:',profileData);
             
             return {user: profileData}
             
@@ -59,8 +57,6 @@ class UserService {
 
     static updateAvatar = async(req)=>{
 
-        console.log('in avatar');
-        
         try {
             if (!req.file) {
             logger.error('No file uploaded')
@@ -118,15 +114,19 @@ class UserService {
         }
     }
 
-    static updateAddress = async(req, updateData)=>{
+    static updateAddress = async(addressId, updateData)=>{
         try {
-        const addressId = req.params.id
+        console.log('updateData', updateData);
+        
+
+        console.log('addrssId:',addressId);
+        
 
         const updatedAddress = await Address.findByIdAndUpdate(addressId, updateData, {
             new: true
         })
-
-        logger.info('Address updated successfully')
+        
+        logger.info('Address updated successfully', updatedAddress)
 
         return updatedAddress
         } catch (error) {

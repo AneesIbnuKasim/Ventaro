@@ -161,7 +161,7 @@ export const UserProvider = ({ children }) => {
   }
 }, []);
 
-//ADD ADDRESS TO USER
+//ADD ADDRESS TO ADDRESS COLLECTION
 const addAddress = useCallback(async(addressData) => {
     dispatch({ type: USER_ACTIONS.SET_LOADING, payload: true })
     try {
@@ -169,8 +169,32 @@ const addAddress = useCallback(async(addressData) => {
 
         console.log('addaddress response:', response);
         
+        await getProfile()
 
         dispatch({type: USER_ACTIONS.UPDATE_USER, payload: response.data.address})
+
+        return { success: true }
+    } catch (error) {
+        dispatch({ type: USER_ACTIONS.SET_ERROR, payload: error.message})
+        console.log(error)
+    }
+}, [])
+
+//EDIT ADDRESS INFO
+const editAddress = useCallback(async(addressId, addressData) => {
+    dispatch({ type: USER_ACTIONS.SET_LOADING, payload: true })
+    try {
+        const response = await userAPI.editAddress(addressId, addressData)
+
+        console.log('edit response:', response);
+        
+        await getProfile()
+
+        dispatch({type: USER_ACTIONS.UPDATE_USER, payload: response.data.address})
+        
+        toast.success(response.message)
+        
+        return { success: true }
     } catch (error) {
         dispatch({ type: USER_ACTIONS.SET_ERROR, payload: error.message})
         console.log(error)
@@ -185,9 +209,10 @@ const addAddress = useCallback(async(addressData) => {
       getProfile,
       updateProfile,
       updateAvatar,
-      addAddress
+      addAddress,
+      editAddress
     }),
-    [user, loading, isAuthenticated, getProfile, updateProfile]
+    [user, loading, isAuthenticated, getProfile, updateProfile, addAddress, editAddress]
   );
 
   return <UserContext.Provider value={values}>{children}</UserContext.Provider>;

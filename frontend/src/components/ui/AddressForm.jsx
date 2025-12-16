@@ -6,8 +6,20 @@ import FormTextarea from "./FormTextArea";
 import Button from "./Button";
 import { addressValidationSchema } from "../../validation/userSchema";
 
-const AddressForm = memo(({ userId, initialData = {}, onSubmit, loading }) => {
-  const initialValues = {
+const AddressForm = memo(({ userId, isAdd, initialData = {}, onSubmit, loading, editData='' }) => {
+  const initialValues = editData ? {
+    fullName: editData.fullName,
+    phone: editData.phone,
+    pinCode: editData.pinCode,
+    state: editData.state,
+    city: editData.city,
+    addressLine: editData.addressLine,
+    label: editData.label,
+    isDefault: editData.isDefault,
+    ...initialData,
+  }
+  :
+  {
     fullName: "",
     phone: "",
     pinCode: "",
@@ -17,7 +29,7 @@ const AddressForm = memo(({ userId, initialData = {}, onSubmit, loading }) => {
     label: "Home",
     isDefault: false,
     ...initialData,
-  };
+  }
 
   return (
     <div className="overflow-y-auto max-h-[80vh]">
@@ -145,7 +157,7 @@ const AddressForm = memo(({ userId, initialData = {}, onSubmit, loading }) => {
               block
               loading={loading}
             >
-              Save Address
+              {editData ? 'UPDATE ADDRESS' : 'SAVE ADDRESS'}
             </Button>
           </div>
         </Form>

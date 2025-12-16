@@ -32,9 +32,9 @@ class UserController extends BaseController {
 
     static updateAddress = BaseController.asyncHandler(async(req, res)=>{
         const validatedData = BaseController.validateRequest(addressValidation, req.body)
-        const address = await UserService.updateAddress(req, validatedData)
+        const address = await UserService.updateAddress(req.params.id, validatedData)
         BaseController.logAction('UPDATE_ADDRESS', address)
-        BaseController.sendSuccess(res, 'Address updated successfully', address)
+        BaseController.sendSuccess(res, 'Address updated successfully', address, 201)
     })
 
     static deleteAddress = BaseController.asyncHandler(async(req, res)=>{
