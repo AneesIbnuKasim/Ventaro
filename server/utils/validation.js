@@ -39,7 +39,7 @@ const registerValidation = Joi.object({
 
 const phoneValidation = Joi.string()
     .pattern(/^[0-9]{10}$/)
-    .required()
+    .optional()
     .messages({
       'string.pattern.base': 'Phone must be a valid 10-digit number',
       ...customMessages
@@ -47,7 +47,7 @@ const phoneValidation = Joi.string()
 
 const updateProfileValidation = Joi.object({
     name: commonPatterns.name.messages(customMessages),
-    phone: Joi.string().pattern(/^[0-9]{10}$/).optional()
+    phone: Joi.string().optional().pattern(/^[0-9]{10}$/)
 })
 
 const pinCodeValidation = Joi.string()

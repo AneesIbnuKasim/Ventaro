@@ -1,4 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
+import { useUser } from "../../context/UserContext";
+import SearchNotFound from "./SearchNotFound";
+import ProductNotFound from "./ProductNotFound";
+import Button from "./Button";
+import Modal from "./Modal";
+import AddressForm from "./AddressForm";
 
 export default function AddressCard({
   name = "Jhon doe",
@@ -10,10 +16,36 @@ export default function AddressCard({
   onEdit,
   onRemove,
 }) {
+  const { user, addAddress } = useUser()
+  const [isAdd, setIsAdd] = useState(false)
+
+
+  const handleAddButton = () => {
+    setIsAdd(true)
+  }
+
+  const handleAddSubmit = async(values) => {
+    const res = await addAddress(values)
+    console.log('add values', values);
+    setIsAdd(false)
+  }
   return (
-    <div className="w-[420px] bg-white border rounded-xl p-6 shadow-sm">
+    <>
+    <div className="w-full flex justify-end mb-4">
+    <Button size='md'
+    onClick = {handleAddButton}
+    >
+        ADD ADDRESS
+      </Button>
+    </div>
+    <div className="flex ">
+      
+      {
+       user.addresses?.length > 0 ? (<div>
+        {user.addresses.map(address => (
+          <div className="w-[420px] bg-white border rounded-xl p-6 shadow-sm">
       {/* NAME */}
-      <h3 className="font-semibold text-gray-900 mb-2">{name}</h3>
+      <h3 className="font-semibold text-gray-900 mb-2">{address.name}</h3>
 
       {/* ADDRESS */}
       <div className="text-sm text-gray-600 space-y-1">
@@ -42,5 +74,21 @@ export default function AddressCard({
         </button>
       </div>
     </div>
+        ))
+      }
+       </div> ) : (<div className="w-full">
+        <ProductNotFound keyWord={'No address'} content={'Please add addresses'} />
+       </div>)  }
+    </div>
+
+    {
+      isAdd && <Modal isOpen={isAdd} size="xl" onClose={()=>setIsAdd(false)} title={isAdd ? 'Add Address' : 'Edit address'} >
+        <AddressForm 
+        userId={user._id}
+        onSubmit={handleAddSubmit}
+        />
+      </Modal>
+    }
+    </>
   );
 }

@@ -8,15 +8,22 @@ const Address = require("../models/Address")
 const mongoose = require('mongoose')
 
 class UserService {
-    static getProfile = async(req)=>{
+    static getProfile = async(req, res)=>{
         try {
-            const id = req.user._id
-            const user = await User.findById(id)
+
+            
+            const id = req?.user?._id?.toString()
+            
+            const user = await User.findById(id).populate('addresses')
+            console.log('user:', user);
+            
             if (!user) {
                 logger.error('User not found', id)
                 throw sendError(res, 'User not found', 404)
             }
             const profileData = user.getPublicProfile()
+            console.log('prof data:',profileData);
+            
             return {user: profileData}
             
         } catch (error) {
@@ -95,6 +102,9 @@ class UserService {
             
             data.isDefault = true
         }
+        else if (addressData.isDefault) {
+            await Address.updateMany({isDefault: false})
+        }
 
         const address = await Address.create(data)
 
@@ -127,6 +137,11 @@ class UserService {
 
     static deleteAddress = async(req)=>{
         const addressId = req.params.id
+
+        const user = await User.find()
+        if (user.addresses.length === 1) {
+            return sendError(res, 'Primary address cannot be deleted')
+        }
         
         await User.findOneAndUpdate({addresses: new mongoose.Types.ObjectId(addressId)},{$pull:{addresses: addressId}},{new: true})
 

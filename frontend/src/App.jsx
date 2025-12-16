@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Dashboard from "./pages/Dashboard.jsx";
 import Login from "./pages/Login.jsx";
@@ -30,9 +30,12 @@ import { ProductProvider } from "./context/ProductContext.jsx";
 import SearchPage from "./pages/SearchPage.jsx";
 import AppLayout from "./components/AppLayout.jsx";
 import { UserProvider } from "./context/UserContext.jsx";
+import AddressCard from "./components/ui/AddressCard.jsx";
+import ProfileLayout from "./components/ProfileLayout.jsx";
 
 const App = () => (
   <BrowserRouter>
+  <UserProvider>
     <AdminProvider>
       <AuthProvider>
         <ProductProvider>
@@ -46,12 +49,7 @@ const App = () => (
                 </PublicRoute>
               }
             /> */}
-            <Route
-              path="/product/:id"
-              element={
-                  <ProductDetails />
-              }
-            />
+            <Route path="/product/:id" element={<ProductDetails />} />
             <Route
               path="/login"
               element={
@@ -92,34 +90,30 @@ const App = () => (
                 </PublicRoute>
               }
             />
-            <Route
-              path="/products/:category"
-              element={
-                  <ProductList />
-              }
-            />
+            <Route path="/products/:category" element={<ProductList />} />
 
-            <Route
-              path="/search"
-              element={
-                  <SearchPage />
-              }
-            />
+            <Route path="/search" element={<SearchPage />} />
+
             {/*         protected user routes        */}
             <Route
-              path="/auth"
+              path="/profile"
               element={
-                <UserProvider>
-                  <AppLayout>
-                    <ProtectedRoute />
-                  </AppLayout>
-                </UserProvider>
+                
+                  <ProtectedRoute>
+                    <AppLayout>
+                      <ProfileLayout />
+                    </AppLayout>
+                  </ProtectedRoute>
+                
               }
             >
-              <Route  path="profile" element={
-                <Profile />
-              } />
+              {/* DEFAULT TAB */}
+              <Route index element={<Navigate to="account" replace />} />
+
+              <Route path="account" element={<Profile />} />
+              <Route path="address" element={<AddressCard />} />
             </Route>
+
             {/*         ADMIN PUBLIC ROUTE              */}
             <Route
               path="/admin/login"
@@ -153,6 +147,7 @@ const App = () => (
         </ProductProvider>
       </AuthProvider>
     </AdminProvider>
+    </UserProvider>
   </BrowserRouter>
 );
 

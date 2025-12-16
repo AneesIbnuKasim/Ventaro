@@ -22,21 +22,32 @@ export const userAPI = {
     });
   },
 
+  
   //UPDATE USER PROFILE AVATAR
   updateAvatar: async (formData) => {
-    console.log('formdata', formData);
-    
-    const token = localStorage.getItem("authToken");
-    const res = await axios.put(
-      "http://localhost:5001/api/user/avatar",
-      formData,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+      console.log('formdata', formData);
+      
+      const token = localStorage.getItem("authToken");
+      const res = await axios.put(
+          "http://localhost:5001/api/user/avatar",
+          formData,
+          {
+              headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        
+        return res.data;
+    },
 
-    return res.data;
-  },
+    addAddress: (addressData) => {
+      console.log("editData", addressData);
+  
+      return makeRequest({
+        method: "post",
+        url: "api/user/addresses",
+        data: addressData
+      });
+    },
 };

@@ -19,9 +19,6 @@ const authenticateUser = async(req, res, next)=>{
 
         const user = await User.findById(decoded.id)
 
-        console.log('in auth');
-        
-
         if (!user) {
             return sendError(res, 'User not found', 401)
         }

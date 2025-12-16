@@ -34,7 +34,7 @@ export default function NotFound() {
         <div className="flex items-center justify-center gap-4">
           <Button
             className="rounded-2xl px-6"
-            onClick={() => navigate("/auth/profile")}
+            onClick={() => navigate("/profile/account")}
           >
             <Home className="w-4 h-4 mr-2" />
             Go Home

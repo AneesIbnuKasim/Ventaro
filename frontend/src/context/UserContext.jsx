@@ -104,7 +104,7 @@ export const UserProvider = ({ children }) => {
       dispatch({
         type: USER_ACTIONS.SET_USER,
         payload: {
-          user: response.data,
+          user: response.data.user,
         },
       });
 
@@ -123,10 +123,10 @@ export const UserProvider = ({ children }) => {
 
       const response = await userAPI.updateProfile(userData);
 
-      console.log("res", response.data);
+      console.log("res", response);
 
       dispatch({ type: USER_ACTIONS.UPDATE_USER, payload: response.data.user });
-      toast.success(response.data.message);
+      toast.success(response.message);
 
       return { success: true };
     } catch (error) {
@@ -161,6 +161,22 @@ export const UserProvider = ({ children }) => {
   }
 }, []);
 
+//ADD ADDRESS TO USER
+const addAddress = useCallback(async(addressData) => {
+    dispatch({ type: USER_ACTIONS.SET_LOADING, payload: true })
+    try {
+        const response = await userAPI.addAddress(addressData)
+
+        console.log('addaddress response:', response);
+        
+
+        dispatch({type: USER_ACTIONS.UPDATE_USER, payload: response.data.address})
+    } catch (error) {
+        dispatch({ type: USER_ACTIONS.SET_ERROR, payload: error.message})
+        console.log(error)
+    }
+}, [])
+
   const values = useMemo(
     () => ({
       user,
@@ -168,7 +184,8 @@ export const UserProvider = ({ children }) => {
       loading,
       getProfile,
       updateProfile,
-      updateAvatar
+      updateAvatar,
+      addAddress
     }),
     [user, loading, isAuthenticated, getProfile, updateProfile]
   );

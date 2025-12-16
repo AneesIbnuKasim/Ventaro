@@ -5,7 +5,7 @@ const BaseController = require("./baseController")
 
 class UserController extends BaseController {
     static getProfile = BaseController.asyncHandler(async(req, res)=>{
-        const user = BaseController.sanitizeUser(req.user)
+        const user = await UserService.getProfile(req, res)
         BaseController.logAction('GET_PROFILE', user)
         BaseController.sendSuccess(res, 'Profile retrived successfully', user, 200)
     })
