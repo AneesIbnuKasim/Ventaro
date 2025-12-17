@@ -107,7 +107,7 @@ export default function Navbar({
 
             {showProfile && <User onClick={()=>navigateWithReset(`/profile/account`)} size={22} className="cursor-pointer" />}
             {showWishlist && <Heart size={22} className="cursor-pointer" />}
-            {showBag && <ShoppingBag size={22} className="cursor-pointer" />}
+            {showBag && <ShoppingBag size={22} className="cursor-pointer" onClick={() => navigate('/cart', {replace: true})} />}
           </div>
         </div>
       </nav>

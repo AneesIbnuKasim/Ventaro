@@ -56,7 +56,6 @@ const SearchPage = memo(() => {
 
   return (
     <>
-      <AppLayout>
         <div className="flex ml-0 m-2">
           {/* filters */}
           <div className="w-[20%]">
@@ -130,7 +129,6 @@ const SearchPage = memo(() => {
             )}
           </div>
         </div>
-      </AppLayout>
     </>
   );
 });

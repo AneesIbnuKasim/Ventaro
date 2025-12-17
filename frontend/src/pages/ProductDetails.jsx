@@ -86,7 +86,6 @@ const reviews = [
 
 
     <>
-      <AppLayout>
         <div className='m-4 flex flex-col gap-10'>
             {loading || !product ? (
                 <div className="h-[420px] w-[380px] bg-gray-200 animate-pulse rounded-lg" />
@@ -105,7 +104,6 @@ const reviews = [
         <ReviewsList reviews={reviews} />
         <ReviewForm />
         </div>
-      </AppLayout>
     </>
   )
 }

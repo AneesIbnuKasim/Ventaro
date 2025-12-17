@@ -96,7 +96,7 @@ validationSchema={loginSchema}
 onSubmit={submitLogin}
 >
 {({values, errors, touched, handleBlur, handleChange, isSubmitting }) => (
-  <Form className="space-y-4">
+  <Form className="space-y-4" noValidate>
         
         <FormInput
           label="Email Address"
@@ -180,7 +180,7 @@ onSubmit={submitLogin}
       icon= {<FaGithub />}
       block
       >
-        {'Google'}
+        {'Github'}
       </Button>
     </div>
 

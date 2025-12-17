@@ -53,7 +53,6 @@ const ProductList = memo(() => {
 
   return (
     <>
-      <AppLayout>
         <div className="flex ml-0 m-2">
           {/* filters */}
           <div className="w-[50%] md:w-[20%] lg:w-[25%]">
@@ -139,7 +138,6 @@ const ProductList = memo(() => {
             )}
           </div>
         </div>
-      </AppLayout>
     </>
   );
 });

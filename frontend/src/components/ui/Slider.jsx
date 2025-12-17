@@ -7,6 +7,7 @@ export default function Slider({
   renderItem,  
   itemWidth = 250,     
   className = "",
+  handleClick
 }) {
   const sliderRef = useRef(null);
 
@@ -48,9 +49,10 @@ export default function Slider({
         >
           {items.map((item, index) => (
             <div
-              key={item.id || index}
+              key={item._id || index}
               className="shrink-0"
               style={{ minWidth: itemWidth }}
+              onClick={()=>handleClick(item._id)}
             >
               {renderItem(item)}
             </div>
