@@ -423,7 +423,7 @@ export const ProductProvider = ({ children }) => {
     }
   };
 
-  //USER PRODUCT HANDLE
+  //USER SINGLE PRODUCT HANDLE
 
   const fetchSingleProduct = useCallback(async (productId) => {
     try {
@@ -548,6 +548,7 @@ export const ProductProvider = ({ children }) => {
       setGlobalCategory,
       fetchSearch,
       searchSuggestion,
+      loadCart
     }),
     [
       state.products,
@@ -571,6 +572,7 @@ export const ProductProvider = ({ children }) => {
       setGlobalCategory,
       fetchSearch,
       searchSuggestion,
+      loadCart
     ]
   );
 

@@ -1,13 +1,20 @@
-import React, { memo, useEffect } from "react";
+import React, { memo, useEffect, useState } from "react";
 import Slider from "../components/ui/Slider";
 import { useProduct } from "../context/ProductContext";
 import ProductCard from "../components/ui/ProductCard";
 import { useNavigate } from "react-router-dom";
+import { API_CONFIG } from "../config/app";
 
 const Cart = memo(() => {
 
-  const { products, fetchProduct } = useProduct()
+  const { products, fetchProduct, loadCart } = useProduct()
   const navigate = useNavigate()
+  const [cartItems, setCartItems] = useState([])
+ 
+  useEffect(() => {
+    const items = loadCart()
+    setCartItems(items)
+  }, [])
 
   useEffect(()=> {
     const load = async()=>{
@@ -26,20 +33,23 @@ const Cart = memo(() => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-6">
-            {[1, 2].map((item) => (
+            {cartItems?.map((item) => (
               <div
-                key={item}
+                key={item._id}
                 className="flex items-start gap-6 border rounded-xl p-6"
               >
+                {console.log(item.image)
+                }
                 <img
-                  src="https://via.placeholder.com/120x160"
+                  src={`http://localhost:5001${item.image}`}
                   alt="product"
                   className="w-28 h-36 object-contain"
+                  onClick={() => navigate(`/product/${item._id}`)}
                 />
 
                 <div className="flex-1">
                   <h3 className="font-semibold text-gray-800">
-                    Samsung Tablet
+                    {item.name}
                   </h3>
                   <p className="text-sm text-gray-500">
                     Samsung Tablet 5th Gen
@@ -47,13 +57,13 @@ const Cart = memo(() => {
                   <p className="text-sm text-gray-500">Memory Size: 128GB</p>
                   <p className="text-sm text-gray-500">Color Variant: White</p>
 
-                  <p className="font-semibold mt-2">Rs. 20000</p>
+                  <p className="font-semibold mt-2">{item.price}</p>
                 </div>
 
                 {/* Quantity */}
                 <div className="flex items-center border rounded-lg">
                   <button className="px-3 py-1">-</button>
-                  <span className="px-3">1</span>
+                  <span className="px-3">{item.quantity}</span>
                   <button className="px-3 py-1">+</button>
                 </div>
 
