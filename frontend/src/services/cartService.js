@@ -16,11 +16,10 @@ export default cartAPI = {
         }))
     },
 
-    removeFromCart: (data) => {
+    removeFromCart: (productId) => {
         return makeRequest(({
             method: 'delete',
-            url: `/api/cart`,
-            data
+            url: `/api/cart/${productId}`,
         }))
     },
 
