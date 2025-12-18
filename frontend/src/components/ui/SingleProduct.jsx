@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Heart, ShoppingCart } from "lucide-react";
 import { useProduct } from "../../context/ProductContext";
+import { useDispatch } from "react-redux";
+import { addCartThunk } from "../../redux/slices/cartSlice";
 
 export default function SingleProduct({ product = {} }) {
+
+  //PRODUCT IMAGE LINK
   const images = Array.isArray(product.images) && product.images.length > 0
   ? product.images
   : product.image
@@ -11,6 +15,8 @@ export default function SingleProduct({ product = {} }) {
   
   const [mainImage, setMainImage] = useState(images[0])
   const {handleAddToCart} = useProduct()
+  const dispatch = useDispatch()
+  
 
   const changeMainImage = (e , i) => {
     const image = e.target.src.split('http://localhost:5001')
@@ -21,8 +27,10 @@ export default function SingleProduct({ product = {} }) {
     setMainImage(images[0]);
   }, [product, images]);
 
-  const addToCart = (id) => {
-    handleAddToCart(id)
+  const addToCart = (product) => {
+    console.log('in dispatch', product._id);
+    
+    dispatch(addCartThunk({ productId: product._id, quantity: 1 }))
   }
 
   return (

@@ -463,66 +463,67 @@ export const ProductProvider = ({ children }) => {
     }
   };
 
-  //CLEAN PRODUCT BEFORE ADDING TO CART
-  const cleanCartItem = (product) => ({
-    _id: product._id,
-    name: product.name,
-    price: product.price,
-    image: product.images?.[0] || "",
-    quantity: 1,
-  });
+  // //CLEAN PRODUCT BEFORE ADDING TO CART
+  // const cleanCartItem = (product) => ({
+  //   _id: product._id,
+  //   name: product.name,
+  //   price: product.price,
+  //   image: product.images?.[0] || "",
+  //   quantity: 1,
+  // });
 
-  //ADDING PRODUCT TO TEMP CART FOR NON LOGGED IN USERS
-  const handleAddToCart = useCallback((product) => {
-    try {
-      const token = getAuthToken();
-      const isAuthenticated = !!token;
+  // //ADDING PRODUCT TO TEMP CART FOR NON LOGGED IN USERS
+  // const handleAddToCart = useCallback((product) => {
+  //   try {
+  //     const token = getAuthToken();
+  //     const isAuthenticated = !!token;
 
-      if (isAuthenticated) {
-        console.log("logged in user cart");
-        return;
-      } else {
-        const existingCart = loadCart();
+  //     if (isAuthenticated) {
+  //       console.log("logged in user cart");
+  //       return;
+  //     } else {
+  //       const existingCart = loadCart();
 
-        //validate if cart value is valid
-        if (!Array.isArray(existingCart)) {
-          toast.error("Cart is corrupted, Resetting cart...");
-          return;
-        }
+  //       //validate if cart value is valid
+  //       if (!Array.isArray(existingCart)) {
+  //         toast.error("Cart is corrupted, Resetting cart...");
+  //         return;
+  //       }
 
-        product = cleanCartItem(product);
+  //       product = cleanCartItem(product);
 
-        const exist = existingCart.find((item) => item._id === product._id);
+  //       const exist = existingCart.find((item) => item._id === product._id);
 
-        let updatedCart;
+  //       let updatedCart;
 
-        if (exist) {
-          // product already exist increase quantity
-          const updatedCart = existingCart.map((item) =>
-            item._id === product._id
-              ? { ...item, quantity: item.quantity + 1 }
-              : item
-          );
+  //       if (exist) {
+  //         // product already exist increase quantity
+  //         const updatedCart = existingCart.map((item) =>
+  //           item._id === product._id
+  //             ? { ...item, quantity: item.quantity + 1 }
+  //             : item
+  //         );
 
-          localStorage.setItem("cart", JSON.stringify(updatedCart));
-        } else {
-          //add new product
-          updatedCart = [...existingCart, { ...product, quantity: 1 }];
+  //         localStorage.setItem("cart", JSON.stringify(updatedCart));
+  //       } else {
+  //         //add new product
+  //         updatedCart = [...existingCart, { ...product, quantity: 1 }];
 
-          localStorage.setItem("cart", JSON.stringify(updatedCart));
-        }
+  //         localStorage.setItem("cart", JSON.stringify(updatedCart));
+  //       }
 
-        toast.success("Product added to cart");
-      }
-    } catch (error) {
-      dispatch({
-        type: PRODUCT_ACTIONS.SET_ERROR,
-        payload: { error: error.message },
-      });
-      console.log(error.message);
-      return { success: false, error: error.message };
-    }
-  }, []);
+  //       toast.success("Product added to cart");
+  //     }
+  //   } catch (error) {
+  //     dispatch({
+  //       type: PRODUCT_ACTIONS.SET_ERROR,
+  //       payload: { error: error.message },
+  //     });
+  //     console.log(error.message);
+  //     return { success: false, error: error.message };
+  //   }
+  // }, []);
+
 
   const values = useMemo(
     () => ({
@@ -536,7 +537,7 @@ export const ProductProvider = ({ children }) => {
       updateProduct,
       deleteProduct,
       fetchSingleProduct,
-      handleAddToCart,
+      // handleAddToCart,
       resetAllFilters,
       filters: state.filters,
       setFilters,
@@ -561,7 +562,7 @@ export const ProductProvider = ({ children }) => {
       updateProduct,
       deleteProduct,
       fetchSingleProduct,
-      handleAddToCart,
+      // handleAddToCart,
       resetAllFilters,
       setFilters,
       setPagination,

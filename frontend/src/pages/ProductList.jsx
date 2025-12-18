@@ -31,6 +31,8 @@ const ProductList = memo(() => {
     debouncedSearch,
   } = useProduct();
   const { category } = useParams();
+  console.log('category', category);
+  
 
   //CLEAR CATEGORY FILTER IF ANY
   //   useEffect(() => {

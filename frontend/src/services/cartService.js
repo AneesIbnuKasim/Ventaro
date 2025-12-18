@@ -1,6 +1,6 @@
 import makeRequest from "../utils/apiClient"
 
-export default cartAPI = {
+const cartAPI = {
     fetchCart: () => {
         return makeRequest(({
             method: 'get',
@@ -8,7 +8,7 @@ export default cartAPI = {
         }))
     },
 
-    addToCart: (params={}) => {
+    addToCart: (data={}) => {
         return makeRequest(({
             method: 'post',
             url: `/api/cart`,
@@ -23,10 +23,14 @@ export default cartAPI = {
         }))
     },
 
-    syncCart: (data) => {
+    syncCart: (items) => {
+        const data = items.map(i=>({
+            productId: i._id,
+            quantity: i.quantity
+        }))
         return makeRequest(({
             method: 'put',
-            url: `/api/cart/update`,
+            url: `/api/cart/sync`,
             data
         }))
     },
@@ -38,5 +42,6 @@ export default cartAPI = {
         }))
     },
     
-
 }
+
+export default cartAPI

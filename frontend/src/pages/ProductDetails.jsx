@@ -11,7 +11,7 @@ import { useProduct } from '../context/ProductContext';
 function ProductDetails() {
 
     const {id} = useParams()
-    const { fetchSingleProduct, products, product, loading, fetchProductsByCategory } = useProduct()
+    const { fetchSingleProduct, products, product, loading, fetchProductByCategory } = useProduct()
     
     const navigate = useNavigate()
 
@@ -23,15 +23,6 @@ function ProductDetails() {
       window.scrollTo(0, 0)
   }, [id])
 
-
-  useEffect(() => {
-    if (!products?.length) {
-      const load = async () => {
-      await fetchProductsByCategory()
-    }
-    load()
-  }
-    }, [products])
 
   const handleClick = (id) => {
     navigate(`/products/${id}`)

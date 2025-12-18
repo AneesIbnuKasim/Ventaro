@@ -1,14 +1,13 @@
-import debounce from "lodash.debounce";
-import api from "@/utils/api";
+import debounce from "lodash/debounce";
+import cartAPI from '../../services/cartService'
+import { useAdmin } from "../../context/AdminContext";
 
+let isAuth
 const syncCartDebounced = debounce(async (items) => {
   try {
-    await api.post("/cart/sync", {
-      items: items.map(i => ({
-        productId: i._id,
-        quantity: i.quantity,
-      })),
-    });
+    const { isAuthenticated } = useAdmin()
+    isAuth = isAuthenticated
+    await cartAPI.syncCart(items)
   } catch (err) {
     console.error("Cart sync failed", err);
   }
@@ -17,12 +16,11 @@ const syncCartDebounced = debounce(async (items) => {
 export const cartSyncMiddleware = store => next => action => {
   const result = next(action);
 
-  const { isAuthenticated } = store.getState().auth;
   const { items } = store.getState().cart;
 
   switch (action.type) {
     case "cart/updateQuantity":
-      if (isAuthenticated && items.length) {
+      if (isAuth && items.length) {
         syncCartDebounced(items);
       }
       break;
