@@ -5,31 +5,31 @@ const persistedCart = JSON.parse(localStorage.getItem("cart"));
 console.log("cart reducer initialized", persistedCart);
 
 const initialState = {
-    items: [],
+    items:  [],
     loading: false,
     error: null
 }
 
-//ADD PRODUCT TO CART THUNK
+//ADD PRODUCT TO CART
 export const addCartThunk = createAsyncThunk('cart/add', async(data, {rejectWithValue}) => {
     console.log('here in thunk', data);
     
     try {
         const response = await cartAPI.addToCart(data)
 
-        return response.data.product
+        console.log('add to cart response:', response.data.items);
+        
+        return response.data.items
     } catch (error) {
         return rejectWithValue(error.message)
     }
 })
 
-//FETCH USER CART THUNK
+//FETCH USER CART
 export const fetchCartThunk = createAsyncThunk('cart/fetch', async(_, {rejectWithValue}) => {
-    console.log('here in fetch thunk');
-    
     try {
         const response = await cartAPI.fetchCart()
-        console.log('response', response.data);
+        console.log('fetch response', response.data);
         return response.data
     } catch (error) {
         return rejectWithValue(error.message)
@@ -60,7 +60,10 @@ const cartSlice = createSlice({
         builder
         .addCase(addCartThunk.pending, (state) => { state.loading = true })
         .addCase(addCartThunk.fulfilled, (state, action) => {
-            state.items.push(action.payload)
+
+            console.log('state.items', action.payload);
+            
+            state.items = action.payload
             state.loading = false
         })
         .addCase(addCartThunk.rejected, (state, action) => {
@@ -73,7 +76,7 @@ const cartSlice = createSlice({
         .addCase(fetchCartThunk.fulfilled, (state, action) => {
             console.log('action.payload', action.payload);
             
-            state.items = action.payload
+            state.items = action.payload.items
             state.loading = false
         })
         .addCase(fetchCartThunk.rejected, (state, action) => {

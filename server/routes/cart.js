@@ -6,7 +6,8 @@ const router = express.Router()
 
 //category api handlers
 router.get('/', authenticateUser, CartController.fetchCart)
-// router.post('/', authenticateUser, CartController.addToCart)
+router.post('/', authenticateUser, CartController.addToCart)
+router.delete('/', authenticateUser, CartController.removeFromCart)
 // router.put('/:id',authenticateAdmin ,CategoryController.updateCategory)
 // router.delete('/:id', authenticateAdmin, CategoryController.deleteCategory)
 

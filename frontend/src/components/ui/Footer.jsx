@@ -44,7 +44,7 @@ const Footer = memo(() => {
   ];
 
   return (
-    <footer className="w-full bg-gray-100 shadow-md pt-14 mt-10">
+    <footer className="w-full bg-gray-200 shadow-md pt-14">
       <div className="max-w-[1440px] mx-auto px-4 md:px-10">
 
         {/* TOP Section */}

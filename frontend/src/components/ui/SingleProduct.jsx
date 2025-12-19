@@ -27,7 +27,7 @@ export default function SingleProduct({ product = {} }) {
     setMainImage(images[0]);
   }, [product, images]);
 
-  const addToCart = (product) => {
+  const addToCart = () => {
     console.log('in dispatch', product._id);
     
     dispatch(addCartThunk({ productId: product._id, quantity: 1 }))
@@ -70,7 +70,7 @@ export default function SingleProduct({ product = {} }) {
         </div>
 
         <div className="flex gap-4 mt-6">
-          <button onClick={()=>addToCart(product)} type="button" className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-md text-sm font-medium shadow-sm">
+          <button onClick={()=>addToCart()} type="button" className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-md text-sm font-medium shadow-sm">
             <ShoppingCart /> ADD TO CART
           </button>
 

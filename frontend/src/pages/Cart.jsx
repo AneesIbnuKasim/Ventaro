@@ -3,16 +3,21 @@ import Slider from "../components/ui/Slider";
 import { useProduct } from "../context/ProductContext";
 import ProductCard from "../components/ui/ProductCard";
 import { useNavigate } from "react-router-dom";
-import { API_CONFIG } from "../config/app";
 import { useSelector } from "react-redux";
 import { Button } from "../components/ui";
 
 const Cart = memo(() => {
   const { products, fetchProduct, loadCart } = useProduct();
   const navigate = useNavigate();
-  const { items } = useSelector((state) => state.cart);
-
-  console.log("items.length", items);
+  const { items } = useSelector((state) => {
+    console.log('stat4.car tin cart', state.cart);
+    
+    
+    return state.cart
+  });
+  
+  const hasCartItems = items.length > 0
+  
 
   // useEffect(() => {
   //   const items = loadCart()
@@ -28,11 +33,21 @@ const Cart = memo(() => {
     load();
   }, []);
 
+  const decreaseQuantity = (productId, quantity) => {
+    
+  }
+
+  const addQuantity = (productId) => {
+
+  }
+
+  
+
   return (
-    <div className="bg-gray-100 py-10">
+    <div className="bg-gray-100 py-10 px-5">
       <div className="max-w-7xl mx-auto bg-white rounded-xl p-8">
         {/* Top Section */}
-        {items.length === 0 ? (
+        { !hasCartItems ? (
           <div className=" text-gray-500 min-h-[400px] flex justify-center items-center h-full text-center flex-col gap-5">
             <p>Your cart is empty</p>
             <Button
@@ -43,25 +58,27 @@ const Cart = memo(() => {
             </div>
         ) : (
           <>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <h1 className="h2 mb-5">Shopping Cart</h1>
+          <div className="flex flex-col lg:flex-row md:gap-15 lg:gap-20">
+          <div className="grid flex-1 grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Cart Items */}
             <div className="lg:col-span-2 space-y-6">
               {items?.map((item) => (
                 <div
                   key={item._id}
-                  className="flex items-start gap-6 border rounded-xl p-6"
+                  className="flex items-start gap-6 border-b p-6"
                 >
                   <img
-                    src={`http://localhost:5001${item.image}`}
+                    src={`http://localhost:5001${item.product.images[0]}`}
                     alt="product"
                     className="w-28 h-36 object-contain"
                     onClick={() => navigate(`/product/${item._id}`)}
                   />
 
                   <div className="flex-1">
-                    <h3 className="font-semibold text-gray-800">{item.name}</h3>
+                    <h3 className="font-semibold text-gray-800">{item.product.name}</h3>
                     <p className="text-sm text-gray-500">
-                      Samsung Tablet 5th Gen
+                      {item.product.brandName}
                     </p>
                     <p className="text-sm text-gray-500">Memory Size: 128GB</p>
                     <p className="text-sm text-gray-500">
@@ -73,9 +90,9 @@ const Cart = memo(() => {
 
                   {/* Quantity */}
                   <div className="flex items-center border rounded-lg">
-                    <button className="px-3 py-1">-</button>
+                    <button onClick={()=>decreaseQuantity(item._id, item.quantity)} className="px-3 py-1">-</button>
                     <span className="px-3">{item.quantity}</span>
-                    <button className="px-3 py-1">+</button>
+                    <button onClick={()=>AddQuantity(item._id, item.quantity)} className="px-3 py-1">+</button>
                   </div>
 
                   {/* Remove */}
@@ -83,9 +100,11 @@ const Cart = memo(() => {
                 </div>
               ))}
             </div>
+            
+          </div>
 
-            {/* Summary */}
-            <div className="border rounded-xl p-6 space-y-6">
+          {/* Summary */}
+            <div className="border-b flex flex-col items-end justify-end p-6 space-y-6">
               <div className="flex items-center justify-between">
                 <p className="font-medium">APPLY COUPONS</p>
                 <button className="text-sm border px-4 py-1 rounded-md text-purple-600">
@@ -112,9 +131,17 @@ const Cart = memo(() => {
                 PLACE ORDER
               </button>
             </div>
-          </div>
 
-          {/* You May Also Like */}
+          </div>
+          
+            
+          
+
+       
+        </>
+        )}
+      </div>
+         {/* You May Also Like */}
         <Slider
           title="Related Products"
           items={products}
@@ -135,11 +162,6 @@ const Cart = memo(() => {
             />
           )}
         />
-        </>
-        )}
-
-        
-      </div>
     </div>
   );
 });

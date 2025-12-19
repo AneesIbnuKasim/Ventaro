@@ -47,8 +47,6 @@ const ProductList = memo(() => {
 
   const navigate = useNavigate();
 
-  const resetAll = () => {};
-
   const handleClick = (id) => {
     navigate(`/product/${id}`);
   };

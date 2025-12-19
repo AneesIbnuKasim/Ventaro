@@ -10,12 +10,17 @@ const AppLayout = memo(({
     children
 }) => {
     const dispatch = useDispatch()
-    const { isAuthenticated } = useAuth()
+    const { isAuthenticated, token } = useAuth()
     useEffect(() => {
-      if (isAuthenticated) {
+      console.log('token', token);
+      console.log('isauth:', isAuthenticated);
+      
+      if (token) {
+        console.log('here in load dispatch');
+        
         dispatch(fetchCartThunk())
       }
-    }, [isAuthenticated])
+    }, [token, dispatch])
   return (
     <>
       <Navbar/>

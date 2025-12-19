@@ -56,8 +56,6 @@ const App = () => (
                 <Route path="/products/:category" element={<AppLayout><ProductList /></AppLayout>} />
                 <Route path="/search" element={<AppLayout><SearchPage /></AppLayout>} />
                 <Route path="/product/:id" element={<AppLayout><ProductDetails /></AppLayout>} />
-                <Route path="/cart" element={<AppLayout><Cart /></AppLayout>} />
-
               <Route
                 path="/login"
                 element={
@@ -99,7 +97,22 @@ const App = () => (
                 }
               />
 
+              
+
               {/*         protected user routes        */}
+              {/* <Route 
+              path="/"
+              >
+
+              </Route> */}
+              <Route path="/cart" element={<AppLayout>
+                <ProtectedRoute>
+                  <Cart />
+                </ProtectedRoute>
+              </AppLayout>} />
+
+
+              {/*         protected user profile routes        */}
               <Route
                 path="/profile"
                 element={
@@ -115,6 +128,7 @@ const App = () => (
 
                 <Route path="account" element={<Profile />} />
                 <Route path="address" element={<AddressCard />} />
+                
               </Route>
 
               {/*         ADMIN PUBLIC ROUTE              */}

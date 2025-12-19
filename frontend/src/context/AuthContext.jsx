@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useReducer } from "react";
-import { getUser, setUser } from "../utils/apiClient";
+import { getAuthToken, getUser, setUser } from "../utils/apiClient";
 
 
 const AuthContext = createContext()
@@ -91,6 +91,7 @@ export const AuthProvider = ({children}) => {
         isAuthenticated: state.isAuthenticated,
         loading: state.loading,
         error: state.error,
+        token: getAuthToken(),
         login,
         clearError
     }
