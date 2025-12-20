@@ -3,21 +3,31 @@ import Slider from "../components/ui/Slider";
 import { useProduct } from "../context/ProductContext";
 import ProductCard from "../components/ui/ProductCard";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../components/ui";
+import {
+  selectTotalPrice,
+  selectTotalQuantity,
+} from "../redux/selector/cartSelector";
+import { removeFromCartThunk, updateQuantity } from "../redux/slices/cartSlice";
+import { toast } from "react-toastify";
+import { useAuth } from "../context/AuthContext";
 
 const Cart = memo(() => {
   const { products, fetchProduct, loadCart } = useProduct();
+  const { isAuthenticated } = useAuth()
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { items } = useSelector((state) => {
-    console.log('stat4.car tin cart', state.cart);
-    
-    
-    return state.cart
+    console.log("stat4.car tin cart", state.cart);
+
+    return state.cart;
   });
-  
-  const hasCartItems = items.length > 0
-  
+
+  const hasCartItems = items.length > 0;
+
+  const totalQuantity = useSelector(selectTotalQuantity);
+  const totalPrice = useSelector(selectTotalPrice);
 
   // useEffect(() => {
   //   const items = loadCart()
@@ -33,135 +43,158 @@ const Cart = memo(() => {
     load();
   }, []);
 
-  const decreaseQuantity = (productId, quantity) => {
-    
-  }
+  const decreaseQuantity = (itemId) => {
+    dispatch(
+      updateQuantity({ itemId, delta: -1 }, { isAuthenticated })
+    );
+  };
 
-  const addQuantity = (productId) => {
+  const addQuantity = (itemId) => {
+    dispatch(updateQuantity({ itemId, delta: +1 }, { isAuthenticated }));
+  };
 
-  }
-
-  
+  const handleRemoveButton = async (itemId) => {
+    try {
+      await dispatch(removeFromCartThunk(itemId)).unwrap();
+      toast.success("Product removed from cart");
+    } catch (error) {
+      toast.error(err);
+    }
+  };
 
   return (
     <div className="bg-gray-100 py-10 px-5">
       <div className="max-w-7xl mx-auto bg-white rounded-xl p-8">
         {/* Top Section */}
-        { !hasCartItems ? (
+        {!hasCartItems ? (
           <div className=" text-gray-500 min-h-[400px] flex justify-center items-center h-full text-center flex-col gap-5">
             <p>Your cart is empty</p>
             <Button
-            className='p-5'
-            size='md'
-            onClick= {()=>navigate(`/products/mobiles`)}
-            >HOME</Button>
-            </div>
+              className="p-5"
+              size="md"
+              onClick={() => navigate(`/products/mobiles`)}
+            >
+              HOME
+            </Button>
+          </div>
         ) : (
           <>
-          <h1 className="h2 mb-5">Shopping Cart</h1>
-          <div className="flex flex-col lg:flex-row md:gap-15 lg:gap-20">
-          <div className="grid flex-1 grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Cart Items */}
-            <div className="lg:col-span-2 space-y-6">
-              {items?.map((item) => (
-                <div
-                  key={item._id}
-                  className="flex items-start gap-6 border-b p-6"
-                >
-                  <img
-                    src={`http://localhost:5001${item.product.images[0]}`}
-                    alt="product"
-                    className="w-28 h-36 object-contain"
-                    onClick={() => navigate(`/product/${item._id}`)}
-                  />
+            <h1 className="h2 mb-5">Shopping Cart</h1>
+            <div className="flex flex-col lg:flex-row md:gap-15 lg:gap-20">
+              <div className="grid flex-1 grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* Cart Items */}
+                <div className="lg:col-span-2 space-y-6">
+                  {items?.map((item) => (
+                    <div
+                      key={item._id}
+                      className="flex items-start gap-6 border-b p-6"
+                    >
+                      <img
+                        src={`http://localhost:5001${item.product.images[0]}`}
+                        alt="product"
+                        className="w-28 h-36 object-contain"
+                        onClick={() => navigate(`/product/${item._id}`)}
+                      />
 
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-gray-800">{item.product.name}</h3>
-                    <p className="text-sm text-gray-500">
-                      {item.product.brandName}
-                    </p>
-                    <p className="text-sm text-gray-500">Memory Size: 128GB</p>
-                    <p className="text-sm text-gray-500">
-                      Color Variant: White
-                    </p>
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-gray-800">
+                          {item.product.name}
+                        </h3>
+                        <p className="text-sm text-gray-500">
+                          {item.product.brandName}
+                        </p>
+                        <p className="text-sm text-gray-500">
+                          Memory Size: 128GB
+                        </p>
+                        <p className="text-sm text-gray-500">
+                          Color Variant: White
+                        </p>
 
-                    <p className="font-semibold mt-2">{item.price}</p>
-                  </div>
+                        <p className="font-semibold mt-2">{item.price}</p>
+                      </div>
 
-                  {/* Quantity */}
-                  <div className="flex items-center border rounded-lg">
-                    <button onClick={()=>decreaseQuantity(item._id, item.quantity)} className="px-3 py-1">-</button>
-                    <span className="px-3">{item.quantity}</span>
-                    <button onClick={()=>AddQuantity(item._id, item.quantity)} className="px-3 py-1">+</button>
-                  </div>
+                      {/* Quantity */}
+                      <div className="flex items-center border rounded-lg">
+                        <button
+                          onClick={() => decreaseQuantity(item._id)}
+                          className="px-3 py-1"
+                        >
+                          -
+                        </button>
+                        <span className="px-3">{item.quantity}</span>
+                        <button
+                          onClick={() => addQuantity(item._id)}
+                          className="px-3 py-1"
+                        >
+                          +
+                        </button>
+                      </div>
 
-                  {/* Remove */}
-                  <button className="text-gray-400 text-xl">×</button>
+                      {/* Remove */}
+                      <button
+                        onClick={() => handleRemoveButton(item._id)}
+                        className="text-gray-400 text-xl"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-            
-          </div>
+              </div>
 
-          {/* Summary */}
-            <div className="border-b flex flex-col items-end justify-end p-6 space-y-6">
-              <div className="flex items-center justify-between">
-                <p className="font-medium">APPLY COUPONS</p>
-                <button className="text-sm border px-4 py-1 rounded-md text-purple-600">
-                  APPLY
+              {/* Summary */}
+              <div className="border-b flex flex-col items-end justify-end p-6 space-y-6">
+                <div className="flex items-center justify-between">
+                  <p className="font-medium mr-2">APPLY COUPONS</p>
+                  <button className="text-sm border px-4 py-1 rounded-md text-purple-600">
+                    APPLY
+                  </button>
+                </div>
+
+                <div className="space-y-3 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-gray-500">SUBTOTAL</span>
+                    <span>{totalPrice}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-500">DISCOUNT</span>
+                    <span>- Rs. 5000</span>
+                  </div>
+                  <div className="flex justify-between font-semibold">
+                    <span>TOTAL</span>
+                    <span>Rs. 35000</span>
+                  </div>
+                </div>
+
+                <button className="w-full bg-purple-600 text-white py-3 rounded-lg font-medium">
+                  PLACE ORDER
                 </button>
               </div>
-
-              <div className="space-y-3 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-gray-500">SUBTOTAL</span>
-                  <span>Rs. 40000</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-500">DISCOUNT</span>
-                  <span>- Rs. 5000</span>
-                </div>
-                <div className="flex justify-between font-semibold">
-                  <span>TOTAL</span>
-                  <span>Rs. 35000</span>
-                </div>
-              </div>
-
-              <button className="w-full bg-purple-600 text-white py-3 rounded-lg font-medium">
-                PLACE ORDER
-              </button>
             </div>
-
-          </div>
-          
-            
-          
-
-       
-        </>
+          </>
         )}
       </div>
-         {/* You May Also Like */}
-        <Slider
-          title="Related Products"
-          items={products}
-          renderItem={(item) => (
-            <ProductCard
-              product={item}
-              handleClick={() => navigate(`/products/${id}`)}
-            />
-          )}
-        />
-        <Slider
-          title="Yoy May Also Like"
-          items={products}
-          renderItem={(item) => (
-            <ProductCard
-              product={item}
-              handleClick={() => navigate(`/products/${id}`)}
-            />
-          )}
-        />
+      {/* You May Also Like */}
+      <Slider
+        title="Related Products"
+        items={products}
+        renderItem={(item) => (
+          <ProductCard
+            product={item}
+            handleClick={() => navigate(`/products/${id}`)}
+          />
+        )}
+      />
+      <Slider
+        title="Yoy May Also Like"
+        items={products}
+        renderItem={(item) => (
+          <ProductCard
+            product={item}
+            handleClick={() => navigate(`/products/${id}`)}
+          />
+        )}
+      />
     </div>
   );
 });

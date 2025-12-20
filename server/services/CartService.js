@@ -110,7 +110,92 @@ class CartService {
 
     //REMOVE FROM CART
     static async removeFromCart (req, res) {
-        const { productId } = req.body
+        try {
+            const { itemId } = req.params
+
+        console.log('here in remove cart handler:', itemId);
+        
+        const updatedCart = await Cart.findOneAndUpdate(
+            { user: req.user._id },
+            { $pull: { items: { _id: itemId } } },
+            {
+                new: true
+            }
+        ).populate('items.product')
+
+        console.log('updated cart:', updatedCart);
+        
+
+        if (!updatedCart) {
+            return sendError(res, 'Product not found', 404)
+        }
+
+        return updatedCart
+        } catch (error) {
+            throw error
+        }
+
+    }
+
+    //SYNC CART -> ADD/DECREASE QUANTITY
+    static async syncCart(req, res) {
+        const items = req.body
+        console.log('data in sync:', items);
+        const userId = req.user._id
+        
+        if (!Array.isArray(items)) {
+            return sendError(res, 'Invalid cart data', 400)
+        }
+
+        const productIds = items.map(i=>i.productId)
+
+        
+        
+        const products = await Product.find({
+            _id: { $in: productIds }
+        })
+        console.log('prods', products);
+
+
+
+        const productMap = new Map(
+            products.map(p=> [p._id.toString(), p])
+        )
+        console.log('prod map', productMap);
+        
+
+        const cartItems = items.map(i=> {
+            const product = productMap.get(i.productId)
+
+            if (!product) return null
+
+            return {
+                product: product._id,
+                price: product.price,
+                quantity: i.quantity
+            }
+        })
+
+        const cart = await Cart.findOne({user: userId})
+        
+        
+        
+        cart.items = cartItems
+        
+        console.log('cart check', cart);
+        //recalculate total price and quantity
+        const totalQuantity = this.recalculateTotalQuantity(cart)
+        const totalPrice = this.recalculateTotalPrice(cart)
+
+        cart.totalQuantity = totalQuantity
+        cart.totalPrice = totalPrice
+
+        await cart.save()
+        console.log('final cart:', cart);
+        
+
+        return cart
+        
     }
 }
 

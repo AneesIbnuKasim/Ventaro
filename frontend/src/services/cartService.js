@@ -16,21 +16,24 @@ const cartAPI = {
         }))
     },
 
-    removeFromCart: (productId) => {
+    removeFromCart: (itemId) => {
         return makeRequest(({
             method: 'delete',
-            url: `/api/cart/${productId}`,
+            url: `/api/cart/${itemId}`,
         }))
     },
 
     syncCart: (items) => {
         const data = items.map(i=>({
-            productId: i._id,
+            productId: i.product._id,
             quantity: i.quantity
         }))
+
+        console.log('date in api:', data);
+        
         return makeRequest(({
             method: 'put',
-            url: `/api/cart/sync`,
+            url: `/api/cart`,
             data
         }))
     },

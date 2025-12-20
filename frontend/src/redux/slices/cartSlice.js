@@ -36,12 +36,26 @@ export const fetchCartThunk = createAsyncThunk('cart/fetch', async(_, {rejectWit
     }
 })
 
-// REMOVE PRODUCTS FROM CART THUNK
-export const removeCartThunk = createAsyncThunk('cart/remove', async(productId, {rejectWithValue})=> {
-    try {
-        const response = await cartAPI.removeFromCart(productId)
+// //FETCH USER CART
+// export const syncCartThunk = createAsyncThunk('cart/sync', async(_, {rejectWithValue}) => {
+//     try {
+//         const response = await cartAPI.syncCart()
+//         console.log('sync response', response.data);
+//         return response.data
+//     } catch (error) {
+//         return rejectWithValue(error.message)
+//     }
+// })
 
-        return response.data.productId
+// REMOVE PRODUCTS FROM CART THUNK
+export const removeFromCartThunk = createAsyncThunk('cart/remove', async(itemId, {rejectWithValue})=> {
+    try {
+        console.log('in remove cart thunk');
+        
+        const response = await cartAPI.removeFromCart(itemId)
+
+        console.log('delete rs:', response)
+        return response.data
     } catch (error) {
         return rejectWithValue(error)
     }
@@ -51,11 +65,31 @@ export const removeCartThunk = createAsyncThunk('cart/remove', async(productId, 
 const cartSlice = createSlice({
     name: 'cartSlice',
     initialState,
-    // reducers: {
-    //     updateQuantity: (state, action) => {
+    reducers: {
+    updateQuantity: {
+      reducer: (state, action) => {
+        const { itemId, delta } = action.payload;
+        const item = state.items.find(i => i._id === itemId);
 
-    //     }
-    // },
+        if (!item) return;
+
+        item.quantity += delta;
+
+        if (item.quantity <= 0) {
+          state.items = state.items.filter(i => i._id !== itemId);
+        }
+      },
+
+      prepare: (payload, meta) => {
+        return {
+          payload,
+          meta,
+        };
+      },
+    },
+  },
+
+    
     extraReducers: (builder) => {
         builder
         .addCase(addCartThunk.pending, (state) => { state.loading = true })
@@ -83,9 +117,25 @@ const cartSlice = createSlice({
             state.loading = false
             state.error = action.payload
         })
+
+        //REMOVE ITEM FROM CART
+        .addCase(removeFromCartThunk.pending, (state) => { state.loading = true })
+        .addCase(removeFromCartThunk.fulfilled, (state, action) => {
+            console.log('action.payload', action.payload);
+            
+            state.items = action.payload.items
+            state.loading = false
+        })
+        .addCase(removeFromCartThunk.rejected, (state, action) => {
+            state.loading = false
+            state.error = action.payload
+        })
+
+        //
     }
+
 
 })
 
-
+export const { updateQuantity } = cartSlice.actions
 export default cartSlice.reducer

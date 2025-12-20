@@ -2,11 +2,9 @@ import debounce from "lodash/debounce";
 import cartAPI from '../../services/cartService'
 import { useAdmin } from "../../context/AdminContext";
 
-let isAuth
 const syncCartDebounced = debounce(async (items) => {
   try {
-    const { isAuthenticated } = useAdmin()
-    isAuth = isAuthenticated
+    console.log('in sync cart debounced', items);
     await cartAPI.syncCart(items)
   } catch (err) {
     console.error("Cart sync failed", err);
@@ -15,12 +13,16 @@ const syncCartDebounced = debounce(async (items) => {
 
 export const cartSyncMiddleware = store => next => action => {
   const result = next(action);
+  console.log('in sync cart debounced', action.meta);
 
   const { items } = store.getState().cart;
 
   switch (action.type) {
-    case "cart/updateQuantity":
-      if (isAuth && items.length) {
+    case "cartSlice/updateQuantity":
+      if (    action.meta?.isAuthenticated
+ && items.length) {
+        console.log('in sync cart calling', action.payload);
+        
         syncCartDebounced(items);
       }
       break;
