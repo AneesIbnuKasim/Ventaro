@@ -26,6 +26,21 @@ export const addCouponThunk = createAsyncThunk('coupon/add', async(data, {reject
     }
 })
 
+//UPDATE COUPON
+export const updateCouponThunk = createAsyncThunk('coupon/update', async({ couponId, data } , {rejectWithValue}) => {
+    console.log('here in update thunk', data);
+    
+    try {
+        const response = await couponAPI.updateCoupon(couponId, data)
+
+        console.log('add to coupon response:', response.data);
+        
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error.message)
+    }
+})
+
 //FETCH USER COUPON
 export const fetchCouponThunk = createAsyncThunk('coupon/fetch', async(data, {rejectWithValue}) => {
     try {
@@ -92,15 +107,15 @@ const couponSlice = createSlice({
             state.error = action.payload
         })
 
-        //FETCH USER COUPON STATE UPDATE
-        .addCase(fetchCouponThunk.pending, (state) => { state.loading = true })
-        .addCase(fetchCouponThunk.fulfilled, (state, action) => {
+        //UPDATE COUPON  STATE
+        .addCase(updateCouponThunk.pending, (state) => { state.loading = true })
+        .addCase(updateCouponThunk.fulfilled, (state, action) => {
             console.log('action.payload', action.payload);
             const updated = action.payload.coupon
             state.coupons = state.coupons.map(c => c._id === updated._id ? updated : c )
             state.loading = false
         })
-        .addCase(fetchCouponThunk.rejected, (state, action) => {
+        .addCase(updateCouponThunk.rejected, (state, action) => {
             state.loading = false
             state.error = action.payload
         })

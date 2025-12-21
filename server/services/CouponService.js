@@ -65,10 +65,11 @@ class CouponService {
             throw new NotFoundError('Coupon not found')
         }
 
-        if (categoryData.name) {
-            const existing = await Coupon.findOne({name: couponData.name, _id: {$ne : couponId}})
+        if (couponData.code) {
+            const existing = await Coupon.findOne({code: couponData.code.toUpperCase(), _id: {$ne : couponId}})
+            
             if (existing) {
-                throw new ConflictError('Coupon name already exist')
+                throw new ConflictError('Coupon code already exist')
             }
         }
 
@@ -76,7 +77,7 @@ class CouponService {
 
         await coupon.save()
 
-        return coupon
+        return {coupon}
 
         } catch (error) {
             logger.error('Coupon updating failed')

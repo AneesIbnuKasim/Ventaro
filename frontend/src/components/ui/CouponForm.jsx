@@ -48,8 +48,8 @@ const CouponForm = ({ editData, onConfirm }) => {
   const editInitialValues = {
     code: editData.code,
     discountType: editData.discountType,
-    startDate: editData.startDate,
-    endDate: editData.endDate,
+    startDate: new Date(editData.startDate).toISOString().split("T")[0],
+    endDate: new Date(editData.endDate).toISOString().split("T")[0],
     discountValue: editData.discountValue,
     maxDiscountAmount: editData.maxDiscountAmount,
     minOrderAmount: editData.minOrderAmount,

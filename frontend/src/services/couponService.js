@@ -21,7 +21,9 @@ const couponAPI = {
         }))
     },
 
-    editCoupon: (couponId, data={}) => {
+    updateCoupon: (couponId, data={}) => {
+        console.log('data update', data);
+        
         return makeRequest(({
             method: 'put',
             url: `/api/coupon/${couponId}`,

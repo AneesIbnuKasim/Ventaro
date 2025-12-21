@@ -17,7 +17,7 @@ import SearchNotFound from "../components/ui/SearchNotFound.jsx";
 import CouponForm from "../components/ui/CouponForm.jsx";
 import { useCategory } from "../context/CategoryContext.jsx";
 import { useDispatch, useSelector } from "react-redux";
-import { addCouponThunk, fetchCouponThunk, removeCouponThunk, setSearch } from "../redux/slices/couponSlice.js";
+import { addCouponThunk, fetchCouponThunk, removeCouponThunk, setSearch, updateCouponThunk } from "../redux/slices/couponSlice.js";
 import useDebounce from "../hooks/useDebounce.js";
 import { toast } from "react-toastify";
 
@@ -90,13 +90,15 @@ const Coupons = memo(() => {
   }, []);
 
   const handleSubmit = async (values) => {
+    
     if (editData?._id) {
-      await dispatch(editData._id, values);
+      console.log('edit values', values);
+      
+      await dispatch(updateCouponThunk({ couponId: editData._id, data: values })).unwrap()
 
-      if (res.success) {
         setEditData(null);
         setOpen(false);
-      }
+        toast.success('Coupon updated successfully')
     } else {
       await dispatch(addCouponThunk(values)).unwrap()
       toast.success("Coupon created");

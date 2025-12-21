@@ -16,6 +16,7 @@ class CouponController extends BaseController {
     })
 
     static updateCoupon = BaseController.asyncHandler(async(req, res)=>{
+        console.log('reqbody', req.body);
         const validatedData = BaseController.validateRequest(couponValidation, req.body)
         const coupon = await CouponService.updateCoupon(req.params.id, validatedData)
         BaseController.sendSuccess(res, 'Coupon updated successfully', coupon)
