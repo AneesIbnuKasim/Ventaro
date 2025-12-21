@@ -10,6 +10,9 @@ const initialState = {
   subTotal: 0,
   discountTotal: 0,
   grandTotal: 0,
+  appliedCoupon: null,
+  applyingCoupon: false,
+  couponError: null,
   loading: false,
   error: null,
 };
