@@ -7,10 +7,13 @@ class CouponService {
         try {
             const { search='' } = req.query
 
-            const page = parseInt(req.query.page)
-            const limit = parseInt(req.query.limit)
+            console.log('search:::',search);
+            
 
-            const skip = (page-1)*limit
+            // const page = parseInt(req.query.page)
+            // const limit = parseInt(req.query.limit)
+
+            // const skip = (page-1)*limit
             const filter = {}
 
             if (search) filter.name = {$regex: search, $options: 'i'}
@@ -21,10 +24,10 @@ class CouponService {
             
             //paginated filtered docs
             const coupons = await Coupon.find(filter)
-            .skip(skip)
-            .limit(limit)
+            // .skip(skip)
+            // .limit(limit)
 
-            const totalPages = Math.ceil(totalCoupons/limit)
+            // const totalPages = Math.ceil(totalCoupons/limit)
 
             logger.info(`Admin ${req.admin.email} fetched coupon list (page: ${page})`)
             return { coupons,

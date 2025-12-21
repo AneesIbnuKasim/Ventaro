@@ -19,16 +19,32 @@ const CartSchema = mongoose.Schema({
             min: 1,
             default: 1
         },
-        price: {
+        basePrice: {
             type: Number,
             required: true
-        }
+        },
+        finalUnitPrice: {
+            type: Number,
+            required: true
+        },
+        itemTotal: {
+            type: Number,
+            required: true
+        },
     }],
     totalQuantity: {
         type: Number,
         default: 0
     },
-    totalPrice: {
+    subTotal: {
+        type: Number,
+        default: 0
+    },
+    discountTotal: {
+        type: Number,
+        default: 0
+    },
+    grandTotal: {
         type: Number,
         default: 0
     }
@@ -36,3 +52,8 @@ const CartSchema = mongoose.Schema({
 
 
 module.exports = mongoose.model('Cart', CartSchema)
+
+
+
+
+//finalUnitPrice

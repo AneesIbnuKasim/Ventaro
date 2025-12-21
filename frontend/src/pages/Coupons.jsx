@@ -17,7 +17,8 @@ import SearchNotFound from "../components/ui/SearchNotFound.jsx";
 import CouponForm from "../components/ui/CouponForm.jsx";
 import { useCategory } from "../context/CategoryContext.jsx";
 import { useDispatch, useSelector } from "react-redux";
-import { addCouponThunk } from "../redux/slices/couponSlice.js";
+import { addCouponThunk, fetchCouponThunk, setSearch } from "../redux/slices/couponSlice.js";
+import useDebounce from "../hooks/useDebounce.js";
 
 ///Admin Coupon page
 
@@ -27,21 +28,27 @@ const Coupons = memo(() => {
   const [isDelete, setIsDelete] = useState(false);
   const [deleteData, setDeleteData] = useState(null);
   const { fetchCategories, categories, filters } = useCategory();
-  const {coupons} = useSelector(state=> state.coupon)
+  const {coupons, search} = useSelector(state=> state.coupon)
   const dispatch = useDispatch()
 
+  const debouncedSearch = useDebounce(search, 500)
 
-  //fetch coupons on page load
-  // useEffect(() => {
-  //   fetchCoupon();
-  // }, [
-  //   pagination.page,
-  //   pagination.limit,
-  //   filters.category,
-  //   filters.sortBy,
-  //   filters.sortOrder,
-  //   debouncedSearch,
-  // ]);
+  // fetch coupons on page load
+  useEffect(() => {
+    const load = async() => {
+      console.log('debouncedSearch', debouncedSearch);
+      
+      await dispatch(fetchCouponThunk({search: debouncedSearch}))
+    }
+    load()
+  }, [
+    // pagination.page,
+    // pagination.limit,
+    // filters.category,
+    // filters.sortBy,
+    // filters.sortOrder,
+    debouncedSearch,
+  ]);
 
   const handleDeleteCoupon = useCallback((Coupon) => {
     setIsDelete(true);
@@ -125,8 +132,8 @@ const Coupons = memo(() => {
         <FormInput
           placeholder="Search"
           icon={<IoSearch />}
-          value={filters.search || ""}
-          onChange={(e) => setFilters({ search: e.target.value })}
+          value={search || ""}
+          onChange={(e) => dispatch(setSearch(e.target.value))}
         />
 
         <Button

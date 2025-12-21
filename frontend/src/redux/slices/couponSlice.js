@@ -1,15 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import couponAPI from '../../services/couponService'
 
-const persistedCoupon = JSON.parse(localStorage.getItem("coupon"));
-console.log("coupon reducer initialized", persistedCoupon);
-
 const initialState = {
     coupons:  [],
     loading: false,
     error: null,
     search: ''
 }
+
+//append state to url
+
 
 //ADD COUPON
 export const addCouponThunk = createAsyncThunk('coupon/add', async(data, {rejectWithValue}) => {
@@ -27,9 +27,9 @@ export const addCouponThunk = createAsyncThunk('coupon/add', async(data, {reject
 })
 
 //FETCH USER COUPON
-export const fetchCouponThunk = createAsyncThunk('coupon/fetch', async(_, {rejectWithValue}) => {
+export const fetchCouponThunk = createAsyncThunk('coupon/fetch', async(data, {rejectWithValue}) => {
     try {
-        const response = await couponAPI.fetchCoupon()
+        const response = await couponAPI.fetchCoupon(data)
         console.log('fetch response', response.data);
         return response.data
     } catch (error) {
@@ -55,30 +55,12 @@ export const removeCouponThunk = createAsyncThunk('coupon/remove', async(couponI
 const couponSlice = createSlice({
     name: 'couponSlice',
     initialState,
-    reducers: {
-    updateQuantity: {
-      reducer: (state, action) => {
-        const { itemId, delta } = action.payload;
-        const item = state.items.find(i => i._id === itemId);
-
-        if (!item) return;
-
-        item.quantity += delta;
-
-        if (item.quantity <= 0) {
-          state.items = state.items.filter(i => i._id !== itemId);
+    reducers: 
+    {
+        setSearch(state, action) {
+            state.search = action.payload
         }
-      },
-
-      prepare: (payload, meta) => {
-        return {
-          payload,
-          meta,
-        };
-      },
     },
-  },
-
     
     extraReducers: (builder) => {
         builder
@@ -87,7 +69,7 @@ const couponSlice = createSlice({
 
             console.log('state.items', action.payload);
             
-            state.items = action.payload
+            state.coupons = action.payload
             state.loading = false
         })
         .addCase(addCouponThunk.rejected, (state, action) => {
@@ -100,7 +82,7 @@ const couponSlice = createSlice({
         .addCase(fetchCouponThunk.fulfilled, (state, action) => {
             console.log('action.payload', action.payload);
             
-            state.items = action.payload.items
+            state.coupons = action.payload.coupons
             state.loading = false
         })
         .addCase(fetchCouponThunk.rejected, (state, action) => {
@@ -113,7 +95,7 @@ const couponSlice = createSlice({
         .addCase(removeCouponThunk.fulfilled, (state, action) => {
             console.log('action.payload', action.payload);
             
-            state.items = action.payload.items
+            state.coupons = action.payload.items
             state.loading = false
         })
         .addCase(removeCouponThunk.rejected, (state, action) => {
@@ -127,5 +109,5 @@ const couponSlice = createSlice({
 
 })
 
-// export const { updateQuantity } = couponSlice.actions
+export const { setSearch } = couponSlice.actions
 export default couponSlice.reducer
