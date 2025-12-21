@@ -10,13 +10,13 @@ class CouponService {
             console.log('search:::',search);
             
 
-            // const page = parseInt(req.query.page)
-            // const limit = parseInt(req.query.limit)
+            const page = parseInt(req.query.page)
+            const limit = parseInt(req.query.limit)
 
-            // const skip = (page-1)*limit
+            const skip = (page-1)*limit
             const filter = {}
 
-            if (search) filter.name = {$regex: search, $options: 'i'}
+            if (search) filter.code = {$regex: search, $options: 'i'}
 
             //total filtered coupon count
             const totalCoupons = await Coupon.countDocuments(filter)
@@ -24,10 +24,10 @@ class CouponService {
             
             //paginated filtered docs
             const coupons = await Coupon.find(filter)
-            // .skip(skip)
-            // .limit(limit)
+            .skip(skip)
+            .limit(limit)
 
-            // const totalPages = Math.ceil(totalCoupons/limit)
+            const totalPages = Math.ceil(totalCoupons/limit)
 
             logger.info(`Admin ${req.admin.email} fetched coupon list (page: ${page})`)
             return { coupons,
@@ -57,22 +57,22 @@ class CouponService {
         }
     }
 
-    static updateCoupon = async(categoryId, categoryData)=>{
+    static updateCoupon = async(couponId, couponData)=>{
         try {
-            const coupon = await Coupon.findById(categoryId)
+            const coupon = await Coupon.findById(couponId)
         
         if (!coupon) {
-            throw new NotFoundError('Coupon not foun')
+            throw new NotFoundError('Coupon not found')
         }
 
         if (categoryData.name) {
-            const existing = await Coupon.findOne({name: categoryData.name, _id: {$ne : categoryId}})
+            const existing = await Coupon.findOne({name: couponData.name, _id: {$ne : couponId}})
             if (existing) {
                 throw new ConflictError('Coupon name already exist')
             }
         }
 
-        Object.assign(coupon, categoryData)
+        Object.assign(coupon, couponData)
 
         await coupon.save()
 
@@ -84,15 +84,17 @@ class CouponService {
         }
     }
 
-    static deleteCoupon = async(categoryId)=>{
+    static deleteCoupon = async(req)=>{
         try {
-            const coupon = await Coupon.findById(categoryId)
+            const couponId = req.params.id
+            
+            const coupon = await Coupon.findById(couponId)
             if (!coupon) throw new NotFoundError('Coupon not found')
             
-            await Coupon.findByIdAndDelete(categoryId)
+            await Coupon.findByIdAndDelete(couponId)
 
             logger.info('Coupon deleted successfully')
-            return coupon
+            return couponId
         } catch (error) {
             logger.error('Coupon deletion failed')
             throw error

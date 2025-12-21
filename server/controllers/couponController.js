@@ -17,14 +17,14 @@ class CouponController extends BaseController {
 
     static updateCoupon = BaseController.asyncHandler(async(req, res)=>{
         const validatedData = BaseController.validateRequest(couponValidation, req.body)
-        const updated = await CouponService.updateCoupon(req.params.id, validatedData)
-        BaseController.sendSuccess(res, 'Coupon updated successfully', updated)
+        const coupon = await CouponService.updateCoupon(req.params.id, validatedData)
+        BaseController.sendSuccess(res, 'Coupon updated successfully', coupon)
     })
 
     static deleteCoupon = BaseController.asyncHandler(async(req, res)=>{
-        const deleted = await CouponService.deleteCoupon(req.params.id)
-        BaseController.logAction('DELETE_COUPON', deleted)
-        BaseController.sendSuccess(res, 'Coupon deleted successfully')
+        const couponId = await CouponService.deleteCoupon(req)
+        BaseController.logAction('DELETE_COUPON', couponId)
+        BaseController.sendSuccess(res, 'Coupon deleted successfully', couponId)
     })
 
     

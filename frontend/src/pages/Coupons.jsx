@@ -17,8 +17,9 @@ import SearchNotFound from "../components/ui/SearchNotFound.jsx";
 import CouponForm from "../components/ui/CouponForm.jsx";
 import { useCategory } from "../context/CategoryContext.jsx";
 import { useDispatch, useSelector } from "react-redux";
-import { addCouponThunk, fetchCouponThunk, setSearch } from "../redux/slices/couponSlice.js";
+import { addCouponThunk, fetchCouponThunk, removeCouponThunk, setSearch } from "../redux/slices/couponSlice.js";
 import useDebounce from "../hooks/useDebounce.js";
+import { toast } from "react-toastify";
 
 ///Admin Coupon page
 
@@ -63,13 +64,17 @@ const Coupons = memo(() => {
   const handleDeleteSubmit = useCallback(() => {
     setIsDelete(false);
 
-    deleteCoupon(deleteData._id);
+    dispatch(removeCouponThunk(deleteData._id)).unwrap()
+
+    toast.success('Coupon deleted successfully')
 
     setDeleteData(null);
   }, [deleteData]);
 
   //open Coupon form edit/add
   const handleCouponForm = useCallback((coupon) => {
+    console.log('coupon edit:', coupon);
+    
     if (coupon) setEditData(coupon);
     setOpen(true);
   }, []);
@@ -86,7 +91,7 @@ const Coupons = memo(() => {
 
   const handleSubmit = async (values) => {
     if (editData?._id) {
-      const res = await updateCoupon(editData._id, values);
+      await dispatch(editData._id, values);
 
       if (res.success) {
         setEditData(null);

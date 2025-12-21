@@ -1,10 +1,15 @@
+import { useLocation } from "react-router-dom"
 import makeRequest from "../utils/apiClient"
 
 const couponAPI = {
-    fetchCoupon: () => {
+    
+    fetchCoupon: (params= {}) => {
+        
+        const urlParams = new URLSearchParams(params)
+        
         return makeRequest(({
             method: 'get',
-            url: '/api/coupon'
+            url: `/api/coupon?${urlParams.toString()}`
         }))
     },
 
@@ -24,10 +29,12 @@ const couponAPI = {
         }))
     },
 
-    removeCoupon: (itemId) => {
+    removeCoupon: (couponId) => {
+        console.log('coup:', couponId);
+        
         return makeRequest(({
             method: 'delete',
-            url: `/api/coupon/${itemId}`,
+            url: `/api/coupon/${couponId}`,
         }))
     },
     

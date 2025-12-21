@@ -45,23 +45,23 @@ const CouponForm = ({ editData, onConfirm }) => {
     perUserLimit: "",
     applicableCategories: [],
   };
-  // const editInitialValues = {
-  //   code: editData.code,
-  //   discountType: editData.discountType,
-  //   startDate: editData.startDate,
-  //   endDate: editData.endDate,
-  //   discountValue: editData.discountValue,
-  //   maxDiscountAmount: editData.maxDiscountAmount,
-  //   minOrderAmount: editData.minOrderAmount,
-  //   usageLimit: editData.usageLimit,
-  //   usedCount: editData.usedCount,
-  //   perUserLimit: editData.perUserLimit,
-  //   applicableCategories: editData.applicableCategories,
-  // };
+  const editInitialValues = {
+    code: editData.code,
+    discountType: editData.discountType,
+    startDate: editData.startDate,
+    endDate: editData.endDate,
+    discountValue: editData.discountValue,
+    maxDiscountAmount: editData.maxDiscountAmount,
+    minOrderAmount: editData.minOrderAmount,
+    usageLimit: editData.usageLimit,
+    usedCount: editData.usedCount,
+    perUserLimit: editData.perUserLimit,
+    applicableCategories: editData.applicableCategories,
+  };
 
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={editData ? editInitialValues : initialValues}
       validationSchema={couponValidation}
       enableReinitialize
       onSubmit={onConfirm}
