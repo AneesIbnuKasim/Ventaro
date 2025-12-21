@@ -11,7 +11,7 @@ import FormMultiCheckbox from "./FormMultiCheckBox";
 import { useCategory } from "../../context/CategoryContext";
 import { useEffect } from "react";
 
-const CouponForm = ({ initialData = null, onConfirm }) => {
+const CouponForm = ({ editData, onConfirm }) => {
   const { categories, fetchCategories } = useCategory();
   const discountTypes = [
     { label: "FLAT", value: "FLAT" },
@@ -34,17 +34,30 @@ const CouponForm = ({ initialData = null, onConfirm }) => {
 
   const initialValues = {
     code: "",
-    discountType: "",
+    discountType: 0,
     startDate: "",
     endDate: "",
-    discountValue: "",
-    maxDiscountAmount: "",
-    minOrderAmount: "",
-    usageLimit: "",
+    discountValue: '',
+    maxDiscountAmount: '',
+    minOrderAmount: '',
+    usageLimit: '',
     usedCount: "",
     perUserLimit: "",
-    applicableCategories: "",
+    applicableCategories: [],
   };
+  // const editInitialValues = {
+  //   code: editData.code,
+  //   discountType: editData.discountType,
+  //   startDate: editData.startDate,
+  //   endDate: editData.endDate,
+  //   discountValue: editData.discountValue,
+  //   maxDiscountAmount: editData.maxDiscountAmount,
+  //   minOrderAmount: editData.minOrderAmount,
+  //   usageLimit: editData.usageLimit,
+  //   usedCount: editData.usedCount,
+  //   perUserLimit: editData.perUserLimit,
+  //   applicableCategories: editData.applicableCategories,
+  // };
 
   return (
     <Formik
@@ -170,11 +183,11 @@ const CouponForm = ({ initialData = null, onConfirm }) => {
               {/* PER USER LIMIT */}
               <FormInput
                 label="User Limit"
-                name="userLimit"
-                value={values.userLimit}
+                name="perUserLimit"
+                value={values.perUserLimit}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={touched.userLimit && errors.userLimit}
+                error={touched.perUserLimit && errors.perUserLimit}
                 placeholder="Enter user limit"
                 className="w-[50%]"
               />
@@ -190,7 +203,7 @@ const CouponForm = ({ initialData = null, onConfirm }) => {
             />
 
             <Button icon={<IoIosAddCircle />} className="mt-4" type="submit">
-              {initialData ? "EDIT COUPON" : "ADD COUPON"}
+              {editData ? "EDIT COUPON" : "ADD COUPON"}
             </Button>
           </div>
         </Form>

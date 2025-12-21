@@ -54,16 +54,16 @@ const Coupons = memo(() => {
   }
 
   const handleDeleteSubmit = useCallback(() => {
-    // setIsDelete(false);
+    setIsDelete(false);
 
-    // deleteCoupon(deleteData._id);
+    deleteCoupon(deleteData._id);
 
-    // setDeleteData(null);
+    setDeleteData(null);
   }, [deleteData]);
 
   //open Coupon form edit/add
-  const handleCouponForm = useCallback((Coupon) => {
-    if (Coupon) setEditData(Coupon);
+  const handleCouponForm = useCallback((coupon) => {
+    if (coupon) setEditData(coupon);
     setOpen(true);
   }, []);
 
@@ -73,8 +73,8 @@ const Coupons = memo(() => {
   }, []);
 
   const handleCancel = useCallback(() => {
-    // if (editData) setEditData(null);
-    // setOpen(false);
+    if (editData) setEditData(null);
+    setOpen(false);
   }, []);
 
   const handleSubmit = async (values) => {
@@ -86,11 +86,9 @@ const Coupons = memo(() => {
         setOpen(false);
       }
     } else {
-      dispatch(addCouponThunk(values))
-
-      if (res?.success) {
+      await dispatch(addCouponThunk(values)).unwrap()
+      toast.success("Coupon created");
         setOpen(false);
-      }
     }
     console.log('values', values);
     

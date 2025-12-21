@@ -77,5 +77,5 @@ export const couponValidation = Yup.object({
   }),
   minOrderAmount: Yup.number().min(0),
   startDate: Yup.date().required(),
-  endDate: Yup.date().min(Yup.ref("startDate"), "End date must be after start"),
+  endDate: Yup.date().required().min(Yup.ref("startDate"), "End date must be after start date"),
 });

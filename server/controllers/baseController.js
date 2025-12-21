@@ -23,7 +23,7 @@ class BaseController {
 
     static validateRequest(schema, data) {
 
-        const { error, value } = schema.validate(data, {abortEarly: false})
+        const { error, value } = schema.validate(data, {abortEarly: false}, { convert: true })
 
         if(error) {
             console.log('validation Error:', error);

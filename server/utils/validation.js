@@ -120,6 +120,23 @@ const addressValidation = Joi.object({
     isDefault: Joi.boolean().optional().messages(customMessages)
 })
 
+const couponValidation = Joi.object({
+    code: Joi.string().required().messages({'string.pattern.base':'Coupon code is required', ...customMessages}),
+    discountType: Joi.required().messages(customMessages),
+    discountValue: Joi.number().required().messages(customMessages),
+    maxDiscountAmount: Joi.number().empty('').optional(),
+    minOrderAmount: Joi.number().empty('').optional(),
+    usageLimit: Joi.number().empty('').optional(),
+    usedCount: Joi.number().empty('').optional(),
+    perUserLimit: Joi.number().empty('').optional(),
+    applicableCategories: Joi.array().items(commonPatterns.objectId).messages(customMessages),
+    // applicableProducts: Joi.number().optional(),
+
+    startDate: Joi.date().required().messages(customMessages),
+    endDate: Joi.date().required().messages(customMessages),
+    isActive: Joi.boolean().optional().messages(customMessages)
+})
+
 module.exports = {
     registerValidation,
     loginValidation,
@@ -131,5 +148,6 @@ module.exports = {
     categoryValidation,
     productValidation,
     updateProfileValidation,
-    addressValidation
+    addressValidation,
+    couponValidation
 }
