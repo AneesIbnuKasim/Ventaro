@@ -259,6 +259,32 @@ class CartService {
       throw error;
     }
   }
+
+  //APPLY COUPON EXPLICITLY
+  static applyCoupon = async (userId, code) => {
+    const cart = await Cart.findOne({user: userId}).populate('items.product')
+
+    if (!cart) throw new NotFoundError('Cart not found')
+    
+    const result = await CouponService.validateCoupon(
+        code,
+        cart.subTotal,
+        cart.items
+    )
+
+    cart.appliedCoupon = {
+        code: result.code,
+        discountType: result.discountType,
+        discountValue: result.discountValue
+    }
+
+    cart.discountTotal = result.discount
+    cart.grandTotal = cart.finalAmount
+
+    await cart.save()
+
+    return cart
+  }
 }
 
 module.exports = CartService;
