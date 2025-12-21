@@ -1,3 +1,4 @@
+const { sendError } = require("../controllers/baseController")
 const Coupon = require("../models/Coupon")
 const { NotFoundError, AppError, ConflictError } = require("../utils/errors")
 const logger = require("../utils/logger")
@@ -99,6 +100,67 @@ class CouponService {
         } catch (error) {
             logger.error('Coupon deletion failed')
             throw error
+        }
+    }
+
+    static async validateCoupon (req, res) {
+        const { code, cartTotal, cartItems } = req.body
+
+        if (!code || !cartTotal) sendError(res, 'Coupon code & cart total required', 404) 
+        
+        const coupon = await Coupon.findOne({code: code.toUpperCase()})
+
+        //EXIST CHECK
+        if (!coupon) sendError(res, 'Invalid coupon code', 404)
+        
+        //ACTIVE CHECK
+        if (!coupon.isActive) sendError(res, 'Coupon expired', 400)
+        
+        //EXPIRY CHECK
+        if (coupon.endDate < new Date()) sendError(res, 'Coupon expired', 400) 
+
+        //USAGE LIMIT CHECK
+        if (coupon.usageLimit && coupon.usedCount >= coupon.usageLimit) sendError(res, 'Coupon usage limit exceeded', 400)
+        
+        //MINIMUM CART VALUE
+        if (coupon.minOrderAmount && cartTotal < coupon.minOrderAmount) sendError(res, `Minimum cart value ${coupon,minOrderAmount} required`, 400)
+
+        //category check
+        if (coupon.applicableCategories.length) {
+
+            const isApplicable = cartItems.some(item => {
+                applicableCategories.includes(item.product.categoryId)
+            })
+
+            if (!isApplicable) sendError(res, 'Coupon not applicable to selected items', 400)
+
+        }
+
+        //calculate discount
+
+        let discount =0
+
+        if (coupon.discountType === 'PERCENT') {
+            discount = (cartTotal * coupon.discountValue)/100
+        } else {
+            discount = coupon.discountValue
+        }
+
+        if (coupon.maxDiscountAmount) {
+            discount = Math.min(discount, coupon.maxDiscountAmount)
+        }
+
+        const finalAmount = Math.max(cartTotal - discount, 0)
+        
+        return {
+            valid: true,
+            discount,
+            finalAmount,
+            coupon: {
+                code: coupon.code,
+                discountType: coupon.discountType,
+                discountValue: coupon.discountValue
+            }
         }
     }
 }
