@@ -90,7 +90,7 @@ const productValidation = Joi.object({
     name: commonPatterns.name.messages(customMessages),
     description: commonPatterns.description.messages(customMessages),
     brandName: commonPatterns.name.messages(customMessages) ,
-    price: commonPatterns.price.messages(customMessages),
+    basePrice: commonPatterns.price.messages(customMessages),
     categoryId: commonPatterns.objectId.messages(customMessages),
     discount: Joi.number().optional().messages(customMessages),
     stock: commonPatterns.price.messages(customMessages),

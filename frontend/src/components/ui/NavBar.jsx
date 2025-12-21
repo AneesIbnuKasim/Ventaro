@@ -17,7 +17,7 @@ import { useNavigateWithReset } from "../../hooks/useNavigateWithReset";
 
 export default function Navbar({
   logo = "Logo",
-  categories = ["mobiles", "laptops", "air conditioners", "tablets", 'mobile accessories'],
+  categories = ["mobile", "laptop", "air conditioners", "tablets", 'mobile accessories'],
   showProfile = true,
   showWishlist = true,
   showBag = true,

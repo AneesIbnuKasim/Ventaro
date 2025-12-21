@@ -59,7 +59,7 @@ export default function SingleProduct({ product = {} }) {
       <div className="space-y-4">
         <h2 className="text-2xl font-semibold leading-snug">{product.name}</h2>
 
-        <p className="text-3xl font-bold text-gray-900">Rs. {product.price ?? "-"}</p>
+        <p className="text-3xl font-bold text-gray-900">Rs. {product.basePrice ?? "-"}</p>
 
         <p className="text-sm text-gray-600 leading-relaxed max-w-lg">{product.shortDescription}</p>
 

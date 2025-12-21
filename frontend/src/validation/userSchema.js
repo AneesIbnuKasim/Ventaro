@@ -35,10 +35,10 @@ export const productAddSchema = Yup.object({
     .positive("Stock must be greater than 0")
     .integer("Stock must be a whole number")
     .required("Stock is required"),
-  price: Yup.number("Price must be a number")
-    .positive("Price must be greater than 0")
-    .integer("Price must be a whole number")
-    .required("Price is required"),
+  basePrice: Yup.number("basebasePrice must be a number")
+    .positive("basePrice must be greater than 0")
+    .integer("basePrice must be a whole number")
+    .required("basePrice required"),
   brandName: Yup.string().required("Brand name is required"),
   description: Yup.string()
     .min(8, "Description must be at least 8 characters")
@@ -64,4 +64,18 @@ export const addressValidationSchema = Yup.object({
     .oneOf(["Home", "Work", "Other"])
     .required("Label is required"),
   isDefault: Yup.boolean(),
+});
+
+//COUPON FORM VALIDATION SCHEMA
+export const couponValidation = Yup.object({
+  code: Yup.string().required("Coupon code required"),
+  discountType: Yup.string().oneOf(["PERCENT", "FLAT"]).required(),
+  discountValue: Yup.number().positive().required(),
+  maxDiscountAmount: Yup.number().when("discountType", {
+    is: "PERCENT",
+    then: s => s.positive().nullable(),
+  }),
+  minOrderAmount: Yup.number().min(0),
+  startDate: Yup.date().required(),
+  endDate: Yup.date().min(Yup.ref("startDate"), "End date must be after start"),
 });

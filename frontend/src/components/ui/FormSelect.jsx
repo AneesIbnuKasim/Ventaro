@@ -34,7 +34,7 @@ const FormSelect = memo(
 
       const selectClassName = useMemo(() => {
         const base =
-          "block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500";
+          `block w-full rounded-md border border-gray-300 bg-white px-3 py-[10px] placeholder-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 ${fieldClassName}`
         const errorCls = error
           ? "border-red-500 focus:border-red-500 focus:ring-red-500"
           : "";

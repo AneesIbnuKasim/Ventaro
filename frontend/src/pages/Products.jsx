@@ -149,7 +149,7 @@ const Products = memo(() => {
         <SearchNotFound searchQuery={filters.search} />
       ) : (
         <Table
-          columns={["images", "name", "description", "price", "status"]}
+          columns={["images", "name", "description", "basePrice", "status"]}
           data={products}
           actions={{
             onEdit: handleProductForm,

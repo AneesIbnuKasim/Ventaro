@@ -42,7 +42,7 @@ export default function ProductForm({ onConfirm, onCancel, editData = '' }) {
       name: editData.name,
       categoryId: editData.categoryId,
       brandName: editData.brandName,
-      price: editData.price,
+      basePrice: editData.basePrice,
       discount: editData.discount,
       description: editData.description,
       stock: editData.stock
@@ -50,7 +50,7 @@ export default function ProductForm({ onConfirm, onCancel, editData = '' }) {
       name: "",
       categoryId: "",
       brandName: "",
-      price: '',
+      basePrice: '',
       discount: '',
       description: "",
       stock: ""
@@ -119,20 +119,20 @@ export default function ProductForm({ onConfirm, onCancel, editData = '' }) {
             error={formik.touched.stock && formik.errors.stock}
           />
         </div>
-        {/* price+discount */}
+        {/* basePrice+discount */}
         <div className="grid grid-cols-2 gap-4">
           <FormInput
-            label="Price"
-            name="price"
+            label="basePrice"
+            name="basePrice"
             required
             type="number"
             min="0"
             step="1"
-            placeholder="Enter price..."
-            value={formik.values.price}
+            placeholder="Enter basePrice..."
+            value={formik.values.basePrice}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={formik.touched.price && formik.errors.price}
+            error={formik.touched.basePrice && formik.errors.basePrice}
           />
           <FormInput
             label="Discount"

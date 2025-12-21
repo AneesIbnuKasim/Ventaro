@@ -34,6 +34,7 @@ const SearchPage = lazy(() => import("./pages/SearchPage.jsx"));
 const AppLayout = lazy(() => import("./components/AppLayout.jsx"));
 const AdminLayout = lazy(() => import("./components/AdminLayout.jsx"));
 const Cart = lazy(() => import("./pages/Cart.jsx"));
+const Coupons = lazy(() => import("./pages/Coupons.jsx"));
 
 const App = () => (
   <BrowserRouter>
@@ -156,6 +157,7 @@ const App = () => (
                 <Route path="users" element={<Users />} />
                 <Route path="categories" element={<Categories />} />
                 <Route path="products" element={<Products />} />
+                <Route path="coupons" element={<Coupons />} />
               </Route>
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

@@ -8,7 +8,7 @@ const ProductCard = memo(({ product, handleClick}) => {
     brandName,
     description,
     images,
-    price,
+    basePrice,
     oldPrice,
     rating,
     discount,
@@ -62,7 +62,7 @@ const ProductCard = memo(({ product, handleClick}) => {
 
       {/* --- Price Section --- */}
       <div className="flex items-center gap-2 mt-1">
-        <span className="font-semibold text-lg">Rs. {price}</span>
+        <span className="font-semibold text-lg">Rs. {basePrice}</span>
 
         {oldPrice && (
           <span className="text-gray-400 line-through text-sm">

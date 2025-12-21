@@ -27,8 +27,8 @@ const Modal = ({
         onClick={(e)=>e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b">
-          <h2 className="text-lg font-semibold">{title}</h2>
+        <div className="flex pb-0 items-center justify-between p-4">
+          <h2 className="text-lg m-0 font-medium ">{title}</h2>
           <button
             className="text-gray-500 hover:text-gray-700"
             onClick={onClose}
@@ -38,7 +38,7 @@ const Modal = ({
         </div>
 
         {/* Body */}
-        <div className="p-4">{children}</div>
+        <div className="p-4 pt-0">{children}</div>
 
         {/* Footer */}
         {footer && (
