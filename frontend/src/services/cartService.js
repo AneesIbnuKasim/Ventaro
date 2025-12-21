@@ -44,6 +44,15 @@ const cartAPI = {
             url: `/api/cart/clear`
         }))
     },
+
+    //validate and apply coupon
+    applyCoupon: (data) => {
+        return makeRequest(({
+            method: 'post',
+            url: `/api/cart/validate`,
+            data
+        }))
+    },
     
 }
 

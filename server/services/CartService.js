@@ -2,12 +2,14 @@ const { sendError, sendSuccess } = require("../controllers/baseController");
 const Cart = require("../models/Cart");
 const Product = require("../models/Product");
 const User = require("../models/User");
+const { NotFoundError, ValidationError } = require("../utils/errors");
+const CouponService = require("./CouponService");
 
 class CartService {
   //FETCH CART ITEMS
-  static async fetchCart(req, res) {
+  static async fetchCart(userId) {
     try {
-      const userId = req.user._id.toString();
+      userId = userId.toString();
 
       const cart = await Cart.findOne({ user: userId }).populate(
         "items.product"
@@ -15,7 +17,7 @@ class CartService {
 
       console.log("cart in be", cart);
 
-      // if (!cart) return []
+    //   if (!cart) return []
 
       return cart;
     } catch (error) {
@@ -42,24 +44,20 @@ class CartService {
   }
 
   //ADD PRODUCT TO CART
-  static async addToCart(req, res) {
+  static async addToCart(userId, { productId, quantity = 1 }) {
     try {
-      const userId = req.user._id;
-      const { productId, quantity = 1 } = req.body;
-
       const product = await Product.findById(productId);
       if (!product) {
-        return sendError(res, "Product not found", 404);
+        throw new NotFoundError("Product not found", 404);
       }
 
-      
       const basePrice = product.basePrice;
       const finalUnitPrice = basePrice; // discount later here ,
       const itemTotal = finalUnitPrice * quantity;
-      
+
       //find correct user cart
       let cart = await Cart.findOne({ user: userId });
-      
+
       console.log("cart in add", cart);
       //if no cart -> create one
       if (!cart) {
@@ -76,8 +74,6 @@ class CartService {
           ],
         });
 
-        // await cart.save();
-        // return { items: cart.items };
       }
 
       //if cart exist-> check if product exist
@@ -125,14 +121,14 @@ class CartService {
   }
 
   //REMOVE FROM CART
-  static async removeFromCart(req, res) {
+  static async removeFromCart(itemId, userId) {
     try {
-      const { itemId } = req.params;
+
 
       console.log("here in remove cart handler:", itemId);
 
       const cart = await Cart.findOneAndUpdate(
-        { user: req.user._id },
+        { user: userId},
         { $pull: { items: { _id: itemId } } },
         {
           new: true,
@@ -140,7 +136,7 @@ class CartService {
       ).populate("items.product");
 
       if (!cart) {
-        return sendError(res, "Product not found", 404);
+        throw new NotFoundError("Product not found", 404);
       }
 
       cart.totalQuantity = this.recalculateTotalQuantity(cart);
@@ -156,65 +152,113 @@ class CartService {
   }
 
   //SYNC CART -> ADD/DECREASE QUANTITY
-  static async syncCart(req, res) {
+  static async syncCart(items, userId) {
     try {
-        const items = req.body;
-    console.log("data in sync:", items);
-    const userId = req.user._id;
+      if (!Array.isArray(items)) {
+        throw new ValidationError("Invalid cart data", 400);
+      }
 
-    if (!Array.isArray(items)) {
-      return sendError(res, "Invalid cart data", 400);
-    }
+      const productIds = items.map((i) => i.productId);
 
-    const productIds = items.map((i) => i.productId);
+      const products = await Product.find({
+        _id: { $in: productIds },
+      });
+      console.log("prods", products);
 
-    const products = await Product.find({
-      _id: { $in: productIds },
-    });
-    console.log("prods", products);
+      //products from DB stored in Map object for minimal queries,
+      const productMap = new Map(products.map((p) => [p._id.toString(), p]));
+      console.log("prod map", productMap);
 
-    const productMap = new Map(products.map((p) => [p._id.toString(), p]));
-    console.log("prod map", productMap);
+      const warnings = [];
+      const cartItems = items
+        .map((i) => {
+          const product = productMap.get(i.productId);
 
-    const cartItems = items
-      .map((i) => {
-        const product = productMap.get(i.productId);
+          if (!product) return null;
 
-        if (!product) return null;
+          //check stock
+          const requestedQuantity = Math.max(1, i.quantity);
+          const allowedQuantity = Math.min(requestedQuantity, product.stock);
 
-        const basePrice = product.basePrice;
-        const finalUnitPrice = basePrice; // discount hook
-        const itemTotal = finalUnitPrice * i.quantity;
+          //if no stock
+          if (allowedQuantity === 0) {
+            warnings.push({
+              productId: product._id,
+              message: `${product.name} is out of stock`,
+            });
+            return null;
+          }
 
-        return {
-          product: product._id,
-          quantity: i.quantity,
-          basePrice,
-          finalUnitPrice,
-          itemTotal,
-        };
-      })
-      .findLast(Boolean);
+          //if low stock
+          if (allowedQuantity < requestedQuantity) {
+            warnings.push({
+              productId: product._id,
+              message: `Only ${allowedQuantity} items available for ${product.name}`,
+            });
+          }
 
-    const cart = await Cart.findOne({ user: userId });
+          const basePrice = product.basePrice;
+          const finalUnitPrice = basePrice; // discount hook
+          const itemTotal = finalUnitPrice * allowedQuantity;
 
-    cart.items = cartItems;
 
-    console.log("cart check", cart);
-    //recalculate totals
 
-    cart.totalQuantity = this.recalculateTotalQuantity(cart);
-    cart.subTotal = this.recalculateSubTotal(cart);
-    cart.discountTotal = 0;
-    cart.grandTotal = this.recalculateGrandTotal(cart);
+          return {
+            product: product._id,
+            quantity: allowedQuantity,
+            basePrice,
+            finalUnitPrice,
+            itemTotal,
+          };
+        })
+        .filter(Boolean);
 
-    await cart.save();
-    
-    await cart.populate("items.product");
 
-    return cart;
+
+      const cart = await Cart.findOne({ user: userId });
+
+      if (!cart) throw new NotFoundError('Cart not found')
+
+      cart.items = cartItems;
+
+      console.log("cart check", cart);
+      //recalculate totals
+
+      cart.totalQuantity = this.recalculateTotalQuantity(cart);
+      cart.subTotal = this.recalculateSubTotal(cart);
+
+      if (cart.appliedCoupon) {
+            try {
+                const { discount, finalAmount } = await CouponService.validateCoupon(
+                    cart.appliedCoupon.code,
+                    cart.subtotal,
+                    cart.items
+                )
+                cart.discountTotal = discount
+                cart.grandTotal = finalAmount
+            } catch (error) {
+                //invalid coupon
+                cart.appliedCoupon = null
+                cart.discountTotal = 0
+                cart.grandTotal = cart.subTotal
+                warnings.push({ message: 'Coupon removed: ' + error.message})
+            }
+          }
+          else {
+            cart.discountTotal = 0
+            cart.grandTotal = cart.subTotal
+          }
+
+      cart.discountTotal = 0;
+      cart.grandTotal = this.recalculateGrandTotal(cart);
+
+      await cart.save();
+
+      await cart.populate("items.product");
+
+      return { cart, warnings };
     } catch (error) {
-        throw error
+      throw error;
     }
   }
 }

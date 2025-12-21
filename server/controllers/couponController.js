@@ -4,7 +4,7 @@ const BaseController = require("./baseController");
 
 class CouponController extends BaseController {
     static fetchCoupons = BaseController.asyncHandler(async(req, res)=>{
-        const coupons = await CouponService.fetchCoupons(req, res)
+        const coupons = await CouponService.fetchCoupons(req.query)
         BaseController.logAction('ALL-COUPONS',coupons)
         BaseController.sendSuccess(res,'Coupon fetched',coupons)
     })
@@ -23,9 +23,16 @@ class CouponController extends BaseController {
     })
 
     static deleteCoupon = BaseController.asyncHandler(async(req, res)=>{
-        const couponId = await CouponService.deleteCoupon(req)
+        const couponId = await CouponService.deleteCoupon(req.params.id)
         BaseController.logAction('DELETE_COUPON', couponId)
         BaseController.sendSuccess(res, 'Coupon deleted successfully', couponId)
+    })
+
+    static validateCoupon = BaseController.asyncHandler(async(req, res)=>{
+        const { code, cartTotal, cartItems } = req.body
+        const result = await CouponService.validateCoupon(code, cartTotal, cartItems)
+        BaseController.logAction('DELETE_COUPON', result)
+        BaseController.sendSuccess(res, 'Coupon deleted successfully', result)
     })
 
     

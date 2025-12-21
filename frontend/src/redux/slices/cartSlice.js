@@ -49,16 +49,16 @@ export const fetchCartThunk = createAsyncThunk(
   }
 );
 
-// //FETCH USER CART
-// export const syncCartThunk = createAsyncThunk('cart/sync', async(_, {rejectWithValue}) => {
-//     try {
-//         const response = await cartAPI.syncCart()
-//         console.log('sync response', response.data);
-//         return response.data
-//     } catch (error) {
-//         return rejectWithValue(error.message)
-//     }
-// })
+// //validate And ApplyCouponThunk
+const applyCouponThunk = createAsyncThunk('cart/applyCoupon', async(data, {rejectWithValue}) => {
+  try {
+    const response = await cartAPI.applyCoupon(data)
+    return response.data
+  } catch (error) {
+    return rejectWithValue(error?.response?.data?.message) || 'Invalid Coupon'
+  }
+})
+
 
 // REMOVE PRODUCTS FROM CART THUNK
 export const removeFromCartThunk = createAsyncThunk(
@@ -77,6 +77,20 @@ export const removeFromCartThunk = createAsyncThunk(
   }
 );
 
+//re-calculate price helper
+const recalculateTotals = state => {
+  state.subTotal = state.items.reduce((acc, item) => (
+    acc + item.price * item. quantity
+  ))
+
+  if (state.appliedCoupon) {
+    state.appliedCoupon = null
+    state.discountTotal = 0
+  }
+
+  state.grandTotal = state.subTotal
+}
+
 //CREATE SLICE FOR CART
 const cartSlice = createSlice({
   name: "cartSlice",
@@ -94,6 +108,18 @@ const cartSlice = createSlice({
         if (item.quantity <= 0) {
           state.items = state.items.filter((i) => i._id !== itemId);
         }
+        
+        //immediate ui update for totals
+        state.subTotal = state.items.reduce((sum, item) => (
+          sum + item.price * item.quantity
+        ), 0)
+
+
+        //coupon temporarily removed in ui
+        state.appliedCoupon = null
+        state.discountTotal = 0
+        state.grandTotal = state.subTotal
+
       },
       
 
@@ -171,7 +197,29 @@ cartSyncFailed(state, action) {
       .addCase(removeFromCartThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      });
+      })
+
+      //APPLY COUPON ON CART ITEMS
+      .addCase(applyCouponThunk.pending, (state) => {
+        state.applyingCoupon = true
+        state.couponError = null
+      })
+      .addCase(applyCouponThunk.fulfilled, (state, action) => {
+        console.log("action.payload", action.payload);
+
+        const cart = action.payload;
+        state.applyingCoupon = false;
+        state.discountTotal = cart.discount;
+        state.grandTotal = cart.finalAmount;
+        state.appliedCoupon = cart.coupon
+      })
+      .addCase(applyCouponThunk.rejected, (state, action) => {
+        state.applyingCoupon = false;
+        state.couponError = action.payload,
+        state.appliedCoupon = null,
+        state.discountTotal = 0,
+        state.grandTotal = state.subTotal
+      })
 
     //
   },

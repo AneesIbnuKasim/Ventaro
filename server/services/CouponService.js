@@ -1,18 +1,19 @@
 const { sendError } = require("../controllers/baseController")
 const Coupon = require("../models/Coupon")
-const { NotFoundError, AppError, ConflictError } = require("../utils/errors")
+const { NotFoundError, AppError, ConflictError, ValidationError } = require("../utils/errors")
 const logger = require("../utils/logger")
+const { sendValidationError } = require("../utils/response")
 
 class CouponService {
-    static fetchCoupons = async(req, res)=>{
+    static fetchCoupons = async(query)=>{
         try {
-            const { search='' } = req.query
+            const { search='' } = query
 
             console.log('search:::',search);
             
 
-            const page = parseInt(req.query.page)
-            const limit = parseInt(req.query.limit)
+            const page = parseInt(query.page)
+            const limit = parseInt(query.limit)
 
             const skip = (page-1)*limit
             const filter = {}
@@ -30,7 +31,6 @@ class CouponService {
 
             const totalPages = Math.ceil(totalCoupons/limit)
 
-            logger.info(`Admin ${req.admin.email} fetched coupon list (page: ${page})`)
             return { coupons,
                 pagination: {
                     page,
@@ -86,10 +86,8 @@ class CouponService {
         }
     }
 
-    static deleteCoupon = async(req)=>{
+    static deleteCoupon = async(couponId)=>{
         try {
-            const couponId = req.params.id
-            
             const coupon = await Coupon.findById(couponId)
             if (!coupon) throw new NotFoundError('Coupon not found')
             
@@ -103,36 +101,35 @@ class CouponService {
         }
     }
 
-    static async validateCoupon (req, res) {
-        const { code, cartTotal, cartItems } = req.body
+    static async validateCoupon (code, cartTotal, cartItems) {
 
-        if (!code || !cartTotal) sendError(res, 'Coupon code & cart total required', 404) 
+        if (!code || !cartTotal) throw new NotFoundError('Coupon code & cart total required', 404) 
         
         const coupon = await Coupon.findOne({code: code.toUpperCase()})
 
         //EXIST CHECK
-        if (!coupon) sendError(res, 'Invalid coupon code', 404)
+        if (!coupon) throw new NotFoundError('Invalid coupon code', 404)
         
         //ACTIVE CHECK
-        if (!coupon.isActive) sendError(res, 'Coupon expired', 400)
+        if (!coupon.isActive) throw new ValidationError('Coupon not active', 400)
         
         //EXPIRY CHECK
-        if (coupon.endDate < new Date()) sendError(res, 'Coupon expired', 400) 
+        if (coupon.endDate < new Date()) throw new ValidationError('Coupon expired', 400)
 
         //USAGE LIMIT CHECK
-        if (coupon.usageLimit && coupon.usedCount >= coupon.usageLimit) sendError(res, 'Coupon usage limit exceeded', 400)
+        if (coupon.usageLimit && coupon.usedCount >= coupon.usageLimit) throw new ValidationError('Coupon usage limit exceeded', 400)
         
         //MINIMUM CART VALUE
-        if (coupon.minOrderAmount && cartTotal < coupon.minOrderAmount) sendError(res, `Minimum cart value ${coupon,minOrderAmount} required`, 400)
+        if (coupon.minOrderAmount && cartTotal < coupon.minOrderAmount) throw new ValidationError(`Minimum cart value ${coupon.minOrderAmount} required`, 400)
 
         //category check
         if (coupon.applicableCategories.length) {
 
-            const isApplicable = cartItems.some(item => {
-                applicableCategories.includes(item.product.categoryId)
-            })
+            const isApplicable = cartItems.some(item => (
+                coupon.applicableCategories.includes(item.product.categoryId)
+            ))
 
-            if (!isApplicable) sendError(res, 'Coupon not applicable to selected items', 400)
+            if (!isApplicable) throw new ValidationError('Coupon not applicable to selected items', 400)
 
         }
 

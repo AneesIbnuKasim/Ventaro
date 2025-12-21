@@ -37,7 +37,7 @@ export const cartSyncMiddleware = store => next => action => {
       }
       break;
 
-    case action.type === 'cart/checkout':
+    case 'cart/checkout':
       syncCartDebounced.flush();
       break;
 
