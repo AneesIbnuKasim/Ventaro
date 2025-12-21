@@ -38,7 +38,7 @@ class CartService {
 
   //CALCULATE GRAND TOTAL-AFTER DISCOUNT
   static recalculateGrandTotal(cart) {
-    return cart.items.reduce(acc, (item) => acc + itemTotal, 0);
+    return cart.items.reduce((acc, item) => acc + item.itemTotal, 0);
   }
 
   //ADD PRODUCT TO CART
@@ -52,15 +52,15 @@ class CartService {
         return sendError(res, "Product not found", 404);
       }
 
-      console.log("cart in add", cart);
-
+      
       const basePrice = product.basePrice;
       const finalUnitPrice = basePrice; // discount later here ,
       const itemTotal = finalUnitPrice * quantity;
-
+      
       //find correct user cart
       let cart = await Cart.findOne({ user: userId });
-
+      
+      console.log("cart in add", cart);
       //if no cart -> create one
       if (!cart) {
         cart = new Cart({
@@ -138,8 +138,6 @@ class CartService {
           new: true,
         }
       ).populate("items.product");
-
-      console.log("updated cart:", updatedCart);
 
       if (!cart) {
         return sendError(res, "Product not found", 404);

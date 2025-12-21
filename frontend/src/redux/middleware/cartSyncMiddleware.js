@@ -2,12 +2,22 @@ import debounce from "lodash/debounce";
 import cartAPI from '../../services/cartService'
 import { useAdmin } from "../../context/AdminContext";
 
-const syncCartDebounced = debounce(async (items) => {
+const syncCartDebounced = debounce(async (items, store) => {
   try {
     console.log('in sync cart debounced', items);
-    await cartAPI.syncCart(items)
+    const res = await cartAPI.syncCart(items)
+
+    //dispatch to update state as per returned data from BE
+    store.dispatch({
+      type: 'cartSlice/cartSynced',
+      payload: res.data
+    })
+    //Rollback state to the initial if any error updating in BE
   } catch (err) {
-    console.error("Cart sync failed", err);
+    store.dispatch({
+      type: 'cartSlice/cartSyncFailed',
+      payload: err.message
+    })
   }
 }, 1500);
 
@@ -23,11 +33,11 @@ export const cartSyncMiddleware = store => next => action => {
  && items.length) {
         console.log('in sync cart calling', action.payload);
         
-        syncCartDebounced(items);
+        syncCartDebounced(items, store);
       }
       break;
 
-    case "cart/checkout":
+    case action.type === 'cart/checkout':
       syncCartDebounced.flush();
       break;
 
