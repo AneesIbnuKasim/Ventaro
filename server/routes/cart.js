@@ -12,7 +12,7 @@ router.delete('/:itemId', authenticateUser, CartController.removeFromCart)
 
 //user action apis
 router.post('/apply-coupon', authenticateUser, CartController.applyCoupon)
-// router.delete('/remove-coupon', authenticateUser, CartController.removeCoupon)
+router.delete('/remove-coupon', authenticateUser, CartController.removeCoupon)
 
 
 

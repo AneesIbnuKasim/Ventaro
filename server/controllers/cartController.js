@@ -9,12 +9,12 @@ class CartController extends BaseController {
   });
 
   static addToCart = BaseController.asyncHandler(async (req, res) => {
-    const product = await CartService.addToCart(req.user._id, {
+    const { cart, warnings } = await CartService.addToCart(req.user._id, {
       productId: req.body.productId,
       quantity: 1,
     });
-    BaseController.logAction("ADD-TO-CART", product);
-    BaseController.sendSuccess(res, "Product added to cart", product, 201);
+    BaseController.logAction("ADD-TO-CART", { cart, warnings });
+    BaseController.sendSuccess(res, "Product added to cart", { cart, warnings }, 201);
   });
 
   static syncCart = BaseController.asyncHandler(async (req, res) => {
@@ -22,7 +22,7 @@ class CartController extends BaseController {
       req.body,
       req.user._id
     );
-    BaseController.logAction("SYNC-CART", items);
+    BaseController.logAction("SYNC-CART", cart);
     BaseController.sendSuccess(
       res,
       "Cart synced successfully",
@@ -32,14 +32,19 @@ class CartController extends BaseController {
   });
 
   static removeFromCart = BaseController.asyncHandler(async (req, res) => {
-    const items = await CartService.removeFromCart(req.params.id, req.user._id);
-    BaseController.logAction("REMOVE-FROM-CART", items);
-    BaseController.sendSuccess(res, "Product removed from cart.", items, 200);
+    const { cart, warnings } = await CartService.removeFromCart(req.params.id, req.user._id);
+    BaseController.logAction("REMOVE-FROM-CART", cart);
+    BaseController.sendSuccess(res, "Product removed from cart.", { cart, warnings }, 200);
   });
 
   static applyCoupon = BaseController.asyncHandler(async (req, res) => {
-    const cart = await CartService.applyCoupon(req.user._id, req.body.code);
-    BaseController.sendSuccess(res, "Coupon applied", cart);
+    const { cart, warnings } = await CartService.applyCoupon(req.user._id, req.body.code);
+    BaseController.sendSuccess(res, "Coupon applied successfully", { cart, warnings});
+  });
+
+  static removeCoupon = BaseController.asyncHandler(async (req, res) => {
+    const cart = await CartService.removeCoupon(req.user._id);
+    BaseController.sendSuccess(res, "Coupon removed successfully", cart);
   });
 }
 

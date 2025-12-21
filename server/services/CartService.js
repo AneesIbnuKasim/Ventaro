@@ -285,6 +285,20 @@ class CartService {
 
     return cart
   }
+
+  static removeCoupon = async (userId) => {
+    const cart = await Cart.findOne({user: userId})
+
+    if (!cart) throw new NotFoundError('Cart not found')
+
+    cart.appliedCoupon = null
+    cart.discountTotal = 0
+    cart.grandTotal = cart.subTotal
+
+    await cart.save()
+
+    return cart
+  }
 }
 
 module.exports = CartService;
