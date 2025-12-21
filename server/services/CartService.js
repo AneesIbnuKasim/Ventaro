@@ -17,7 +17,7 @@ class CartService {
 
       console.log("cart in be", cart);
 
-    //   if (!cart) return []
+      //   if (!cart) return []
 
       return cart;
     } catch (error) {
@@ -43,8 +43,35 @@ class CartService {
     return cart.items.reduce((acc, item) => acc + item.itemTotal, 0);
   }
 
+  static revalidateAppliedCoupon = async (cart, warnings = []) => {
+    if (!cart.appliedCoupon) {
+      cart.discountTotal = 0;
+      cart.grandTotal = cart.subTotal;
+      return;
+    }
+
+    if (cart.appliedCoupon) {
+      try {
+        const { discount, finalAmount } = await CouponService.validateCoupon(
+          cart.appliedCoupon.code,
+          cart.subTotal,
+          cart.items
+        );
+        cart.discountTotal = discount;
+        cart.grandTotal = finalAmount;
+      } catch (error) {
+        //invalid coupon
+        cart.appliedCoupon = null;
+        cart.discountTotal = 0;
+        cart.grandTotal = cart.subTotal;
+        warnings.push({ message: "Coupon removed: " + error.message });
+      }
+    }
+  };
+
   //ADD PRODUCT TO CART
   static async addToCart(userId, { productId, quantity = 1 }) {
+    const warnings = []
     try {
       const product = await Product.findById(productId);
       if (!product) {
@@ -73,7 +100,6 @@ class CartService {
             },
           ],
         });
-
       }
 
       //if cart exist-> check if product exist
@@ -105,8 +131,8 @@ class CartService {
       //recalculate total basePrice and quantity
       cart.totalQuantity = this.recalculateTotalQuantity(cart);
       cart.subTotal = this.recalculateSubTotal(cart);
-      cart.discountTotal = 0;
-      cart.grandTotal = this.recalculateGrandTotal(cart);
+
+      await this.revalidateAppliedCoupon(cart, warnings);
 
       await cart.save();
 
@@ -123,12 +149,11 @@ class CartService {
   //REMOVE FROM CART
   static async removeFromCart(itemId, userId) {
     try {
-
-
+        const warnings = []
       console.log("here in remove cart handler:", itemId);
 
       const cart = await Cart.findOneAndUpdate(
-        { user: userId},
+        { user: userId },
         { $pull: { items: { _id: itemId } } },
         {
           new: true,
@@ -141,8 +166,8 @@ class CartService {
 
       cart.totalQuantity = this.recalculateTotalQuantity(cart);
       cart.subTotal = this.recalculateSubTotal(cart);
-      cart.discountTotal = 0;
-      cart.grandTotal = this.recalculateGrandTotal(cart);
+
+      await this.revalidateAppliedCoupon(cart, warnings);
 
       await cart.save();
       return cart;
@@ -201,8 +226,6 @@ class CartService {
           const finalUnitPrice = basePrice; // discount hook
           const itemTotal = finalUnitPrice * allowedQuantity;
 
-
-
           return {
             product: product._id,
             quantity: allowedQuantity,
@@ -213,11 +236,9 @@ class CartService {
         })
         .filter(Boolean);
 
-
-
       const cart = await Cart.findOne({ user: userId });
 
-      if (!cart) throw new NotFoundError('Cart not found')
+      if (!cart) throw new NotFoundError("Cart not found");
 
       cart.items = cartItems;
 
@@ -227,30 +248,7 @@ class CartService {
       cart.totalQuantity = this.recalculateTotalQuantity(cart);
       cart.subTotal = this.recalculateSubTotal(cart);
 
-      if (cart.appliedCoupon) {
-            try {
-                const { discount, finalAmount } = await CouponService.validateCoupon(
-                    cart.appliedCoupon.code,
-                    cart.subtotal,
-                    cart.items
-                )
-                cart.discountTotal = discount
-                cart.grandTotal = finalAmount
-            } catch (error) {
-                //invalid coupon
-                cart.appliedCoupon = null
-                cart.discountTotal = 0
-                cart.grandTotal = cart.subTotal
-                warnings.push({ message: 'Coupon removed: ' + error.message})
-            }
-          }
-          else {
-            cart.discountTotal = 0
-            cart.grandTotal = cart.subTotal
-          }
-
-      cart.discountTotal = 0;
-      cart.grandTotal = this.recalculateGrandTotal(cart);
+      await this.revalidateAppliedCoupon(cart, warnings);
 
       await cart.save();
 
