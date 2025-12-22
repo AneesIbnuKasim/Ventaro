@@ -42,7 +42,7 @@ export default function ProductForm({ onConfirm, onCancel, editData = '' }) {
       name: editData.name,
       categoryId: editData.categoryId,
       brandName: editData.brandName,
-      basePrice: editData.basePrice,
+      sellingPrice: editData.sellingPrice,
       discount: editData.discount,
       description: editData.description,
       stock: editData.stock
@@ -50,7 +50,7 @@ export default function ProductForm({ onConfirm, onCancel, editData = '' }) {
       name: "",
       categoryId: "",
       brandName: "",
-      basePrice: '',
+      sellingPrice: '',
       discount: '',
       description: "",
       stock: ""
@@ -119,32 +119,32 @@ export default function ProductForm({ onConfirm, onCancel, editData = '' }) {
             error={formik.touched.stock && formik.errors.stock}
           />
         </div>
-        {/* basePrice+discount */}
+        {/* sellingPrice+originalPrice */}
         <div className="grid grid-cols-2 gap-4">
           <FormInput
-            label="basePrice"
-            name="basePrice"
+            label="sellingPrice"
+            name="sellingPrice"
             required
             type="number"
             min="0"
             step="1"
-            placeholder="Enter basePrice..."
-            value={formik.values.basePrice}
+            placeholder="Enter sellingPrice..."
+            value={formik.values.sellingPrice}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={formik.touched.basePrice && formik.errors.basePrice}
+            error={formik.touched.sellingPrice && formik.errors.sellingPrice}
           />
           <FormInput
-            label="Discount"
-            name="discount"
+            label="originalPrice"
+            name="originalPrice"
             type="number"
             min="0"
             step="1"
-            placeholder="Enter discount..."
-            value={formik.values.discount}
+            placeholder="Enter original price..."
+            value={formik.values.originalPrice}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={formik.touched.discount && formik.errors.discount}
+            error={formik.touched.originalPrice && formik.errors.originalPrice}
           />
         </div>
         {/* Brand */}

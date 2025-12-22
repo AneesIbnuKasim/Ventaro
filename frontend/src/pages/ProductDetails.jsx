@@ -25,7 +25,7 @@ function ProductDetails() {
 
 
   const handleClick = (id) => {
-    navigate(`/products/${id}`)
+    navigate(`/product/${id}`)
   }
 
 
@@ -89,9 +89,9 @@ const reviews = [
         items={products}
         renderItem={(item)=><ProductCard 
             product={item}
+            />}
             handleClick = {handleClick}
-        />}
-        />
+            />
         <ReviewsList reviews={reviews} />
         <ReviewForm />
         </div>

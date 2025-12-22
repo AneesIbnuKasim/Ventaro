@@ -3,6 +3,7 @@ import { Heart, ShoppingCart } from "lucide-react";
 import { useProduct } from "../../context/ProductContext";
 import { useDispatch } from "react-redux";
 import { addCartThunk } from "../../redux/slices/cartSlice";
+import { toast } from "react-toastify";
 
 export default function SingleProduct({ product = {} }) {
 
@@ -30,7 +31,8 @@ export default function SingleProduct({ product = {} }) {
   const addToCart = () => {
     console.log('in dispatch', product._id);
     
-    dispatch(addCartThunk({ productId: product._id, quantity: 1 }))
+    dispatch(addCartThunk({ productId: product._id, quantity: 1 })).unwrap()
+    toast.success('Product added to cart')
   }
 
   return (
@@ -59,7 +61,7 @@ export default function SingleProduct({ product = {} }) {
       <div className="space-y-4">
         <h2 className="text-2xl font-semibold leading-snug">{product.name}</h2>
 
-        <p className="text-3xl font-bold text-gray-900">Rs. {product.basePrice ?? "-"}</p>
+        <p className="text-3xl font-bold text-gray-900">Rs. {product.sellingPrice ?? "-"}</p>
 
         <p className="text-sm text-gray-600 leading-relaxed max-w-lg">{product.shortDescription}</p>
 

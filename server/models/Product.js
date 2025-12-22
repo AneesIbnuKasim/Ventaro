@@ -16,7 +16,14 @@ const ProductSchema = mongoose.Schema({
         type: String,
         default: null
     },
-    basePrice: {
+    //ACTUAL PRICE NOW
+    sellingPrice: {
+        type: Number,
+        default: 0, 
+        required: true
+    },
+    //MRP PRICE. mainly for ui strike
+    originalPrice: {
         type: Number,
         default: 0
     },
@@ -32,10 +39,6 @@ const ProductSchema = mongoose.Schema({
     stock: {
         type: Number,
         required: true,
-    },
-    discount: {
-        type: Number,
-        default: 0
     },
     // // variant: [
     // //     {

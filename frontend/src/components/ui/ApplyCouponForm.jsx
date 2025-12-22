@@ -1,31 +1,34 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { applyCouponThunk } from "@/store/cart/cartThunks";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { applyCouponThunk } from "../../redux/slices/cartSlice";
+import Button from "./Button";
+import FormInput from "./FormInput";
 
 const CouponSchema = Yup.object({
   code: Yup.string()
     .trim()
     .required("Enter coupon code")
-    .min(3, "Invalid coupon")
+    .min(3, "Invalid coupon"),
 });
 
 const ApplyCouponForm = () => {
   const dispatch = useDispatch();
-  const { subTotal, applyingCoupon, couponError, appliedCoupon } =
-    useSelector(state => state.cart);
+  const { subTotal, applyingCoupon, couponError, appliedCoupon } = useSelector(
+    (state) => state.cart
+  );
 
+  console.log('applied in form:', appliedCoupon);
+  
   return (
     <Formik
-      initialValues={{ code: "" }}
+      initialValues={{ code: appliedCoupon?.code  }}
+      enableReinitialize
       validationSchema={CouponSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         dispatch(
           applyCouponThunk({
             code: values.code.toUpperCase(),
-            cartTotal: subTotal
           })
         )
           .unwrap()
@@ -36,11 +39,12 @@ const ApplyCouponForm = () => {
       }}
     >
       {({ isSubmitting }) => (
-        <Form className="flex gap-2 items-start">
+        <Form className="flex gap-5 items-baseline">
           <div className="flex-1">
             <Field
               name="code"
-              as={Input}
+              as={FormInput}
+              // value = {appliedCoupon.code ? appliedCoupon.code: null}
               placeholder="Enter coupon code"
               autoComplete="off"
             />
@@ -52,6 +56,7 @@ const ApplyCouponForm = () => {
           </div>
 
           <Button
+            className=" bg-purple-600"
             type="submit"
             disabled={isSubmitting || applyingCoupon}
           >
@@ -60,9 +65,7 @@ const ApplyCouponForm = () => {
 
           {/* API Error */}
           {couponError && (
-            <p className="text-sm text-red-500 mt-1">
-              {couponError}
-            </p>
+            <p className="text-sm text-red-500 mt-1">{couponError}</p>
           )}
 
           {/* Success */}

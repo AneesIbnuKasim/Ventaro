@@ -18,7 +18,8 @@ class CartService {
       console.log("cart in be", cart);
 
       //   if (!cart) return []
-
+      console.log('carrrrt:', cart);
+      
       return cart;
     } catch (error) {
       throw error;
@@ -78,7 +79,7 @@ class CartService {
         throw new NotFoundError("Product not found", 404);
       }
 
-      const basePrice = product.basePrice;
+      const basePrice = product.sellingPrice;
       const finalUnitPrice = basePrice; // discount later here ,
       const itemTotal = finalUnitPrice * quantity;
 
@@ -108,7 +109,7 @@ class CartService {
           (item) => item.product.toString() === productId
         );
 
-        //product exist in cart-> update quantity
+        //product exist in cart-> update quantity + itemTotal
         if (itemIndex > -1) {
           cart.items[itemIndex].quantity += quantity;
           cart.items[itemIndex].itemTotal =
@@ -140,7 +141,7 @@ class CartService {
 
       console.log("populated cart", cart);
 
-      return { items: cart.items };
+      return { cart, warnings };
     } catch (error) {
       throw error;
     }
@@ -170,7 +171,7 @@ class CartService {
       await this.revalidateAppliedCoupon(cart, warnings);
 
       await cart.save();
-      return cart;
+      return {cart};
     } catch (error) {
       throw error;
     }
@@ -222,8 +223,8 @@ class CartService {
             });
           }
 
-          const basePrice = product.basePrice;
-          const finalUnitPrice = basePrice; // discount hook
+          const basePrice = product.sellingPrice;
+          const finalUnitPrice = basePrice; //after discount later
           const itemTotal = finalUnitPrice * allowedQuantity;
 
           return {
@@ -271,19 +272,21 @@ class CartService {
         cart.subTotal,
         cart.items
     )
-
     cart.appliedCoupon = {
-        code: result.code,
-        discountType: result.discountType,
-        discountValue: result.discountValue
+        code: result.coupon.code,
+        discountType: result.coupon.discountType,
+        discountValue: result.coupon.discountValue
     }
 
     cart.discountTotal = result.discount
-    cart.grandTotal = cart.finalAmount
+    cart.grandTotal = result.finalAmount
+
+    console.log('applied cart:', cart);
+    
 
     await cart.save()
 
-    return cart
+    return {cart}
   }
 
   static removeCoupon = async (userId) => {

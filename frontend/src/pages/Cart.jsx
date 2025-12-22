@@ -12,22 +12,25 @@ import {
 import { removeFromCartThunk, updateQuantity } from "../redux/slices/cartSlice";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
+import ApplyCouponForm from "../components/ui/ApplyCouponForm";
 
 const Cart = memo(() => {
   const { products, fetchProduct, loadCart } = useProduct();
   const { isAuthenticated } = useAuth()
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { items } = useSelector((state) => {
+  const { items, subTotal, grandTotal, totalQuantity, discountTotal, appliedCoupon } = useSelector((state) => {
     console.log("stat4.car tin cart", state.cart);
 
     return state.cart;
   });
+  console.log("state", subTotal);
+
 
   const hasCartItems = items.length > 0;
 
-  const totalQuantity = useSelector(selectTotalQuantity);
-  const totalPrice = useSelector(selectTotalPrice);
+  // const totalQuantity = useSelector(selectTotalQuantity);
+  // const totalPrice = useSelector(selectTotalPrice);
 
   // useEffect(() => {
   //   const items = loadCart()
@@ -144,25 +147,20 @@ const Cart = memo(() => {
 
               {/* Summary */}
               <div className="border-b flex flex-col items-end justify-end p-6 space-y-6">
-                <div className="flex items-center justify-between">
-                  <p className="font-medium mr-2">APPLY COUPONS</p>
-                  <button className="text-sm border px-4 py-1 rounded-md text-purple-600">
-                    APPLY
-                  </button>
-                </div>
+                <ApplyCouponForm />
 
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
                     <span className="text-gray-500">SUBTOTAL</span>
-                    <span>{totalPrice}</span>
+                    <span>{subTotal}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-500">DISCOUNT</span>
-                    <span>- Rs. 5000</span>
+                    <span>{discountTotal}</span>
                   </div>
                   <div className="flex justify-between font-semibold">
                     <span>TOTAL</span>
-                    <span>Rs. 35000</span>
+                    <span>{grandTotal}</span>
                   </div>
                 </div>
 
@@ -181,9 +179,9 @@ const Cart = memo(() => {
         renderItem={(item) => (
           <ProductCard
             product={item}
-            handleClick={() => navigate(`/products/${id}`)}
-          />
-        )}
+            />
+          )}
+          handleClick={() => navigate(`/product/${id}`)}
       />
       <Slider
         title="Yoy May Also Like"
@@ -191,9 +189,9 @@ const Cart = memo(() => {
         renderItem={(item) => (
           <ProductCard
             product={item}
-            handleClick={() => navigate(`/products/${id}`)}
-          />
-        )}
+            />
+          )}
+          handleClick={(id) => navigate(`/product/${id}`)}
       />
     </div>
   );

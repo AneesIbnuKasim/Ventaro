@@ -49,7 +49,16 @@ const cartAPI = {
     applyCoupon: (data) => {
         return makeRequest(({
             method: 'post',
-            url: `/api/cart/validate`,
+            url: `/api/cart/apply-coupon`,
+            data
+        }))
+    },
+
+    //remove coupon
+    removeCoupon: (data) => {
+        return makeRequest(({
+            method: 'post',
+            url: `/api/cart/remove-coupon`,
             data
         }))
     },

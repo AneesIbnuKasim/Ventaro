@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb')
 const mongoose = require('mongoose')
 
 const CartSchema = mongoose.Schema({
@@ -19,10 +20,12 @@ const CartSchema = mongoose.Schema({
             min: 1,
             default: 1
         },
+        //selling price when its added to cart
         basePrice: {
             type: Number,
             required: true
         },
+        //ACTUAL PRICE after discounts NOW
         finalUnitPrice: {
             type: Number,
             required: true
@@ -32,6 +35,14 @@ const CartSchema = mongoose.Schema({
             required: true
         },
     }],
+    appliedCoupon: {
+        code: String,
+        discountType: {
+            type: String,
+            // enum: ['PERCENT' | 'FLAT']
+        },
+        discountValue: Number
+    },
     totalQuantity: {
         type: Number,
         default: 0

@@ -21,12 +21,11 @@ const initialState = {
 export const addCartThunk = createAsyncThunk(
   "cart/add",
   async (data, { rejectWithValue }) => {
-    console.log("here in thunk", data);
 
     try {
       const response = await cartAPI.addToCart(data);
 
-      console.log("add to cart response:", response.data.items);
+      console.log("add to cart response:", response);
 
       return response.data;
     } catch (error) {
@@ -41,7 +40,7 @@ export const fetchCartThunk = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await cartAPI.fetchCart();
-      console.log("fetch response", response.data);
+      console.log("fetch thunk response", response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -50,9 +49,11 @@ export const fetchCartThunk = createAsyncThunk(
 );
 
 // //validate And ApplyCouponThunk
-const applyCouponThunk = createAsyncThunk('cart/applyCoupon', async(data, {rejectWithValue}) => {
+export const applyCouponThunk = createAsyncThunk('cart/applyCoupon', async(data, {rejectWithValue}) => {
   try {
     const response = await cartAPI.applyCoupon(data)
+    console.log('apply coupon res:', response.data);
+    
     return response.data
   } catch (error) {
     return rejectWithValue(error?.response?.data?.message) || 'Invalid Coupon'
@@ -108,17 +109,20 @@ const cartSlice = createSlice({
         if (item.quantity <= 0) {
           state.items = state.items.filter((i) => i._id !== itemId);
         }
+
         
-        //immediate ui update for totals
+        
+        //immediate ui update for totals while BE operation is debouncing
         state.subTotal = state.items.reduce((sum, item) => (
-          sum + item.price * item.quantity
+          sum + item.sellingPrice * item.quantity
         ), 0)
+        
+        console.log('item subtot', state.items);
 
-
-        //coupon temporarily removed in ui
-        state.appliedCoupon = null
-        state.discountTotal = 0
-        state.grandTotal = state.subTotal
+        // coupon temporarily removed in ui
+        // state.appliedCoupon = null
+        // state.discountTotal = 0
+        // state.grandTotal = state.subTotal
 
       },
       
@@ -132,7 +136,7 @@ const cartSlice = createSlice({
       },
     },
     cartSynced(state, action) {
-  return action.payload; // FULL cart replace
+  return action.payload.cart; // FULL cart replace
 },
 
 cartSyncFailed(state, action) {
@@ -146,8 +150,8 @@ cartSyncFailed(state, action) {
         state.loading = true;
       })
       .addCase(addCartThunk.fulfilled, (state, action) => {
-        console.log("state.items", action.payload);
-        const cart = action.payload;
+        console.log("state.items.cart", action.payload.cart);
+        const cart = action.payload.cart;
         state.items = cart.items;
         state.totalQuantity = cart.totalQuantity;
         state.subTotal = cart.subTotal;
@@ -165,14 +169,17 @@ cartSyncFailed(state, action) {
         state.loading = true;
       })
       .addCase(fetchCartThunk.fulfilled, (state, action) => {
-        console.log("action.payload", action.payload);
-        const cart = action.payload;
+        console.log("fetch action.payload", action.payload);
+        const cart = action.payload.cart;
         state.items = cart.items;
         state.totalQuantity = cart.totalQuantity;
         state.subTotal = cart.subTotal;
         state.discountTotal = cart.discountTotal;
         state.grandTotal = cart.grandTotal;
+        state.appliedCoupon = cart.appliedCoupon
         state.loading = false;
+        console.log('fetch cart final', cart);
+        
       })
       .addCase(fetchCartThunk.rejected, (state, action) => {
         state.loading = false;
@@ -186,7 +193,7 @@ cartSyncFailed(state, action) {
       .addCase(removeFromCartThunk.fulfilled, (state, action) => {
         console.log("action.payload", action.payload);
 
-        const cart = action.payload;
+        const cart = action.payload.cart;
         state.items = cart.items;
         state.totalQuantity = cart.totalQuantity;
         state.subTotal = cart.subTotal;
@@ -207,11 +214,11 @@ cartSyncFailed(state, action) {
       .addCase(applyCouponThunk.fulfilled, (state, action) => {
         console.log("action.payload", action.payload);
 
-        const cart = action.payload;
+        const cart = action.payload.cart;
         state.applyingCoupon = false;
-        state.discountTotal = cart.discount;
-        state.grandTotal = cart.finalAmount;
-        state.appliedCoupon = cart.coupon
+        state.discountTotal = cart.discountTotal;
+        state.grandTotal = cart.grandTotal;
+        state.appliedCoupon = cart.appliedCoupon
       })
       .addCase(applyCouponThunk.rejected, (state, action) => {
         state.applyingCoupon = false;

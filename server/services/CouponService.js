@@ -156,7 +156,7 @@ class CouponService {
             coupon: {
                 code: coupon.code,
                 discountType: coupon.discountType,
-                discountValue: coupon.discountValue
+                discountValue: coupon.discountValue,
             }
         }
     }

@@ -8,24 +8,24 @@ const ProductCard = memo(({ product, handleClick}) => {
     brandName,
     description,
     images,
-    basePrice,
-    oldPrice,
+    sellingPrice,
+    originalPrice,
     rating,
     discount,
   } = product;
   
 
   return (
-    <div onClick={() => handleClick(_id)} className="w-full max-w-[260px] bg-white rounded-xl border border-gray-200  p-4 shadow-md hover:shadow-xl transition cursor-pointer">
+    <div onClick={()=>handleClick(_id)} className="w-full max-w-[260px] min-h-[400px]  bg-white rounded-xl border border-gray-200  p-4 shadow-md hover:shadow-xl transition cursor-pointer">
       
       {/* --- Top badge + wishlist icon --- */}
       <div className="flex items-start justify-between">
         <button className="text-gray-500 hover:text-red-500">
           <Heart size={20} />
         </button>
-        {discount && (
+        {originalPrice && (
           <span className="bg-green-500 text-white text-xs font-medium px-3 py-[2px] rounded-md">
-            {discount}% OFF
+            {(((originalPrice-sellingPrice)/originalPrice)*100).toFixed()}% OFF
           </span>
         )}
 
@@ -62,11 +62,11 @@ const ProductCard = memo(({ product, handleClick}) => {
 
       {/* --- Price Section --- */}
       <div className="flex items-center gap-2 mt-1">
-        <span className="font-semibold text-lg">Rs. {basePrice}</span>
+        <span className="font-semibold text-lg">Rs. {sellingPrice}</span>
 
-        {oldPrice && (
+        {originalPrice && (
           <span className="text-gray-400 line-through text-sm">
-            Rs. {oldPrice}
+            Rs. {originalPrice}
           </span>
         )}
       </div>

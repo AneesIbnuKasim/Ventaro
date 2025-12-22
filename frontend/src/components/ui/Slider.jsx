@@ -53,7 +53,7 @@ export default function Slider({
               className="shrink-0"
               style={{ minWidth: itemWidth }}
               onClick={()=>handleClick(item._id)}
-            >
+              >
               {renderItem(item)}
             </div>
           ))}

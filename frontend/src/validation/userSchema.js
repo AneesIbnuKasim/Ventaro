@@ -35,15 +35,19 @@ export const productAddSchema = Yup.object({
     .positive("Stock must be greater than 0")
     .integer("Stock must be a whole number")
     .required("Stock is required"),
-  basePrice: Yup.number("basebasePrice must be a number")
-    .positive("basePrice must be greater than 0")
-    .integer("basePrice must be a whole number")
-    .required("basePrice required"),
+  sellingPrice: Yup.number("Base price must be a number")
+    .positive("sellingPrice must be greater than 0")
+    .integer("sellingPrice must be a whole number")
+    .required("sellingPrice required"),
+  originalPrice: Yup.number("Base price must be a number")
+    .positive("sellingPrice must be greater than 0")
+    .integer("sellingPrice must be a whole number")
+    .nullable().notRequired(),
   brandName: Yup.string().required("Brand name is required"),
   description: Yup.string()
     .min(8, "Description must be at least 8 characters")
     .required("Description is required"),
-  discount: Yup.number("Discount must be a Number").min(0).max(100).optional(),
+  originalPrice: Yup.number("Original Price must be a Number").min(Yup.ref('sellingPrice'), 'Original price should be greater than base price').nullable().notRequired,
 });
 
 // USER SECTION

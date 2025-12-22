@@ -24,9 +24,9 @@ class ProductService {
 
       if (minPrice || maxPrice) {
         if (minPrice && maxPrice) {
-          filter.basePrice = { $gte: minPrice, $lte: maxPrice };
-        } else if (minPrice) filter.basePrice = { $gte: minPrice };
-        else if (maxPrice) filter.basePrice = { $lte: maxPrice };
+          filter.sellingPrice = { $gte: minPrice, $lte: maxPrice };
+        } else if (minPrice) filter.sellingPrice = { $gte: minPrice };
+        else if (maxPrice) filter.sellingPrice = { $lte: maxPrice };
       }
 
       if (rating) filter.rating = { $gte: rating };
@@ -89,9 +89,9 @@ class ProductService {
 
       if (minPrice || maxPrice) {
         if (minPrice && maxPrice) {
-          filter.basePrice = { $gte: minPrice, $lte: maxPrice };
-        } else if (minPrice) filter.basePrice = { $gte: minPrice };
-        else if (maxPrice) filter.basePrice = { $lte: maxPrice };
+          filter.sellingPrice = { $gte: minPrice, $lte: maxPrice };
+        } else if (minPrice) filter.sellingPrice = { $gte: minPrice };
+        else if (maxPrice) filter.sellingPrice = { $lte: maxPrice };
       }
 
       if (rating) filter.rating = { $lte: rating };
@@ -291,9 +291,9 @@ class ProductService {
 
       if (minPrice || maxPrice) {
         if (minPrice && maxPrice) {
-          filter.basePrice = { $gte: minPrice, $lte: maxPrice };
-        } else if (minPrice) filter.basePrice = { $gte: minPrice };
-        else if (maxPrice) filter.basePrice = { $lte: maxPrice };
+          filter.sellingPrice = { $gte: minPrice, $lte: maxPrice };
+        } else if (minPrice) filter.sellingPrice = { $gte: minPrice };
+        else if (maxPrice) filter.sellingPrice = { $lte: maxPrice };
       }
 
       const sortObj = { [sortBy]: sortOrder };
@@ -364,9 +364,9 @@ class ProductService {
 
   //       if (minPrice || maxPrice) {
   //         if (minPrice && maxPrice) {
-  //           filter.basePrice = { $gte: minPrice, $lte: maxPrice };
-  //         } else if (minPrice) filter.basePrice = { $gte: minPrice };
-  //         else if (maxPrice) filter.basePrice = { $lte: maxPrice };
+  //           filter.sellingPrice = { $gte: minPrice, $lte: maxPrice };
+  //         } else if (minPrice) filter.sellingPrice = { $gte: minPrice };
+  //         else if (maxPrice) filter.sellingPrice = { $lte: maxPrice };
   //       }
 
   //       if (rating) filter.rating = { $gte: rating };

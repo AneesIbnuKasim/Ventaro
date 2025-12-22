@@ -5,7 +5,7 @@ class CartController extends BaseController {
   static fetchCart = BaseController.asyncHandler(async (req, res) => {
     const cart = await CartService.fetchCart(req.user._id);
     BaseController.logAction("FETCH-CART", cart);
-    BaseController.sendSuccess(res, "Cart fetched Successfully", cart, 200);
+    BaseController.sendSuccess(res, "Cart fetched Successfully", { cart }, 200);
   });
 
   static addToCart = BaseController.asyncHandler(async (req, res) => {
