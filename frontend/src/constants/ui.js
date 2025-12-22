@@ -24,6 +24,7 @@ export const LOGIN_CARD_STYLES = {
 
 export const BUTTON_VARIANTS = {
   primary: 'bg-blue-600 text-white hover:bg-blue-700',
+  custom: 'bg-purple-600 text-white hover:bg-purple-700',
   secondary: 'bg-gray-600 text-white hover:bg-gray-700',
   success: 'bg-green-600 text-white hover:bg-green-700',
   danger: 'bg-red-600 text-white hover:bg-red-700',

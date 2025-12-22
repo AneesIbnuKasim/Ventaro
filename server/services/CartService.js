@@ -161,6 +161,9 @@ class CartService {
         }
       ).populate("items.product");
 
+      console.log('remove cart', cart);
+      
+
       if (!cart) {
         throw new NotFoundError("Product not found", 404);
       }
@@ -293,14 +296,16 @@ class CartService {
     const cart = await Cart.findOne({user: userId})
 
     if (!cart) throw new NotFoundError('Cart not found')
-
+console.log('here in removw api:', cart);
+    
     cart.appliedCoupon = null
     cart.discountTotal = 0
     cart.grandTotal = cart.subTotal
-
+    
     await cart.save()
-
-    return cart
+    
+    console.log('here in removw api:', cart);
+    return {cart}
   }
 }
 

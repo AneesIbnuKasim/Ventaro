@@ -8,10 +8,10 @@ const syncCartDebounced = debounce(async (items, store) => {
     const res = await cartAPI.syncCart(items)
 
     //dispatch to update state as per returned data from BE
-    store.dispatch({
-      type: 'cartSlice/cartSynced',
-      payload: res.data
-    })
+    // store.dispatch({
+    //   type: 'cartSlice/cartSynced',
+    //   payload: res.data
+    // })
     //Rollback state to the initial if any error updating in BE
   } catch (err) {
     store.dispatch({
@@ -19,7 +19,7 @@ const syncCartDebounced = debounce(async (items, store) => {
       payload: err.message
     })
   }
-}, 1500);
+}, 500);
 
 export const cartSyncMiddleware = store => next => action => {
   const result = next(action);

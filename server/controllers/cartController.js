@@ -43,6 +43,8 @@ class CartController extends BaseController {
   });
 
   static removeCoupon = BaseController.asyncHandler(async (req, res) => {
+    console.log('heere in remove controller');
+    
     const cart = await CartService.removeCoupon(req.user._id);
     BaseController.sendSuccess(res, "Coupon removed successfully", cart);
   });

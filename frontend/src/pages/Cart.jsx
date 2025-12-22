@@ -165,7 +165,7 @@ const Cart = memo(() => {
                 </div>
 
                 <button className="w-full bg-purple-600 text-white py-3 rounded-lg font-medium">
-                  PLACE ORDER
+                  CHECKOUT
                 </button>
               </div>
             </div>

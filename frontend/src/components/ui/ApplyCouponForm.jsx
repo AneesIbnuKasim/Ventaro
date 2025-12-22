@@ -1,9 +1,10 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { applyCouponThunk } from "../../redux/slices/cartSlice";
+import { applyCouponThunk, removeCouponThunk } from "../../redux/slices/cartSlice";
 import Button from "./Button";
 import FormInput from "./FormInput";
+import { toast } from "react-toastify";
 
 const CouponSchema = Yup.object({
   code: Yup.string()
@@ -21,21 +22,28 @@ const ApplyCouponForm = () => {
   console.log('applied in form:', appliedCoupon);
   
   return (
+    <>
     <Formik
       initialValues={{ code: appliedCoupon?.code  }}
       enableReinitialize
       validationSchema={CouponSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        dispatch(
-          applyCouponThunk({
-            code: values.code.toUpperCase(),
-          })
+        if ( appliedCoupon?.code ) {
+          console.log('here in remove');
+          
+          dispatch(
+          removeCouponThunk()
         )
           .unwrap()
           .then(() => {
             resetForm();
           })
           .finally(() => setSubmitting(false));
+        } else {
+          dispatch(applyCouponThunk({
+            code: values.code.toUpperCase()
+          })).unwrap().finally(() => setSubmitting(false))
+        }
       }}
     >
       {({ isSubmitting }) => (
@@ -44,7 +52,7 @@ const ApplyCouponForm = () => {
             <Field
               name="code"
               as={FormInput}
-              // value = {appliedCoupon.code ? appliedCoupon.code: null}
+              disabled={appliedCoupon !== null ? true : false}
               placeholder="Enter coupon code"
               autoComplete="off"
             />
@@ -53,30 +61,32 @@ const ApplyCouponForm = () => {
               component="p"
               className="text-xs text-red-500 mt-1"
             />
+            {/* VALIDATION API Error */}
+                {couponError && (
+                  <p className="text-sm text-red-500 mt-1">{couponError}</p>
+                )}
+      
+                {/* Success */}
+                {appliedCoupon && (
+                  <p className="text-sm text-green-600 mt-1 ">
+                    Coupon <b>{appliedCoupon.code}</b> applied 🎉
+                  </p>
+                )}
           </div>
 
           <Button
-            className=" bg-purple-600"
+            variant='custom'
             type="submit"
             disabled={isSubmitting || applyingCoupon}
           >
-            {applyingCoupon ? "Applying..." : "Apply"}
+            {applyingCoupon ? "Please wait..." : appliedCoupon !== null ? 'REMOVE' : 'APPLY'}
           </Button>
-
-          {/* API Error */}
-          {couponError && (
-            <p className="text-sm text-red-500 mt-1">{couponError}</p>
-          )}
-
-          {/* Success */}
-          {appliedCoupon && (
-            <p className="text-sm text-green-600 mt-1">
-              Coupon <b>{appliedCoupon.code}</b> applied 🎉
-            </p>
-          )}
+         
+          
         </Form>
       )}
     </Formik>
+    </>
   );
 };
 

@@ -47,6 +47,8 @@ const cartAPI = {
 
     //validate and apply coupon
     applyCoupon: (data) => {
+        console.log('in apply coupon sender');
+        
         return makeRequest(({
             method: 'post',
             url: `/api/cart/apply-coupon`,
@@ -55,11 +57,12 @@ const cartAPI = {
     },
 
     //remove coupon
-    removeCoupon: (data) => {
+    removeCoupon: () => {
+        console.log('seending remove');
+        
         return makeRequest(({
-            method: 'post',
+            method: 'delete',
             url: `/api/cart/remove-coupon`,
-            data
         }))
     },
     

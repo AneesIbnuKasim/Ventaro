@@ -66,8 +66,6 @@ export const removeFromCartThunk = createAsyncThunk(
   "cart/remove",
   async (itemId, { rejectWithValue }) => {
     try {
-      console.log("in remove cart thunk");
-
       const response = await cartAPI.removeFromCart(itemId);
 
       console.log("delete rs:", response);
@@ -78,18 +76,42 @@ export const removeFromCartThunk = createAsyncThunk(
   }
 );
 
+
+// REMOVE PRODUCTS FROM CART THUNK
+export const removeCouponThunk= createAsyncThunk(
+  "cart/removeCoupon",
+  async (_, { rejectWithValue }) => {
+    try {
+      console.log("in remove coupon thunk");
+
+      const response = await cartAPI.removeCoupon();
+      console.log('remove response:', response.data);
+      
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 //re-calculate price helper
 const recalculateTotals = state => {
+  console.log('state subtotla before', state.subTotal);
+  
   state.subTotal = state.items.reduce((acc, item) => (
-    acc + item.price * item. quantity
-  ))
+    acc + item.basePrice * item. quantity
+  ), 0)
+  console.log('sub total in recalculate:', state.subTotal);
+  
 
-  if (state.appliedCoupon) {
-    state.appliedCoupon = null
-    state.discountTotal = 0
+  if (state?.appliedCoupon?.code) {
+    if (state.appliedCoupon.discountType === 'PERCENT') {
+      state.discountTotal = ((state.subTotal * state.appliedCoupon.discountValue)/100)
+    }
+    else state.discountTotal = state.appliedCoupon.discountValue
   }
 
-  state.grandTotal = state.subTotal
+  state.grandTotal = state.subTotal - state.discountTotal
 }
 
 //CREATE SLICE FOR CART
@@ -114,8 +136,10 @@ const cartSlice = createSlice({
         
         //immediate ui update for totals while BE operation is debouncing
         state.subTotal = state.items.reduce((sum, item) => (
-          sum + item.sellingPrice * item.quantity
+          sum + item.basePrice * item.quantity
         ), 0)
+
+        //calculate coupon 
         
         console.log('item subtot', state.items);
 
@@ -123,6 +147,8 @@ const cartSlice = createSlice({
         // state.appliedCoupon = null
         // state.discountTotal = 0
         // state.grandTotal = state.subTotal
+
+        recalculateTotals(state)
 
       },
       
@@ -191,7 +217,7 @@ cartSyncFailed(state, action) {
         state.loading = true;
       })
       .addCase(removeFromCartThunk.fulfilled, (state, action) => {
-        console.log("action.payload", action.payload);
+        console.log("action.tremove from cart.payload", action.payload);
 
         const cart = action.payload.cart;
         state.items = cart.items;
@@ -228,7 +254,23 @@ cartSyncFailed(state, action) {
         state.grandTotal = state.subTotal
       })
 
-    //
+    //REMOVE COUPON
+     //APPLY COUPON ON CART ITEMS
+      .addCase(removeCouponThunk.pending, (state) => {
+        state.applyingCoupon = true
+        state.couponError = null
+      })
+      .addCase(removeCouponThunk.fulfilled, (state, action) => {
+        const cart = action.payload.cart;
+        state.applyingCoupon = false;
+        state.discountTotal = cart.discountTotal;
+        state.grandTotal = cart.grandTotal;
+        state.appliedCoupon = cart.appliedCoupon
+      })
+      .addCase(removeCouponThunk.rejected, (state, action) => {
+        state.applyingCoupon = false;
+        state.couponError = action.payload
+      })
   },
 });
 
