@@ -33,5 +33,9 @@ module.exports = {
     LEVEL: process.env.LOG_LEVEL || 'info',
     MAX_FILES: 5,
     MAX_SIZE: '20m'
-  }
+  },
+
+  FREE_SHIPPING_THRESHOLD: 499,
+  DELIVERY_FEE : 40,
+  COD_FEE: 10
 }

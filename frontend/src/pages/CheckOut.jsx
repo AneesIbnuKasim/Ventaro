@@ -10,6 +10,7 @@ import { selectCartTotals } from "../redux/selector/cartSelector";
 import { CURRENCY } from "../constants/ui";
 import { setDeliveryAddress, setPaymentMethod } from "../redux/slices/checkoutSlice";
 import { checkoutTotal } from "../redux/selector/checkoutSelector";
+import paymentAPI from "../services/paymentService";
 
 const  CheckOut = memo(() => {
   const { user, getProfile } = useUser()
@@ -42,6 +43,12 @@ useEffect(() => {
     
 }, [paymentMethod, deliveryAddress])
 
+const handlePlaceOrder = async() => {
+    if (paymentMethod === 'razorpay') {
+        await paymentAPI.createRazorpayOrder({paymentMethod, deliveryAddress})
+    }
+}
+
   return (
     <div className="bg-gray-100 min-h-screen py-10">
       <div className="max-w-[1240px] mx-auto px-4">
@@ -62,7 +69,7 @@ useEffect(() => {
                   <label
                     key={addr._id}
                     className={`flex gap-4 p-4 rounded-lg border cursor-pointer transition ${
-                      deliveryAddress === addr._id
+                      deliveryAddress._id === addr._id
                         ? "border-purple-600 bg-purple-50"
                         : "border-gray-200"
                     }`}
@@ -70,8 +77,8 @@ useEffect(() => {
                     <input
                       type="radio"
                       name="address"
-                      checked={deliveryAddress === addr._id}
-                      onChange={() => dispatch(setDeliveryAddress(addr._id))}
+                      checked={deliveryAddress._id === addr._id}
+                      onChange={() => dispatch(setDeliveryAddress(addr))}
                       className="mt-1"
                     />
                     <div className="flex-1">
@@ -191,6 +198,7 @@ useEffect(() => {
 
             <button
               disabled={!deliveryAddress || !paymentMethod}
+              onClick={handlePlaceOrder}
               className="w-full bg-purple-600 text-white py-3 rounded-lg font-medium hover:bg-purple-700 disabled:opacity-50"
             >
               PLACE ORDER
