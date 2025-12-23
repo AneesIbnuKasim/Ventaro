@@ -162,7 +162,7 @@ useEffect(() => {
               </div>
               <div className="flex justify-between">
                 <span>Grand Total</span>
-                <span>₹{cart.grandTotal}</span>
+                <span>₹{cart.payableTotal}</span>
               </div>
             </div>
 
@@ -170,7 +170,7 @@ useEffect(() => {
 
             <div className="flex justify-between font-semibold text-lg mb-4">
               <span>Total</span>
-              <span>₹{cart.grandTotal + shipping}</span>
+              <span>₹{cart.payableTotal + shipping}</span>
             </div>
 
             <button

@@ -39,15 +39,20 @@ class CartService {
     );
   };
 
+//   //CALCULATE SHIPPING FEES
+//   static calculateShippingFee = (cart) => {
+//     if (cart.payableTotal)  
+//   }
+
   //CALCULATE GRAND TOTAL-AFTER DISCOUNT
-  static recalculateGrandTotal(cart) {
+  static recalculatePayableTotal(cart) {
     return cart.items.reduce((acc, item) => acc + item.itemTotal, 0);
   }
 
   static revalidateAppliedCoupon = async (cart, warnings = []) => {
     if (!cart.appliedCoupon) {
       cart.discountTotal = 0;
-      cart.grandTotal = cart.subTotal;
+      cart.payableTotal = cart.subTotal;
       return;
     }
 
@@ -59,12 +64,14 @@ class CartService {
           cart.items
         );
         cart.discountTotal = discount;
-        cart.grandTotal = finalAmount;
+
+        
+        cart.payableTotal = finalAmount;
       } catch (error) {
         //invalid coupon
         cart.appliedCoupon = null;
         cart.discountTotal = 0;
-        cart.grandTotal = cart.subTotal;
+        cart.payableTotal = cart.subTotal;
         warnings.push({ message: "Coupon removed: " + error.message });
       }
     }
@@ -282,7 +289,8 @@ class CartService {
     }
 
     cart.discountTotal = result.discount
-    cart.grandTotal = result.finalAmount
+    cart.payableTotal = result.finalAmount
+
 
     console.log('applied cart:', cart);
     
@@ -300,7 +308,7 @@ console.log('here in remove api:', cart);
     
     cart.appliedCoupon = null
     cart.discountTotal = 0
-    cart.grandTotal = cart.subTotal
+    cart.payableTotal = cart.subTotal
     
     await cart.save()
     

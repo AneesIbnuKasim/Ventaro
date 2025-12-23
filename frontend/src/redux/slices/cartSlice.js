@@ -1,15 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import cartAPI from "../../services/cartService";
+import { selectPayableTotal, selectSubTotal } from "../selector/cartSelector";
+import { useSelector } from "react-redux";
 
 // const persistedCart = JSON.parse(localStorage.getItem("cart"));
 // console.log("cart reducer initialized", persistedCart);
 
 const initialState = {
   items: [],
-  totalQuantity: 0,
-  subTotal: 0,
-  discountTotal: 0,
-  grandTotal: 0,
   appliedCoupon: null,
   applyingCoupon: false,
   couponError: null,
@@ -21,7 +19,6 @@ const initialState = {
 export const addCartThunk = createAsyncThunk(
   "cart/add",
   async (data, { rejectWithValue }) => {
-
     try {
       const response = await cartAPI.addToCart(data);
 
@@ -49,17 +46,21 @@ export const fetchCartThunk = createAsyncThunk(
 );
 
 // //validate And ApplyCouponThunk
-export const applyCouponThunk = createAsyncThunk('cart/applyCoupon', async(data, {rejectWithValue}) => {
-  try {
-    const response = await cartAPI.applyCoupon(data)
-    console.log('apply coupon res:', response.data);
-    
-    return response.data
-  } catch (error) {
-    return rejectWithValue(error?.response?.data?.message) || 'Invalid Coupon'
-  }
-})
+export const applyCouponThunk = createAsyncThunk(
+  "cart/applyCoupon",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await cartAPI.applyCoupon(data);
+      console.log("apply coupon res:", response.data);
 
+      return response.data;
+    } catch (error) {
+      return (
+        rejectWithValue(error?.response?.data?.message) || "Invalid Coupon"
+      );
+    }
+  }
+);
 
 // REMOVE PRODUCTS FROM CART THUNK
 export const removeFromCartThunk = createAsyncThunk(
@@ -76,43 +77,22 @@ export const removeFromCartThunk = createAsyncThunk(
   }
 );
 
-
 // REMOVE PRODUCTS FROM CART THUNK
-export const removeCouponThunk= createAsyncThunk(
+export const removeCouponThunk = createAsyncThunk(
   "cart/removeCoupon",
   async (_, { rejectWithValue }) => {
     try {
       console.log("in remove coupon thunk");
 
       const response = await cartAPI.removeCoupon();
-      console.log('remove response:', response.data);
-      
+      console.log("remove response:", response.data);
+
       return response.data;
     } catch (error) {
       return rejectWithValue(error);
     }
   }
 );
-
-//re-calculate price helper
-const recalculateTotals = state => {
-  console.log('state subtotla before', state.subTotal);
-  
-  state.subTotal = state.items.reduce((acc, item) => (
-    acc + item.basePrice * item. quantity
-  ), 0)
-  console.log('sub total in recalculate:', state.subTotal);
-  
-
-  if (state?.appliedCoupon?.code) {
-    if (state.appliedCoupon.discountType === 'PERCENT') {
-      state.discountTotal = ((state.subTotal * state.appliedCoupon.discountValue)/100)
-    }
-    else state.discountTotal = state.appliedCoupon.discountValue
-  }
-
-  state.grandTotal = state.subTotal - state.discountTotal
-}
 
 //CREATE SLICE FOR CART
 const cartSlice = createSlice({
@@ -132,27 +112,23 @@ const cartSlice = createSlice({
           state.items = state.items.filter((i) => i._id !== itemId);
         }
 
-        
-        
         //immediate ui update for totals while BE operation is debouncing
-        state.subTotal = state.items.reduce((sum, item) => (
-          sum + item.basePrice * item.quantity
-        ), 0)
+        // state.subTotal = state.items.reduce(
+        //   (sum, item) => sum + item.basePrice * item.quantity,
+        //   0
+        // );
 
-        //calculate coupon 
-        
-        console.log('item subtot', state.items);
+        //calculate coupon
+
+        console.log("item subtot", state.items);
 
         // coupon temporarily removed in ui
         // state.appliedCoupon = null
         // state.discountTotal = 0
-        // state.grandTotal = state.subTotal
+        // state.payableTotal = state.subTotal
 
-        recalculateTotals(state)
-
+        // recalculateTotals(state);
       },
-      
-
 
       prepare: (payload, meta) => {
         return {
@@ -162,12 +138,12 @@ const cartSlice = createSlice({
       },
     },
     cartSynced(state, action) {
-  return action.payload.cart; // FULL cart replace
-},
+      return action.payload.cart; // FULL cart replace
+    },
 
-cartSyncFailed(state, action) {
-  state.error = action.payload;
-}
+    cartSyncFailed(state, action) {
+      state.error = action.payload;
+    },
   },
 
   extraReducers: (builder) => {
@@ -179,10 +155,6 @@ cartSyncFailed(state, action) {
         console.log("state.items.cart", action.payload.cart);
         const cart = action.payload.cart;
         state.items = cart.items;
-        state.totalQuantity = cart.totalQuantity;
-        state.subTotal = cart.subTotal;
-        state.discountTotal = cart.discountTotal;
-        state.grandTotal = cart.grandTotal;
         state.loading = false;
       })
       .addCase(addCartThunk.rejected, (state, action) => {
@@ -198,14 +170,9 @@ cartSyncFailed(state, action) {
         console.log("fetch action.payload", action.payload);
         const cart = action.payload.cart;
         state.items = cart.items;
-        state.totalQuantity = cart.totalQuantity;
-        state.subTotal = cart.subTotal;
-        state.discountTotal = cart.discountTotal;
-        state.grandTotal = cart.grandTotal;
-        state.appliedCoupon = cart.appliedCoupon
+        state.appliedCoupon = cart.appliedCoupon;
         state.loading = false;
-        console.log('fetch cart final', cart);
-        
+        console.log("fetch cart final", cart);
       })
       .addCase(fetchCartThunk.rejected, (state, action) => {
         state.loading = false;
@@ -221,10 +188,6 @@ cartSyncFailed(state, action) {
 
         const cart = action.payload.cart;
         state.items = cart.items;
-        state.totalQuantity = cart.totalQuantity;
-        state.subTotal = cart.subTotal;
-        state.discountTotal = cart.discountTotal;
-        state.grandTotal = cart.grandTotal;
         state.loading = false;
       })
       .addCase(removeFromCartThunk.rejected, (state, action) => {
@@ -234,46 +197,38 @@ cartSyncFailed(state, action) {
 
       //APPLY COUPON ON CART ITEMS
       .addCase(applyCouponThunk.pending, (state) => {
-        state.applyingCoupon = true
-        state.couponError = null
+        state.applyingCoupon = true;
+        state.couponError = null;
       })
       .addCase(applyCouponThunk.fulfilled, (state, action) => {
         console.log("action.payload", action.payload);
 
         const cart = action.payload.cart;
         state.applyingCoupon = false;
-        state.discountTotal = cart.discountTotal;
-        state.grandTotal = cart.grandTotal;
-        state.appliedCoupon = cart.appliedCoupon
+        state.appliedCoupon = cart.appliedCoupon;
       })
       .addCase(applyCouponThunk.rejected, (state, action) => {
         state.applyingCoupon = false;
         state.couponError = action.payload,
-        state.appliedCoupon = null,
-        state.discountTotal = 0,
-        state.grandTotal = state.subTotal
+          state.appliedCoupon = null
       })
 
-    //REMOVE COUPON
-     //APPLY COUPON ON CART ITEMS
+      //REMOVE COUPON
       .addCase(removeCouponThunk.pending, (state) => {
-        state.applyingCoupon = true
-        state.couponError = null
+        state.applyingCoupon = true;
+        state.couponError = null;
       })
       .addCase(removeCouponThunk.fulfilled, (state, action) => {
         const cart = action.payload.cart;
         state.applyingCoupon = false;
-        state.discountTotal = cart.discountTotal;
-        state.grandTotal = cart.grandTotal;
-        state.appliedCoupon = cart.appliedCoupon
+        state.appliedCoupon = cart.appliedCoupon;
       })
       .addCase(removeCouponThunk.rejected, (state, action) => {
         state.applyingCoupon = false;
-        state.couponError = action.payload
-      })
+        state.couponError = action.payload;
+      });
   },
 });
 
-export const { updateQuantity, cartSynced, cartSyncFailed } =
-  cartSlice.actions;
+export const { updateQuantity, cartSynced, cartSyncFailed } = cartSlice.actions;
 export default cartSlice.reducer;

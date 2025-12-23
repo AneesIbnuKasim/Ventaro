@@ -20,7 +20,7 @@ const CartSchema = mongoose.Schema({
             min: 1,
             default: 1
         },
-        //selling price when its added to cart
+        //selling price when its added to cart-used to calculate subTotal
         basePrice: {
             type: Number,
             required: true
@@ -30,9 +30,10 @@ const CartSchema = mongoose.Schema({
             type: Number,
             required: true
         },
+        //FINAL UNIT PRICE * QUANTITY
         itemTotal: {
             type: Number,
-            required: true
+            required: true  
         },
     }],
     appliedCoupon: {
@@ -47,15 +48,18 @@ const CartSchema = mongoose.Schema({
         type: Number,
         default: 0
     },
+    //BASE PRICE * QUANTITY
     subTotal: {
         type: Number,
         default: 0
     },
+    //TOTAL DISCOUNT
     discountTotal: {
         type: Number,
         default: 0
     },
-    grandTotal: {
+    //SUB TOTAL - TOTAL DISCOUNT
+    payableTotal: {
         type: Number,
         default: 0
     }
@@ -63,8 +67,3 @@ const CartSchema = mongoose.Schema({
 
 
 module.exports = mongoose.model('Cart', CartSchema)
-
-
-
-
-//finalUnitPrice

@@ -6,7 +6,13 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../components/ui";
 import {
-  selectTotalPrice,
+  selectAppliedCoupon,
+  selectCartItems,
+  selectDiscountTotal,
+  selectPayableTotal,
+  selectRemainingForFreeDelivery,
+  selectShippingFee,
+  selectSubTotal,
   selectTotalQuantity,
 } from "../redux/selector/cartSelector";
 import { removeFromCartThunk, updateQuantity } from "../redux/slices/cartSlice";
@@ -20,11 +26,15 @@ const Cart = memo(() => {
   const { isAuthenticated } = useAuth()
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { items, subTotal, grandTotal, totalQuantity, discountTotal, appliedCoupon } = useSelector((state) => {
-    console.log("stat4.car tin cart", state.cart);
 
-    return state.cart;
-  });
+  const items = useSelector(selectCartItems);
+const totalQuantity = useSelector(selectTotalQuantity);
+const discountTotal = useSelector(selectDiscountTotal);
+const subTotal = useSelector(selectSubTotal);
+const payableTotal = useSelector(selectPayableTotal);
+const estimatedShippingFee = useSelector(selectShippingFee)
+const remAmtForFreeDelivery = useSelector(selectRemainingForFreeDelivery)
+const appliedCoupon = useSelector(selectAppliedCoupon);
   console.log("state", subTotal);
 
 
@@ -161,7 +171,7 @@ const Cart = memo(() => {
                   </div>
                   <div className="flex justify-between font-semibold">
                     <span>TOTAL</span>
-                    <span>{CURRENCY}{grandTotal}</span>
+                    <span>{CURRENCY}{payableTotal}</span>
                   </div>
                 </div>
 
