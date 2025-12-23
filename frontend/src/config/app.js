@@ -23,3 +23,4 @@ export const SHIPPING = {
   freeShippingThreshold : 499,
   shippingFee : 40
 }
+export const COD_FEE = 10

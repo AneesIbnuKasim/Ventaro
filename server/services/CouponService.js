@@ -161,6 +161,43 @@ class CouponService {
             }
         }
     }
+
+
+    static async validateCouponCheckout (code, cartTotal, cartItems) {
+
+        if (!code || !cartTotal) throw new NotFoundError('Coupon code & cart total required', 404) 
+        
+        const coupon = await Coupon.findOne({code: code.toUpperCase()})
+
+        //EXIST CHECK
+        if (!coupon) throw new NotFoundError('Invalid coupon code', 404)
+        
+        //ACTIVE CHECK
+        if (!coupon.isActive) throw new ValidationError('Coupon not active', 400)
+        
+        //EXPIRY CHECK
+        if (coupon.endDate < new Date()) throw new ValidationError('Coupon expired', 400)
+
+        //USAGE LIMIT CHECK
+        if (coupon.usageLimit && coupon.usedCount >= coupon.usageLimit) throw new ValidationError('Coupon usage limit exceeded', 400)
+        
+        //MINIMUM CART VALUE
+        if (coupon.minOrderAmount && cartTotal < coupon.minOrderAmount) throw new ValidationError(`Minimum cart value ${coupon.minOrderAmount} required`, 400)
+        if ( cartTotal < 100) throw new ValidationError(`Minimum cart value ${100} required`, 400)
+
+        //category check
+        if (coupon.applicableCategories?.length) {
+
+            const isApplicable = cartItems.some(item => (
+                coupon.applicableCategories.includes(item.product.categoryId)
+            ))
+
+            if (!isApplicable) throw new ValidationError('Coupon not applicable to selected items', 400)
+                
+            } 
+            return true
+    
+    }
 }
 
 module.exports = CouponService

@@ -112,22 +112,6 @@ const cartSlice = createSlice({
           state.items = state.items.filter((i) => i._id !== itemId);
         }
 
-        //immediate ui update for totals while BE operation is debouncing
-        // state.subTotal = state.items.reduce(
-        //   (sum, item) => sum + item.basePrice * item.quantity,
-        //   0
-        // );
-
-        //calculate coupon
-
-        console.log("item subtot", state.items);
-
-        // coupon temporarily removed in ui
-        // state.appliedCoupon = null
-        // state.discountTotal = 0
-        // state.payableTotal = state.subTotal
-
-        // recalculateTotals(state);
       },
 
       prepare: (payload, meta) => {

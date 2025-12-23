@@ -3,36 +3,44 @@ import { Button } from "../components/ui";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
 import { getUser } from "../utils/apiClient";
-import { Icon } from "lucide-react";
-import { FaHome } from "react-icons/fa";
 import { MdDeliveryDining } from "react-icons/md";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { API_CONFIG } from "../config/app";
+import { selectCartTotals } from "../redux/selector/cartSelector";
+import { CURRENCY } from "../constants/ui";
+import { setDeliveryAddress, setPaymentMethod } from "../redux/slices/checkoutSlice";
+import { checkoutTotal } from "../redux/selector/checkoutSelector";
 
 const  CheckOut = memo(() => {
-  const [selectedAddress, setSelectedAddress] = useState("addr1");
-  const [paymentMethod, setPaymentMethod] = useState("razorpay");
   const { user, getProfile } = useUser()
   const navigate = useNavigate()
-  const hasUser = Object.keys(user ?? []).length !== 0
-  const userProfile = getUser()
-  console.log('prof', userProfile);
-  const addresses = user.addresses
-  const cart = useSelector(state=>state.cart)
-  const {items} = useSelector(state=>state.cart)
-  
-  console.log('userrrrrr', items);
+  const hasUser = Object.keys(user ?? []).length !== 0  //check user object is empty or not from keys length
+  const userProfile = getUser()  //get user details from local storage
+  const addresses = user.addresses 
+  const dispatch = useDispatch()
+const {
+  items,
+  totalQuantity,
+  subTotal,
+  discountTotal,
+  payableTotal,
+  shippingFee,
+  grandTotal,
+
+} = useSelector(selectCartTotals);
+const { codFee, finalPayable } = useSelector(checkoutTotal)
+
+const { paymentMethod, deliveryAddress } = useSelector(state => state.checkout)
   
 useEffect(() => {
     if (!hasUser) {
-       console.log('in hook');
        getProfile(userProfile.id)
     }
 }, [])
-
-  const subTotal = 35000;
-  const shipping = 40;
-  const total = subTotal + shipping;
+useEffect(() => {
+    console.log('payment', paymentMethod, deliveryAddress);
+    
+}, [paymentMethod, deliveryAddress])
 
   return (
     <div className="bg-gray-100 min-h-screen py-10">
@@ -54,7 +62,7 @@ useEffect(() => {
                   <label
                     key={addr._id}
                     className={`flex gap-4 p-4 rounded-lg border cursor-pointer transition ${
-                      selectedAddress === addr._id
+                      deliveryAddress === addr._id
                         ? "border-purple-600 bg-purple-50"
                         : "border-gray-200"
                     }`}
@@ -62,8 +70,8 @@ useEffect(() => {
                     <input
                       type="radio"
                       name="address"
-                      checked={selectedAddress === addr._id}
-                      onChange={() => setSelectedAddress(addr._id)}
+                      checked={deliveryAddress === addr._id}
+                      onChange={() => dispatch(setDeliveryAddress(addr._id))}
                       className="mt-1"
                     />
                     <div className="flex-1">
@@ -91,7 +99,7 @@ useEffect(() => {
                     type="radio"
                     name="payment"
                     checked={paymentMethod === "razorpay"}
-                    onChange={() => setPaymentMethod("razorpay")}
+                    onChange={() => dispatch(setPaymentMethod('razorpay'))}
                   />
                   <div>
                     <p className="font-medium">Razorpay</p>
@@ -104,7 +112,7 @@ useEffect(() => {
                     type="radio"
                     name="payment"
                     checked={paymentMethod === "wallet"}
-                    onChange={() => setPaymentMethod("wallet")}
+                    onChange={() => dispatch(setPaymentMethod('wallet'))}
                   />
                   <div>
                     <p className="font-medium">Wallet</p>
@@ -117,7 +125,7 @@ useEffect(() => {
                     type="radio"
                     name="payment"
                     checked={paymentMethod === "cod"}
-                    onChange={() => setPaymentMethod("cod")}
+                    onChange={() => dispatch(setPaymentMethod('cod'))}
                   />
                   <div>
                     <p className="font-medium">Cash on Delivery</p>
@@ -128,7 +136,7 @@ useEffect(() => {
             </div>
           </div>
 
-          {/* RIGHT SECTION */}
+          {/* RIGHT SECTION SUMMARY */}
           <div className="bg-white rounded-xl shadow-sm p-6 h-fit sticky top-6">
             <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
 
@@ -150,19 +158,27 @@ useEffect(() => {
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span>Subtotal</span>
-                <span>₹{cart.subTotal}</span>
+                <span>₹{subTotal}</span>
               </div>
               <div className="flex justify-between">
                 <span>Shipping</span>
-                <span>₹{shipping}</span>
+                <span>₹{shippingFee}</span>
               </div>
+              { paymentMethod === 'cod' && (
+                <div className="flex justify-between">
+                <span>Cod fee</span>
+                <span>₹{codFee}</span>
+              </div>
+              )}
               <div className="flex justify-between">
-                <span>Discount</span>
-                <span>₹{cart.discountTotal}</span>
-              </div>
+                    <span className="text-gray-500">Discount</span>
+                    <span className="text-green-600">
+                      -{CURRENCY}{discountTotal}
+                    </span>
+                  </div>
               <div className="flex justify-between">
                 <span>Grand Total</span>
-                <span>₹{cart.payableTotal}</span>
+                <span>₹{payableTotal}</span>
               </div>
             </div>
 
@@ -170,11 +186,11 @@ useEffect(() => {
 
             <div className="flex justify-between font-semibold text-lg mb-4">
               <span>Total</span>
-              <span>₹{cart.payableTotal + shipping}</span>
+              <span>₹{finalPayable}</span>
             </div>
 
             <button
-              disabled={!selectedAddress || !paymentMethod}
+              disabled={!deliveryAddress || !paymentMethod}
               className="w-full bg-purple-600 text-white py-3 rounded-lg font-medium hover:bg-purple-700 disabled:opacity-50"
             >
               PLACE ORDER

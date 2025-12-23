@@ -8,6 +8,7 @@ import { Button } from "../components/ui";
 import {
   selectAppliedCoupon,
   selectCartItems,
+  selectCartTotals,
   selectDiscountTotal,
   selectPayableTotal,
   selectRemainingForFreeDelivery,
@@ -27,18 +28,20 @@ const Cart = memo(() => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const items = useSelector(selectCartItems);
-const totalQuantity = useSelector(selectTotalQuantity);
-const discountTotal = useSelector(selectDiscountTotal);
-const subTotal = useSelector(selectSubTotal);
-const payableTotal = useSelector(selectPayableTotal);
-const estimatedShippingFee = useSelector(selectShippingFee)
-const remAmtForFreeDelivery = useSelector(selectRemainingForFreeDelivery)
-const appliedCoupon = useSelector(selectAppliedCoupon);
-  console.log("state", subTotal);
+const {
+  items,
+  totalQuantity,
+  subTotal,
+  discountTotal,
+  payableTotal,
+  shippingFee,
+  grandTotal,
+  remainingForFreeDelivery
+} = useSelector(selectCartTotals);
+  console.log("state", items);
 
 
-  const hasCartItems = items.length > 0;
+  const hasCartItems = true ;
 
   // const totalQuantity = useSelector(selectTotalQuantity);
   // const totalPrice = useSelector(selectTotalPrice);
@@ -157,28 +160,61 @@ const appliedCoupon = useSelector(selectAppliedCoupon);
               </div>
 
               {/* Summary */}
-              <div className="border-b flex flex-col items-end justify-end p-6 space-y-6">
-                <ApplyCouponForm />
+<div className="bg-white rounded-xl shadow-sm p-6 h-fit sticky top-6">
+  <h2 className="text-lg font-semibold mb-4">Cart Summary</h2>
+  <ApplyCouponForm />
 
-                <div className="space-y-3 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-gray-500">SUBTOTAL</span>
-                    <span>{CURRENCY}{subTotal}</span>
-                  </div>
-                  <div className="flex justify-between gap-2">
-                    <span className="text-gray-500">DISCOUNT</span>
-                    <span>{CURRENCY}{discountTotal}</span>
-                  </div>
-                  <div className="flex justify-between font-semibold">
-                    <span>TOTAL</span>
-                    <span>{CURRENCY}{payableTotal}</span>
-                  </div>
-                </div>
+  {/* Free delivery banner */}
+  {shippingFee === 0 ? (
+    <div className="bg-green-100 text-green-700 text-sm px-4 py-2 rounded-lg font-medium">
+      🎉 You have unlocked FREE DELIVERY
+    </div>
+  ) : (
+    <div className="bg-yellow-100 text-yellow-800 text-sm px-4 py-2 rounded-lg font-medium">
+      🚚 Add <span className="font-semibold">{CURRENCY}{remainingForFreeDelivery}</span> more for FREE DELIVERY
+    </div>
+  )}
 
-                <button onClick={() => navigate(`/checkout`)} className="w-full bg-purple-600 text-white py-3 rounded-lg font-medium">
-                  CHECKOUT
-                </button>
-              </div>
+  {/* Price breakdown */}
+  <div className="space-y-3 text-sm">
+    <div className="flex justify-between">
+      <span className="text-gray-500">Subtotal</span>
+      <span>{CURRENCY}{subTotal}</span>
+    </div>
+
+    <div className="flex justify-between">
+      <span className="text-gray-500">Discount</span>
+      <span className="text-green-600">
+        -{CURRENCY}{discountTotal}
+      </span>
+    </div>
+
+    <div className="flex justify-between">
+      <span className="text-gray-500">Shipping Fee</span>
+      <span>
+        {shippingFee === 0 ? (
+          <span className="text-green-600 font-medium">FREE</span>
+        ) : (
+          `${CURRENCY}${shippingFee}`
+        )}
+      </span>
+    </div>
+
+    <hr />
+
+    <div className="flex justify-between font-semibold text-base">
+      <span>Grand Total</span>
+      <span>{CURRENCY}{grandTotal}</span>
+    </div>
+  </div>
+
+  <button
+    onClick={() => navigate(`/checkout`)}
+    className="w-full bg-purple-600 hover:bg-purple-700 transition text-white py-3 rounded-lg font-medium"
+  >
+    CHECKOUT
+  </button>
+</div>
             </div>
           </>
         )}

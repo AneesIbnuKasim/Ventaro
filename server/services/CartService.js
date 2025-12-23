@@ -64,7 +64,6 @@ class CartService {
           cart.items
         );
         cart.discountTotal = discount;
-
         
         cart.payableTotal = finalAmount;
       } catch (error) {

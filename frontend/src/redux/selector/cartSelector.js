@@ -51,6 +51,7 @@ export const selectGrandTotal = createSelector(
 
 export const selectCartTotals = createSelector(
   [
+    selectCartItems,
     selectSubTotal,
     selectDiscountTotal,
     selectPayableTotal,
@@ -60,6 +61,7 @@ export const selectCartTotals = createSelector(
     selectRemainingForFreeDelivery
   ],
   (
+    items,
     subTotal,
     discountTotal,
     payableTotal,
@@ -68,6 +70,7 @@ export const selectCartTotals = createSelector(
     totalQuantity,
     remainingForFreeDelivery
   ) => ({
+    items,
     subTotal,
     discountTotal,
     payableTotal,
