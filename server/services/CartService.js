@@ -296,7 +296,7 @@ class CartService {
     const cart = await Cart.findOne({user: userId})
 
     if (!cart) throw new NotFoundError('Cart not found')
-console.log('here in removw api:', cart);
+console.log('here in remove api:', cart);
     
     cart.appliedCoupon = null
     cart.discountTotal = 0
@@ -304,7 +304,7 @@ console.log('here in removw api:', cart);
     
     await cart.save()
     
-    console.log('here in removw api:', cart);
+    console.log('here in remove api:', cart);
     return {cart}
   }
 }

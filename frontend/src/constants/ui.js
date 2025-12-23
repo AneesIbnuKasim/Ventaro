@@ -35,6 +35,7 @@ export const BUTTON_VARIANTS = {
 
   outline: {
     primary: 'border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white',
+    custom: 'border border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white',
     secondary: 'border border-gray-600 text-gray-600 hover:bg-gray-600 hover:text-white',
     success: 'border border-green-600 text-green-600 hover:bg-green-600 hover:text-white',
     danger: 'border border-red-600 text-red-600 hover:bg-red-600 hover:text-white',
@@ -76,3 +77,5 @@ export const BREAKPOINTS = {
   xl: 1200,
   xxl: 1400
 }
+
+export const CURRENCY = '₹'

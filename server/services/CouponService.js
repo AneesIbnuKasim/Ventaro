@@ -121,6 +121,7 @@ class CouponService {
         
         //MINIMUM CART VALUE
         if (coupon.minOrderAmount && cartTotal < coupon.minOrderAmount) throw new ValidationError(`Minimum cart value ${coupon.minOrderAmount} required`, 400)
+        if ( cartTotal < 100) throw new ValidationError(`Minimum cart value ${100} required`, 400)
 
         //category check
         if (coupon.applicableCategories.length) {

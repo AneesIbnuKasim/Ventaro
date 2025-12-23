@@ -13,6 +13,7 @@ import { removeFromCartThunk, updateQuantity } from "../redux/slices/cartSlice";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
 import ApplyCouponForm from "../components/ui/ApplyCouponForm";
+import { CURRENCY } from "../constants/ui";
 
 const Cart = memo(() => {
   const { products, fetchProduct, loadCart } = useProduct();
@@ -90,7 +91,7 @@ const Cart = memo(() => {
                   {items?.map((item) => (
                     <div
                       key={item._id}
-                      className="flex items-start gap-6 border-b p-6"
+                      className="flex items-start gap-6 shadow-gray-300 shadow-sm p-6"
                     >
                       <img
                         src={`http://localhost:5001${item.product.images[0]}`}
@@ -113,7 +114,7 @@ const Cart = memo(() => {
                           Color Variant: White
                         </p>
 
-                        <p className="font-semibold mt-2">{item.price}</p>
+                        <p className="font-semibold mt-2">{CURRENCY}{item.basePrice}</p>
                       </div>
 
                       {/* Quantity */}
@@ -152,19 +153,19 @@ const Cart = memo(() => {
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
                     <span className="text-gray-500">SUBTOTAL</span>
-                    <span>{subTotal}</span>
+                    <span>{CURRENCY}{subTotal}</span>
                   </div>
-                  <div className="flex justify-between">
+                  <div className="flex justify-between gap-2">
                     <span className="text-gray-500">DISCOUNT</span>
-                    <span>{discountTotal}</span>
+                    <span>{CURRENCY}{discountTotal}</span>
                   </div>
                   <div className="flex justify-between font-semibold">
                     <span>TOTAL</span>
-                    <span>{grandTotal}</span>
+                    <span>{CURRENCY}{grandTotal}</span>
                   </div>
                 </div>
 
-                <button className="w-full bg-purple-600 text-white py-3 rounded-lg font-medium">
+                <button onClick={() => navigate(`/checkout`)} className="w-full bg-purple-600 text-white py-3 rounded-lg font-medium">
                   CHECKOUT
                 </button>
               </div>
@@ -179,9 +180,9 @@ const Cart = memo(() => {
         renderItem={(item) => (
           <ProductCard
             product={item}
+            handleClick={(id) => navigate(`/product/${id}`)}
             />
           )}
-          handleClick={() => navigate(`/product/${id}`)}
       />
       <Slider
         title="Yoy May Also Like"

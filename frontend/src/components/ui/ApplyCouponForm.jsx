@@ -34,7 +34,7 @@ const ApplyCouponForm = () => {
           dispatch(
           removeCouponThunk()
         )
-          .unwrap()
+
           .then(() => {
             resetForm();
           })

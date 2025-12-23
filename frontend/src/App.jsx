@@ -35,6 +35,7 @@ const AppLayout = lazy(() => import("./components/AppLayout.jsx"));
 const AdminLayout = lazy(() => import("./components/AdminLayout.jsx"));
 const Cart = lazy(() => import("./pages/Cart.jsx"));
 const Coupons = lazy(() => import("./pages/Coupons.jsx"));
+const CheckOut = lazy(() => import("./pages/CheckOut.jsx"));
 
 const App = () => (
   <BrowserRouter>
@@ -109,6 +110,11 @@ const App = () => (
               <Route path="/cart" element={<AppLayout>
                 <ProtectedRoute>
                   <Cart />
+                </ProtectedRoute>
+              </AppLayout>} />
+              <Route path="/checkout" element={<AppLayout>
+                <ProtectedRoute>
+                  <CheckOut />
                 </ProtectedRoute>
               </AppLayout>} />
 
