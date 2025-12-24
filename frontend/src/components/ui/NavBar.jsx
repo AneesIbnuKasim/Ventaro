@@ -25,7 +25,6 @@ export default function Navbar({
   const navigate = useNavigate();
   const navigateWithReset = useNavigateWithReset();
   
-  
   const [menuOpen, setMenuOpen] = useState(false);
   const { filters, setFilters, setGlobalCategory } = useProduct()
   const [ suggestion, setSuggestion ] = useState()

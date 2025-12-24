@@ -269,6 +269,9 @@ export const ProductProvider = ({ children }) => {
       try {
         dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
 
+        console.log('in prod', category);
+        
+
         const response = await productAPI.fetchProductByCategory(category, {
           sortBy,
           sortOrder,

@@ -69,7 +69,7 @@ class ProductService {
     try {        
       const { sortBy } = req.query;
       let { sortOrder = "asc" } = req.query;
-      const category = req.params.category ?? 'Mobiles';
+      const category = req.params.category ?? 'Mobile';
 
       const categoryDoc = await Category.findOne({
         name: { $regex: `^${category}$`, $options: "i" },

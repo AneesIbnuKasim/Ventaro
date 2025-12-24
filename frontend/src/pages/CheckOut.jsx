@@ -12,6 +12,7 @@ import { setDeliveryAddress, setPaymentMethod } from "../redux/slices/checkoutSl
 import { checkoutTotal } from "../redux/selector/checkoutSelector";
 import paymentAPI from "../services/paymentService";
 import { toast } from "react-toastify";
+import NotFound from "./NotFound";
 
 const  CheckOut = memo(() => {
   const { user, getProfile } = useUser()
@@ -40,9 +41,10 @@ useEffect(() => {
     }
 }, [])
 useEffect(() => {
-    console.log('payment', paymentMethod, deliveryAddress);
+    console.log('wiwer', totalQuantity);
     
-}, [paymentMethod, deliveryAddress])
+    
+}, [])
 
 const openRazorpay = (response) => {
     const options = {
@@ -60,7 +62,7 @@ const openRazorpay = (response) => {
           ...paymentResponse,
           deliveryAddress
         });
-        console.log('be result;', res.data);
+        navigate(`/order-success/${res.orderId}`)
       },
 
       modal: {
@@ -83,8 +85,13 @@ console.log('order data:', data);
     }
 }
 
+{if (totalQuantity === 0) return (
+        <NotFound />
+      )}
+
   return (
     <div className="bg-gray-100 min-h-screen py-10">
+      
       <div className="max-w-[1240px] mx-auto px-4">
         <h1 className="text-2xl font-semibold mb-6">Checkout</h1>
 

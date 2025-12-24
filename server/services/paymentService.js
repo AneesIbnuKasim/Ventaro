@@ -75,8 +75,7 @@ class PaymentService {
         deliveryAddress,
       } = data;
 
-      console.log('dataa at verify server', data);
-      
+      console.log("dataa at verify server", data);
 
       if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature)
         throw new NotFoundError("Missing Razorpay details");
@@ -92,17 +91,15 @@ class PaymentService {
         throw new ValidationError("Payment verification failed");
       }
 
-      console.log('userId', userId);
-      
+      console.log("userId", userId);
 
       //fetch cart again and create order
       const cart = await Cart.findOne({ user: userId });
 
-  
+      if (!cart || !cart.items.length)
+        throw new NotFoundError("Cart not found");
 
-      if (!cart || !cart.items.length) throw new NotFoundError("Cart not found");
-
-      const grandTotal = this.calculatePayable(cart.payableTotal, 'razorpay')
+      const grandTotal = this.calculatePayable(cart.payableTotal, "razorpay");
 
       //CLEAN ADDRESS
       const orderAddress = {
@@ -130,9 +127,17 @@ class PaymentService {
         paidAt: Date.now(),
       });
 
+      cart.items = [];
+      cart.appliedCoupon = null;
+      cart.discountTotal = 0;
+      cart.payableTotal = 0;
+      cart.totalQuantity = 0;
+      cart.subTotal = 0;
+      await cart.save();
+
       return {
         success: true,
-        orderId: order._id
+        orderId: order._id,
       };
     } catch (error) {
       logger.error(error.message);

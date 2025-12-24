@@ -41,7 +41,7 @@ const {
   console.log("state", items);
 
 
-  const hasCartItems = true ;
+  const hasCartItems = items?.length ;
 
   // const totalQuantity = useSelector(selectTotalQuantity);
   // const totalPrice = useSelector(selectTotalPrice);
@@ -59,6 +59,11 @@ const {
     };
     load();
   }, []);
+
+  useEffect(() => {
+    console.log('has cart', hasCartItems);
+    
+  }, [])
 
   const decreaseQuantity = (itemId) => {
     dispatch(
@@ -79,6 +84,8 @@ const {
     }
   };
 
+
+
   return (
     <div className="bg-gray-100 py-10 px-5">
       <div className="max-w-7xl mx-auto bg-white rounded-xl p-8">
@@ -89,7 +96,7 @@ const {
             <Button
               className="p-5"
               size="md"
-              onClick={() => navigate(`/products/mobiles`)}
+              onClick={() => navigate(`/products/Mobile`)}
             >
               HOME
             </Button>
