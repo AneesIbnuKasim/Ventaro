@@ -24,3 +24,8 @@ export const SHIPPING = {
   shippingFee : 40
 }
 export const COD_FEE = 10
+
+export const RAZORPAY = {
+  API: import.meta.env.VITE_RAZORPAY_API,
+  KEY: import.meta.env.VITE_RAZORPAY_SECRET
+}

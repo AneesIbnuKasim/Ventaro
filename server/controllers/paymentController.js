@@ -3,8 +3,17 @@ const BaseController = require("./baseController");
 
 
  class PaymentController extends BaseController {
+
     static createRazorpayOrder = BaseController.asyncHandler(async(req, res) => {
-        const result = await PaymentService.createRazorpayOrder(req.user._id, req.body)
+        const data = await PaymentService.createRazorpayOrder(req.user._id, req.body)
+        BaseController.logAction(res, 'RAZORPAY-ORDER', 'Razor pay payment order created')
+        BaseController.sendSuccess(res, 'Razorpay payment order created successfully', data, 201)
+    })
+
+    static verifyRazorpayOrder = BaseController.asyncHandler(async(req, res) => {
+        const result = await PaymentService.verifyRazorpayOrder(req.user._id, req.body)
+        BaseController.logAction(res, 'RAZORPAY-VERIFICATION', 'Razor pay verification completed')
+        BaseController.sendSuccess(res, 'Razorpay payment verification completed successfully', 200)
     })
 }
 

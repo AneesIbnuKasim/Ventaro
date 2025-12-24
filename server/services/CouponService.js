@@ -165,6 +165,9 @@ class CouponService {
 
     static async validateCouponCheckout (code, cartTotal, cartItems) {
 
+        console.log('code:', code, cartTotal, cartItems);
+        
+
         if (!code || !cartTotal) throw new NotFoundError('Coupon code & cart total required', 404) 
         
         const coupon = await Coupon.findOne({code: code.toUpperCase()})

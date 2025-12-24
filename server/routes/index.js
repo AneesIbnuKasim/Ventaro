@@ -18,7 +18,7 @@ const setupRoutes = (app)=>{
     app.use('/api/search',searchRoutes)
     app.use('/api/cart',cartRoutes)
     app.use('/api/coupon',couponRoutes)
-    app.use('/api/payment',paymentRoutes)
+    app.use('/api/payments',paymentRoutes)
 }
 
 module.exports = {

@@ -5,12 +5,13 @@ import { useUser } from "../context/UserContext";
 import { getUser } from "../utils/apiClient";
 import { MdDeliveryDining } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { API_CONFIG } from "../config/app";
+import { API_CONFIG, RAZORPAY } from "../config/app";
 import { selectCartTotals } from "../redux/selector/cartSelector";
 import { CURRENCY } from "../constants/ui";
 import { setDeliveryAddress, setPaymentMethod } from "../redux/slices/checkoutSlice";
 import { checkoutTotal } from "../redux/selector/checkoutSelector";
 import paymentAPI from "../services/paymentService";
+import { toast } from "react-toastify";
 
 const  CheckOut = memo(() => {
   const { user, getProfile } = useUser()
@@ -43,9 +44,41 @@ useEffect(() => {
     
 }, [paymentMethod, deliveryAddress])
 
+const openRazorpay = (response) => {
+    const options = {
+      key: RAZORPAY.API || 'rzp_test_RvNYsDtZ30gj1z',
+      amount: response.amount,
+      currency: response.currency,
+      order_id: response.razorpayOrderId,
+      name: "Ventaro",
+      description: "Order Payment",
+
+      handler: async function (paymentResponse) {
+        console.log('paymnt res:', paymentResponse);
+        
+        await paymentAPI.verifyRazorpayOrder({
+          ...paymentResponse,
+          deliveryAddress
+        });
+      },
+
+      modal: {
+        ondismiss: () => {
+          toast.error("Payment cancelled");
+        }
+      }
+    };
+
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+}
+
 const handlePlaceOrder = async() => {
     if (paymentMethod === 'razorpay') {
-        await paymentAPI.createRazorpayOrder({paymentMethod, deliveryAddress})
+       const { data } = await paymentAPI.createRazorpayOrder({paymentMethod, deliveryAddress})
+console.log('order data:', data);
+
+       openRazorpay(data)
     }
 }
 
@@ -69,7 +102,7 @@ const handlePlaceOrder = async() => {
                   <label
                     key={addr._id}
                     className={`flex gap-4 p-4 rounded-lg border cursor-pointer transition ${
-                      deliveryAddress._id === addr._id
+                      deliveryAddress?._id === addr._id
                         ? "border-purple-600 bg-purple-50"
                         : "border-gray-200"
                     }`}
@@ -77,7 +110,7 @@ const handlePlaceOrder = async() => {
                     <input
                       type="radio"
                       name="address"
-                      checked={deliveryAddress._id === addr._id}
+                      checked={deliveryAddress?._id === addr._id}
                       onChange={() => dispatch(setDeliveryAddress(addr))}
                       className="mt-1"
                     />
