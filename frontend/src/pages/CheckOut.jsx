@@ -56,10 +56,11 @@ const openRazorpay = (response) => {
       handler: async function (paymentResponse) {
         console.log('paymnt res:', paymentResponse);
         
-        await paymentAPI.verifyRazorpayOrder({
+        const res = await paymentAPI.verifyRazorpayOrder({
           ...paymentResponse,
           deliveryAddress
         });
+        console.log('be result;', res.data);
       },
 
       modal: {
@@ -75,7 +76,7 @@ const openRazorpay = (response) => {
 
 const handlePlaceOrder = async() => {
     if (paymentMethod === 'razorpay') {
-       const { data } = await paymentAPI.createRazorpayOrder({paymentMethod, deliveryAddress})
+       const { data } = await paymentAPI.createRazorpayOrder({paymentMethod})
 console.log('order data:', data);
 
        openRazorpay(data)

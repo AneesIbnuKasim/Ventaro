@@ -11,9 +11,9 @@ const BaseController = require("./baseController");
     })
 
     static verifyRazorpayOrder = BaseController.asyncHandler(async(req, res) => {
-        const result = await PaymentService.verifyRazorpayOrder(req.user._id, req.body)
+        const data = await PaymentService.verifyRazorpayOrder(req.user._id, req.body)
         BaseController.logAction(res, 'RAZORPAY-VERIFICATION', 'Razor pay verification completed')
-        BaseController.sendSuccess(res, 'Razorpay payment verification completed successfully', 200)
+        BaseController.sendSuccess(res, 'Payment verified successfully', data, 200)
     })
 }
 

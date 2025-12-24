@@ -1,15 +1,16 @@
 const Razorpay = require("razorpay");
+const crypto = require("crypto");
 const config = require("../config/config");
 const Cart = require("../models/Cart");
 const CouponService = require("./CouponService");
-const { validateCouponCheckout } = require("./CouponService");
 const logger = require("../utils/logger");
 const { NotFoundError, ValidationError } = require("../utils/errors");
+const { default: Order } = require("../models/Order");
 
 const razorpay = new Razorpay({
-  key_id:config.RAZORPAY.API_KEY,
-  key_secret:config.RAZORPAY.SECRET_KEY,
-})
+  key_id: config.RAZORPAY.API_KEY,
+  key_secret: config.RAZORPAY.SECRET_KEY,
+});
 
 class PaymentService {
   static calculatePayable(cartTotal, paymentMethod) {
@@ -21,10 +22,8 @@ class PaymentService {
   }
   static async createRazorpayOrder(userId, data) {
     try {
-      const { paymentMethod, deliveryAddress } = data;
+      const { paymentMethod } = data;
       const cart = await Cart.findOne({ user: userId });
-      delete deliveryAddress.userId;
-      delete deliveryAddress.isDefault;
 
       if (!cart || !cart.items.length) {
         throw new Error("Cart is empty");
@@ -33,46 +32,35 @@ class PaymentService {
       console.log("cart ", cart);
 
       if (cart?.appliedCoupon?.code) {
-        console.log('applied', cart.appliedCoupon);
-        
+        console.log("applied", cart.appliedCoupon);
+
         await CouponService.validateCouponCheckout(
-        cart.appliedCoupon.code,
-        cart.payableTotal,
-        cart.items
-      );
+          cart.appliedCoupon.code,
+          cart.payableTotal,
+          cart.items
+        );
       }
-      
+
       const grandTotal = this.calculatePayable(
         cart.payableTotal,
         paymentMethod
       );
-      
+
       const razorpayOrder = await razorpay.orders.create({
         amount: grandTotal * 100,
-        currency: 'INR',
+        currency: "INR",
         receipt: `rcpt_${Date.now()}`,
-      })
-      console.log('here verified', razorpayOrder);
+      });
+      console.log("here verified", razorpayOrder);
 
-      //CLEAN ADDRESS 
-          const orderAddress = {
-      name: deliveryAddress.fullName,
-      phone: deliveryAddress.phone,
-      addressLine: deliveryAddress.addressLine,
-      city: deliveryAddress.city,
-      state: deliveryAddress.state,
-      pincode: deliveryAddress.pinCode,
-      label: deliveryAddress.label
-    };
-        return {
-      razorpayOrderId: razorpayOrder.id,
-      amount: grandTotal,
-      currency: "INR",
-      address: orderAddress
-    };
+      return {
+        razorpayOrderId: razorpayOrder.id,
+        amount: grandTotal,
+        currency: "INR",
+      };
     } catch (error) {
-      console.log('error::', error);
-      
+      console.log("error::", error);
+
       throw error;
     }
   }
@@ -80,40 +68,75 @@ class PaymentService {
   //RAZORPAY VERIFICATION AFTER PAYMENT
   static async verifyRazorpayOrder(userId, data) {
     try {
-       const {
-      razorpay_order_id,
-      razorpay_payment_id,
-      razorpay_signature,
-      deliveryAddress
-    } = data;
+      const {
+        razorpay_order_id,
+        razorpay_payment_id,
+        razorpay_signature,
+        deliveryAddress,
+      } = data;
 
-    if (!razorpay_order_id || razorpay_payment_id || razorpay_signature) throw new NotFoundError('Missing Razorpay details')
+      console.log('dataa at verify server', data);
+      
 
-      //Create expected signature 
+      if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature)
+        throw new NotFoundError("Missing Razorpay details");
+
+      //Create expected signature
       const expectedSignature = crypto
-      .createHmac('sha256', config.RAZORPAY.SECRET_KEY)
-      .update(`${razorpay_order_id}|${razorpay_payment_id}`)
-      .digest('hex')
+        .createHmac("sha256", config.RAZORPAY.SECRET_KEY)
+        .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+        .digest("hex");
 
       //compare signatures
       if (expectedSignature !== razorpay_signature) {
-        throw new ValidationError('Payment verification failed')
+        throw new ValidationError("Payment verification failed");
       }
 
-      //fetch cart again and create order
-      const cart = await Cart.findOne({user: user._id})
-
-      if (!cart || cart.items.length) throw new NotFoundError('Cart not found')
+      console.log('userId', userId);
       
+
+      //fetch cart again and create order
+      const cart = await Cart.findOne({ user: userId });
+
+  
+
+      if (!cart || !cart.items.length) throw new NotFoundError("Cart not found");
+
+      const grandTotal = this.calculatePayable(cart.payableTotal, 'razorpay')
+
+      //CLEAN ADDRESS
+      const orderAddress = {
+        name: deliveryAddress.fullName,
+        phone: deliveryAddress.phone,
+        addressLine: deliveryAddress.addressLine,
+        city: deliveryAddress.city,
+        state: deliveryAddress.state,
+        pincode: deliveryAddress.pinCode,
+        label: deliveryAddress.label,
+      };
+
       const order = await Order.create({
         user: userId,
         items: cart.items,
         totalAmount: grandTotal,
+        paymentMethod: "Razorpay",
+        paymentStatus: "PAID",
+        paymentInfo: {
+          razorpayOrderId: razorpay_order_id,
+          razorpay_payment_id: razorpay_payment_id,
+          razorpaySignature: razorpay_signature,
+        },
+        deliveryAddress,
+        paidAt: Date.now(),
+      });
 
-      })
+      return {
+        success: true,
+        orderId: order._id
+      };
     } catch (error) {
-      logger.error(error.message)
-      throw error
+      logger.error(error.message);
+      throw error;
     }
   }
 }
