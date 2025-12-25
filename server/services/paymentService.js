@@ -15,7 +15,7 @@ const razorpay = new Razorpay({
 class PaymentService {
   static calculatePayable(cartTotal, paymentMethod) {
     const deliveryFee =
-      cartTotal < config.FREE_SHIPPING_THRESHOLD ? config.DELIVERY_FEE : 0;
+      cartTotal > config.FREE_SHIPPING_THRESHOLD ? 0 : config.DELIVERY_FEE;
     const codFee = paymentMethod === "cod" ? config.COD_FEE : 0;
 
     return cartTotal + deliveryFee + codFee;

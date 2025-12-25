@@ -1,3 +1,4 @@
+const { FREE_SHIPPING_THRESHOLD, DELIVERY_FEE } = require("../config/config");
 const { sendError, sendSuccess } = require("../controllers/baseController");
 const Cart = require("../models/Cart");
 const Product = require("../models/Product");
@@ -39,10 +40,10 @@ class CartService {
     );
   };
 
-//   //CALCULATE SHIPPING FEES
-//   static calculateShippingFee = (cart) => {
-//     if (cart.payableTotal)  
-//   }
+  // //CALCULATE SHIPPING FEES
+  // static calculateShippingFee = (cart) => {
+  //   const estimatedShippingFee = cart.payableTotal > FREE_SHIPPING_THRESHOLD ? DELIVERY_FEE : 0
+  // }
 
   //CALCULATE GRAND TOTAL-AFTER DISCOUNT
   static recalculatePayableTotal(cart) {

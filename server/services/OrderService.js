@@ -21,7 +21,7 @@ class OrderService {
         try {
             console.log('cancel orderId', orderId);
             
-            const order = await Order.findById(orderId)
+            const order = await Order.findById(orderId).populate('items.product')
             console.log('orderrrrras', order);
             
             if (!order) throw new NotFoundError('Order not found')
@@ -55,7 +55,7 @@ class OrderService {
 
                     order.orderStatus = ORDER_STATUS.CANCELLED
                     order.paymentStatus = PAYMENT_STATUS.REFUNDED
-                    order.cancelledAt = new Date.now()
+                    order.cancelledAt = new Date()
                     
                     await user.save()
                     await order.save()
@@ -67,14 +67,9 @@ class OrderService {
                     } catch (error) {
                         throw error
                     }
-
-
-                    
                 }
-                
             }
-
-
+            return {order}
         } catch (error) {
             throw error
         }

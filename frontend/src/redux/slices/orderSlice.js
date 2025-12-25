@@ -22,6 +22,9 @@ export const fetchOrderThunk = createAsyncThunk('fetch-orders', async(_, {reject
 export const cancelOrderThunk = createAsyncThunk('cancel-order', async(orderId, {rejectWithValue} )=> {
     try {
         const res = await orderAPI.cancelOrder(orderId)
+
+        console.log('cancelled res:',res.data);
+        
         return res.data
     } catch (error) {
         rejectWithValue(error.message)
@@ -45,19 +48,21 @@ const orderSlice = createSlice({
             state.error = action.payload.error
         })
 
-        //CANCEL ORDER STATE MUTATIONS
-        // .addCase(cancelOrderThunk.pending, (state) => {
-        //     state.pending = true
-        // })
-        // .addCase(cancelOrderThunk.fulfilled, (state, action) => {
-        //     const cancelledOrder = action.payload?.order
-        //     state.pending = false
-        //     state.orders = state.orders.map(order => order._id === cancelledOrder._id ? cancelledOrder : order)
-        // })
-        // .addCase(cancelOrderThunk.rejected, (state, action) => {
-        //     state.pending = false
-        //     state.error = action.payload.error
-        // })
+        // CANCEL ORDER STATE MUTATIONS
+        .addCase(cancelOrderThunk.pending, (state) => {
+            state.pending = true
+        })
+        .addCase(cancelOrderThunk.fulfilled, (state, action) => {
+            const cancelledOrder = action.payload?.order
+            console.log('cancelled in thunk', cancelledOrder);
+            
+            state.pending = false
+            state.orders = state.orders.map(order => order._id === cancelledOrder._id ? cancelledOrder : order)
+        })
+        .addCase(cancelOrderThunk.rejected, (state, action) => {
+            state.pending = false
+            state.error = action.payload.error
+        })
     }
 })
 

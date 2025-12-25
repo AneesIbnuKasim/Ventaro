@@ -52,8 +52,8 @@ const orderSchema = new mongoose.Schema(
       label: String,
     },
     cancelledAt: Date,
+    deliveredAt: Date,
     paidAt: Date,
-    cancelledAt: Date
   },
   { timestamps: true }
 );

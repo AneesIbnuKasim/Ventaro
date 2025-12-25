@@ -19,3 +19,5 @@ export const paymentAPI = {
         })
     }
 }
+
+export default paymentAPI

@@ -17,5 +17,14 @@ export const orderAPI = {
         })
     },
 
-    
+    returnOrder: (orderId) => {
+        console.log('orderId in api call', orderId);
+        
+        return makeRequest({
+            method: 'put',
+            url: `/api/orders/${orderId}/return`
+        })
+    },
+
+
 }
