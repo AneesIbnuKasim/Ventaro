@@ -82,8 +82,8 @@ const handlePlaceOrder = async() => {
        const { data } = await paymentAPI.createRazorpayOrder({paymentMethod})
        openRazorpay(data)
     }
-    else if (paymentMethod === 'COD') {
-      const data = await paymentAPI.createCodOrder({paymentMethod, deliveryAddress})
+    else if (paymentMethod === 'COD' || paymentMethod === 'Wallet') {
+      const data = await paymentAPI.createOrder({paymentMethod, deliveryAddress})
       console.log('data in fe:', data.orderId);
       
       navigate(`/order-success/${data.orderId}`)
@@ -232,10 +232,10 @@ const handlePlaceOrder = async() => {
                       -{CURRENCY}{discountTotal}
                     </span>
                   </div>
-              <div className="flex justify-between">
+              {/* <div className="flex justify-between">
                 <span>Grand Total</span>
                 <span>₹{payableTotal}</span>
-              </div>
+              </div> */}
             </div>
 
             <div className="border-t my-4" />

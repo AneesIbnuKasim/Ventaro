@@ -16,9 +16,10 @@ const BaseController = require("./baseController");
         BaseController.sendSuccess(res, 'Payment verified successfully', data, 200)
     })
 
-    static createCodOrder = BaseController.asyncHandler(async(req, res) => {
-        const data = await PaymentService.createCodOrder(req.user._id, req.body)
-        BaseController.logAction(res, 'COD-ORDER', 'COD order created')
+    //COD-WALLET ORDER CREATION
+    static createOrder = BaseController.asyncHandler(async(req, res) => {
+        const data = await PaymentService.createOrder(req.user._id, req.body)
+        BaseController.logAction(res, 'CREATE-ORDER', 'Order created')
         BaseController.sendSuccess(res, 'Order created', data, 201)
     })
 }

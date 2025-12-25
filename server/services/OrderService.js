@@ -2,7 +2,7 @@ const { ORDER_STATUS, PAYMENT_STATUS } = require("../config/config");
 const { findById } = require("../models/Coupon");
 const { default: Order } = require("../models/Order");
 const User = require("../models/User");
-const { NotFoundError, AuthenticationError } = require("../utils/errors");
+const { NotFoundError, AuthenticationError, ValidationError } = require("../utils/errors");
 
 class OrderService {
     static async fetchOrders() {
@@ -27,15 +27,15 @@ class OrderService {
             if (!order) throw new NotFoundError('Order not found')
             
             if (order.orderStatus === (ORDER_STATUS.SHIPPED || ORDER_STATUS.DELIVERED) ) {
-                throw new AuthenticationError('Order cannot be cancelled now.')
+                throw new ValidationError('Order cannot be cancelled now.')
             }
 
             if (order.orderStatus === ORDER_STATUS.CANCELLED) {
-                throw new AuthenticationError('Order already cancelled.')
+                throw new ValidationError('Order already cancelled.')
             }
 
             if (order.orderStatus === ORDER_STATUS.RETURNED) {
-                throw new AuthenticationError('Order already returned')
+                throw new ValidationError('Order already returned')
             }
 
             if (order.orderStatus === ORDER_STATUS.PENDING ) {
@@ -85,7 +85,7 @@ class OrderService {
             
             if (!order) throw new NotFoundError('Order not found')
                 
-                if (order.orderStatus !== ORDER_STATUS.DELIVERED) throw new AuthenticationError('Order cannot be returned')
+                if (order.orderStatus !== ORDER_STATUS.DELIVERED) throw new ValidationError('Order cannot be returned')
                     
                     if (order.orderStatus === ORDER_STATUS.DELIVERED && order.paymentStatus === PAYMENT_STATUS.PAID) {
                         order.orderStatus = ORDER_STATUS.RETURN_INITIATED

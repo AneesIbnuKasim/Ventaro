@@ -9,17 +9,17 @@ export const paymentAPI = {
         })
     },
 
-    //COD ORDER
-    createCodOrder: (data) => {
+    //COD-WALLET ORDER
+    createOrder: (data) => {
         return makeRequest({
             method: 'post',
-            url: `/api/payments/COD/create-order`,
+            url: `/api/payments/create-order`,
             data
         })
     },
 
     verifyRazorpayOrder: (data) => {
-        console.log('daata in verufy', data);
+        console.log('data in verify', data);
         
         return makeRequest({
             method: 'post',
