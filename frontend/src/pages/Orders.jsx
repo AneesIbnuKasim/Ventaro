@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import OrderItemCard from "../components/ui/OrderItemCard";
 import { useDispatch, useSelector } from "react-redux";
-import { cancelOrderThunk, fetchOrderThunk } from "../redux/slices/orderSlice";
+import { cancelOrderThunk, fetchOrderThunk, returnOrderRequestThunk } from "../redux/slices/orderSlice";
 
 export default function Orders() {
 
@@ -17,8 +17,11 @@ console.log('orders in orders', orders);
 
     const handleCancel = async(orderId) => {
       await dispatch(cancelOrderThunk(orderId)).unwrap()
-      
     }
+
+    const handleReturn = useCallback(async(returnData) => {
+      dispatch(returnOrderRequestThunk(returnData))
+    })
   return (
       <div className="max-w-6xl mx-auto px-4 flex gap-8">
 
@@ -49,7 +52,7 @@ console.log('orders in orders', orders);
 
                 {/* ORDER ITEMS */}
                 <div className="space-y-4">
-                    <OrderItemCard order={order} onCancel={(orderId)=>handleCancel(orderId)} />
+                    <OrderItemCard order={order} onCancel={(orderId)=>handleCancel(orderId)} handleReturn={handleReturn} />
                 </div>
               </div>
             ))}

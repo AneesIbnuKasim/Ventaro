@@ -10,8 +10,14 @@ class OrderController extends BaseController {
 
     static cancelOrder = BaseController.asyncHandler(async(req, res)=>{
         const order = await OrderService.cancelOrder(req.params.orderId)
-        BaseController.logAction('FETCH-ORDERS',order)
-        BaseController.sendSuccess(res,'Orders fetched',order, 200)
+        BaseController.logAction('CANCEL-ORDER',order)
+        BaseController.sendSuccess(res,'Order cancelled',order, 200)
+    })
+
+    static returnOrderRequest = BaseController.asyncHandler(async(req, res)=>{
+        const order = await OrderService.returnOrderRequest(req.params.orderId, req.body)
+        BaseController.logAction('RETURN-ORDER',order)
+        BaseController.sendSuccess(res,'Order return submitted',order, 200)
     })
     
 }

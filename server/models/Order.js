@@ -38,7 +38,7 @@ const orderSchema = new mongoose.Schema(
     },
     orderStatus: {
       type: String,
-      enum: ["PENDING", "SHIPPED", "DELIVERED", "CANCELLED", "RETURNED", ],
+      enum: ["PENDING", "SHIPPED", "DELIVERED", "CANCELLED", "RETURN_INITIATED","RETURNED", ],
       default: "PENDING"
     },
 
@@ -54,6 +54,11 @@ const orderSchema = new mongoose.Schema(
     cancelledAt: Date,
     deliveredAt: Date,
     paidAt: Date,
+    returnInfo: {
+      reason: String,
+      note: String,
+      date: Date
+    }
   },
   { timestamps: true }
 );

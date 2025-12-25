@@ -41,7 +41,7 @@ export const selectShippingFee = createSelector(
 export const selectRemainingForFreeDelivery = createSelector(
   [selectPayableTotal],
   (payableTotal) => 
-    Math.max(0, SHIPPING.freeShippingThreshold - payableTotal)
+    Math.max(0, SHIPPING.freeShippingThreshold - payableTotal+1)
 )
 
 export const selectGrandTotal = createSelector(

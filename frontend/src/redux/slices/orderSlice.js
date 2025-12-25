@@ -18,10 +18,23 @@ export const fetchOrderThunk = createAsyncThunk('fetch-orders', async(_, {reject
     }
 })
 
-//CANCEL AN ORDER ID ITS NOT SHIPPED
+//CANCEL AN ORDER IF ITS NOT SHIPPED
 export const cancelOrderThunk = createAsyncThunk('cancel-order', async(orderId, {rejectWithValue} )=> {
     try {
         const res = await orderAPI.cancelOrder(orderId)
+
+        console.log('cancelled res:',res.data);
+        
+        return res.data
+    } catch (error) {
+        rejectWithValue(error.message)
+    }
+})
+
+//RETURN ORDER WHEN ITS DELIVERED
+export const returnOrderRequestThunk = createAsyncThunk('return-order', async(returnData, {rejectWithValue} )=> {
+    try {
+        const res = await orderAPI.returnOrderRequest(returnData)
 
         console.log('cancelled res:',res.data);
         
@@ -60,6 +73,22 @@ const orderSlice = createSlice({
             state.orders = state.orders.map(order => order._id === cancelledOrder._id ? cancelledOrder : order)
         })
         .addCase(cancelOrderThunk.rejected, (state, action) => {
+            state.pending = false
+            state.error = action.payload.error
+        })
+
+        // RETURN ORDER REQUEST STATE MUTATIONS
+        .addCase(returnOrderRequestThunk.pending, (state) => {
+            state.pending = true
+        })
+        .addCase(returnOrderRequestThunk.fulfilled, (state, action) => {
+            const returnOrder = action.payload?.order
+            console.log('return in thunk', returnOrder);
+            
+            state.pending = false
+            state.orders = state.orders.map(order => order._id === returnOrder._id ? returnOrder : order)
+        })
+        .addCase(returnOrderRequestThunk.rejected, (state, action) => {
             state.pending = false
             state.error = action.payload.error
         })

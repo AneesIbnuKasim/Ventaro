@@ -49,6 +49,7 @@ module.exports = {
   SHIPPED: "SHIPPED",
   DELIVERED: "DELIVERED",
   CANCELLED: "CANCELLED",
+  RETURN_INITIATED: "RETURN_INITIATED",
   RETURNED: "RETURNED"
 },
 
@@ -57,6 +58,6 @@ module.exports = {
   PAID: "PAID",                // payment successful
   FAILED: "FAILED",
   REFUND_INITIATED: "REFUND_INITIATED",
-  REFUNDED: "REFUNDED",
+  REFUNDED: "REFUNDED"
 }
 }

@@ -74,6 +74,40 @@ class OrderService {
             throw error
         }
     }
+
+    static async returnOrderRequest(orderId, returnData) {
+        try {
+            console.log('rturn', orderId, returnData);
+
+            const { reason, note= '' } = returnData
+            
+            const order = await Order.findById(orderId).populate('items.product')
+            
+            if (!order) throw new NotFoundError('Order not found')
+                
+                if (order.orderStatus !== ORDER_STATUS.DELIVERED) throw new AuthenticationError('Order cannot be returned')
+                    
+                    if (order.orderStatus === ORDER_STATUS.DELIVERED && order.paymentStatus === PAYMENT_STATUS.PAID) {
+                        order.orderStatus = ORDER_STATUS.RETURN_INITIATED
+                        order.returnInfo = {
+                            reason,
+                            note,
+                            date: new Date()
+                        }
+                    }
+                    
+                    
+                    console.log('return Order:',order);
+                    await order.save()
+                    console.log('return Order:',order);
+
+            
+
+            return {order}
+        } catch (error) {
+            throw error
+        }
+    }
 }
 
 

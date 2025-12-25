@@ -37,9 +37,7 @@ const Coupons = memo(() => {
   // fetch coupons on page load
   useEffect(() => {
     const load = async() => {
-      console.log('debouncedSearch', debouncedSearch);
-      
-      await dispatch(fetchCouponThunk({search: debouncedSearch}))
+      dispatch(fetchCouponThunk({search: debouncedSearch}))
     }
     load()
   }, [
