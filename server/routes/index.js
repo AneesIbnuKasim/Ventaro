@@ -8,6 +8,7 @@ const searchRoutes = require('./search')
 const cartRoutes = require('./cart')
 const couponRoutes = require('./coupon')
 const paymentRoutes = require('./payment')
+const orderRoutes = require('./order')
 
 const setupRoutes = (app)=>{
     app.use('/api/auth', authRoutes)
@@ -19,6 +20,7 @@ const setupRoutes = (app)=>{
     app.use('/api/cart',cartRoutes)
     app.use('/api/coupon',couponRoutes)
     app.use('/api/payments',paymentRoutes)
+    app.use('/api/orders',orderRoutes)
 }
 
 module.exports = {

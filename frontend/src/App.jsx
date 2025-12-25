@@ -36,6 +36,7 @@ const AdminLayout = lazy(() => import("./components/AdminLayout.jsx"));
 const Cart = lazy(() => import("./pages/Cart.jsx"));
 const Coupons = lazy(() => import("./pages/Coupons.jsx"));
 const CheckOut = lazy(() => import("./pages/CheckOut.jsx"));
+const Orders = lazy(() => import("./pages/Orders.jsx"));
 const OrderSuccess = lazy(() => import("./pages/OrderSuccess.jsx"));
 
 const App = () => (
@@ -46,14 +47,14 @@ const App = () => (
           <ProductProvider>
             <Routes>
               {/* Public User Routes */}
-              {/* <Route
+              <Route
               path="/test"
               element={
-                <PublicRoute>
-                  <Test />
-                </PublicRoute>
+             
+                  <Orders />
+      
               }
-            /> */}
+            />
 
               
                 <Route path="/products/:category" element={<AppLayout><ProductList /></AppLayout>} />
@@ -142,6 +143,7 @@ const App = () => (
 
                 <Route path="account" element={<Profile />} />
                 <Route path="address" element={<AddressCard />} />
+                <Route path="orders" element={<Orders />} />
                 
               </Route>
 

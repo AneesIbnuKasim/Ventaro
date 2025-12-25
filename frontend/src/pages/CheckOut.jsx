@@ -10,7 +10,7 @@ import { selectCartTotals } from "../redux/selector/cartSelector";
 import { CURRENCY } from "../constants/ui";
 import { setDeliveryAddress, setPaymentMethod } from "../redux/slices/checkoutSlice";
 import { checkoutTotal } from "../redux/selector/checkoutSelector";
-import paymentAPI from "../services/paymentService";
+import {paymentAPI} from "../services/paymentService";
 import { toast } from "react-toastify";
 import NotFound from "./NotFound";
 

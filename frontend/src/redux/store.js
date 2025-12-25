@@ -4,12 +4,14 @@ import { cartSyncMiddleware } from "./middleware/cartSyncMiddleware";
 import cartReducer from './slices/cartSlice'
 import couponReducer from './slices/couponSlice'
 import checkoutReducer from './slices/checkoutSlice'
+import orderReducer from './slices/orderSlice'
 
 export const store = configureStore({
   reducer: {
     cart: cartReducer,
     coupon: couponReducer,
-    checkout: checkoutReducer
+    checkout: checkoutReducer,
+    order: orderReducer
   },
   middleware: (getDefault) =>
     getDefault().concat(

@@ -42,5 +42,21 @@ module.exports = {
   RAZORPAY: {
     API_KEY: process.env.RAZORPAY_API_KEY || 'rzp_test_RvNYsDtZ30gj1z',
     SECRET_KEY: process.env.RAZORPAY_KEY_SECRET || 'Bx1ZZ3zR2COEWaDEHA5l68du'
-  }
+  },
+
+  ORDER_STATUS: {
+  PENDING: "PENDING",          // order created, payment not done
+  SHIPPED: "SHIPPED",
+  DELIVERED: "DELIVERED",
+  CANCELLED: "CANCELLED",
+  RETURNED: "RETURNED"
+},
+
+  PAYMENT_STATUS: {
+  PENDING: "PENDING",          // order created, payment not done
+  PAID: "PAID",                // payment successful
+  FAILED: "FAILED",
+  REFUND_INITIATED: "REFUND_INITIATED",
+  REFUNDED: "REFUNDED",
+}
 }

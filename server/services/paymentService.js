@@ -114,7 +114,7 @@ class PaymentService {
 
       const order = await Order.create({
         user: userId,
-        items: cart.items,
+        items:[ ...cart.items],
         totalAmount: grandTotal,
         paymentMethod: "Razorpay",
         paymentStatus: "PAID",

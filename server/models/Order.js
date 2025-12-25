@@ -1,5 +1,4 @@
 import mongoose, { mongo } from "mongoose";
-
 const orderSchema = new mongoose.Schema(
   {
     user: {
@@ -7,7 +6,19 @@ const orderSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    items: [],
+    items: [
+  {
+    product: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Products",
+      required: true
+    },
+    quantity: Number,
+    basePrice: Number,
+    finalUnitPrice: Number,
+    itemTotal: Number
+  }
+],
     totalAmount: Number,
 
     paymentMethod: {
@@ -23,7 +34,12 @@ const orderSchema = new mongoose.Schema(
 
     paymentStatus: {
       type: String,
-      enum: ["PAID", "PENDING", "FAILED"],
+      enum: ["PAID", "PENDING", "FAILED", "REFUND_INITIATED", "REFUNDED"],
+    },
+    orderStatus: {
+      type: String,
+      enum: ["PENDING", "SHIPPED", "DELIVERED", "CANCELLED", "RETURNED", ],
+      default: "PENDING"
     },
 
     deliveryAddress: {
@@ -35,8 +51,9 @@ const orderSchema = new mongoose.Schema(
       pincode: String,
       label: String,
     },
-
+    cancelledAt: Date,
     paidAt: Date,
+    cancelledAt: Date
   },
   { timestamps: true }
 );
