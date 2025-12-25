@@ -1,37 +1,11 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft, CheckCircle, Clock } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { fetchSingleOrderThunk } from "../redux/slices/orderSlice";
+import { API_CONFIG } from "../config/app";
+import { Loading } from "../components/ui";
 
-// mock data – replace with API call
-const order = {
-  _id: "694be367853634114218229b",
-  createdAt: "2025-12-24T12:58:15.555Z",
-  paymentMethod: "Razorpay",
-  paymentStatus: "PAID",
-  totalAmount: 998,
-  deliveryAddress: {
-    name: "John Doe",
-    phone: "9458439333",
-    addressLine: "sdfdsf",
-    city: "Doha",
-    state: "Kannur",
-    pincode: "670001",
-    label: "Home"
-  },
-  items: [
-    {
-      _id: "item1",
-      product: {
-        name: "Amazfit Unisex Gts 3 Smartwatch",
-        images: ["/watch.png"],
-      },
-      quantity: 2,
-      finalUnitPrice: 499,
-      itemTotal: 998,
-      status: "DELIVERED",
-      deliveredOn: "Dec 26, 2025"
-    }
-  ]
-};
 
 const formatDate = (date) =>
   new Date(date).toLocaleDateString("en-IN", {
@@ -40,12 +14,34 @@ const formatDate = (date) =>
     year: "numeric",
   });
 
-export default function OrderDetail() {
+export default function OrderDetails() {
   const { orderId } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const { selectedOrder, loading } = useSelector(state => state.order)
+
+  useEffect(() => {
+  dispatch(fetchSingleOrderThunk(orderId));
+}, [dispatch, orderId]);
+console.log('loaded order', selectedOrder);
+
+if (!selectedOrder) {
+  return (
+    <div className="min-h-[70vh] flex items-center justify-center">
+      Loading order details...
+    </div>
+  );
+}
+
+if (loading) {
+  return (
+    <Loading />
+  )
+}
 
   return (
-    <div className="bg-gray-100 min-h-screen py-10">
+      !loading && selectedOrder && (
+        <div className="min-h-[70vh] py-10">
       <div className="max-w-5xl mx-auto px-4">
         {/* Back */}
         <button
@@ -56,36 +52,36 @@ export default function OrderDetail() {
         </button>
 
         {/* Header */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm mb-6">
+        <div className="bg-gray-50 rounded-2xl p-6 shadow-sm mb-6">
           <div className="flex justify-between flex-wrap gap-4">
             <div>
               <p className="text-sm text-gray-500">Order ID</p>
-              <p className="font-semibold">{order._id}</p>
+              <p className="font-semibold">{selectedOrder._id}</p>
               <p className="text-sm text-gray-500 mt-1">
-                Placed on {formatDate(order.createdAt)}
+                Placed on {formatDate(selectedOrder.createdAt)}
               </p>
             </div>
 
             <div className="text-right">
               <p className="text-sm text-gray-500">Payment</p>
-              <p className="font-medium">{order.paymentMethod}</p>
+              <p className="font-medium">{selectedOrder.paymentMethod}</p>
               <p className="text-green-600 text-sm font-medium">
-                {order.paymentStatus}
+                {selectedOrder.paymentStatus}
               </p>
             </div>
           </div>
         </div>
 
         {/* Items */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm mb-6">
+        <div className="bg-gray-50 rounded-2xl p-6 shadow-sm mb-6">
           <h2 className="font-semibold mb-4">Items</h2>
           <div className="space-y-4">
-            {order.items.map((item) => (
+            {selectedOrder?.items?.map((item) => (
               <div key={item._id} className="flex gap-4">
                 <img
-                  src={item.product.images[0]}
-                  alt={item.product.name}
-                  className="w-24 h-24 rounded-xl border object-cover"
+                  src={`${API_CONFIG.imageURL2}${item.product.images[0]}`}
+                  alt={item.product?.name}
+                  className="w-24 h-24 rounded-xl object-cover"
                 />
 
                 <div className="flex-1">
@@ -113,38 +109,39 @@ export default function OrderDetail() {
         {/* Address & Summary */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Address */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm">
+          <div className="bg-gray-50 rounded-2xl p-6 shadow-sm">
             <h2 className="font-semibold mb-3">Delivery Address</h2>
-            <p className="font-medium">{order.deliveryAddress.name}</p>
+            <p className="font-medium">{selectedOrder.deliveryAddress.name}</p>
             <p className="text-sm text-gray-600">
-              {order.deliveryAddress.addressLine}
+              {selectedOrder.deliveryAddress.addressLine}
             </p>
             <p className="text-sm text-gray-600">
-              {order.deliveryAddress.city}, {order.deliveryAddress.state} - {order.deliveryAddress.pincode}
+              {selectedOrder.deliveryAddress.city}, {selectedOrder.deliveryAddress.state} - {selectedOrder.deliveryAddress.pincode}
             </p>
             <p className="text-sm text-gray-600">
-              Phone: {order.deliveryAddress.phone}
+              Phone: {selectedOrder.deliveryAddress.phone}
             </p>
-            <span className="inline-block mt-2 text-xs bg-gray-100 px-3 py-1 rounded-full">
-              {order.deliveryAddress.label}
+            <span className="inline-block mt-2 text-xs bg-purple-300 px-3 py-1 rounded-full">
+              {selectedOrder.deliveryAddress.label}
             </span>
           </div>
 
           {/* Summary */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm">
+          <div className="bg-gray-50 rounded-2xl p-6 shadow-sm">
             <h2 className="font-semibold mb-3">Order Summary</h2>
             <div className="flex justify-between text-sm mb-2">
               <span>Total</span>
-              <span>₹{order.totalAmount}</span>
+              <span>₹{selectedOrder.totalAmount}</span>
             </div>
             <div className="border-t mt-4 pt-4 flex justify-between font-semibold">
               <span>Grand Total</span>
-              <span>₹{order.totalAmount}</span>
+              <span>₹{selectedOrder.totalAmount}</span>
             </div>
           </div>
         </div>
       </div>
     </div>
-  );
+      )
+    )
+  
 }
-wez`                                                                                                                                            `

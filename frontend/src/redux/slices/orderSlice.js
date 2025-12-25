@@ -2,97 +2,144 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { orderAPI } from "../../services/orderService";
 
 const initialState = {
-    orders: [],
-    loading: false,
-    error: null
-}
+  orders: [],
+  selectedOrder: null,
+  loading: false,
+  error: null,
+};
 
-export const fetchOrderThunk = createAsyncThunk('fetch-orders', async(_, {rejectWithValue}) => {
+export const fetchOrderThunk = createAsyncThunk(
+  "fetch-orders",
+  async (_, { rejectWithValue }) => {
     try {
-        const res = await orderAPI.fetchOrder()
-        console.log('fetch order res:', res.data);
-        
-        return res.data
+      const res = await orderAPI.fetchOrder();
+      console.log("fetch order res:", res.data);
+
+      return res.data;
     } catch (error) {
-        rejectWithValue(error.message)
+      rejectWithValue(error.message);
     }
-})
+  }
+);
+
+//FETCH ORDER BY ID
+export const fetchSingleOrderThunk = createAsyncThunk(
+  "fetch-order",
+  async (orderId, { rejectWithValue }) => {
+    try {
+      console.log("in fetch single order");
+
+      const res = await orderAPI.fetchSingleOrderThunk(orderId);
+      console.log("fetch single order res:", res.data);
+
+      return res.data;
+    } catch (error) {
+      rejectWithValue(error.message);
+    }
+  }
+);
 
 //CANCEL AN ORDER IF ITS NOT SHIPPED
-export const cancelOrderThunk = createAsyncThunk('cancel-order', async(orderId, {rejectWithValue} )=> {
+export const cancelOrderThunk = createAsyncThunk(
+  "cancel-order",
+  async (orderId, { rejectWithValue }) => {
     try {
-        const res = await orderAPI.cancelOrder(orderId)
+      const res = await orderAPI.cancelOrder(orderId);
 
-        console.log('cancelled res:',res.data);
-        
-        return res.data
+      console.log("cancelled res:", res.data);
+
+      return res.data;
     } catch (error) {
-        rejectWithValue(error.message)
+      rejectWithValue(error.message);
     }
-})
+  }
+);
 
 //RETURN ORDER WHEN ITS DELIVERED
-export const returnOrderRequestThunk = createAsyncThunk('return-order', async(returnData, {rejectWithValue} )=> {
+export const returnOrderRequestThunk = createAsyncThunk(
+  "return-order",
+  async (returnData, { rejectWithValue }) => {
     try {
-        const res = await orderAPI.returnOrderRequest(returnData)
+      const res = await orderAPI.returnOrderRequest(returnData);
 
-        console.log('cancelled res:',res.data);
-        
-        return res.data
+      console.log("cancelled res:", res.data);
+
+      return res.data;
     } catch (error) {
-        rejectWithValue(error.message)
+      rejectWithValue(error.message);
     }
-})
+  }
+);
 
 const orderSlice = createSlice({
-    name: 'orderSlice',
-    initialState: initialState,
-    extraReducers: (builder) => {
-        builder
-        .addCase(fetchOrderThunk.pending, (state) => {
-            state.pending = true
-        })
-        .addCase(fetchOrderThunk.fulfilled, (state, action) => {
-            state.pending = false
-            state.orders = action.payload.orders
-        })
-        .addCase(fetchOrderThunk.rejected, (state, action) => {
-            state.pending = false
-            state.error = action.payload.error
-        })
+  name: "orderSlice",
+  initialState: initialState,
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchOrderThunk.pending, (state) => {
+        state.pending = true;
+      })
+      .addCase(fetchOrderThunk.fulfilled, (state, action) => {
+        state.pending = false;
+        state.orders = action.payload.orders;
+      })
+      .addCase(fetchOrderThunk.rejected, (state, action) => {
+        state.pending = false;
+        state.error = action.payload.error;
+      })
 
-        // CANCEL ORDER STATE MUTATIONS
-        .addCase(cancelOrderThunk.pending, (state) => {
-            state.pending = true
-        })
-        .addCase(cancelOrderThunk.fulfilled, (state, action) => {
-            const cancelledOrder = action.payload?.order
-            console.log('cancelled in thunk', cancelledOrder);
-            
-            state.pending = false
-            state.orders = state.orders.map(order => order._id === cancelledOrder._id ? cancelledOrder : order)
-        })
-        .addCase(cancelOrderThunk.rejected, (state, action) => {
-            state.pending = false
-            state.error = action.payload.error
-        })
+      //FETCH SINGLE ORDER DETAILS STATE MUTATIONS
+      .addCase(fetchSingleOrderThunk.pending, (state) => {
+        state.pending = true;
+        state.selectedOrder = null; 
+      })
+      .addCase(fetchSingleOrderThunk.fulfilled, (state, action) => {
+        console.log("single action order:", action.payload.order);
 
-        // RETURN ORDER REQUEST STATE MUTATIONS
-        .addCase(returnOrderRequestThunk.pending, (state) => {
-            state.pending = true
-        })
-        .addCase(returnOrderRequestThunk.fulfilled, (state, action) => {
-            const returnOrder = action.payload?.order
-            console.log('return in thunk', returnOrder);
-            
-            state.pending = false
-            state.orders = state.orders.map(order => order._id === returnOrder._id ? returnOrder : order)
-        })
-        .addCase(returnOrderRequestThunk.rejected, (state, action) => {
-            state.pending = false
-            state.error = action.payload.error
-        })
-    }
-})
+        state.pending = false;
+        state.selectedOrder = action.payload.order;
+      })
+      .addCase(fetchSingleOrderThunk.rejected, (state, action) => {
+        state.pending = false;
+        state.error = action.payload.error;
+      })
 
-export default orderSlice.reducer
+      // CANCEL ORDER STATE MUTATIONS
+      .addCase(cancelOrderThunk.pending, (state) => {
+        state.pending = true;
+      })
+      .addCase(cancelOrderThunk.fulfilled, (state, action) => {
+        const cancelledOrder = action.payload?.order;
+        console.log("cancelled in thunk", cancelledOrder);
+
+        state.pending = false;
+        state.orders = state.orders.map((order) =>
+          order._id === cancelledOrder._id ? cancelledOrder : order
+        );
+      })
+      .addCase(cancelOrderThunk.rejected, (state, action) => {
+        state.pending = false;
+        state.error = action.payload.error;
+      })
+
+      // RETURN ORDER REQUEST STATE MUTATIONS
+      .addCase(returnOrderRequestThunk.pending, (state) => {
+        state.pending = true;
+      })
+      .addCase(returnOrderRequestThunk.fulfilled, (state, action) => {
+        const returnOrder = action.payload?.order;
+        console.log("return in thunk", returnOrder);
+
+        state.pending = false;
+        state.orders = state.orders.map((order) =>
+          order._id === returnOrder._id ? returnOrder : order
+        );
+      })
+      .addCase(returnOrderRequestThunk.rejected, (state, action) => {
+        state.pending = false;
+        state.error = action.payload.error;
+      });
+  },
+});
+
+export default orderSlice.reducer;

@@ -38,6 +38,7 @@ const Coupons = lazy(() => import("./pages/Coupons.jsx"));
 const CheckOut = lazy(() => import("./pages/CheckOut.jsx"));
 const Orders = lazy(() => import("./pages/Orders.jsx"));
 const OrderSuccess = lazy(() => import("./pages/OrderSuccess.jsx"));
+const OrderDetails = lazy(() => import("./pages/OrderDetails.jsx"));
 const Wallet = lazy(() => import("./pages/Wallet.jsx"));
 
 const App = () => (
@@ -147,6 +148,7 @@ const App = () => (
                 <Route path="account" element={<Profile />} />
                 <Route path="address" element={<AddressCard />} />
                 <Route path="orders" element={<Orders />} />
+                <Route path="order-details/:orderId" element={<OrderDetails />} />
                 <Route path="wallet" element={<Wallet />} />
                 
               </Route>

@@ -8,6 +8,15 @@ export const orderAPI = {
     });
   },
 
+  fetchSingleOrderThunk: (orderId) => {
+    console.log('in apo single', orderId);
+    
+    return makeRequest({
+      method: "get",
+      url: `/api/orders/${orderId}`,
+    });
+  },
+
   cancelOrder: (orderId) => {
     console.log("cancel in api call", returnData);
 

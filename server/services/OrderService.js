@@ -8,9 +8,21 @@ class OrderService {
     static async fetchOrders() {
         try {
             const orders = await Order.find().populate('items.product').sort({createdAt:-1})
-            console.log('orderrrrras', orders);
             
             return {orders}
+        } catch (error) {
+            throw error
+        }
+    }
+
+    //FETCH ORDER BY ID
+    static async fetchOrderById(orderId) {
+        try {
+            
+            const order = await Order.findOne({_id: orderId}).populate('items.product')
+            console.log('orderrrrras', order);
+            
+            return {order}
         } catch (error) {
             throw error
         }
@@ -22,7 +34,6 @@ class OrderService {
             console.log('cancel orderId', orderId);
             
             const order = await Order.findById(orderId).populate('items.product')
-            console.log('orderrrrras', order);
             
             if (!order) throw new NotFoundError('Order not found')
             
@@ -77,7 +88,6 @@ class OrderService {
 
     static async returnOrderRequest(orderId, returnData) {
         try {
-            console.log('rturn', orderId, returnData);
 
             const { reason, note= '' } = returnData
             

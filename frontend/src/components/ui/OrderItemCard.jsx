@@ -11,10 +11,13 @@ import { useEffect, useMemo, useState } from "react";
 import Modal from "./Modal";
 import ConfirmDialog from "./ConfirmDialog";
 import ReturnOrderModal from "./ReturnOrderForm";
+import { useNavigate } from "react-router-dom";
 
 export default function OrderItemCard({ order, onCancel, handleReturn }) {
   const [cancelId, setCancelId] = useState(null);
   const [returnId, setReturnId] = useState(null);
+  const navigate = useNavigate();
+
   const expectedDeliveryDate = (date) => {
     date.setDate(date.getDate() + 7);
     return date;
@@ -58,12 +61,13 @@ export default function OrderItemCard({ order, onCancel, handleReturn }) {
             <X size={16} />
             Cancelled on {new Date(order.cancelledAt).toDateString()}
           </div>
-        ) : order.orderStatus === "RETURN_INITIATED" ? ( <div className="flex items-center gap-2 text-sm text-orange-500 mt-2">
+        ) : order.orderStatus === "RETURN_INITIATED" ? (
+          <div className="flex items-center gap-2 text-sm text-orange-500 mt-2">
             <Clock size={16} />
             Return pickup expected by{" "}
             {expectedReturnDate(new Date(order.returnInfo.date)).toDateString()}
-          </div>)
-        :(
+          </div>
+        ) : (
           <div className="flex items-center gap-2 text-sm text-blue-500 mt-2">
             <Clock size={16} />
             Delivery expected by{" "}
@@ -72,7 +76,12 @@ export default function OrderItemCard({ order, onCancel, handleReturn }) {
         )}
 
         <div className="flex gap-4 mt-4 text-sm">
-          <button className="text-blue-600 hover:underline">Details</button>
+          <button
+            onClick={() => navigate(`/profile/order-details/${order._id}`)}
+            className="text-blue-600 hover:underline"
+          >
+            Details
+          </button>
           {order.orderStatus === "PENDING" && (
             <button
               onClick={() => setCancelId(order._id)}
