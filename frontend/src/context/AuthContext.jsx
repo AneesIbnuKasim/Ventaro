@@ -1,5 +1,6 @@
-import { createContext, useCallback, useContext, useEffect, useReducer } from "react";
-import { getAuthToken, getUser, setUser } from "../utils/apiClient";
+import { createContext, useCallback, useContext, useEffect, useMemo, useReducer } from "react";
+import { clearTokens, getAuthToken, getUser, setUser } from "../utils/apiClient";
+import { authAPI } from "../services";
 
 
 const AuthContext = createContext()
@@ -84,6 +85,7 @@ export const AuthProvider = ({children}) => {
 
     const logout = useCallback(() => {
         console.log('logout hit')
+        clearTokens()
     })
 
     const value = {

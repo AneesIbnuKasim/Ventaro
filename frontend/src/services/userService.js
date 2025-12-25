@@ -68,4 +68,13 @@ export const userAPI = {
         url: `api/user/addresses/${addressId}`,
       });
     },
+
+    //FETCH WALLET
+    fetchWallet: (credentials)=>{
+        return makeRequest({
+            method: 'get',
+            url: 'api/user/wallet',
+            data: credentials
+        })
+    },
 };

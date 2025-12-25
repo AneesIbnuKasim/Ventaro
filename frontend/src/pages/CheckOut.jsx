@@ -77,11 +77,19 @@ const openRazorpay = (response) => {
 }
 
 const handlePlaceOrder = async() => {
-    if (paymentMethod === 'razorpay') {
+    try {
+      if (paymentMethod === 'Razorpay') {
        const { data } = await paymentAPI.createRazorpayOrder({paymentMethod})
-console.log('order data:', data);
-
        openRazorpay(data)
+    }
+    else if (paymentMethod === 'COD') {
+      const data = await paymentAPI.createCodOrder({paymentMethod, deliveryAddress})
+      console.log('data in fe:', data.orderId);
+      
+      navigate(`/order-success/${data.orderId}`)
+    }
+    } catch (error) {
+      throw error
     }
 }
 
@@ -146,8 +154,8 @@ console.log('order data:', data);
                   <input
                     type="radio"
                     name="payment"
-                    checked={paymentMethod === "razorpay"}
-                    onChange={() => dispatch(setPaymentMethod('razorpay'))}
+                    checked={paymentMethod === "Razorpay"}
+                    onChange={() => dispatch(setPaymentMethod('Razorpay'))}
                   />
                   <div>
                     <p className="font-medium">Razorpay</p>
@@ -159,8 +167,8 @@ console.log('order data:', data);
                   <input
                     type="radio"
                     name="payment"
-                    checked={paymentMethod === "wallet"}
-                    onChange={() => dispatch(setPaymentMethod('wallet'))}
+                    checked={paymentMethod === "Wallet"}
+                    onChange={() => dispatch(setPaymentMethod('Wallet'))}
                   />
                   <div>
                     <p className="font-medium">Wallet</p>
@@ -172,8 +180,8 @@ console.log('order data:', data);
                   <input
                     type="radio"
                     name="payment"
-                    checked={paymentMethod === "cod"}
-                    onChange={() => dispatch(setPaymentMethod('cod'))}
+                    checked={paymentMethod === "COD"}
+                    onChange={() => dispatch(setPaymentMethod('COD'))}
                   />
                   <div>
                     <p className="font-medium">Cash on Delivery</p>

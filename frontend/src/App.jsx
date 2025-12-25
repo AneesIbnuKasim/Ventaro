@@ -38,6 +38,7 @@ const Coupons = lazy(() => import("./pages/Coupons.jsx"));
 const CheckOut = lazy(() => import("./pages/CheckOut.jsx"));
 const Orders = lazy(() => import("./pages/Orders.jsx"));
 const OrderSuccess = lazy(() => import("./pages/OrderSuccess.jsx"));
+const Wallet = lazy(() => import("./pages/Wallet.jsx"));
 
 const App = () => (
   <BrowserRouter>
@@ -127,6 +128,8 @@ const App = () => (
               </AppLayout>} />
 
 
+
+
               {/*         protected user profile routes        */}
               <Route
                 path="/profile"
@@ -144,6 +147,7 @@ const App = () => (
                 <Route path="account" element={<Profile />} />
                 <Route path="address" element={<AddressCard />} />
                 <Route path="orders" element={<Orders />} />
+                <Route path="wallet" element={<Wallet />} />
                 
               </Route>
 

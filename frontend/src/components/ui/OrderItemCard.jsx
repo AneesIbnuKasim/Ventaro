@@ -12,10 +12,6 @@ export default function OrderItemCard({ order, onCancel }) {
     return date
   }
 
-  const handleCancelConfirm = useMemo(() => {
-
-  })
-
   useEffect(() => {
     console.log('can', cancelId);
     
@@ -31,7 +27,8 @@ export default function OrderItemCard({ order, onCancel }) {
       <div className="flex-1">
         <h3 className="font-medium">{order.title}</h3>
         <p className="font-semibold mt-2">Order Amount: ₹{order.totalAmount}</p>
-        <p className="text-sm text-gray-500 mt-1">{order.paymentStatus}</p>
+        <p className="text-sm text-gray-500 mt-1">Payment: {order.paymentStatus}</p>
+        <p className="text-sm text-gray-500 mt-1">Status: {order.orderStatus}</p>
 
         {order.orderStatus === "DELIVERED" ? (
           <div className="flex items-center gap-2 text-sm text-green-600 mt-2">

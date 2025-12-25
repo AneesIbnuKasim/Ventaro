@@ -65,6 +65,75 @@ class PaymentService {
     }
   }
 
+  //CREATE COD ORDER
+  static async createCodOrder(userId, data) {
+    try {
+      const { paymentMethod, deliveryAddress } = data;
+      console.log('cod data', data);
+      
+      const cart = await Cart.findOne({ user: userId });
+
+      if (!cart || !cart.items.length) {
+        throw new Error("Cart is empty");
+      }
+
+      console.log("cart ", cart);
+
+      if (cart?.appliedCoupon?.code) {
+        console.log("applied", cart.appliedCoupon);
+
+        await CouponService.validateCouponCheckout(
+          cart.appliedCoupon.code,
+          cart.payableTotal,
+          cart.items
+        );
+      }
+
+      const grandTotal = this.calculatePayable(
+        cart.payableTotal,
+        paymentMethod
+      );
+
+      //CLEAN ADDRESS
+      const orderAddress = {
+        name: deliveryAddress.fullName,
+        phone: deliveryAddress.phone,
+        addressLine: deliveryAddress.addressLine,
+        city: deliveryAddress.city,
+        state: deliveryAddress.state,
+        pincode: deliveryAddress.pinCode,
+        label: deliveryAddress.label,
+      };
+
+      const order = await Order.create({
+        user: userId,
+        items:[ ...cart.items],
+        totalAmount: grandTotal,
+        paymentMethod: "COD",
+        paymentStatus: config.PAYMENT_STATUS.PENDING,
+        deliveryAddress: orderAddress
+      });
+
+      cart.items = [];
+      cart.appliedCoupon = null;
+      cart.discountTotal = 0;
+      cart.payableTotal = 0;
+      cart.totalQuantity = 0;
+      cart.subTotal = 0;
+      await cart.save();
+
+      return {
+        success: true,
+        orderId: order._id,
+      };
+
+    } catch (error) {
+      console.log("error::", error);
+
+      throw error;
+    }
+  }
+
   //RAZORPAY VERIFICATION AFTER PAYMENT
   static async verifyRazorpayOrder(userId, data) {
     try {

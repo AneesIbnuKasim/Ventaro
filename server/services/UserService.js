@@ -155,6 +155,19 @@ class UserService {
       throw error;
     }
   };
+
+  //fetch wallet
+  static fetchWallet = async(userId) => {
+    try {
+      const user = await User.findById(userId)
+
+      if (!user) throw new NotFoundError('User not found')
+      return { wallet: user.wallet }
+    } catch (error) {
+      throw error
+    }
+
+  }
 }
 
 module.exports = UserService;

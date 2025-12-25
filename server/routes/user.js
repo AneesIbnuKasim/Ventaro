@@ -7,6 +7,7 @@ const checkUserStatus = require('../middlewares/checkUserStatus')
 const router = express.Router()
 
 router.get('/me', checkUserStatus, authenticateUser, UserController.getProfile)
+router.get('/wallet', checkUserStatus, authenticateUser, UserController.fetchWallet)
 router.put('/profile', checkUserStatus, authenticateUser, UserController.updateProfile)
 router.put('/avatar', upload.single('avatar'), checkUserStatus, authenticateUser, UserController.updateAvatar)
 router.post('/addresses', checkUserStatus, authenticateUser, UserController.addAddress)

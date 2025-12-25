@@ -23,6 +23,7 @@ const initialState = {
   token: getAuthToken(),
   isAuthenticated: !!getUser(),
   loading: false,
+  wallet_loading: false,
   error: null,
 };
 
@@ -37,12 +38,16 @@ const USER_ACTIONS = {
   UPDATE_USER: "UPDATE_USER",
   UPDATE_AVATAR: "UPDATE_AVATAR",
   DELETE_ADDRESS: "DELETE_ADDRESS",
+  WALLET_LOADING: "WALLET_LOADING"
 };
 
 const userReducer = (state, action) => {
   switch (action.type) {
     case USER_ACTIONS.SET_LOADING:
       return { ...state, loading: action.payload, error: null };
+
+    case USER_ACTIONS.WALLET_LOADING:
+      return { ...state, wallet_loading: action.payload, error: null };
 
     case USER_ACTIONS.SET_ERROR:
       return { ...state, error: action.payload.error, loading: false };
@@ -89,7 +94,7 @@ const userReducer = (state, action) => {
 export const UserProvider = ({ children }) => {
   const [state, dispatch] = useReducer(userReducer, initialState);
 
-  const { user, isAuthenticated, loading, token, error } = state;
+  const { user, isAuthenticated, loading, token, error, wallet_loading } = state;
 
   useEffect(() => {
     if (state.error) {
@@ -125,6 +130,8 @@ export const UserProvider = ({ children }) => {
       return { success: false, error: errorMessage };
     }
   }, []);
+
+  //UPDATE USER PROFILE
 
   const updateProfile = useCallback(async (userData) => {
     try {
@@ -235,6 +242,22 @@ const deleteAddress = useCallback(async(addressId) => {
     }
 }, [])
 
+//FETCH WALLET
+    const fetchWallet = useCallback(async() => {
+        try {
+          dispatch({ type: USER_ACTIONS.WALLET_LOADING, payload: true})
+        const res = await userAPI.fetchWallet()
+console.log(res.data.wallet);
+
+        dispatch({ type: USER_ACTIONS.WALLET_LOADING, payload: false})
+
+        return res.data.wallet
+        } catch (error) {
+        dispatch({ type: USER_ACTIONS.SET_ERROR, payload: error.message})
+        console.log(error)
+        }
+}, [])
+
   const values = useMemo(
     () => ({
       user,
@@ -245,9 +268,11 @@ const deleteAddress = useCallback(async(addressId) => {
       updateAvatar,
       addAddress,
       editAddress,
-      deleteAddress
+      deleteAddress,
+      fetchWallet,
+      wallet_loading
     }),
-    [user, loading, isAuthenticated, getProfile, updateProfile, addAddress, editAddress]
+    [user, loading, isAuthenticated, getProfile, updateProfile, addAddress, editAddress, fetchWallet, wallet_loading]
   );
 
   return <UserContext.Provider value={values}>{children}</UserContext.Provider>;

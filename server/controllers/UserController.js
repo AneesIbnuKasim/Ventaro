@@ -10,6 +10,12 @@ class UserController extends BaseController {
         BaseController.sendSuccess(res, 'Profile retrived successfully', user, 200)
     })
 
+    static fetchWallet = BaseController.asyncHandler(async(req, res)=>{
+        const wallet = await UserService.fetchWallet(req.user._id)
+        BaseController.logAction('GET_WALLET', wallet)
+        BaseController.sendSuccess(res, 'Wallet fetched successfully', wallet, 200)
+    })
+
     static updateProfile = BaseController.asyncHandler(async(req, res)=>{
         const validatedData = BaseController.validateRequest(updateProfileValidation, req.body)
         const user = await UserService.updateProfile(req.user.id, validatedData)
