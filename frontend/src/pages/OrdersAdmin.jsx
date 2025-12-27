@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useState } from "react";
+import React, { memo, useCallback, useEffect, useRef, useState } from "react";
 import {
   Button,
   FormInput,
@@ -17,10 +17,16 @@ import SearchNotFound from "../components/ui/SearchNotFound";
 import ProductForm from "../components/ui/ProductForm";
 import { useCategory } from "../context/CategoryContext";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchOrderThunk, setFilters, setPagination } from "../redux/slices/orderSlice";
+import {
+  fetchOrderThunk,
+  setFilters,
+  setPagination,
+} from "../redux/slices/orderSlice";
 import { ORDER_STATUS } from "../config/app";
 import { useNavigate } from "react-router-dom";
 import useDebounce from "../hooks/useDebounce";
+import { Filter } from "lucide-react";
+import FormSelect from "../components/ui/FormSelect";
 
 ///Admin product page
 
@@ -29,43 +35,48 @@ const OrdersAdmin = memo((setTitle) => {
   const [editData, setEditData] = useState(null);
   const [isDelete, setIsDelete] = useState(false);
   const [deleteData, setDeleteData] = useState(null);
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const { filters, pagination, orders } = useSelector(state => state.order)
-  const debouncedSearch = useDebounce(filters.search, 500)
-  
-const query = {
+  const selectRef = useRef("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { filters, pagination, orders } = useSelector((state) => state.order);
+  const debouncedSearch = useDebounce(filters.search, 500);
+
+  const query = {
     page: pagination.page,
     status: filters.status,
     search: debouncedSearch,
     limit: 10,
-}
-//   //fetch Orders on page load
-//   useEffect(() => {
-//     dispatch(fetchOrderThunk({page: pagination.page}));
-//   }, []);
+  };
+  //fetch Orders on page load
+  //   useEffect(() => {
+  //     dispatch(fetchOrderThunk());
+  //   }, []);
 
   useEffect(() => {
     dispatch(fetchOrderThunk(query));
-  }, [
-    pagination.page,
-    pagination.limit,
-    filters.status,
-    debouncedSearch
-  ]);
+  }, [pagination.page, filters.status, debouncedSearch]);
 
-//HANDLE PAGINATION PAGE CHANGE
-    const handlePageChange = ({ page }) => {
+  const statuses = ORDER_STATUS.map((status) => ({
+    label: status,
+    value: status,
+  }));
+
+  console.log("statuses", statuses);
+
+  //HANDLE PAGINATION PAGE CHANGE
+  const handlePageChange = ({ page }) => {
     dispatch(setPagination({ page }));
     navigate(`?page=${page}`, { replace: true });
   };
 
   useEffect(() => {
-    console.log('orders in admin', orders);
-    
-  }, [orders])
-  const totalItems = pagination?.totalOrders || 30;
-  const totalPages = pagination?.totalPages;
+    console.log("status in admin", filters.status);
+  }, [filters.status]);
+
+  //CHANGE FILTER FROM SELECT ONCHANGE VALUE
+  const handleStatusChange = (e) => {
+    dispatch(setFilters({status: e.target.value}))
+  }
 
   return (
     <>
@@ -74,12 +85,21 @@ const query = {
           placeholder="Search"
           icon={<IoSearch />}
           value={filters.search || ""}
-          onChange={(e) => dispatch(setFilters({search: e.target.value}))}
-          className={'flex-1 m-5'}
+          onChange={(e) => dispatch(setFilters({ search: e.target.value }))}
+          className={"flex-1 m-5"}
         />
 
         <div className="flex gap-2 flex-wrap">
-      {ORDER_STATUS.map((status) => {
+          <div className="w-50 m-2">
+            <FormSelect
+              name='status'
+              value={filters.status}
+              onChange={handleStatusChange}
+              options={statuses}
+              placeholder= 'Filter by status'
+            />
+          </div>
+          {/* {ORDER_STATUS.map((status) => {
         const active = filters.status === status;
           (<button
             key={status}
@@ -93,31 +113,36 @@ const query = {
           >
             {status}
           </button>)
-      })}
-    </div>
+      })} */}
+        </div>
       </div>
 
       {filters.search && !orders?.length ? (
         <SearchNotFound searchQuery={filters.search} />
       ) : (
         <Table
-          columns={["order Id", "total Amount","payment Method", "order Status"]}
+          columns={[
+            "order Id",
+            "total Amount",
+            "payment Method",
+            "order Status",
+          ]}
           data={orders}
-        //   actions={{
-        //     // onEdit: handleProductForm,
-        //     // onDelete: handleDeleteProduct,
-        //   }}
+          //   actions={{
+          //     // onEdit: handleProductForm,
+          //     // onDelete: handleDeleteProduct,
+          //   }}
         />
       )}
 
-      {totalPages > 1 && (
-       <Pagination
-        currentPage={pagination.page}
-        itemsPerPage={pagination.limit}
-        totalPages={pagination.totalPages}
-        totalItems={pagination.totalOrders}
-        onPageChange={handlePageChange}
-      />
+      {pagination.totalPages > 1 && (
+        <Pagination
+          currentPage={pagination.page}
+          itemsPerPage={pagination.limit}
+          totalPages={pagination.totalPages}
+          totalItems={pagination.totalOrders}
+          onPageChange={handlePageChange}
+        />
       )}
     </>
   );

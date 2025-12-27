@@ -74,7 +74,7 @@ const FormSelect = memo(
             {...props}
           >
             {placeholder && (
-              <option value="" selected={props.value === ""}>
+              <option value="" >
                 {placeholder}
               </option>
             )}

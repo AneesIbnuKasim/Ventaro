@@ -23,16 +23,19 @@ class OrderService {
 
             if (search) filter.orderId = {$regex: search, $options: 'i'}
 
-            if (status) filter.status = status
+            if (status) filter.orderStatus = status
             
             console.log('filter', filter);
             
             
 
             const [orders, totalOrders] = await Promise.all([Order.find(filter).populate('items.product').sort({createdAt:-1}).skip(skipValue).limit(limit),
-                Order.countDocuments()
+                Order.countDocuments(filter)
             ])
 
+            console.log('orders in fetch', orders);
+            
+            
             const totalPages = Math.ceil(totalOrders/limit)
             
             return {
