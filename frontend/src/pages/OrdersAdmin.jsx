@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchOrderThunk, setFilters, setPagination } from "../redux/slices/orderSlice";
 import { ORDER_STATUS } from "../config/app";
 import { useNavigate } from "react-router-dom";
+import useDebounce from "../hooks/useDebounce";
 
 ///Admin product page
 
@@ -28,15 +29,15 @@ const OrdersAdmin = memo((setTitle) => {
   const [editData, setEditData] = useState(null);
   const [isDelete, setIsDelete] = useState(false);
   const [deleteData, setDeleteData] = useState(null);
-  const { fetchCategories, categories } = useCategory();
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { filters, pagination, orders } = useSelector(state => state.order)
+  const debouncedSearch = useDebounce(filters.search, 500)
   
 const query = {
     page: pagination.page,
     status: filters.status,
-    search: filters.search,
+    search: debouncedSearch,
     limit: 10,
 }
 //   //fetch Orders on page load
@@ -50,7 +51,7 @@ const query = {
     pagination.page,
     pagination.limit,
     filters.status,
-    filters.search
+    debouncedSearch
   ]);
 
 //HANDLE PAGINATION PAGE CHANGE
