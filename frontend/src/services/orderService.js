@@ -33,8 +33,6 @@ export const orderAPI = {
   returnOrderRequest: (returnData) => {
     console.log("returnData in api call", returnData);
     const { returnId:orderId, ...data } = returnData;
-    console.log('orderId', orderId);
-    console.log('data', data);
     
     return makeRequest({
       method: "put",
@@ -42,4 +40,5 @@ export const orderAPI = {
       data
     });
   },
+
 };

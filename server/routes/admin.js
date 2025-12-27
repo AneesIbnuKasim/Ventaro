@@ -13,5 +13,6 @@ router.post('/login', AdminController.login)
 // orders
 
 router.get('/orders', authenticateAdmin, OrderController.fetchOrders)
+router.put('/orders/:orderId', authenticateAdmin, OrderController.updateStatus)
 
 module.exports = router

@@ -21,10 +21,10 @@ const initialState = {
 
 export const fetchOrderThunk = createAsyncThunk(
   "fetch-orders",
-  async (params, { rejectWithValue }) => {
+  async ({role='', ...params}, { rejectWithValue }) => {
     try {
         console.log("fetch order params:", params);
-      const res = await adminAPI.fetchOrder(params);
+      const res = role === 'admin' ? await adminAPI.fetchOrder(params) : await orderAPI.fetchOrder(params)
       console.log("fetch order res:", res.data);
 
       return res.data;
@@ -75,6 +75,23 @@ export const returnOrderRequestThunk = createAsyncThunk(
   async (returnData, { rejectWithValue }) => {
     try {
       const res = await orderAPI.returnOrderRequest(returnData);
+
+      console.log("cancelled res:", res.data);
+
+      return res.data;
+    } catch (error) {
+      rejectWithValue(error.message);
+    }
+  }
+);
+
+//ADMIN ACTIONS
+//CHANGE ORDER STATUS FROM ADMIN PANEL
+export const updateStatusThunk = createAsyncThunk(
+  "update-status",
+  async (orderData, { rejectWithValue }) => {
+    try {
+      const res = await adminAPI.updateStatus(orderData);
 
       console.log("cancelled res:", res.data);
 
@@ -147,6 +164,7 @@ const orderSlice = createSlice({
         state.pending = false;
         state.error = action.payload.error;
       })
+     
 
       // RETURN ORDER REQUEST STATE MUTATIONS
       .addCase(returnOrderRequestThunk.pending, (state) => {
@@ -164,7 +182,25 @@ const orderSlice = createSlice({
       .addCase(returnOrderRequestThunk.rejected, (state, action) => {
         state.pending = false;
         state.error = action.payload.error;
-      });
+      })
+
+      // ADMIN UPDATE ORDER STATUS STATE MUTATIONS
+      .addCase(updateStatusThunk.pending, (state) => {
+        state.pending = true;
+      })
+      .addCase(updateStatusThunk.fulfilled, (state, action) => {
+        const updatedOrder = action.payload?.order;
+        console.log("updatedOrder in thunk", updatedOrder);
+
+        state.pending = false;
+        state.orders = state.orders.map((order) =>
+          order._id === updatedOrder?._id ? updatedOrder : order
+        );
+      })
+      .addCase(updateStatusThunk.rejected, (state, action) => {
+        state.pending = false;
+        state.error = action.payload.error;
+      }) 
   },
 });
 

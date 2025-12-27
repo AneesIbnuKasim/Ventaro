@@ -66,5 +66,17 @@ export const adminAPI = {
     });
   },
 
+  //update order status
+    updateStatus: (orderData) => {
+    console.log("returnData in api call", orderData);
+    const { orderId, ...data } = orderData;
+    
+    return makeRequest({
+      method: "put",
+      url: `/api/admin/orders/${orderId}`,
+      data
+    });
+  },
+
     
 }

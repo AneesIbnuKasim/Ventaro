@@ -25,6 +25,14 @@ class OrderController extends BaseController {
         BaseController.logAction('RETURN-ORDER',order)
         BaseController.sendSuccess(res,'Order return submitted',order, 200)
     })
+
+    // ADMIN ACTION CONTROLLERS
+
+    static updateStatus = BaseController.asyncHandler(async(req, res)=>{
+        const order = await OrderService.updateStatus(req.params.orderId, req.body)
+        BaseController.logAction('RETURN-ORDER',order)
+        BaseController.sendSuccess(res,'Order status changed',order, 200)
+    })
     
 }
 

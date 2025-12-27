@@ -1,6 +1,9 @@
 import { useEffect } from "react";
+import { ORDER_STATUS } from "../../config/app";
 
-const Table = ({ data, columns, actions }) => {
+const Table = ({ data, columns, actions, type='' , onStatusChange}) => {
+
+  const STATUS_OPTIONS = type === 'orders' ? ORDER_STATUS : null
 
   useEffect(() => {
     console.log('data orders',data);
@@ -32,11 +35,30 @@ const Table = ({ data, columns, actions }) => {
         {data?.map((item) => (
           <tr key={item._id} className="hover:bg-gray-50">
             {columns.map((col) => (
-              <td
-                key={col}
-                className="px-4 py-2 border border-gray-300"
-              >
-                {col === 'images' ? (<img width={70} height={70} src={`http://localhost:5001${item[col][0]}`} />) : item[col.replace(' ', '')] ?? "---"}
+              <td key={col} className="px-4 py-2 border">
+                {col === "order Status" ? (
+                  <select
+                    value={item.orderStatus}
+                    onChange={(e) =>
+                      onStatusChange?.(item._id, e.target.value)
+                    }
+                    className="border rounded px-2 py-1 text-sm"
+                  >
+                    {STATUS_OPTIONS?.map((status) => (
+                      <option key={status} value={status}>
+                        {status}
+                      </option>
+                    ))}
+                  </select>
+                ) : col === "images" ? (
+                  <img
+                    width={70}
+                    height={70}
+                    src={`http://localhost:5001${item[col][0]}`}
+                  />
+                ) : (
+                  item[col.replace(" ", "")] ?? "---"
+                )}
               </td>
             ))}
 
