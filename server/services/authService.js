@@ -158,33 +158,6 @@ class AuthService {
         } 
     }
 
-    static async changePassword (userId, passwordData) {
-        try {
-        const { currentPassword, newPassword } = passwordData
-
-        const user = await User.findById(userId)
-
-        if (!user) {
-             throw new Error('User not found')
-        }
-
-        const isCurrentPasswordValid = await user.comparePassword(currentPassword)
-        if (!isCurrentPasswordValid) {
-            throw new Error('Current password is incorrect')
-        }
-
-        user.password = newPassword
-        await user.save()
-
-        logger.info('Password changed successfully')
-
-        return true
-        } catch (error) {
-            logger.error('Password change error')
-            throw error
-        }
-    }
-
     //Request password reset otp to reset password
     static async requestPasswordReset(validatedData) {
        try {

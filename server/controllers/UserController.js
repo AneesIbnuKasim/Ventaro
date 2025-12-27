@@ -1,6 +1,6 @@
 const AuthService = require("../services/AuthService");
 const UserService = require("../services/UserService");
-const { updateProfileValidation, addressValidation } = require("../utils/validation");
+const { updateProfileValidation, addressValidation, changePasswordValidation } = require("../utils/validation");
 const BaseController = require("./baseController")
 
 class UserController extends BaseController {
@@ -42,6 +42,13 @@ class UserController extends BaseController {
         BaseController.logAction('UPDATE_ADDRESS', address)
         BaseController.sendSuccess(res, 'Address updated successfully', address, 201)
     })
+
+        static changePassword = BaseController.asyncHandler(async(req, res)=>{
+            const validatedData = BaseController.validateRequest(changePasswordValidation, req.body)
+            await UserService.changePassword(req.user._id, validatedData)
+            BaseController.logAction('PASSWORD-CHANGE',req.user)
+            BaseController.sendSuccess(res, 'Password changed successfully')
+        })
 
     static deleteAddress = BaseController.asyncHandler(async(req, res)=>{
         const addressId = await UserService.deleteAddress(req)

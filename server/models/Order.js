@@ -6,19 +6,21 @@ const orderSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    orderId: String,
     items: [
-  {
-    product: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Products",
-      required: true
-    },
-    quantity: Number,
-    basePrice: Number,
-    finalUnitPrice: Number,
-    itemTotal: Number
-  }
-],
+      {
+        product: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Products",
+          required: true,
+        },
+        quantity: Number,
+        basePrice: Number,
+        finalUnitPrice: Number,
+        itemTotal: Number,
+      },
+    ],
+    totalDiscount: Number,
     totalAmount: Number,
 
     paymentMethod: {
@@ -38,8 +40,15 @@ const orderSchema = new mongoose.Schema(
     },
     orderStatus: {
       type: String,
-      enum: ["PENDING", "SHIPPED", "DELIVERED", "CANCELLED", "RETURN_INITIATED","RETURNED", ],
-      default: "PENDING"
+      enum: [
+        "PENDING",
+        "SHIPPED",
+        "DELIVERED",
+        "CANCELLED",
+        "RETURN_INITIATED",
+        "RETURNED",
+      ],
+      default: "PENDING",
     },
 
     deliveryAddress: {
@@ -57,8 +66,8 @@ const orderSchema = new mongoose.Schema(
     returnInfo: {
       reason: String,
       note: String,
-      date: Date
-    }
+      date: Date,
+    },
   },
   { timestamps: true }
 );

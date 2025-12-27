@@ -9,15 +9,10 @@ const CategoryFilter = memo(({
 }) => {
 
   const [ search, setSearch ] = useState('')
-  console.log('local search:', search);
-  
 
   const handleFilter = (c) => {
     const categories = filters.category ?? []
 
-    console.log('cats:', categories);
-    
-    
     const updatedCategories = categories.includes(c) ? categories.filter(category=> category!==c) : [...categories, c] 
     
     setFilters({category: updatedCategories})

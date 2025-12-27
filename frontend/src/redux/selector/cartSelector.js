@@ -21,8 +21,8 @@ export const selectDiscountTotal = createSelector(
     if (!coupon) return 0;
 
     return coupon.discountType === "PERCENT"
-      ? (subTotal * coupon.discountValue) / 100
-      : coupon.discountValue;
+      ? Math.round((subTotal * coupon.discountValue) / 100)
+      : Math.round(coupon.discountValue);
   }
 );
 

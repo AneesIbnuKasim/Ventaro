@@ -29,3 +29,5 @@ export const RAZORPAY = {
   API: import.meta.env.VITE_RAZORPAY_API,
   KEY: import.meta.env.VITE_RAZORPAY_SECRET
 }
+
+export const ORDER_STATUS = ["PENDING", "SHIPPED", "DELIVERED", "CANCELLED", "RETURN_INITIATED", "RETURNED"]

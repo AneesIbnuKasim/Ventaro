@@ -1,10 +1,13 @@
 import makeRequest from "../utils/apiClient";
 
 export const orderAPI = {
-  fetchOrder: () => {
+  fetchOrder: (params={}) => {
+    console.log('url params', params);
+    
+    const urlParams = new URLSearchParams(params)
     return makeRequest({
       method: "get",
-      url: "/api/orders",
+      url: `/api/orders?${urlParams.toString()}`,
     });
   },
 
@@ -18,7 +21,7 @@ export const orderAPI = {
   },
 
   cancelOrder: (orderId) => {
-    console.log("cancel in api call", returnData);
+    console.log("cancel in api call", orderId);
 
     return makeRequest({
       method: "put",

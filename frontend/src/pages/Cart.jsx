@@ -38,8 +38,6 @@ const {
   grandTotal,
   remainingForFreeDelivery
 } = useSelector(selectCartTotals);
-  console.log("state", items);
-
 
   const hasCartItems = items?.length ;
 
@@ -59,11 +57,6 @@ const {
     };
     load();
   }, []);
-
-  useEffect(() => {
-    console.log('has cart', hasCartItems);
-    
-  }, [])
 
   const decreaseQuantity = (itemId) => {
     dispatch(

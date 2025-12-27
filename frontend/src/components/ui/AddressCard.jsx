@@ -6,6 +6,7 @@ import Button from "./Button";
 import Modal from "./Modal";
 import AddressForm from "./AddressForm";
 import ConfirmDialog from "./ConfirmDialog";
+import { Delete, DeleteIcon, Edit } from "lucide-react";
 
 export default function AddressCard({
   name = "Jhon doe",
@@ -41,7 +42,6 @@ export default function AddressCard({
         setIsEdit(false);
       }
     } else {
-      console.log("add values", values);
       const res = await addAddress(values);
       res.success ? setIsAdd(false) : null;
     }
@@ -78,6 +78,7 @@ export default function AddressCard({
       <div className="w-full flex justify-end mb-4">
         <Button
           size="md"
+          variant={'custom'}
           className=" text-white py-2 rounded-lg text-sm font-medium"
           onClick={handleAddButton}
         >
@@ -88,7 +89,7 @@ export default function AddressCard({
         {user.addresses?.length > 0 ? (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
             {user.addresses.map((address) => (
-              <div className="max-w-[500px] lg:max-w-[420px] bg-white border rounded-xl p-6 shadow-sm">
+              <div className="max-w-[500px] lg:max-w-[420px] bg-gray-100 hover:outline-1 outline-violet-300 rounded-xl p-6 shadow-sm">
                 {/* NAME */}
                 <h3 className="font-semibold text-gray-900 mb-2">
                   {address.fullName}
@@ -111,21 +112,17 @@ export default function AddressCard({
                 </div>
 
                 {/* ACTIONS */}
-                <div className="flex gap-4 mt-6">
-                  <Button
+                <div className="flex gap-10 mt-6">
+                  <Edit
                     onClick={() => handleEditButton(address)}
-                    variant="primary"
-                    className="flex-1 text-white py-2 rounded-lg text-sm font-medium "
-                  >
-                    EDIT
-                  </Button>
-                  <Button
+                    className=" text-green-700 h-10 w-10 hover:text-green-500 cursor-pointer py-2 rounded-lg "
+                  />
+                  <DeleteIcon
                     onClick={() => handleDeleteButton(address._id)}
-                    variant="danger"
-                    className="flex-1 text-white py-2 rounded-lg text-sm font-medium"
+                    className=" py-2 text-red-700 hover:text-red-500 cursor-pointer rounded-lg h-10 w-10"
                   >
                     REMOVE
-                  </Button>
+                  </DeleteIcon>
                 </div>
               </div>
             ))}

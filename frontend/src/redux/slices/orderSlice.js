@@ -1,18 +1,30 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { orderAPI } from "../../services/orderService";
+import { adminAPI } from "../../services";
 
 const initialState = {
   orders: [],
   selectedOrder: null,
   loading: false,
   error: null,
+  filters: {
+    search: '',
+    status: '',
+  },
+  pagination: {
+    limit: 5,
+    page: 1,
+    totalPages: null,
+    totalOrders: null
+  }
 };
 
 export const fetchOrderThunk = createAsyncThunk(
   "fetch-orders",
-  async (_, { rejectWithValue }) => {
+  async (params, { rejectWithValue }) => {
     try {
-      const res = await orderAPI.fetchOrder();
+        console.log("fetch order params:", params);
+      const res = await adminAPI.fetchOrder(params);
       console.log("fetch order res:", res.data);
 
       return res.data;
@@ -44,6 +56,8 @@ export const cancelOrderThunk = createAsyncThunk(
   "cancel-order",
   async (orderId, { rejectWithValue }) => {
     try {
+
+        console.log("cancelled thunk start api call:", orderId);
       const res = await orderAPI.cancelOrder(orderId);
 
       console.log("cancelled res:", res.data);
@@ -71,9 +85,19 @@ export const returnOrderRequestThunk = createAsyncThunk(
   }
 );
 
+
 const orderSlice = createSlice({
   name: "orderSlice",
   initialState: initialState,
+  reducers: {
+    setPagination: (state, action) => {
+        state.pagination = {...state.pagination, ...action.payload}
+    },
+    setFilters: (state, action) => {
+        state.filters = {...state.filters, ...action.payload}
+    },
+
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchOrderThunk.pending, (state) => {
@@ -82,6 +106,8 @@ const orderSlice = createSlice({
       .addCase(fetchOrderThunk.fulfilled, (state, action) => {
         state.pending = false;
         state.orders = action.payload.orders;
+        state.pagination = action.payload.pagination
+        
       })
       .addCase(fetchOrderThunk.rejected, (state, action) => {
         state.pending = false;
@@ -114,7 +140,7 @@ const orderSlice = createSlice({
 
         state.pending = false;
         state.orders = state.orders.map((order) =>
-          order._id === cancelledOrder._id ? cancelledOrder : order
+          order._id === cancelledOrder?._id ? cancelledOrder : order
         );
       })
       .addCase(cancelOrderThunk.rejected, (state, action) => {
@@ -142,4 +168,5 @@ const orderSlice = createSlice({
   },
 });
 
+export const { setPagination, setFilters } = orderSlice.actions
 export default orderSlice.reducer;

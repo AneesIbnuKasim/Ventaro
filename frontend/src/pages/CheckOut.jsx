@@ -40,11 +40,6 @@ useEffect(() => {
        getProfile(userProfile.id)
     }
 }, [])
-useEffect(() => {
-    console.log('wiwer', totalQuantity);
-    
-    
-}, [])
 
 const openRazorpay = (response) => {
     const options = {
@@ -56,7 +51,6 @@ const openRazorpay = (response) => {
       description: "Order Payment",
 
       handler: async function (paymentResponse) {
-        console.log('paymnt res:', paymentResponse);
         
         const res = await paymentAPI.verifyRazorpayOrder({
           ...paymentResponse,
@@ -84,7 +78,6 @@ const handlePlaceOrder = async() => {
     }
     else if (paymentMethod === 'COD' || paymentMethod === 'Wallet') {
       const data = await paymentAPI.createOrder({paymentMethod, deliveryAddress})
-      console.log('data in fe:', data.orderId);
       
       navigate(`/order-success/${data.orderId}`)
     }
@@ -138,7 +131,6 @@ const handlePlaceOrder = async() => {
                       <p className="text-sm text-gray-600">{addr.phone}</p>
                       <p className="text-sm text-gray-600 flex gap-2 items-center"><MdDeliveryDining></MdDeliveryDining><b>{addr.label}</b></p>
                       <p className="text-sm text-gray-600 mt-2">{addr.isDefault ? 'Default Address' : ''}</p>
-                    
                     </div>
                   </label>
                 ))}
@@ -192,7 +184,7 @@ const handlePlaceOrder = async() => {
             </div>
           </div>
 
-          {/* RIGHT SECTION SUMMARY */}
+          {/* SUMMARY */}
           <div className="bg-white rounded-xl shadow-sm p-6 h-fit sticky top-6">
             <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
 
@@ -220,7 +212,7 @@ const handlePlaceOrder = async() => {
                 <span>Shipping</span>
                 <span>₹{shippingFee}</span>
               </div>
-              { paymentMethod === 'cod' && (
+              { paymentMethod === 'COD' && (
                 <div className="flex justify-between">
                 <span>Cod fee</span>
                 <span>₹{codFee}</span>

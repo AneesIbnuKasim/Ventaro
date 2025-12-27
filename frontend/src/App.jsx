@@ -40,6 +40,8 @@ const Orders = lazy(() => import("./pages/Orders.jsx"));
 const OrderSuccess = lazy(() => import("./pages/OrderSuccess.jsx"));
 const OrderDetails = lazy(() => import("./pages/OrderDetails.jsx"));
 const Wallet = lazy(() => import("./pages/Wallet.jsx"));
+const PasswordChange = lazy(() => import("./pages/PasswordChange.jsx"));
+const OrdersAdmin = lazy(() => import("./pages/OrdersAdmin.jsx"));
 
 const App = () => (
   <BrowserRouter>
@@ -147,6 +149,7 @@ const App = () => (
 
                 <Route path="account" element={<Profile />} />
                 <Route path="address" element={<AddressCard />} />
+                <Route path="password" element={<PasswordChange />} />
                 <Route path="orders" element={<Orders />} />
                 <Route path="order-details/:orderId" element={<OrderDetails />} />
                 <Route path="wallet" element={<Wallet />} />
@@ -177,8 +180,9 @@ const App = () => (
                 <Route path="dashboard" element={<Dashoboard />} />
                 <Route path="users" element={<Users />} />
                 <Route path="categories" element={<Categories />} />
-                <Route path="products" element={<Products />} />
+                <Route path="products" element={<Products title={'Products'}/>} />
                 <Route path="coupons" element={<Coupons />} />
+                <Route path="orders" element={<OrdersAdmin />} />
               </Route>
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

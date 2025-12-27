@@ -7,6 +7,8 @@ const logger = require("../utils/logger");
 const { NotFoundError, ValidationError, AuthenticationError } = require("../utils/errors");
 const { default: Order } = require("../models/Order");
 const User = require("../models/User");
+const Product = require("../models/Product");
+const { default: mongoose } = require("mongoose");
 
 const razorpay = new Razorpay({
   key_id: config.RAZORPAY.API_KEY,
@@ -19,7 +21,7 @@ class PaymentService {
       cartTotal > config.FREE_SHIPPING_THRESHOLD ? 0 : config.DELIVERY_FEE;
     const codFee = paymentMethod === "COD" ? config.COD_FEE : 0;
 
-    return cartTotal + deliveryFee + codFee;
+    return (cartTotal + deliveryFee + codFee);
   }
   static async createRazorpayOrder(userId, data) {
     try {
@@ -68,7 +70,9 @@ class PaymentService {
 
   //RAZORPAY VERIFICATION AFTER PAYMENT
   static async verifyRazorpayOrder(userId, data) {
+    const session = await mongoose.startSession()
     try {
+      
       const {
         razorpay_order_id,
         razorpay_payment_id,
@@ -113,7 +117,21 @@ class PaymentService {
         label: deliveryAddress.label,
       };
 
+      for (const item of cart.items) {
+        await Product.updateOne(
+          {_id: item.product._id},
+          {$inc: {stock: -item.quantity}}
+        )
+      }
+//Generate random orderId
+      const idFormat = Array.from({ length: 4 }, () =>
+  crypto.getRandomValues(new Uint16Array(1))[0]
+    .toString(16)
+    .padStart(4, '0')
+).join('-');
+
       const order = await Order.create({
+        orderId: `ORDER-${idFormat}` ,
         user: userId,
         items:[ ...cart.items],
         totalAmount: grandTotal,
@@ -148,6 +166,7 @@ class PaymentService {
   
   //CREATE ORDER COD/WALLET
   static async createOrder(userId, data) {
+    
     try {
       const { paymentMethod, deliveryAddress } = data;
       console.log('cod data', data);
@@ -199,10 +218,26 @@ class PaymentService {
         await user.save()
       }
 
+      for (const item of cart.items) {
+        await Product.updateOne(
+          {_id: item.product._id},
+          {$inc: {stock: -item.quantity}}
+        )
+      }
+
+      //generate random orderId
+      const orderId = Array.from({ length: 4 }, () =>
+  crypto.getRandomValues(new Uint16Array(1))[0]
+    .toString(16)
+    .padStart(4, '0')
+).join('-');
+
       const order = await Order.create({
+        orderId,
         user: userId,
         items:[ ...cart.items],
         totalAmount: grandTotal,
+        totalDiscount: cart.discountTotal,
         paymentMethod: paymentMethod,
         paymentStatus: paymentMethod === 'Wallet' ? config.PAYMENT_STATUS.PAID : config.PAYMENT_STATUS.PENDING,
         deliveryAddress: orderAddress

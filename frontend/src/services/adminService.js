@@ -53,5 +53,18 @@ export const adminAPI = {
         })
     },
 
+    //ORDERS
+
+    //fetch orders
+    fetchOrder: (params={}) => {
+    console.log('url params', params);
+    
+    const urlParams = new URLSearchParams(params)
+    return makeRequest({
+      method: "get",
+      url: `/api/admin/orders?${urlParams.toString()}`,
+    });
+  },
+
     
 }

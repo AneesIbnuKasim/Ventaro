@@ -1,5 +1,11 @@
+import { useEffect } from "react";
 
 const Table = ({ data, columns, actions }) => {
+
+  useEffect(() => {
+    console.log('data orders',data);
+    
+  }, [data])
 
   return (
     <table className="w-full border bg-white border-gray-300 text-left">
@@ -30,7 +36,7 @@ const Table = ({ data, columns, actions }) => {
                 key={col}
                 className="px-4 py-2 border border-gray-300"
               >
-                {col === 'images' ? (<img width={70} height={70} src={`http://localhost:5001${item[col][0]}`} />) : item[col] ?? "---"}
+                {col === 'images' ? (<img width={70} height={70} src={`http://localhost:5001${item[col][0]}`} />) : item[col.replace(' ', '')] ?? "---"}
               </td>
             ))}
 

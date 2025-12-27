@@ -1,15 +1,49 @@
+const { default: mongoose } = require("mongoose");
 const { ORDER_STATUS, PAYMENT_STATUS } = require("../config/config");
 const { findById } = require("../models/Coupon");
 const { default: Order } = require("../models/Order");
 const User = require("../models/User");
 const { NotFoundError, AuthenticationError, ValidationError } = require("../utils/errors");
+const Product = require("../models/Product");
 
 class OrderService {
-    static async fetchOrders() {
+    static async fetchOrders(query) {
         try {
-            const orders = await Order.find().populate('items.product').sort({createdAt:-1})
+
+            const { search='', status } = query
             
-            return {orders}
+            const page = parseInt(query.page) || 1
+            console.log('page query', page);
+            
+            const limit = parseInt(query.limit) || 10
+
+            const skipValue = (page-1) * limit
+            
+            const filter = {}
+
+            if (search) filter.orderId = {$regex: search, $options: 'i'}
+
+            if (status) filter.status = status
+            
+            console.log('filter', filter);
+            
+            
+
+            const [orders, totalOrders] = await Promise.all([Order.find(filter).populate('items.product').sort({createdAt:-1}).skip(skipValue).limit(limit),
+                Order.countDocuments()
+            ])
+
+            const totalPages = Math.ceil(totalOrders/limit)
+            
+            return {
+                orders,
+                pagination: {
+                    limit,
+                    page,
+                    totalPages,
+                    totalOrders
+                }
+            }
         } catch (error) {
             throw error
         }
@@ -30,14 +64,15 @@ class OrderService {
 
     //CANCEL AN ORDER
     static async cancelOrder(orderId) {
+        const session = await mongoose.startSession()
         try {
-            console.log('cancel orderId', orderId);
+            session.startTransaction()
             
-            const order = await Order.findById(orderId).populate('items.product')
-            
+            const order = await Order.findById(orderId).populate('items.product').session(session)
+
             if (!order) throw new NotFoundError('Order not found')
             
-            if (order.orderStatus === (ORDER_STATUS.SHIPPED || ORDER_STATUS.DELIVERED) ) {
+            if (order.orderStatus === ORDER_STATUS.SHIPPED || order.orderStatus === ORDER_STATUS.DELIVERED) {
                 throw new ValidationError('Order cannot be cancelled now.')
             }
 
@@ -51,14 +86,23 @@ class OrderService {
 
             if (order.orderStatus === ORDER_STATUS.PENDING ) {
 
+                //restore stock
+                for (const item of order.items) {
+                await Product.updateOne(
+                    {_id: item.product._id},
+                    {$inc: { stock : item.quantity }},
+                    {session}
+                )
+            }
+
                 if (order.paymentStatus === PAYMENT_STATUS.PENDING) {
                     order.orderStatus = ORDER_STATUS.CANCELLED
                     order.cancelledAt = new Date()
                 }
 
                 if (order.paymentStatus === PAYMENT_STATUS.PAID) {
-                    try {
-                        const user = await User.findById(order.user)
+
+                        const user = await User.findById(order.user).session(session)
                     
                     if (!user) throw new NotFoundError('User not found')
                     
@@ -67,19 +111,18 @@ class OrderService {
                     order.orderStatus = ORDER_STATUS.CANCELLED
                     order.paymentStatus = PAYMENT_STATUS.REFUNDED
                     order.cancelledAt = new Date()
-                    
-                    await user.save()
-                    await order.save()
 
-                    console.log('updated user', user);
-                    console.log('updated order', order);
+                     await user.save({session})
 
-                    
-                    } catch (error) {
-                        throw error
-                    }
                 }
+                    await order.save({session})
+
+                    await session.commitTransaction()
+                    session.endSession()
+
+                    console.log('updated order', order);
             }
+            
             return {order}
         } catch (error) {
             throw error

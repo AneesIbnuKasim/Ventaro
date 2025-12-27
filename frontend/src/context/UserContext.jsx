@@ -70,7 +70,6 @@ const userReducer = (state, action) => {
       };
 
     case USER_ACTIONS.DELETE_ADDRESS:
-        console.log('pay', {...state.user})
       return {
         ...state,
         user: { ...state.user, addresses: [state.user.addresses.filter(address => address._id !== action.payload )] },
@@ -113,8 +112,6 @@ export const UserProvider = ({ children }) => {
 
       const response = await userAPI.getProfile(id);
 
-      console.log("user response", response);
-
       dispatch({
         type: USER_ACTIONS.SET_USER,
         payload: {
@@ -139,8 +136,6 @@ export const UserProvider = ({ children }) => {
 
       const response = await userAPI.updateProfile(userData);
 
-      console.log("res", response);
-
       dispatch({ type: USER_ACTIONS.UPDATE_USER, payload: response.data.user });
       toast.success(response.message);
 
@@ -160,9 +155,6 @@ export const UserProvider = ({ children }) => {
 
     const res = await userAPI.updateAvatar(formData);
 
-    console.log('avatar res:', res);
-    
-    
     dispatch({
       type: USER_ACTIONS.UPDATE_AVATAR,
       payload: res.data.avatar,
@@ -183,12 +175,8 @@ const addAddress = useCallback(async(addressData) => {
     try {
         dispatch({ type: USER_ACTIONS.SET_LOADING, payload: true})
 
-        console.log('in handler');
-        
         const response = await userAPI.addAddress(addressData)
 
-        console.log('addaddress response:', response);
-        
         await getProfile()
 
         dispatch({type: USER_ACTIONS.UPDATE_USER, payload: response.data.address})
@@ -208,8 +196,6 @@ const editAddress = useCallback(async(addressId, addressData) => {
     try {
         const response = await userAPI.editAddress(addressId, addressData)
 
-        console.log('edit response:', response);
-        
         await getProfile()
 
         dispatch({type: USER_ACTIONS.UPDATE_USER, payload: response.data.address})
@@ -229,10 +215,23 @@ const deleteAddress = useCallback(async(addressId) => {
     try {
         const response = await userAPI.deleteAddress(addressId)
 
-        console.log('delete response:', response);
-
         dispatch({type: USER_ACTIONS.DELETE_ADDRESS, payload: addressId})
         
+        toast.success(response.message)
+
+        return { success: true }
+    } catch (error) {
+        dispatch({ type: USER_ACTIONS.SET_ERROR, payload: error.message})
+        console.log(error)
+    }
+}, [])
+
+
+//CHANGE PASSWORD
+const changePassword = useCallback(async(passwordData) => {
+    try {
+        const response = await userAPI.changePassword(passwordData)
+
         toast.success(response.message)
 
         return { success: true }
@@ -247,8 +246,7 @@ const deleteAddress = useCallback(async(addressId) => {
         try {
           dispatch({ type: USER_ACTIONS.WALLET_LOADING, payload: true})
         const res = await userAPI.fetchWallet()
-console.log(res.data.wallet);
-
+        
         dispatch({ type: USER_ACTIONS.WALLET_LOADING, payload: false})
 
         return res.data.wallet
@@ -269,10 +267,11 @@ console.log(res.data.wallet);
       addAddress,
       editAddress,
       deleteAddress,
+      changePassword,
       fetchWallet,
       wallet_loading
     }),
-    [user, loading, isAuthenticated, getProfile, updateProfile, addAddress, editAddress, fetchWallet, wallet_loading]
+    [user, loading, isAuthenticated, getProfile, updateProfile, addAddress, editAddress, changePassword, fetchWallet, wallet_loading]
   );
 
   return <UserContext.Provider value={values}>{children}</UserContext.Provider>;

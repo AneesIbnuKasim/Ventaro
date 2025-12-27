@@ -26,14 +26,7 @@ import { Link, useLocation } from "react-router-dom";
 const menuItems = [
   { icon: FiLayout, label: "Dashboard", path: "/admin/dashboard" },
   { icon: FiUsers, label: "Users", path: "/admin/users" },
-  {
-    icon: FiPackage,
-    label: "Products",
-    subItems: [
-      { icon: FiBox, label: "Products", path: "products" },
-      { icon: FiDatabase, label: "Stock", path: "stock" },
-    ],
-  },
+  { icon: FiBox, label: "Products", path: "products" },
   { icon: FiShoppingCart, label: "Orders", path: "orders" },
   { icon: FiCreditCard, label: "Payments", path: "payments" },
   { icon: FiStar, label: "Categories", path: "categories" },
@@ -48,7 +41,7 @@ export const AdminSidebar = () => {
   const location = useLocation();
 
   return (
-    <>
+    <div className="rounded">
       {/* Mobile Menu Button */}
       <Button
         variant="ghost"
@@ -73,15 +66,16 @@ export const AdminSidebar = () => {
            z-40 h-screen lg:block ${isOpen ? 'fixed' : 'hidden'} lg:w-64 
           bg-gradient-to-b from-secondary/100 to-secondary/70 
           lg:from-secondary/0 lg:to-secondary/20 
-          border-r-1 shadow-xl text-black
+          shadow-xl shadow-xl text-black
           transition-transform duration-300 ease-in-out
+          sticky top-0
           lg:translate-x-0
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
         `}
       >
         <div className="flex flex-col h-full">
           {/* Logo */}
-          <div className="flex items-center gap-3 p-4 border-b-1 border-border bg-card/50 backdrop-blur-sm">
+          <div className="flex items-center gap-3 p-4 shadow-lg border-border bg-card/50 backdrop-blur-sm">
             <div className="flex items-center justify-center w-12 h-12 ">
               { !isOpen && 
               <Link to="/" >
@@ -114,12 +108,7 @@ export const AdminSidebar = () => {
                           flex items-center justify-between w-full gap-3 px-4 py-3 rounded-lg
                           text-muted-foreground hover:bg-secondary/80 hover:text-secondary-foreground
                           transition-all duration-200 font-medium
-                          ${
-                            (location.pathname.includes("/products") ||
-                              location.pathname.includes("/stock"))
-                              ? "bg-primary/10 text-primary"
-                              : ""
-                          }
+                          
                         `}
                       >
                         <div className="flex items-center gap-3">
@@ -189,6 +178,6 @@ export const AdminSidebar = () => {
           </nav>
         </div>
       </aside>
-    </>
+    </div>
   );
 };

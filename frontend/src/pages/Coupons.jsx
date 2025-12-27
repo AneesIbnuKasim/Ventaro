@@ -54,6 +54,11 @@ const Coupons = memo(() => {
     setDeleteData(Coupon);
   }, []);
 
+  const handleCouponEditForm = (coupon) => {
+    setEditData(coupon)
+    setOpen(true)
+  }
+
   const handleDeleteCancel = () => {
     setIsDelete(false)
     setDeleteData(null)
@@ -70,12 +75,11 @@ const Coupons = memo(() => {
   }, [deleteData]);
 
   //open Coupon form edit/add
-  const handleCouponForm = useCallback((coupon) => {
-    console.log('coupon edit:', coupon);
+  // const handleCouponForm = useCallback(() => {
+  //   console.log('edit ', editData);
     
-    if (coupon) setEditData(coupon);
-    setOpen(true);
-  }, []);
+  //   setOpen(true);
+  // }, []);
 
   const closeCouponForm = useCallback(() => {
     setEditData(null);
@@ -90,8 +94,7 @@ const Coupons = memo(() => {
   const handleSubmit = async (values) => {
     
     if (editData?._id) {
-      console.log('edit values', values);
-      
+
       await dispatch(updateCouponThunk({ couponId: editData._id, data: values })).unwrap()
 
         setEditData(null);
@@ -102,8 +105,6 @@ const Coupons = memo(() => {
       toast.success("Coupon created");
         setOpen(false);
     }
-    console.log('values', values);
-    
   };
 
   // const totalItems = pagination?.totalCoupons || 30;
@@ -139,14 +140,17 @@ const Coupons = memo(() => {
           icon={<IoSearch />}
           value={search || ""}
           onChange={(e) => dispatch(setSearch(e.target.value))}
+          className='flex-1 m-5'
         />
 
         <Button
           size="md"
+          variant='custom'
           style={{ height: 30 }}
-          onClick={() => handleCouponForm()}
+          onClick={() => setOpen(true)}
+          className='m-4'
         >
-          ADD Coupon
+          ADD COUPON
         </Button>
       </div>
 
@@ -157,7 +161,7 @@ const Coupons = memo(() => {
           columns={["code", "description", "price", "status"]}
           data={coupons}
           actions={{
-            onEdit: handleCouponForm,
+            onEdit: handleCouponEditForm,
             onDelete: handleDeleteCoupon,
           }}
         />

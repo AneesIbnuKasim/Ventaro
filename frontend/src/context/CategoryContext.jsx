@@ -54,7 +54,6 @@ const categoryReducer = (state, action) => {
   switch (action.type) {
     case "SET_FROM_URL":
 
-    console.log('filter and pagination in reducer:',action.payload.pagination)
       return {
         ...state,
         filters: { ...state.filters, ...action.payload.filters },
@@ -132,8 +131,6 @@ export const CategoryProvider = ({ children }) => {
     console.log("STATE ON FIRST RENDER:", state.pagination.page, state.pagination.limit);
   }, [state.pagination.page, state.pagination.limit])
 
-  console.log("state", state);
-
   const debouncedSearch = useDebounce(state?.filters?.search, 500);
 
   useEffect(() => {
@@ -158,9 +155,6 @@ export const CategoryProvider = ({ children }) => {
       const { status, sortBy, sortOrder } = state.filters;
       const { page, limit } = state.pagination;
 
-      console.log("on api limit:", limit);
-      console.log("on api limit:", page);
-
       const response = await adminAPI.getAllCategory({
         search: debouncedSearch,
         sortBy,
@@ -169,8 +163,6 @@ export const CategoryProvider = ({ children }) => {
         status,
         limit,
       });
-
-      console.log("category fetch response:", response.data);
 
       dispatch({
         type: CATEGORY_ACTIONS.SET_CATEGORY,

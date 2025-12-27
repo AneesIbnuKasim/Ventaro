@@ -1,43 +1,47 @@
 import { useEffect, useState } from "react";
-import {
-  Search,
-  User,
-  Heart,
-  ShoppingBag,
-  Menu,
-  X
-} from "lucide-react";
+import { Search, User, Heart, ShoppingBag, Menu, X, Badge } from "lucide-react";
 import { FormInput } from ".";
 import Footer from "./Footer";
 import { useProduct } from "../../context/ProductContext";
-import { useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import SearchInput from "./SearchInput";
 import { useNavigateWithReset } from "../../hooks/useNavigateWithReset";
-
+import { useSelector } from "react-redux";
+import { BiNotification } from "react-icons/bi";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Navbar({
   logo = "Logo",
-  categories = ["mobile", "laptop", "air conditioners", "tablets", 'mobile accessories'],
+  categories = [
+    "mobile",
+    "laptop",
+    "air conditioners",
+    "tablets",
+    "mobile accessories",
+  ],
   showProfile = true,
   showWishlist = true,
   showBag = true,
 }) {
   const navigate = useNavigate();
   const navigateWithReset = useNavigateWithReset();
-  
+  const { items } = useSelector((state) => state.cart);
+
   const [menuOpen, setMenuOpen] = useState(false);
-  const { filters, setFilters, setGlobalCategory } = useProduct()
-  const [ suggestion, setSuggestion ] = useState()
+  const { filters, setFilters, setGlobalCategory } = useProduct();
+  const { logout } = useAuth();
+  const [open, setOpen] = useState(false);
+
+  //NAVIGATE TO CORRESPONDING CATEGORY WHEN CLICKS
   const navigateToCategory = (cat) => {
-    setGlobalCategory(cat)
-    navigateWithReset(`/products/${cat}`)
-  }
+    setGlobalCategory(cat);
+    navigateWithReset(`/products/${cat}`);
+  };
 
   return (
     <>
       <nav className="w-full bg-white shadow-lg sticky top-0 z-50">
         <div className="max-w-[1440px] mx-auto px-4 h-18 flex items-center justify-between gap-4">
-
           {/* LEFT: Mobile menu + Logo */}
           <div className="flex items-center gap-3">
             <button className="lg:hidden" onClick={() => setMenuOpen(true)}>
@@ -60,7 +64,6 @@ export default function Navbar({
 
           {/* CENTER: categories + search */}
           <div className="flex-1 flex items-center gap-10 justify-center">
-
             {/* Categories (dynamic) */}
             <ul className="hidden lg:flex items-center gap-8 text-sm font-semibold">
               {categories.map((cat) => (
@@ -104,9 +107,49 @@ export default function Navbar({
               <Search size={22} />
             </button>
 
-            {showProfile && <User onClick={()=>navigateWithReset(`/profile/account`)} size={22} className="cursor-pointer" />}
+            <div className="relative group inline-block">
+              {showProfile && (
+                <User
+                  onClick={() => navigateWithReset(`/profile/account`)}
+                  size={22}
+                  className="cursor-pointer"
+                />
+              )}
+              <div className="absolute hidden w-25 text-center group-hover:block bg-violet-300 top-4 right-1 rounded z-100">
+                <NavLink className="flex flex-col w-full ">
+                  <Link
+                    to={"/profile/account"}
+                    className="hover:bg-violet-400 rounded p-1 "
+                  >
+                    Profile
+                  </Link>
+                  <Link
+                    to="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      logout();
+                    }}
+                  >
+                    Logout
+                  </Link>
+                </NavLink>
+              </div>
+            </div>
             {showWishlist && <Heart size={22} className="cursor-pointer" />}
-            {showBag && <ShoppingBag size={22} className="cursor-pointer" onClick={() => navigate('/cart', {replace: true})} />}
+            {showBag && (
+              <div className="relative">
+                <ShoppingBag
+                  size={22}
+                  className="cursor-pointer"
+                  onClick={() => navigate("/cart", { replace: true })}
+                />
+                {items.length > 0 && (
+                  <span className="absolute flex rounded-xl text-xs bottom-3 left-3  text-white bg-red-600 w-4 h-4 justify-center items-center">
+                    {items.length}
+                  </span>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </nav>

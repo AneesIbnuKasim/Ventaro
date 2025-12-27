@@ -13,5 +13,6 @@ router.put('/avatar', upload.single('avatar'), checkUserStatus, authenticateUser
 router.post('/addresses', checkUserStatus, authenticateUser, UserController.addAddress)
 router.put('/addresses/:id', checkUserStatus, authenticateUser, UserController.updateAddress)
 router.delete('/addresses/:id', checkUserStatus, authenticateUser, UserController.deleteAddress)
+router.put('/change-password', checkUserStatus, authenticateUser, UserController.changePassword)
 
 module.exports = router

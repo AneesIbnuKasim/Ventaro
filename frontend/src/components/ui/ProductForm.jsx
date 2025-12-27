@@ -43,7 +43,7 @@ export default function ProductForm({ onConfirm, onCancel, editData = '' }) {
       categoryId: editData.categoryId,
       brandName: editData.brandName,
       sellingPrice: editData.sellingPrice,
-      discount: editData.discount,
+      originalPrice: editData.originalPrice,
       description: editData.description,
       stock: editData.stock
     } : {
@@ -51,7 +51,7 @@ export default function ProductForm({ onConfirm, onCancel, editData = '' }) {
       categoryId: "",
       brandName: "",
       sellingPrice: '',
-      discount: '',
+      originalPrice: '',
       description: "",
       stock: ""
     }
@@ -73,7 +73,7 @@ export default function ProductForm({ onConfirm, onCancel, editData = '' }) {
   return (
     <form
       onSubmit={formik.handleSubmit} noValidate
-      className="w-full h-[80vh] overflow-y-auto bg-white p-6 rounded-xl shadow-sm border grid grid-cols-1 gap-6"
+      className="w-full h-[80vh] overflow-y-auto bg-white p-6 rounded-xl shadow-sm grid grid-cols-1 gap-6"
     >
       <div className="flex flex-col gap-4">
         {/* Product Name */}
@@ -178,8 +178,7 @@ export default function ProductForm({ onConfirm, onCancel, editData = '' }) {
         </div>
       </div>
 
-      {/* RIGHT SECTION */}
-      <div className="flex flex-col ml-10 gap-4">
+      <div className="flex flex-col gap-4">
         <div className="grid grid-cols-4 gap-3">
           {previews.map((src, i) => (
             <img key={i} src={src} className="w-24 h-24 object-cover rounded" />
@@ -188,17 +187,17 @@ export default function ProductForm({ onConfirm, onCancel, editData = '' }) {
 
         <ImageInput handleMultiple={handleMultiple} editData={editData} />
 
-        <div className="flex justify-end gap-4 mt-4">
+        <div className="flex  justify-end gap-4 mt-4">
           <Button
             variant="danger"
             onClick={onCancel}
-            size="md"
-            loading={loading}
+            size="sm"
+            className={'flex-1'}
           >
             CANCEL
           </Button>
 
-          <Button type="submit" variant="primary" size="md" loading={loading}>
+          <Button type="submit" variant="custom" size="sm" loading={loading} className={'flex-1'}>
            {editData ?  'UPDATE PRODUCT' : 'ADD PRODUCT'}
           </Button>
         </div>

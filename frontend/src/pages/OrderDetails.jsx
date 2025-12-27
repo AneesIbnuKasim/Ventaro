@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { fetchSingleOrderThunk } from "../redux/slices/orderSlice";
 import { API_CONFIG } from "../config/app";
 import { Loading } from "../components/ui";
+import { selectCodFee, selectShippingFee, selectSubTotal } from "../redux/selector/orderSelector";
 
 
 const formatDate = (date) =>
@@ -19,11 +20,13 @@ export default function OrderDetails() {
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const { selectedOrder, loading } = useSelector(state => state.order)
+  const subTotal = useSelector(selectSubTotal)
+  const shippingFee = useSelector(selectShippingFee)
+  const codFee = useSelector(selectCodFee)
 
   useEffect(() => {
   dispatch(fetchSingleOrderThunk(orderId));
 }, [dispatch, orderId]);
-console.log('loaded order', selectedOrder);
 
 if (!selectedOrder) {
   return (
@@ -56,7 +59,7 @@ if (loading) {
           <div className="flex justify-between flex-wrap gap-4">
             <div>
               <p className="text-sm text-gray-500">Order ID</p>
-              <p className="font-semibold">{selectedOrder._id}</p>
+              <p className="font-semibold">{selectedOrder.orderId}</p>
               <p className="text-sm text-gray-500 mt-1">
                 Placed on {formatDate(selectedOrder.createdAt)}
               </p>
@@ -130,9 +133,23 @@ if (loading) {
           <div className="bg-gray-50 rounded-2xl p-6 shadow-sm">
             <h2 className="font-semibold mb-3">Order Summary</h2>
             <div className="flex justify-between text-sm mb-2">
-              <span>Total</span>
-              <span>₹{selectedOrder.totalAmount}</span>
+              <span>Sub Total</span>
+              <span>₹{subTotal}</span>
             </div>
+            <div className="flex justify-between text-sm text-green-400 mb-2">
+              <span>Discount</span>
+              <span>₹{selectedOrder.totalDiscount}</span>
+            </div>
+            <div className="flex justify-between text-sm mb-2">
+              <span>Sub Total</span>
+              <span>₹{shippingFee}</span>
+            </div>
+            {codFee !== 0 && (
+              <div className="flex justify-between text-sm mb-2">
+              <span>COD Fee</span>
+              <span>₹{codFee}</span>
+            </div>
+            )}
             <div className="border-t mt-4 pt-4 flex justify-between font-semibold">
               <span>Grand Total</span>
               <span>₹{selectedOrder.totalAmount}</span>

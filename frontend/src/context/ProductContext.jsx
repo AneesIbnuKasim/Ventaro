@@ -320,9 +320,6 @@ export const ProductProvider = ({ children }) => {
       try {
         dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
 
-        console.log('category in handler', category);
-        
-
         const res = await productAPI.fetchSearch({ 
           search,
           sortBy,
@@ -462,7 +459,6 @@ export const ProductProvider = ({ children }) => {
       return Array.isArray(parsed) ? parsed : [];
     } catch (error) {
       toast.error("Loading cart failed");
-      console.log("Loading cart failed");
       return [];
     }
   };

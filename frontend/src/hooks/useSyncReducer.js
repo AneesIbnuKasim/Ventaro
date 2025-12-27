@@ -203,8 +203,6 @@ export default function useSyncReducer(
 
     const newUrl = `${location.pathname}?${params.toString()}`;
 
-    console.log('new url:', newUrl);
-    
     window.history.replaceState({}, "", newUrl);
   }, [state.filters, state.pagination, location.pathname]);
 

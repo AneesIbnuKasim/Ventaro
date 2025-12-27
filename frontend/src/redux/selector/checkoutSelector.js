@@ -7,7 +7,7 @@ export const selectPaymentMethod = (state) => state.checkout.paymentMethod;
 
 export const selectCodFee = createSelector(
   [selectPaymentMethod],
-  (method) => (method === "cod" ? COD_FEE : 0)
+  (method) => (method === "COD" ? COD_FEE : 0)
 );
 
 export const selectFinalPayable = createSelector(

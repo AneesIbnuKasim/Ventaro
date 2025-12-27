@@ -23,18 +23,20 @@ const CouponForm = ({ editData, onConfirm }) => {
     {label: c.name, value: c._id}
   ))
 
-  console.log("cat opt", categoryOptions);
+  useEffect(() => {
+    console.log('editData', editData);
+    
+  }, [])
 
   useEffect(() => {
     if (!categories.length > 0) {
       fetchCategories();
     }
   }, []);
-  console.log("cats:", categories);
-
+  
   const initialValues = {
     code: "",
-    discountType: 0,
+    discountType: '',
     startDate: "",
     endDate: "",
     discountValue: '',
@@ -45,8 +47,8 @@ const CouponForm = ({ editData, onConfirm }) => {
     perUserLimit: "",
     applicableCategories: [],
   };
-  const editInitialValues = {
-    code: editData.code,
+  const editInitialValues = editData ? {
+    code: editData?.code,
     discountType: editData.discountType,
     startDate: new Date(editData.startDate).toISOString().split("T")[0],
     endDate: new Date(editData.endDate).toISOString().split("T")[0],
@@ -57,11 +59,11 @@ const CouponForm = ({ editData, onConfirm }) => {
     usedCount: editData.usedCount,
     perUserLimit: editData.perUserLimit,
     applicableCategories: editData.applicableCategories,
-  };
+  } : initialValues
 
   return (
     <Formik
-      initialValues={editData ? editInitialValues : initialValues}
+      initialValues={editInitialValues}
       validationSchema={couponValidation}
       enableReinitialize
       onSubmit={onConfirm}

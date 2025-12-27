@@ -1,6 +1,8 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useReducer } from "react";
 import { clearTokens, getAuthToken, getUser, setUser } from "../utils/apiClient";
 import { authAPI } from "../services";
+import { Navigate, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 
 const AuthContext = createContext()
@@ -58,6 +60,7 @@ const initialState = {
 
 export const AuthProvider = ({children}) => {
     const [state, dispatch] = useReducer(authReducer, initialState)
+    const navigate = useNavigate()
 
     useEffect(()=>{
         if (state.user) {
@@ -77,16 +80,21 @@ export const AuthProvider = ({children}) => {
             dispatch({ type: AUTH_ACTIONS.LOGIN_FAILURE, payload: errorMessage })
             return { success: false, error: errorMessage}
         }
-    }, [])
+    }, [dispatch])
 
     const clearError = useCallback(()=>{
         dispatch({ type: AUTH_ACTIONS.CLEAR_ERROR })
     },[])
 
     const logout = useCallback(() => {
-        console.log('logout hit')
+        console.log('in logout');
+        
         clearTokens()
-    })
+        setTimeout(() => {
+            navigate('/', {replace: true})
+            toast.success('Logged out successfully')
+        }, 100)
+    }, [])
 
     const value = {
         user: state.user,
@@ -95,6 +103,7 @@ export const AuthProvider = ({children}) => {
         error: state.error,
         token: getAuthToken(),
         login,
+        logout,
         clearError
     }
 

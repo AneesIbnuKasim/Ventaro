@@ -1,5 +1,5 @@
 const Admin = require("../models/Admin")
-const { NotFoundError, ConflictError, AuthorizationError, AuthenticationError } = require("../utils/errors")
+const { NotFoundError, ConflictError, AuthorizationError, AuthenticationError, ValidationError } = require("../utils/errors")
 const { generateAdminToken } = require("../utils/jwt")
 const logger = require("../utils/logger")
 
@@ -10,7 +10,7 @@ class AdminService {
             const admin = await Admin.findByEmail(email)
         
         if (!admin || admin.role !== 'admin') {
-            throw new AuthenticationError('Invalid admin credentials')
+            throw new ValidationError('Invalid admin credentials')
         }
 
         const isPasswordMatching = await admin.comparePassword(password)

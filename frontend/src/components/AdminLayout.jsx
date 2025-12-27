@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo, useRef } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { IoMdHome } from "react-icons/io";
 import { useAuth } from "../context/AuthContext";
@@ -12,12 +12,15 @@ import { useAdmin } from "../context/AdminContext";
 const AdminLayout = React.memo(({ 
  }) => {
   
+  const titleRef = useRef('test')
   
   const { admin, logout } = useAdmin();
   const user = admin
   const location = useLocation();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  const [ title, setTitle ] = useState('')
 
   const handleLogout = useCallback(() => {
     logout();
@@ -31,7 +34,7 @@ const AdminLayout = React.memo(({
                 <AdminSidebar/>
                 <div className="w-full">
                     <AdminHeader
-                title = {'products'}
+                title = {titleRef.current}
                 >
                 <UserAvatar
                 user
@@ -40,7 +43,7 @@ const AdminLayout = React.memo(({
                 />
                 </AdminHeader>
                 <div className="m-5" >
-                  <Outlet />
+                  <Outlet  />
                 </div>
                 </div>
                 

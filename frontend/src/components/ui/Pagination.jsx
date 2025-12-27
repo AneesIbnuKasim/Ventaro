@@ -1,4 +1,5 @@
 import React from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const Pagination = ({
   currentPage,
@@ -6,7 +7,7 @@ const Pagination = ({
   onPageChange,
   totalItems,
   itemsPerPage,
-  className= ''
+  className = "",
 }) => {
   const getVisiblePages = () => {
     const pages = [];
@@ -46,39 +47,55 @@ const Pagination = ({
 
   const startItem = (currentPage - 1) * itemsPerPage + 1;
   const endItem = Math.min(currentPage * itemsPerPage, totalItems);
+
   return (
-    <div className={`flex items-center justify-center gap-20 w-full mt-5 border border-gray-200 shadow-sm p-4 rounded-2xl `}>
-      <div className={`${className} flex flex-col items-center gap-3`}>
+    <div
+      className={`w-full mt-6 flex items-center justify-between rounded-2xl border border-gray-200 bg-white/70 backdrop-blur px-6 py-4 shadow-sm ${className}`}
+    >
+      {/* Info */}
+      <p className="text-sm text-gray-600">
+        Showing{" "}
+        <span className="font-medium text-gray-900">
+          {startItem}–{endItem}
+        </span>{" "}
+        of{" "}
+        <span className="font-medium text-gray-900">{totalItems}</span>
+      </p>
+
+      {/* Pagination */}
       <nav>
         <ul className="flex items-center gap-1">
-          {/* Prev Button */}
+          {/* Previous */}
           <li>
             <button
-              className={`px-3 py-1 border rounded-md text-sm ${
-                currentPage === 1
-                  ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                  : "bg-white hover:bg-gray-100 text-gray-700"
-              }`}
-              onClick={() => currentPage !== 1 && onPageChange({page: currentPage - 1})}
+              onClick={() =>
+                currentPage !== 1 && onPageChange({ page: currentPage - 1 })
+              }
               disabled={currentPage === 1}
+              className={`flex items-center gap-1 rounded-full px-3 py-1.5 text-sm transition ${
+                currentPage === 1
+                  ? "cursor-not-allowed bg-gray-100 text-gray-400"
+                  : "bg-white text-gray-700 hover:bg-gray-100"
+              }`}
             >
-              ← Previous
+              <ChevronLeft size={16} />
+              Prev
             </button>
           </li>
 
-          {/* Page Numbers */}
+          {/* Pages */}
           {getVisiblePages().map((page, index) => (
             <li key={index}>
               {page === "..." ? (
-                <span className="px-3 py-1 text-gray-500">...</span>
+                <span className="px-3 py-1 text-gray-400">•••</span>
               ) : (
                 <button
-                  className={`px-3 py-1 border rounded-md text-sm ${
+                  onClick={() => onPageChange({ page })}
+                  className={`min-w-[36px] rounded-full px-3 py-1.5 text-sm font-medium transition ${
                     page === currentPage
-                      ? "bg-blue-600 text-white border-blue-600"
+                      ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow"
                       : "bg-white text-gray-700 hover:bg-gray-100"
                   }`}
-                  onClick={() => setPagination('page',page)}
                 >
                   {page}
                 </button>
@@ -86,31 +103,26 @@ const Pagination = ({
             </li>
           ))}
 
-          {/* Next Button */}
+          {/* Next */}
           <li>
             <button
-              className={`px-3 py-1 border rounded-md text-sm ${
-                currentPage === totalPages
-                  ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                  : "bg-white hover:bg-gray-100 text-gray-700"
-              }`}
               onClick={() =>
-                {currentPage !== totalPages && onPageChange({page: currentPage + 1})
-                console.log(currentPage+1);
-                }
+                currentPage !== totalPages &&
+                onPageChange({ page: currentPage + 1 })
               }
               disabled={currentPage === totalPages}
+              className={`flex items-center gap-1 rounded-full px-3 py-1.5 text-sm transition ${
+                currentPage === totalPages
+                  ? "cursor-not-allowed bg-gray-100 text-gray-400"
+                  : "bg-white text-gray-700 hover:bg-gray-100"
+              }`}
             >
-              Next →
+              Next
+              <ChevronRight size={16} />
             </button>
           </li>
         </ul>
       </nav>
-
-      <div className="text-sm text-gray-600">
-        Showing {startItem}-{endItem} of {totalItems} items
-      </div>
-      </div>
     </div>
   );
 };

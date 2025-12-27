@@ -39,15 +39,11 @@ export const productAddSchema = Yup.object({
     .positive("sellingPrice must be greater than 0")
     .integer("sellingPrice must be a whole number")
     .required("sellingPrice required"),
-  originalPrice: Yup.number("Base price must be a number")
-    .positive("sellingPrice must be greater than 0")
-    .integer("sellingPrice must be a whole number")
-    .nullable().notRequired(),
   brandName: Yup.string().required("Brand name is required"),
   description: Yup.string()
     .min(8, "Description must be at least 8 characters")
     .required("Description is required"),
-  originalPrice: Yup.number("Original Price must be a Number").min(Yup.ref('sellingPrice'), 'Original price should be greater than base price').nullable().notRequired,
+  originalPrice: Yup.number("Original Price must be a Number").min(Yup.ref('sellingPrice'), 'Original price should be greater than base price').nullable().notRequired(),
 });
 
 // USER SECTION
@@ -83,3 +79,26 @@ export const couponValidation = Yup.object({
   startDate: Yup.date().required(),
   endDate: Yup.date().required().min(Yup.ref("startDate"), "End date must be after start date"),
 });
+
+//PASSWORD CHANGE SCHEMA
+export const passwordChangeSchema = Yup.object({
+      currentPassword: Yup.string()
+        .min(8, "currentPassword must be at least 8 characters")
+        .required("currentPassword required")
+        .matches(
+          passwordPattern,
+          "Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a number, and a special character"
+        ),
+
+    newPassword: Yup.string()
+        .min(8, "currentPassword must be at least 8 characters")
+        .required("currentPassword required")
+        .matches(
+          passwordPattern,
+          "Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a number, and a special character"
+        ),
+
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("newPassword")], "Passwords do not match")
+      .required("Confirm password is required"),
+  });

@@ -150,12 +150,15 @@ const Categories = memo(() => {
           icon={<IoSearch />}
           value={filters.search || ""}
           onChange={(e) => handleSearch(e)}
+          className={'m-5 flex-1'}
         />
 
         <Button
-          size="lg"
+          size="md"
+          variant='custom'
           style={{ height: 30 }}
           onClick={() => handleCategoryForm()}
+          className={'m-4'}
         >
           ADD CATEGORY
         </Button>

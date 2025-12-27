@@ -29,7 +29,6 @@ export default function SingleProduct({ product = {} }) {
   }, [product, images]);
 
   const addToCart = () => {
-    console.log('in dispatch', product._id);
     
     dispatch(addCartThunk({ productId: product._id, quantity: 1 })).unwrap()
     toast.success('Product added to cart')

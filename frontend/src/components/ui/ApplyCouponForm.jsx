@@ -19,8 +19,6 @@ const ApplyCouponForm = () => {
     (state) => state.cart
   );
 
-  console.log('applied in form:', appliedCoupon);
-  
   return (
     <>
     <Formik
@@ -29,8 +27,6 @@ const ApplyCouponForm = () => {
       validationSchema={CouponSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         if ( appliedCoupon?.code ) {
-          console.log('here in remove');
-          
           dispatch(
           removeCouponThunk()
         )

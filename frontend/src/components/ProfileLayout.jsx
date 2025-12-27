@@ -76,7 +76,7 @@ const ProfileLayout = () => {
         <div className="max-w-7xl w-full mx-auto p-6">
           <div className="bg-white rounded-2xl shadow-sm flex overflow-hidden">
             {/* SIDEBAR */}
-            <aside className="w-64 border-r bg-white p-6">
+            <aside className="w-64 bg-slate-200 p-6">
   
               {/* AVATAR PREVIEW AND EDIT SAVE SECTION */}
               <div className="flex flex-col items-center gap-5 mb-5">
@@ -101,12 +101,12 @@ const ProfileLayout = () => {
                 {/* AVATAR PREVIEW */}
                 {avatarPreview && (
                   <div className="flex gap-3">
-                    <button
+                    <Button
                       onClick={handleAvatarSave}
-                      className="bg-green-600 text-white px-4 py-1 rounded-md"
+                      variant={'success'}
                     >
                       SAVE
-                    </button>
+                    </Button>
   
                     <button
                       onClick={handleAvatarCancel}

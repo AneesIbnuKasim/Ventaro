@@ -19,12 +19,14 @@ import { useCategory } from "../context/CategoryContext";
 
 ///Admin product page
 
-const Products = memo(() => {
+const Products = memo((setTitle) => {
   const [open, setOpen] = useState(false);
   const [editData, setEditData] = useState(null);
   const [isDelete, setIsDelete] = useState(false);
   const [deleteData, setDeleteData] = useState(null);
   const { fetchCategories, categories } = useCategory();
+  
+
   const {
     products,
     pagination,
@@ -134,12 +136,15 @@ const Products = memo(() => {
           icon={<IoSearch />}
           value={filters.search || ""}
           onChange={(e) => setFilters({ search: e.target.value })}
+          className={'flex-1 m-5'}
         />
 
         <Button
-          size="md"
+          size="sm"
+          variant={'custom'}
           style={{ height: 30 }}
           onClick={() => handleProductForm()}
+          className={'m-4'}
         >
           ADD PRODUCT
         </Button>

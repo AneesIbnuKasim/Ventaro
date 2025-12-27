@@ -145,10 +145,10 @@ class CouponService {
         }
 
         if (coupon.maxDiscountAmount) {
-            discount = Math.min(discount, coupon.maxDiscountAmount)
+            discount = Math.round( Math.min(discount, coupon.maxDiscountAmount))
         }
 
-        const finalAmount = Math.max(cartTotal - discount, 0)
+        const finalAmount = Math.round(Math.max(cartTotal - discount, 0))
         
         return {
             valid: true,

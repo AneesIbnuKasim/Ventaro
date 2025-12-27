@@ -43,8 +43,9 @@ export default function AccountInfo() {
                     isEditingRef.current = true;
                     setIsEdit(true);
                   }}
-                  size='md'
-                  className="bg-blue-600 text-white px-6 rounded-lg"
+                  size='sm'
+                  variant='custom'
+                  className=" text-white px-6 rounded-lg"
                 >
                   EDIT
                 </Button>
@@ -126,7 +127,7 @@ export default function AccountInfo() {
                       type="submit"
                       size='md'
                       disabled={isSubmitting}
-                      className="bg-green-600 text-white px-8 mt-3 "
+                      variant={'success'}
                     >
                       SAVE
                     </Button>

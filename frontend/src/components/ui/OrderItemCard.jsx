@@ -100,10 +100,10 @@ export default function OrderItemCard({ order, onCancel, handleReturn }) {
           )}
         </div>
 
-        {/* Delete confirmation modal */}
+        {/* Cancel confirmation modal */}
         <ConfirmDialog
-          isOpen={cancelId ? true : false}
-          title="Are you sure to delete"
+          isOpen={!!cancelId}
+          title="Are you sure to cancel"
           onCancel={() => setCancelId(null)}
           onConfirm={() => {
             onCancel(cancelId);

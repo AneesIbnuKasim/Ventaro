@@ -285,11 +285,11 @@ class CartService {
     cart.appliedCoupon = {
         code: result.coupon.code,
         discountType: result.coupon.discountType,
-        discountValue: result.coupon.discountValue
+        discountValue: Math.round(result.coupon.discountValue)
     }
 
-    cart.discountTotal = result.discount
-    cart.payableTotal = result.finalAmount
+    cart.discountTotal = Math.round(result.discount)
+    cart.payableTotal = Math.round(result.finalAmount)
 
 
     console.log('applied cart:', cart);

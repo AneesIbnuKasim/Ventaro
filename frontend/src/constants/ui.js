@@ -24,10 +24,10 @@ export const LOGIN_CARD_STYLES = {
 
 export const BUTTON_VARIANTS = {
   primary: 'bg-blue-600 text-white hover:bg-blue-700',
-  custom: 'bg-purple-600 text-white hover:bg-purple-700',
+  custom: 'bg-violet-600 text-white hover:bg-violet-800',
   secondary: 'bg-gray-600 text-white hover:bg-gray-700',
   success: 'bg-green-600 text-white hover:bg-green-700',
-  danger: 'bg-red-600 text-white hover:bg-red-700',
+  danger: 'bg-red-500 text-white hover:bg-red-700',
   warning: 'bg-yellow-500 text-white hover:bg-yellow-600',
   info: 'bg-teal-600 text-white hover:bg-teal-700',
   light: 'bg-gray-100 text-gray-700 hover:bg-gray-200',

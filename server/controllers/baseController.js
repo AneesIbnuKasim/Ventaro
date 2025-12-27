@@ -26,9 +26,9 @@ class BaseController {
         const { error, value } = schema.validate(data, {abortEarly: false}, { convert: true })
 
         if(error) {
-            console.log('validation Error:', error);
+            console.log('validation Error:', error.details);
             
-            throw new ValidationError('Validation Error', error.details)
+            throw new ValidationError(error.details.map(item => item.message))
         }
         return value
     }

@@ -27,6 +27,8 @@ const AdminLogin = memo(() => {
       const { setAdminToken } = await import('../utils/apiClient')
 
         const response = await adminAPI.login(values)
+        console.log('admin login response:', response);
+        
 
         const adminData = response?.data.admin
         const adminToken = response?.data?.token
@@ -46,7 +48,7 @@ const AdminLogin = memo(() => {
       toast.success(`Welcome back ${admin.name || 'Admin'}!`)
 
       setTimeout(()=>{
-        if (admin.role === 'admin' || isAdminAttempt) navigate('/admin/dashboard',{replace: true})
+        if (admin.role === 'admin') navigate('/admin/dashboard',{replace: true})
       },100)
 
     } catch (error) {

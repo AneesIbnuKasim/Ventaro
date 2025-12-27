@@ -1,6 +1,6 @@
 import ResetPassword from "../pages/ResetPassword";
 import { makeRequest } from "../utils/apiClient";
-import  axios  from "axios";
+import axios from "axios";
 
 export const userAPI = {
   //USER PROFILE SECTION
@@ -22,59 +22,67 @@ export const userAPI = {
     });
   },
 
-  
   //UPDATE USER PROFILE AVATAR
   updateAvatar: async (formData) => {
-      console.log('formdata', formData);
-      
-      const token = localStorage.getItem("authToken");
-      const res = await axios.put(
-          "http://localhost:5001/api/user/avatar",
-          formData,
-          {
-              headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-            }
-        );
-        
-        return res.data;
-    },
+    console.log("formdata", formData);
 
-    // ADD ADDRESS ID TO USER AND ADDRESS TO ADDRESS SCHEMA
-    addAddress: (addressData) => {
-      return makeRequest({
-        method: "post",
-        url: "api/user/addresses",
-        data: addressData
-      });
-    },
+    const token = localStorage.getItem("authToken");
+    const res = await axios.put(
+      "http://localhost:5001/api/user/avatar",
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
-     // UPDATE ADDRESS 
-    editAddress: (addressId, addressData) => {
-        console.log('addressId', addressId);
-        
-      return makeRequest({
-        method: "put",
-        url: `api/user/addresses/${addressId}`,
-        data: addressData
-      });
-    },
+    return res.data;
+  },
 
-    // DELETE ADDRESS
-    deleteAddress: (addressId) => {
-      return makeRequest({
-        method: "delete",
-        url: `api/user/addresses/${addressId}`,
-      });
-    },
+  // ADD ADDRESS ID TO USER AND ADDRESS TO ADDRESS SCHEMA
+  addAddress: (addressData) => {
+    return makeRequest({
+      method: "post",
+      url: "api/user/addresses",
+      data: addressData,
+    });
+  },
 
-    //FETCH WALLET
-    fetchWallet: (credentials)=>{
-        return makeRequest({
-            method: 'get',
-            url: 'api/user/wallet',
-            data: credentials
-        })
-    },
+  // UPDATE ADDRESS
+  editAddress: (addressId, addressData) => {
+    console.log("addressId", addressId);
+
+    return makeRequest({
+      method: "put",
+      url: `api/user/addresses/${addressId}`,
+      data: addressData,
+    });
+  },
+
+  // DELETE ADDRESS
+  deleteAddress: (addressId) => {
+    return makeRequest({
+      method: "delete",
+      url: `api/user/addresses/${addressId}`,
+    });
+  },
+
+  //CHANGE PASSWORD FROM USER PROFILE
+  changePassword: (credentials) => {
+    return makeRequest({
+      method: "put",
+      url: "api/user/change-password",
+      data: credentials,
+    });
+  },
+
+  //FETCH WALLET
+  fetchWallet: (credentials) => {
+    return makeRequest({
+      method: "get",
+      url: "api/user/wallet",
+      data: credentials,
+    });
+  },
 };
