@@ -11,7 +11,7 @@ const Table = ({ data, columns, actions, type='' , onStatusChange}) => {
   }, [data])
 
   return (
-    <table className="w-full border bg-white border-gray-300 text-left">
+    <table className="w-full border bg-white border-gray-300 text-left rounded-xl">
       <thead>
         <tr className="bg-gray-100">
           {columns.map((col) => (
@@ -33,16 +33,16 @@ const Table = ({ data, columns, actions, type='' , onStatusChange}) => {
 
       <tbody >
         {data?.map((item) => (
-          <tr key={item._id} className="hover:bg-gray-50">
+          <tr key={item._id} className="hover:bg-gray-50 ">
             {columns.map((col) => (
-              <td key={col} className="px-4 py-2 border">
+              <td key={col} className="px-4 py-2 border border-gray-200 ">
                 {col === "order Status" ? (
                   <select
                     value={item.orderStatus}
                     onChange={(e) =>
                       onStatusChange?.(item._id, e.target.value)
                     }
-                    className="border rounded px-2 py-1 text-sm"
+                    className=" rounded px-2 py-1 text-sm"
                   >
                     {STATUS_OPTIONS?.map((status) => (
                       <option key={status} value={status}>

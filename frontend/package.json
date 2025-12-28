@@ -27,6 +27,7 @@
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.9.6",
     "react-toastify": "^11.0.5",
+    "recharts": "^3.6.0",
     "tiny-case": "1.0.3",
     "yup": "^1.2.0"
   },

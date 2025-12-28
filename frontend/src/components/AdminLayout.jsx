@@ -37,8 +37,9 @@ const AdminLayout = React.memo(({
                 title = {titleRef.current}
                 >
                 <UserAvatar
-                user
+                user={admin}
                 showName= {true}
+                showEmail={true}
                 size="sm"
                 />
                 </AdminHeader>

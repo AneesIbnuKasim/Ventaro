@@ -39,7 +39,7 @@ const UserAvatar = ({
     />
   ) : (
     <div
-      className={`bg-primary d-flex align-items-center justify-content-center text-white ${variantClass} ${className}`}
+      className={`bg-primary flex items-center justify-center rounded-full text-white ${variantClass} ${className}`}
       style={sizeStyle}
     >
       <span style={{ fontSize: sizeStyle.fontSize }}>
@@ -53,7 +53,7 @@ const UserAvatar = ({
   }
 
   return (
-    <div className="d-flex align-items-center">
+    <div className="flex items-center">
       {avatarElement}
       {(showName || showEmail) && (
         <div className="ms-3">

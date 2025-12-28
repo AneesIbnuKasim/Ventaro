@@ -42,6 +42,7 @@ const OrderDetails = lazy(() => import("./pages/OrderDetails.jsx"));
 const Wallet = lazy(() => import("./pages/Wallet.jsx"));
 const PasswordChange = lazy(() => import("./pages/PasswordChange.jsx"));
 const OrdersAdmin = lazy(() => import("./pages/OrdersAdmin.jsx"));
+const SalesReport = lazy(() => import("./pages/SalesReport.jsx"));
 
 const App = () => (
   <BrowserRouter>
@@ -183,6 +184,7 @@ const App = () => (
                 <Route path="products" element={<Products title={'Products'}/>} />
                 <Route path="coupons" element={<Coupons />} />
                 <Route path="orders" element={<OrdersAdmin />} />
+                <Route path="sales-report" element={<SalesReport />} />
               </Route>
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
