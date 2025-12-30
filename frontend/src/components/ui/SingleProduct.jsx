@@ -4,8 +4,9 @@ import { useProduct } from "../../context/ProductContext";
 import { useDispatch } from "react-redux";
 import { addCartThunk } from "../../redux/slices/cartSlice";
 import { toast } from "react-toastify";
+import RatingStars from "./RatingStars";
 
-export default function SingleProduct({ product = {} }) {
+export default function SingleProduct({ product = {}, avgRating = '' }) {
 
   //PRODUCT IMAGE LINK
   const images = Array.isArray(product.images) && product.images.length > 0
@@ -60,14 +61,23 @@ export default function SingleProduct({ product = {} }) {
       <div className="space-y-4">
         <h2 className="text-2xl font-semibold leading-snug">{product.name}</h2>
 
-        <p className="text-3xl font-bold text-gray-900">Rs. {product.sellingPrice ?? "-"}</p>
+        <p className="text-3xl font-bold text-gray-900">Rs. {product.sellingPrice ?? "-"} 
+          {product.originalPrice && (
+             <span className="text-gray-400 ml-3 line-through text-md">
+            Rs. {product.originalPrice}
+          </span>
+        )}
+        </p>
 
         <p className="text-sm text-gray-600 leading-relaxed max-w-lg">{product.shortDescription}</p>
 
-        <div className="mt-4 text-sm text-gray-700 space-y-1">
-          <p><span className="font-semibold">SKU:</span> {product.sku ?? "-"}</p>
+        <div className="mt-4 flex flex-col gap-3 text-sm text-gray-700 space-y-1">
           <p><span className="font-semibold">CATEGORY:</span> {product.categoryId?.name ?? "-"}</p>
           <p><span className="font-semibold">BRAND:</span> <span className="text-green-600">{product.brandName ?? "-"}</span></p>
+          {avgRating > 0 && (
+            <RatingStars avg={avgRating}  />
+          )}
+          
         </div>
 
         <div className="flex gap-4 mt-6">

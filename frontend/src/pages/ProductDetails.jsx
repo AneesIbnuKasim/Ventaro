@@ -119,11 +119,11 @@ function ProductDetails() {
 
 
     <>
-        <div className='m-4 flex flex-col gap-10'>
+        <div className='m-10 flex flex-col gap-10'>
             {loading || !product ? (
                 <div className="h-[420px] w-[380px] bg-gray-200 animate-pulse rounded-lg" />
             ):(
-                <SingleProduct product={product} />
+                <SingleProduct product={product} avgRating= {avgRating} />
 
             )}
         <Slider 
@@ -134,8 +134,15 @@ function ProductDetails() {
             />}
             handleClick = {handleClick}
             />
-        <ReviewsList reviews={reviews} />
+       <div className='flex flex-col gap-5'>
+        <h1 className='h3'>Reviews & Ratings</h1>
+         { reviews.length > 0 ? (
+          <ReviewsList reviews={reviews} />
+        ) : (
+  <span className="text-lg text-gray-400">No ratings yet</span>
+        )}
         {hasPurchased && !hasReviewed && (<ReviewForm onSubmitReview={handleReviewSubmit}/>)}
+       </div>
         </div>
     </>
   )

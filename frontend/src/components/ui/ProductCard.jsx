@@ -1,5 +1,6 @@
 import { Heart } from "lucide-react";
 import { memo } from "react";
+import RatingStars from "./RatingStars";
 
 const ProductCard = memo(({ product, handleClick}) => {
   const {
@@ -10,7 +11,7 @@ const ProductCard = memo(({ product, handleClick}) => {
     images,
     sellingPrice,
     originalPrice,
-    rating,
+    ratings,
     discount,
   } = product;
   
@@ -49,16 +50,13 @@ const ProductCard = memo(({ product, handleClick}) => {
       </span>
 
       {/* --- Rating --- */}
-      {rating && 
+      {/* {ratings?.rating && 
       <div className="flex items-center gap-1 py-1">
-        <div className="flex text-yellow-400 text-sm">
-          {"★".repeat(Math.floor(rating))}
-          {"☆".repeat(5 - Math.floor(rating))}
-        </div>
-
+       
+        <RatingStars avg={ratings} />
         <span className="text-gray-500 text-sm">({rating})</span>
       </div>
-      }
+      } */}
 
       {/* --- Price Section --- */}
       <div className="flex items-center gap-2 mt-1">

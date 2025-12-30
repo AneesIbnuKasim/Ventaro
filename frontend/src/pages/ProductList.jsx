@@ -39,6 +39,8 @@ const ProductList = memo(() => {
   //   }
   // }, [filters.category]);
 
+  
+
   useEffect(() => {
     fetchProductByCategory(category);
   }, [category, fetchProductByCategory]);
