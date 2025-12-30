@@ -459,7 +459,7 @@ export const ProductProvider = ({ children }) => {
       console.log('review respo:', response);
       
 
-      dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: false });
+      dispatch({ type: PRODUCT_ACTIONS.UPDATE_PRODUCT, payload: response.data.product });
 
       toast.success(response.message)
 

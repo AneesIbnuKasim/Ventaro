@@ -136,8 +136,8 @@ function ProductDetails() {
             />
        <div className='flex flex-col gap-5'>
         <h1 className='h3'>Reviews & Ratings</h1>
-         { reviews.length > 0 ? (
-          <ReviewsList reviews={reviews} />
+         { reviews?.length > 0 ? (
+          <ReviewsList reviews={reviews} avgRating={avgRating} />
         ) : (
   <span className="text-lg text-gray-400">No ratings yet</span>
         )}

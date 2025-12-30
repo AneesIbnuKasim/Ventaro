@@ -1,17 +1,23 @@
 // ReviewsList.jsx
 import React from "react";
 import { Star, ThumbsUp, MessageCircle } from "lucide-react";
+import RatingStars from "./RatingStars";
 
-export function ReviewsList({ reviews = [] }) {
+export function ReviewsList({ reviews = [], avgRating }) {
 
   console.log('reviews', reviews);
   
   return (
     <div className="flex flex-col gap-6 mb-10">
+      <div className="flex">
+        <RatingStars avg={avgRating} /> <span className="ml-2 text-sm text-gray-600">
+  {avgRating.toFixed(1)} ({reviews?.length})
+</span>
+      </div>
       {reviews.map((r, i) => (
         <div
           key={i}
-          className="border rounded-xl p-6 shadow-sm bg-white flex flex-col gap-3"
+          className=" rounded-xl p-6 shadow-xl bg-violet-50 flex flex-col gap-3"
         >
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-full bg-gray-200 flex justify-center items-center text-xl"> {r.name.slice(0,2).toUpperCase()}</div>

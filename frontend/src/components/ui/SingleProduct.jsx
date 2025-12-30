@@ -75,7 +75,11 @@ export default function SingleProduct({ product = {}, avgRating = '' }) {
           <p><span className="font-semibold">CATEGORY:</span> {product.categoryId?.name ?? "-"}</p>
           <p><span className="font-semibold">BRAND:</span> <span className="text-green-600">{product.brandName ?? "-"}</span></p>
           {avgRating > 0 && (
-            <RatingStars avg={avgRating}  />
+            <div className="flex">
+        <RatingStars avg={avgRating} /> <span className="ml-2 text-sm text-gray-600">
+  {avgRating.toFixed(1)} ({product.ratings?.length})
+</span>
+      </div>
           )}
           
         </div>
