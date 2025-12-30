@@ -63,12 +63,25 @@ export const productAPI = {
   },
 
   //USER PRODUCT PAGES
-  fetchSingleProduct: (productId) => {
-    console.log('here');
+  fetchSingleProduct: (data) => {
+    const { productId, userId } = data
+    console.log('here', data);
     
     return makeRequest({
       method: "get",
       url: `api/products/details/${productId}`,
+      params: {userId}
+    });
+  },
+
+  //SUBMIT USER REVIEW FOR PRODUCT
+  submitReview: (reviewData) => {
+    const { id:productId, ...data } = reviewData
+    
+    return makeRequest({
+      method: "post",
+      url: `api/products/details/${productId}`,
+      data
     });
   },
 

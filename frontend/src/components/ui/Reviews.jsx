@@ -3,6 +3,9 @@ import React from "react";
 import { Star, ThumbsUp, MessageCircle } from "lucide-react";
 
 export function ReviewsList({ reviews = [] }) {
+
+  console.log('reviews', reviews);
+  
   return (
     <div className="flex flex-col gap-6 mb-10">
       {reviews.map((r, i) => (
@@ -11,10 +14,10 @@ export function ReviewsList({ reviews = [] }) {
           className="border rounded-xl p-6 shadow-sm bg-white flex flex-col gap-3"
         >
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full bg-gray-200" />
+            <div className="w-12 h-12 rounded-full bg-gray-200 flex justify-center items-center text-xl"> {r.name.slice(0,2).toUpperCase()}</div>
             <div>
               <h4 className="font-semibold text-base">{r.name}</h4>
-              <p className="text-sm text-gray-500">{r.location}</p>
+              {/* <p className="text-sm text-gray-500">{r.location}</p> */}
             </div>
           </div>
 
@@ -31,10 +34,10 @@ export function ReviewsList({ reviews = [] }) {
               ))}
             </div>
 
-            <div className="flex items-center gap-4 text-sm text-gray-500">
+            {/* <div className="flex items-center gap-4 text-sm text-gray-500">
               <div className="flex items-center gap-1"><ThumbsUp size={16}/> {r.likes}</div>
               <div className="flex items-center gap-1"><MessageCircle size={16}/> {r.comments}</div>
-            </div>
+            </div> */}
           </div>
         </div>
       ))}

@@ -15,7 +15,7 @@ export function ReviewForm({ onSubmitReview }) {
       })}
       onSubmit={(values, { resetForm }) => {
         if (onSubmitReview) onSubmitReview(values);
-        resetForm();
+        // resetForm();
       }}
     >
       {({ values, setFieldValue }) => (

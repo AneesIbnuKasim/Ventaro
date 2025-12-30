@@ -1,6 +1,7 @@
 const { sendError } = require("../controllers/baseController");
 const Category = require("../models/Category");
 const Product = require("../models/Product");
+const { default: Order } = require("../models/Order");
 const { ConflictError, NotFoundError } = require("../utils/errors");
 const logger = require("../utils/logger");
 
@@ -8,7 +9,12 @@ class ProductService {
   //GET ALL PRODUCTS
   static getProducts = async (req, res) => {
     try {
-      const { search='', sortBy='createdAt', sortOrder = "asc", category='' } = req.query;
+      const {
+        search = "",
+        sortBy = "createdAt",
+        sortOrder = "asc",
+        category = "",
+      } = req.query;
 
       const minPrice = parseInt(req.query.minPrice);
       const maxPrice = parseInt(req.query.maxPrice);
@@ -36,17 +42,14 @@ class ProductService {
       const productPerPage = limit || 6;
       const skipValue = (page - 1) * productPerPage;
 
-
-      
-
-      const totalProducts = await Product.find(filter).countDocuments()
+      const totalProducts = await Product.find(filter).countDocuments();
 
       const [products, categories] = await Promise.all([
         Product.find(filter).skip(skipValue).limit(limit),
         Category.distinct("name"),
       ]);
 
-      const totalPages = Math.ceil(totalProducts / limit)
+      const totalPages = Math.ceil(totalProducts / limit);
 
       return {
         products,
@@ -54,7 +57,7 @@ class ProductService {
           limit,
           page,
           totalPages,
-          totalProducts
+          totalProducts,
         },
         allCategories: categories,
       };
@@ -66,10 +69,10 @@ class ProductService {
 
   //GET PRODUCTS BY CATEGORY
   static getProductsByCategory = async (req, res) => {
-    try {        
+    try {
       const { sortBy } = req.query;
       let { sortOrder = "asc" } = req.query;
-      const category = req.params.category ?? 'Mobile';
+      const category = req.params.category ?? "Mobile";
 
       const categoryDoc = await Category.findOne({
         name: { $regex: `^${category}$`, $options: "i" },
@@ -126,17 +129,60 @@ class ProductService {
   };
 
   // GET SINGLE PRODUCT
-  static getProduct = async (productId) => {
+  static getProduct = async (productId, userId) => {
     try {
       const product = await Product.findById(productId).populate("categoryId");
 
-      return { product };
+      console.log("userid", userId);
+
+      const orders = await Order.exists({
+        user: userId,
+        "items.product": productId,
+      });
+
+      const alreadyReviewed = await Product.exists({
+        _id: productId,
+        "ratings.user": userId,
+      });
+
+      const hasPurchased = !!orders;
+      const hasReviewed = !!alreadyReviewed
+
+      return { product, hasPurchased, hasReviewed }
     } catch (error) {
       logger.error("Error fetching product");
       throw error;
     }
   };
 
+  //SUBMIT PRODUCT REVIEW
+  static async submitReview(productId, reviewData, userId) {
+    try {
+      const { name, email, rating, review } = reviewData;
+      if (!productId) return new NotFoundError("Product Not found");
+      if (!reviewData) return new NotFoundError("No review data provided");
+
+      const product = await Product.findById(productId);
+
+      if (!product) return new NotFoundError("Product not found");
+
+      product.ratings = {
+        user: userId,
+        name,
+        rating,
+        review,
+      };
+
+      await product.save();
+
+      return product;
+    } catch (error) {
+      logger.error(error.message);
+      throw error;
+    }
+  }
+
+  //ADD PRODUCT
   static addProduct = async (req) => {
     try {
       const productData = req.body;
@@ -263,9 +309,11 @@ class ProductService {
           : rawCategory.split(",")
         : [];
 
-        const categoryDoc = categoryNames.length ? await Category.find({ name: {$in: categoryNames}},{_id: 1}) : []
-        const categoryIds = categoryDoc.map(c=>c._id)
-        
+      const categoryDoc = categoryNames.length
+        ? await Category.find({ name: { $in: categoryNames } }, { _id: 1 })
+        : [];
+      const categoryIds = categoryDoc.map((c) => c._id);
+
       const rating = rawRating
         ? Array.isArray(rawRating)
           ? rawRating.map(Number)
@@ -326,11 +374,6 @@ class ProductService {
       throw error;
     }
   };
-
-
-
-
-
 
   //   static fetchSearch = async (req) => {
   //     try {

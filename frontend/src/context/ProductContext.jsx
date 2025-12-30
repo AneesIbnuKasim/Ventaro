@@ -425,18 +425,20 @@ export const ProductProvider = ({ children }) => {
   };
 
   //USER SINGLE PRODUCT HANDLE
-
-  const fetchSingleProduct = useCallback(async (productId) => {
+  const fetchSingleProduct = useCallback(async (productId, userId) => {
     try {
       dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
 
-      const response = await productAPI.fetchSingleProduct(productId);
+      const response = await productAPI.fetchSingleProduct({productId, userId});
+
+      console.log('fetch single response', response.data);
+      
 
       dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: false });
 
       setProduct(response.data.product);
 
-      return { success: true };
+      return { success: true, hasPurchased:response.data.hasPurchased, hasReviewed: response.data.hasReviewed };
     } catch (error) {
       dispatch({
         type: PRODUCT_ACTIONS.SET_ERROR,
@@ -446,6 +448,30 @@ export const ProductProvider = ({ children }) => {
       return { success: false, error: error.message };
     }
   }, []);
+
+  //SUBMIT REVIEW AND COMMENT
+  const submitReview = useCallback(async(values) => {
+    try {
+      dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
+
+      const response = await productAPI.submitReview(values)
+
+      console.log('review respo:', response);
+      
+
+      dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: false });
+
+      toast.success(response.message)
+
+      return { success: true };
+      
+    } catch (error) {
+       console.log(error);
+      return { success: false, error: error.message };
+    }
+
+    
+  })
 
   //LOAD NOT LOGGED IN USER CART FROM LOCAL STORAGE
   const loadCart = () => {
@@ -549,7 +575,8 @@ export const ProductProvider = ({ children }) => {
       setGlobalCategory,
       fetchSearch,
       searchSuggestion,
-      loadCart
+      loadCart,
+      submitReview
     }),
     [
       state.products,
@@ -573,7 +600,8 @@ export const ProductProvider = ({ children }) => {
       setGlobalCategory,
       fetchSearch,
       searchSuggestion,
-      loadCart
+      loadCart,
+      submitReview
     ]
   );
 

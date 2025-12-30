@@ -16,9 +16,15 @@ class ProductController extends BaseController {
     })
 
     static getProduct = BaseController.asyncHandler(async(req, res)=>{
-        const product = await ProductService.getProduct(req.params.id)
-        BaseController.logAction('GET_PRODUCT', product)
-        BaseController.sendSuccess(res, 'Product fetched successfully', product, 200)
+        const result = await ProductService.getProduct(req.params.id, req.query.userId)
+        BaseController.logAction('GET_PRODUCT', result)
+        BaseController.sendSuccess(res, 'Product fetched successfully', result, 200)
+    })
+
+    static submitReview = BaseController.asyncHandler(async(req, res)=>{
+        const product = await ProductService.submitReview(req.params.id, req.body, req.user?._id)
+        BaseController.logAction('SUBMIT_REVIEW', product)
+        BaseController.sendSuccess(res, 'Product review submitted successfully', product, 200)
     })
 
     static addProduct = BaseController.asyncHandler(async(req, res)=>{
