@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { ORDER_STATUS } from "../../config/app";
 
-const Table = ({ data, columns, actions, type='' , onStatusChange}) => {
+const Table = ({ data, columns, actions, keyId, type='' , onStatusChange}) => {
 
   const STATUS_OPTIONS = type === 'orders' ? ORDER_STATUS : null
 
@@ -16,7 +16,7 @@ const Table = ({ data, columns, actions, type='' , onStatusChange}) => {
         <tr className="bg-gray-100">
           {columns.map((col) => (
             <th
-              key={col}
+              key={col._id}
               className="px-4 py-2 border border-gray-300 font-medium"
             >
               {col.toUpperCase()}

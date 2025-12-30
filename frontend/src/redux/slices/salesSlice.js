@@ -2,19 +2,18 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { dashboardAPI } from "../../services/dashboardService"
 
 const initialState = {
-        Daily: [],
-        Weekly: [],
-        Monthly: [],
-        Yearly: [],
-    // topProducts: [],
-    // totalUsers: 0,
+    salesByDate: [],
+    topProducts: [],
+    totalSales: '',
+    totalOrders: '',
+    totalUsers: '',
     // totalRefunds: 0,
-    // recentOrders: [],
+    recentOrders: [],
     filters: {
         startDate: '',
         endDate: '',
         status: 'DELIVERED',
-        period: 'Daily'
+        period: ''
     },
 
     loading: false,
@@ -52,13 +51,16 @@ const salesSlice = createSlice({
             state.loading = true
         })
         .addCase(fetchSalesReport.fulfilled, (state, action) => {
-            state.Daily = action.payload.Daily
-            state.Weekly = action.payload.Weekly
-            state.Monthly = action.payload.Monthly
-            state.Yearly = action.payload.Yearly
-            // state.topProducts = action.payload.topProducts
-            // state.recentOrders = action.payload.recentOrders
-            // state.totalUsers = action.payload.totalUsers
+            const report = action.payload?.salesReport
+            const usersList = action.payload?.users
+
+            state.salesByDate = report?.salesByDate
+            state.topProducts = report?.topProducts
+            state.recentOrders =report?.recentOrders
+            state.totalOrders = report?.totalOrders[0]?.value
+            state.totalSales = report?.totalSales[0]?.value
+
+            state.totalUsers = usersList
         })
         .addCase(fetchSalesReport.rejected, (state, action) => {
             state.loading = false
