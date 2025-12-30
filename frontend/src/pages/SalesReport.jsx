@@ -1,15 +1,17 @@
 import React, { memo, useEffect } from 'react'
 import { Button, StatCard } from '../components/ui'
-import { ShieldAlert, ShoppingCart } from 'lucide-react'
+import { Currency, ShieldAlert, ShoppingCart } from 'lucide-react'
 import ReportStatsCard from '../components/ui/ReportStatsCard'
 import DateFilter from '../components/ui/DateFilter'
-import { CURRENCY } from '../constants/ui'
 import SalesChart from '../components/ui/SalesChart'
 import Table from '../components/ui/Table'
 import { fetchSalesReport, setFilters } from '../redux/slices/salesSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectDaily, selectTotalOrders, selectTotalSales } from '../redux/selector/dashboardSelector'
 import { API_CONFIG } from '../config/app'
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import { CURRENCY } from '../constants/ui'
 
 const  SalesReport = memo(() => {
 
@@ -46,6 +48,72 @@ const  SalesReport = memo(() => {
   const handleEndDate = (data) => {
     dispatch(setFilters(data))
   }
+
+
+  try {
+    //PDF DOWNLOAD SETTINGS
+  const exportToPDF = () => {
+  const doc = new jsPDF();
+  
+  // Header
+  doc.setFontSize(20);
+  doc.text(`${period} Sales Report`, 14, 22);
+  doc.setFontSize(12);
+  doc.text(`Generated: ${new Date().toLocaleDateString()}`, 14, 35);
+
+  let yPosition = 45;
+
+  // Daily Sales Table
+  if (salesByDate?.length > 0) {
+    autoTable(doc, {
+      startY: yPosition,
+      head: [['Date', 'Total Sales', 'Order Count']],
+      body: salesByDate.map(row => [
+        row._id,
+        `Rs. ${Number(row.totalSales).toLocaleString()}`,
+        row.orderCount
+      ]),
+      theme: 'grid',
+      styles: { fontSize: 10, cellPadding: 3 },
+      headStyles: { fillColor: [41, 128, 185], textColor: 255 },
+      margin: { left: 14, right: 14 }
+    });
+    yPosition = doc.lastAutoTable.finalY + 15;
+  }
+
+  // Overall Totals
+  doc.setFontSize(14);
+  doc.text('Overall Totals', 14, yPosition);
+  yPosition += 10;
+  doc.setFontSize(12);
+  doc.text(`Total Sales: Rs. ${Number(totalSales || 0)}`, 14, yPosition);
+  yPosition += 15;
+  doc.text(`Total Orders: ${Number(totalOrders || 0).toLocaleString()}`, 14, yPosition);
+  yPosition += 20;
+
+  // Top Products
+  if (topProducts?.length > 0) {
+    autoTable(doc, {
+      startY: yPosition,
+      head: [['Product', 'Quantity Sold', 'Revenue']],
+      body: topProducts.slice(0, 10).map(row => [
+        row.product?.name || row.product?.title || 'N/A',
+        row.quantitySold,
+        `Rs. ${Number(row.revenue)}`
+      ]),
+      theme: 'grid',
+      styles: { fontSize: 9, cellPadding: 3 },
+      headStyles: { fillColor: [46, 125, 50], textColor: 255 },
+      margin: { left: 14, right: 14 }
+    });
+  }
+
+  doc.save(`${period.toLowerCase()}-sales-report.pdf`);
+};
+  } catch (error) {
+    console.error('PDF Export failed:', error);
+    alert('Failed to generate PDF. Please try again.');
+  }
   return (
     <>
       {/* {open && (
@@ -68,7 +136,7 @@ const  SalesReport = memo(() => {
           size="sm"
           variant={'custom'}
           style={{ height: 30 }}
-          // onClick={() => handleProductForm()}
+          onClick={() => exportToPDF()}
           className={'m-4'}
         >
           DOWNLOAD REPORT

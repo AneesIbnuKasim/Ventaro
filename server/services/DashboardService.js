@@ -11,6 +11,8 @@ class DashboardService {
     console.log("strt", start);
 
     const match = { orderStatus: "DELIVERED" };
+
+    
     
 
     switch (period) {
@@ -103,6 +105,7 @@ class DashboardService {
                 //   date: {
                 //     $dateToString: { format: "%Y-%m-%d", date: "$createdAt" },
                 //   },
+                  
                   product: "$items.product",
                 },
                 quantitySold: { $sum: "$items.quantity" },
@@ -122,7 +125,7 @@ class DashboardService {
               },
             },
             { $unwind: "$product" },
-            {$limit: 5},
+            {$limit: 10},
             { $sort: { quantitySold: -1 } },
           ],
 
