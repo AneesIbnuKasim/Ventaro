@@ -14,6 +14,7 @@ import SortFilter from "../components/ui/SortFilter";
 import SearchNotFound from "../components/ui/SearchNotFound";
 import ProductNotFound from "../components/ui/ProductNotFound";
 import Loading from "../components/ui/Loading";
+import ToggleChat from "../components/ui/ToggleChat";
 
 //USER PRODUCTS UI PAGE
 const ProductList = memo(() => {
@@ -138,6 +139,7 @@ const ProductList = memo(() => {
             )}
           </div>
         </div>
+        <ToggleChat />
     </>
   );
 });
