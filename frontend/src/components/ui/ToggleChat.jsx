@@ -1,17 +1,24 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { MessageCircle, X, Send } from "lucide-react"
+import { useDispatch, useSelector } from "react-redux"
+import { sendChatMessage, setMessages } from "../../redux/slices/chatSlice"
 
 export default function ToggleChat() {
   const [open, setOpen] = useState(false)
-  const [message, setMessage] = useState("")
-  const [messages, setMessages] = useState([
-    { id: 1, from: "system", text: "👋 Welcome! Ask anything." }
-  ])
+  const [ message, setMessage ] = useState('')
+  const dispatch = useDispatch()
+  const { messages } = useSelector(state => state.chat)
+
+  useEffect(() => {
+    console.log('messages:', messages)
+  }, [messages])
+  
 
   const sendMessage = () => {
     if (!message.trim()) return
-    setMessages((m) => [...m, { id: Date.now(), from: "user", text: message }])
+    dispatch(setMessages({ id: Date.now(), from: "user", text: message }))
+    dispatch(sendChatMessage(message))
     setMessage("")
   }
 
@@ -43,7 +50,7 @@ export default function ToggleChat() {
 
               {/* Messages */}
               <div className="flex-1 overflow-y-auto space-y-2 p-4">
-                {messages.map((m) => (
+                {messages?.map((m) => (
                   <div
                     key={m.id}
                     className={`text-sm max-w-[75%] px-3 py-2 rounded-xl ${
@@ -58,7 +65,7 @@ export default function ToggleChat() {
               </div>
 
               {/* Input */}
-              <div className="p-3 border-t flex gap-2">
+              <div className="p-3 shadow-xl bg-gray-100 flex gap-2">
                 <input
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
