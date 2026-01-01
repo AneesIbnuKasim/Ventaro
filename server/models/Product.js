@@ -70,8 +70,15 @@ const ProductSchema = mongoose.Schema(
         review: String,
         createdAt: { type: Date, default: Date.now },
       },
-      
     ],
+    avgRating: {
+      type: Number,
+      default: 0
+    },
+    ratingCount: {
+      type: Number,
+      default: 0
+    }
   },
   { timestamps: true }
 );

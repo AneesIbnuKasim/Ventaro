@@ -35,7 +35,7 @@ class ProductService {
         else if (maxPrice) filter.sellingPrice = { $lte: maxPrice };
       }
 
-      if (rating) filter.rating = { $gte: rating };
+      if (rating) filter.ratings.rating = { $gte: rating };
 
       const sortObj = { [sortBy]: sortOrder };
 
@@ -105,7 +105,7 @@ class ProductService {
       const currentPage = page || 1;
       const productPerPage = limit || 6;
       const skipValue = (currentPage - 1) * productPerPage;
-      console.log("filter", filter);
+      console.log("category filter", filter);
 
       const totalProducts = await Product.countDocuments(filter);
 
@@ -172,6 +172,12 @@ class ProductService {
         rating,
         review,
       };
+
+      product.ratingCount = product.ratings.length
+
+
+      product.avgRating = product.ratings.reduce((sum, r) => (
+        (sum+r.ratings)),0)/product.ratingCount
 
       await product.save();
 
@@ -334,7 +340,7 @@ class ProductService {
       }
 
       if (rating.length) {
-        filter.rating = { $gte: Math.max(...rating) };
+        filter.ratings = { $gte: Math.max(...rating) };
       }
 
       if (minPrice || maxPrice) {
