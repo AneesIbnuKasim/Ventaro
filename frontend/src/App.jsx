@@ -20,10 +20,10 @@ import { lazy } from "react";
 
 const Login = lazy(() => import("./pages/Login.jsx"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin.jsx"));
-const Register = lazy(() => import("./pages/Register.jsx"));
 const Dashboard = lazy(() => import("./pages/Dashboard.jsx"));
 const Profile = lazy(() => import("./pages/Profile.jsx"));
 const Users = lazy(() => import("./pages/Users.jsx"));
+const Register = lazy(() => import("./pages/Register.jsx"));
 const Products = lazy(() => import("./pages/Products.jsx"));
 const Categories = lazy(() => import("./pages/Categories.jsx"));
 const ProductDetails = lazy(() => import("./pages/ProductDetails.jsx"));
@@ -43,6 +43,7 @@ const Wallet = lazy(() => import("./pages/Wallet.jsx"));
 const PasswordChange = lazy(() => import("./pages/PasswordChange.jsx"));
 const OrdersAdmin = lazy(() => import("./pages/OrdersAdmin.jsx"));
 const SalesReport = lazy(() => import("./pages/SalesReport.jsx"));
+const Home = lazy(() => import("./pages/Home.jsx"));
 
 const App = () => (
   <BrowserRouter>
@@ -62,6 +63,7 @@ const App = () => (
             />
 
               
+                <Route path="/products/home" element={<AppLayout><Home /></AppLayout>} />
                 <Route path="/products/:category" element={<AppLayout><ProductList /></AppLayout>} />
                 <Route path="/search" element={<AppLayout><SearchPage /></AppLayout>} />
                 <Route path="/product/:id" element={<AppLayout><ProductDetails /></AppLayout>} />

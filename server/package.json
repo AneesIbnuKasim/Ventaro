@@ -23,6 +23,7 @@
     "mongoose": "^8.19.4",
     "multer": "^2.0.2",
     "nodemailer": "^7.0.10",
+    "openai": "^6.15.0",
     "otp-generator": "^4.0.1",
     "razorpay": "^2.9.6",
     "winston": "^3.18.3",

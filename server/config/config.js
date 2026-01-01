@@ -59,5 +59,7 @@ module.exports = {
   FAILED: "FAILED",
   REFUND_INITIATED: "REFUND_INITIATED",
   REFUNDED: "REFUNDED"
-}
+},
+
+OPENAI_API_KEY: process.env.OPEN_API_KEY
 }

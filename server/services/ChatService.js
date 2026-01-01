@@ -1,4 +1,6 @@
+const openai = require("../config/openai");
 const { default: Order } = require("../models/Order");
+
 
 class ChatService {
   static chatHandler = async (message) => {
@@ -26,16 +28,53 @@ class ChatService {
           text: `Sorry, I couldn't find order #${orderId}.`,
         });
       }
-
-      return ({
+      switch(order.orderStatus) {
+        case 'CANCELLED' : return ({
         text: `Your order #${orderId} is currently **${order.orderStatus}**.`,
       });
+        case 'SHIPPED' : return ({
+        text: `Your order #${orderId} is **${order.orderStatus}**. and on transit now.`,
+      });
+        case 'PENDING' : return ({
+        text: `Your order #${orderId} is currently **${order.orderStatus}**.`,
+      });
+        case 'RETURN_INITIATED' : return ({
+        text: `Your order #${orderId} is **${order.orderStatus}**. process now.`,
+      });
+        case 'RETURNED' : return ({
+        text: `Your order #${orderId} is **${order.orderStatus}**.`,
+      });
+      default:       return ({
+        text: `Your order #${orderId} is processing.**.`,
+      });
+
+      }
+
     }
 
-    return ({
-      text:
-        "I can help you check order status. Example: Check order status #123",
-    });
+     /* ---------- OPENAI FALLBACK ---------- */
+    const aiResponse = await openai.responses.create({
+  model: "gpt-4o-mini",
+  input: [
+    {
+      role: "system",
+      content: "You are a helpful ecommerce assistant. Answer briefly and clearly.",
+    },
+    {
+      role: "user",
+      content: message,
+    },
+  ],
+});
+
+return {
+  text: aiResponse.output_text,
+};
+
+    // return ({
+    //   text:
+    //     "I can help you check order status. Example: Check order status #123",
+    // });
   };
 }
 
