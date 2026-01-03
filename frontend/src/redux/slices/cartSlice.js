@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 const initialState = {
   items: [],
   appliedCoupon: null,
+  discountTotal:0,
   applyingCoupon: false,
   couponError: null,
   loading: false,
@@ -185,16 +186,19 @@ const cartSlice = createSlice({
         state.couponError = null;
       })
       .addCase(applyCouponThunk.fulfilled, (state, action) => {
-        console.log("action.payload", action.payload);
+        console.log("action.payload.applycoupon", action.payload);
 
         const cart = action.payload.cart;
         state.applyingCoupon = false;
         state.appliedCoupon = cart.appliedCoupon;
+        state.discountTotal = cart.discountTotal
+        state.payableTotal = cart.payableTotal
       })
       .addCase(applyCouponThunk.rejected, (state, action) => {
         state.applyingCoupon = false;
         state.couponError = action.payload,
           state.appliedCoupon = null
+          state.discountTotal = 0
       })
 
       //REMOVE COUPON

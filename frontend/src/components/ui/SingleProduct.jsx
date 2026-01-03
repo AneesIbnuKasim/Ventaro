@@ -5,6 +5,11 @@ import { useDispatch } from "react-redux";
 import { addCartThunk } from "../../redux/slices/cartSlice";
 import { toast } from "react-toastify";
 import RatingStars from "./RatingStars";
+import Button from "./Button";
+import { GiBuyCard } from "react-icons/gi";
+import { BsLightningChargeFill } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
+import { setCheckoutItems } from "../../redux/slices/checkoutSlice";
 
 export default function SingleProduct({ product = {}, avgRating = '' }) {
 
@@ -18,6 +23,7 @@ export default function SingleProduct({ product = {}, avgRating = '' }) {
   const [mainImage, setMainImage] = useState(images[0])
   const {handleAddToCart} = useProduct()
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   
 
   const changeMainImage = (e , i) => {
@@ -34,6 +40,25 @@ export default function SingleProduct({ product = {}, avgRating = '' }) {
     dispatch(addCartThunk({ productId: product._id, quantity: 1 })).unwrap()
     toast.success('Product added to cart')
   }
+
+const handleBuyNow = () => {
+  dispatch(setCheckoutItems([
+    {
+      product: {
+        _id: product._id,
+        name: product.name,
+        images: product.images,
+      },
+      quantity: 1,
+      basePrice: product.originalPrice,      // authoritative price
+      finalUnitPrice: product.sellingPrice,  // UI only
+      itemTotal: product.sellingPrice,
+    }
+  ]));
+
+  navigate("/checkout?mode=buynow");
+};
+
 
   return (
     <div className="w-full max-w-[1440px] mx-auto px-4 py-10 grid grid-cols-1 lg:grid-cols-2 gap-10">
@@ -85,13 +110,13 @@ export default function SingleProduct({ product = {}, avgRating = '' }) {
         </div>
 
         <div className="flex gap-4 mt-6">
-          <button onClick={()=>addToCart()} type="button" className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-md text-sm font-medium shadow-sm">
-            <ShoppingCart /> ADD TO CART
-          </button>
+          <Button onClick={()=>addToCart()} icon={<ShoppingCart />} type="button" variant={'custom'} className='flex-1'>
+             ADD TO CART
+          </Button>
 
-          <button type="button" className="flex items-center gap-2 border border-gray-400 px-6 py-3 rounded-md text-sm font-medium text-gray-700">
-            <Heart /> ADD TO WISHLIST
-          </button>
+          <Button type="button" onClick={handleBuyNow} icon={<BsLightningChargeFill/>} variant={'warning'} className='flex-1'>
+             BUY NOW
+          </Button>
         </div>
 
         <div className="mt-10">

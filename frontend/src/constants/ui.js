@@ -8,7 +8,7 @@ export const GRADIENTS = {
     dark: 'bg-[radial-gradient(70%_90%_at_88%_90%,rgba(122,79,188,0.7)_23%,rgba(55,69,155,1)_84%)]'
   },
   success: 'bg-[linear-gradient(135deg,#a8edea_0%,#fed6e3_100%)]',
-  warning: 'bg-[linear-gradient(135deg,#ffd89b_0%,#19547b_100%)]',
+  warning: 'bg-[linear-gradient(135deg,#ff9f00_0%,#19547b_100%)]',
   danger: 'bg-[linear-gradient(135deg,#fc4a1a_0%,#f7b733_100%)]',
   info: 'bg-[linear-gradient(135deg,#74b9ff_0%,#0984e3_100%)]',
   dark: 'bg-[linear-gradient(135deg,#2d3436_0%,#636e72_100%)]'

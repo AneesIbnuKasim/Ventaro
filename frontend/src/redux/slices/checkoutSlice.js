@@ -1,12 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getUser } from "../../utils/apiClient";
 
 
 const initialState = {
   paymentMethod: "cod",
-  deliveryAddress: null, 
+  deliveryAddress: null,
+  items: [] 
 };
-
 
 const checkoutSlice = createSlice({
     name: 'checkoutSlice',
@@ -18,9 +18,15 @@ const checkoutSlice = createSlice({
 
         setDeliveryAddress: (state, action) => {
             state.deliveryAddress = action.payload
+        },
+
+        setCheckoutItems: (state, action) => {
+            console.log('buy now log', action.payload);
+            
+            state.items = action.payload
         }
     }
 })
 
-export const { setPaymentMethod, setDeliveryAddress } = checkoutSlice.actions
+export const { setPaymentMethod, setDeliveryAddress, setCheckoutItems } = checkoutSlice.actions
 export default checkoutSlice.reducer

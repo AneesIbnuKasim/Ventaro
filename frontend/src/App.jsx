@@ -116,16 +116,18 @@ const App = () => (
               >
 
               </Route> */}
+               <Route path="/checkout" element={<AppLayout>
+                <ProtectedRoute>
+                  <CheckOut />
+                </ProtectedRoute>
+              </AppLayout>} />
+              
               <Route path="/cart" element={<AppLayout>
                 <ProtectedRoute>
                   <Cart />
                 </ProtectedRoute>
               </AppLayout>} />
-              <Route path="/checkout" element={<AppLayout>
-                <ProtectedRoute>
-                  <CheckOut />
-                </ProtectedRoute>
-              </AppLayout>} />
+             
               
               <Route path="/order-success/:orderId" element={<AppLayout>
                 <ProtectedRoute>

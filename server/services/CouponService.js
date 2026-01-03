@@ -154,11 +154,7 @@ class CouponService {
             valid: true,
             discount,
             finalAmount,
-            coupon: {
-                code: coupon.code,
-                discountType: coupon.discountType,
-                discountValue: coupon.discountValue,
-            }
+            coupon: coupon._id
         }
     }
 

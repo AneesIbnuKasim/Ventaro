@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useEffect, useMemo, useState } from "react";
 import Slider from "../components/ui/Slider";
 import { useProduct } from "../context/ProductContext";
 import ProductCard from "../components/ui/ProductCard";
@@ -16,11 +16,12 @@ import {
   selectSubTotal,
   selectTotalQuantity,
 } from "../redux/selector/cartSelector";
-import { removeFromCartThunk, updateQuantity } from "../redux/slices/cartSlice";
+import { fetchCartThunk, removeFromCartThunk, updateQuantity } from "../redux/slices/cartSlice";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
 import ApplyCouponForm from "../components/ui/ApplyCouponForm";
 import { CURRENCY } from "../constants/ui";
+import { setCheckoutItems } from "../redux/slices/checkoutSlice";
 
 const Cart = memo(() => {
   const { products, fetchProduct, loadCart } = useProduct();
@@ -30,14 +31,24 @@ const Cart = memo(() => {
 
 const {
   items,
+  discountTotal,
   totalQuantity,
   subTotal,
-  discountTotal,
   payableTotal,
   shippingFee,
   grandTotal,
   remainingForFreeDelivery
 } = useSelector(selectCartTotals);
+
+const { loading } = useSelector(state => state.cart)
+
+useEffect(()=> {
+  const load = async() => {
+  await dispatch(fetchCartThunk())
+  }
+  load()
+}, [])
+
 
   const hasCartItems = items?.length ;
 
@@ -77,13 +88,17 @@ const {
     }
   };
 
+  const handleCheckoutButton = () => {
+    dispatch(setCheckoutItems(items))
+    navigate(`/checkout`)
+  }
 
 
   return (
     <div className="bg-gray-100 py-10 px-5">
       <div className="max-w-7xl mx-auto bg-white rounded-xl p-8">
         {/* Top Section */}
-        {!hasCartItems ? (
+        {!hasCartItems && ! loading ? (
           <div className=" text-gray-500 min-h-[400px] flex justify-center items-center h-full text-center flex-col gap-5">
             <p>Your cart is empty</p>
             <Button
@@ -107,7 +122,7 @@ const {
                       className="flex items-start gap-6 shadow-gray-300 shadow-sm p-6"
                     >
                       <img
-                        src={`http://localhost:5001${item.product.images[0]}`}
+                        src={`http://localhost:5001${item?.product?.images[0] ?? ''} `}
                         alt="product"
                         className="w-28 h-36 object-contain"
                         onClick={() => navigate(`/product/${item._id}`)}
@@ -160,7 +175,7 @@ const {
               </div>
 
               {/* Summary */}
-<div className="bg-white rounded-xl shadow-sm p-6 h-fit sticky top-6">
+<div className="bg-white rounded-xl flex flex-col gap-3 shadow-sm p-6 h-fit sticky top-6">
   <h2 className="text-lg font-semibold mb-4">Cart Summary</h2>
   <ApplyCouponForm />
 
@@ -209,7 +224,7 @@ const {
   </div>
 
   <button
-    onClick={() => navigate(`/checkout`)}
+    onClick={handleCheckoutButton}
     className="w-full bg-purple-600 hover:bg-purple-700 transition text-white py-3 rounded-lg font-medium"
   >
     CHECKOUT

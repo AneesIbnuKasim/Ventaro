@@ -32,7 +32,7 @@ class ProductController extends BaseController {
         const validatedData = BaseController.validateRequest(productValidation, formData)
         const product = await ProductService.addProduct(req)
         BaseController.logAction('ADD_PRODUCT', product)
-        console.log('product in controlller:', product);
+        console.log('product in controller:', product);
         
         BaseController.sendSuccess(res, 'Product added successfully', product, 201)
     })

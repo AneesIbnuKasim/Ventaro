@@ -37,12 +37,15 @@ const CartSchema = mongoose.Schema({
         },
     }],
     appliedCoupon: {
-        code: String,
-        discountType: {
-            type: String,
-            // enum: ['PERCENT' | 'FLAT']
-        },
-        discountValue: Number
+        // code: String,
+        // discountType: {
+        //     type: String,
+        //     // enum: ['PERCENT' | 'FLAT']
+        // },
+        // discountValue: Number,
+
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Coupon'
     },
     totalQuantity: {
         type: Number,

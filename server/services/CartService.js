@@ -13,10 +13,7 @@ class CartService {
       userId = userId.toString();
 
       const cart = await Cart.findOne({ user: userId }).populate(
-        "items.product"
-      );
-
-      console.log("cart in be", cart);
+        "items.product")
 
       //   if (!cart) return []
       console.log('carrrrt:', cart);
@@ -59,12 +56,14 @@ class CartService {
 
     if (cart.appliedCoupon) {
       try {
-        const { discount, finalAmount } = await CouponService.validateCoupon(
+        const { discount, finalAmount, coupon } = await CouponService.validateCoupon(
           cart.appliedCoupon.code,
           cart.subTotal,
           cart.items
         );
         cart.discountTotal = discount;
+
+        cart.appliedCoupon = coupon
         
         cart.payableTotal = finalAmount;
       } catch (error) {
@@ -91,9 +90,8 @@ class CartService {
       const itemTotal = finalUnitPrice * quantity;
 
       //find correct user cart
-      let cart = await Cart.findOne({ user: userId });
+      let cart = await Cart.findOne({ user: userId }).populate( "appliedCoupon")
 
-      console.log("cart in add", cart);
       //if no cart -> create one
       if (!cart) {
         cart = new Cart({
@@ -124,6 +122,8 @@ class CartService {
             cart.items[itemIndex].finalUnitPrice;
         }
 
+
+
         //else new product
         else {
           cart.items.push({
@@ -144,9 +144,9 @@ class CartService {
 
       await cart.save();
 
-      await cart.populate("items.product");
-
-      console.log("populated cart", cart);
+      // await cart.populate("items.product").populate( "appliedCoupon")
+      cart = await cart.populate('items.product')
+      console.log("populated cart", cart.items);
 
       return { cart, warnings };
     } catch (error) {
@@ -166,7 +166,7 @@ class CartService {
         {
           new: true,
         }
-      ).populate("items.product");
+      ).populate("items.product").populate( "appliedCoupon")
 
       console.log('remove cart', cart);
       
@@ -247,7 +247,7 @@ class CartService {
         })
         .filter(Boolean);
 
-      const cart = await Cart.findOne({ user: userId });
+      const cart = await Cart.findOne({ user: userId }).populate( "appliedCoupon")
 
       if (!cart) throw new NotFoundError("Cart not found");
 
@@ -263,7 +263,7 @@ class CartService {
 
       await cart.save();
 
-      await cart.populate("items.product");
+      // await cart.populate("items.product").populate( "appliedCoupon")
 
       return { cart, warnings };
     } catch (error) {
@@ -273,7 +273,7 @@ class CartService {
 
   //APPLY COUPON EXPLICITLY
   static applyCoupon = async (userId, code) => {
-    const cart = await Cart.findOne({user: userId}).populate('items.product')
+    const cart = await Cart.findOne({user: userId}).populate('items.product').populate( "appliedCoupon")
 
     if (!cart) throw new NotFoundError('Cart not found')
     
@@ -282,27 +282,24 @@ class CartService {
         cart.subTotal,
         cart.items
     )
-    cart.appliedCoupon = {
-        code: result.coupon.code,
-        discountType: result.coupon.discountType,
-        discountValue: Math.round(result.coupon.discountValue)
-    }
+    console.log('result coupon', result.coupon);
+    
+    cart.appliedCoupon = result.coupon
 
     cart.discountTotal = Math.round(result.discount)
     cart.payableTotal = Math.round(result.finalAmount)
 
 
-    console.log('applied cart:', cart);
     
-
+    
     await cart.save()
-
+    console.log('applied cart:', cart);
+    await cart.populate('appliedCoupon')
     return {cart}
   }
 
   static removeCoupon = async (userId) => {
     const cart = await Cart.findOne({user: userId})
-
     if (!cart) throw new NotFoundError('Cart not found')
 console.log('here in remove api:', cart);
     

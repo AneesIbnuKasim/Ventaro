@@ -162,6 +162,9 @@ class ProductService {
       if (!productId) return new NotFoundError("Product Not found");
       if (!reviewData) return new NotFoundError("No review data provided");
 
+      console.log('',typeof rating);
+      
+
       const product = await Product.findById(productId);
 
       if (!product) return new NotFoundError("Product not found");
@@ -177,9 +180,11 @@ class ProductService {
 
 
       product.avgRating = product.ratings.reduce((sum, r) => (
-        (sum+r.ratings)),0)/product.ratingCount
+        (sum+r.rating)),0)/product.ratingCount
 
       await product.save();
+      console.log('return product', product);
+      
 
       return product;
     } catch (error) {

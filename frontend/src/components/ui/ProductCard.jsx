@@ -1,8 +1,15 @@
-import { Heart } from "lucide-react";
+import { Heart, ShoppingCart } from "lucide-react";
 import { memo } from "react";
 import RatingStars from "./RatingStars";
+import Button from "./Button";
+import { BsLightningChargeFill } from "react-icons/bs";
+import { useDispatch } from "react-redux";
+import { setCheckoutItems } from "../../redux/slices/checkoutSlice";
+import { addCartThunk } from "../../redux/slices/cartSlice";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
-const ProductCard = memo(({ product, handleClick}) => {
+const ProductCard = memo(({ product, handleClick, buttons=false}) => {
   const {
     _id,
     name,
@@ -14,10 +21,38 @@ const ProductCard = memo(({ product, handleClick}) => {
     ratings,
     discount,
   } = product;
+
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+
+    const addToCart = () => {
+      
+      dispatch(addCartThunk({ productId:_id, quantity: 1 })).unwrap()
+      toast.success('Product added to cart')
+    }
+  
+  const handleBuyNow = () => {
+    dispatch(setCheckoutItems([
+      {
+        product: {
+          _id,
+          name,
+          images,
+        },
+        quantity: 1,
+        basePrice: originalPrice, 
+        finalUnitPrice: sellingPrice, 
+        itemTotal: sellingPrice,
+      }
+    ]));
+  
+    navigate("/checkout?mode=buynow");
+  };
   
 
   return (
-    <div onClick={()=>handleClick(_id)} className="w-full max-w-[260px] min-h-[400px]  bg-white rounded-xl border border-gray-200  p-4 shadow-md hover:shadow-xl transition cursor-pointer">
+    <div className="w-full max-w-[260px] min-h-[400px]  bg-white rounded-xl border border-gray-200  p-4 shadow-md hover:shadow-xl transition cursor-pointer">
       
       {/* --- Top badge + wishlist icon --- */}
       <div className="flex items-start justify-between">
@@ -31,6 +66,10 @@ const ProductCard = memo(({ product, handleClick}) => {
         )}
 
       </div>
+
+      <div onClick={()=>handleClick(_id)}>
+
+      
 
       {/* --- Product Image --- */}
       <div className="w-full flex justify-center my-4">
@@ -68,6 +107,19 @@ const ProductCard = memo(({ product, handleClick}) => {
           </span>
         )}
       </div>
+</div>
+
+      {/* BUTTONS */}
+             {buttons && (
+               <div className="flex gap-2 mt-6">
+          <button onClick={()=>addToCart()} type="button" className='flex-1 outline-none text-xs px-3 py-2 text-white rounded-lg bg-violet-500 hover:bg-violet-700 whitespace-nowrap'>
+             ADD TO CART
+          </button>
+          <button onClick={handleBuyNow} type="button" className='flex-1 text-xs outline-none px-4 py-2 text-white rounded-lg bg-yellow-500 hover:bg-yellow-700 whitespace-nowrap '>
+             BUY NOW
+          </button>
+        </div>
+             )}
     </div>
   );
 })

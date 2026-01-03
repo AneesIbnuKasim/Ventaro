@@ -12,7 +12,7 @@ export const ProtectedRoute = memo(({
     const { isAuthenticated, loading } = useAuth()
     const location = useLocation()
 
-    console.log('in protected', isAuthenticated);
+    console.log("ProtectedRoute auth:", isAuthenticated, loading);
     
 
     if (loading) {

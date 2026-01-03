@@ -138,10 +138,10 @@ if (loading) {
             </div>
             <div className="flex justify-between text-sm text-green-400 mb-2">
               <span>Discount</span>
-              <span>₹{selectedOrder.totalDiscount}</span>
+              <span>₹{selectedOrder.totalDiscount ?? 0}</span>
             </div>
             <div className="flex justify-between text-sm mb-2">
-              <span>Sub Total</span>
+              <span>Shipping Fee</span>
               <span>₹{shippingFee}</span>
             </div>
             {codFee !== 0 && (

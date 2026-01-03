@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useState } from "react";
 import { Button } from "../components/ui";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
 import { getUser } from "../utils/apiClient";
 import { MdDeliveryDining } from "react-icons/md";
@@ -9,7 +9,7 @@ import { API_CONFIG, RAZORPAY } from "../config/app";
 import { selectCartTotals } from "../redux/selector/cartSelector";
 import { CURRENCY } from "../constants/ui";
 import { setDeliveryAddress, setPaymentMethod } from "../redux/slices/checkoutSlice";
-import { checkoutTotal } from "../redux/selector/checkoutSelector";
+import { selectCheckoutTotals } from "../redux/selector/checkoutSelector";
 import {paymentAPI} from "../services/paymentService";
 import { toast } from "react-toastify";
 import NotFound from "./NotFound";
@@ -21,17 +21,32 @@ const  CheckOut = memo(() => {
   const userProfile = getUser()  //get user details from local storage
   const addresses = user.addresses 
   const dispatch = useDispatch()
+
+  const location = useLocation();
+const mode =
+  new URLSearchParams(location.search).get("mode") ?? 'cart'
+  
+// const {
+//   items,
+//   totalQuantity,
+//   subTotal,
+//   discountTotal,
+//   payableTotal,
+//   shippingFee,
+//   grandTotal,
+
+// } = useSelector(selectCartTotals);
+
 const {
   items,
-  totalQuantity,
   subTotal,
-  discountTotal,
-  payableTotal,
   shippingFee,
+  codFee,
   grandTotal,
+  discountTotal
+} = useSelector(selectCheckoutTotals);
 
-} = useSelector(selectCartTotals);
-const { codFee, finalPayable } = useSelector(checkoutTotal)
+// const { finalPayable } = useSelector(selectCheckoutTotals)
 
 const { paymentMethod, deliveryAddress } = useSelector(state => state.checkout)
   
@@ -40,6 +55,10 @@ useEffect(() => {
        getProfile(userProfile.id)
     }
 }, [])
+useEffect(() => {
+    console.log('items', items);
+    
+}, [items])
 
 const openRazorpay = (response) => {
     const options = {
@@ -51,10 +70,16 @@ const openRazorpay = (response) => {
       description: "Order Payment",
 
       handler: async function (paymentResponse) {
+
+        console.log('paymentResponse:',paymentResponse);
+        
         
         const res = await paymentAPI.verifyRazorpayOrder({
           ...paymentResponse,
-          deliveryAddress
+          deliveryAddress,
+          grandTotal: response.amount,
+          mode,
+          buyNowItems: items
         });
         navigate(`/order-success/${res.orderId}`)
       },
@@ -73,11 +98,12 @@ const openRazorpay = (response) => {
 const handlePlaceOrder = async() => {
     try {
       if (paymentMethod === 'Razorpay') {
-       const { data } = await paymentAPI.createRazorpayOrder({paymentMethod})
+       const { data } = await paymentAPI.createRazorpayOrder({paymentMethod, mode, buyNowItems:items})
        openRazorpay(data)
     }
     else if (paymentMethod === 'COD' || paymentMethod === 'Wallet') {
-      const data = await paymentAPI.createOrder({paymentMethod, deliveryAddress})
+      const data = await paymentAPI.createOrder({paymentMethod, deliveryAddress, mode, buyNowItems:items})
+      console.log('data  order', data);
       
       navigate(`/order-success/${data.orderId}`)
     }
@@ -86,16 +112,14 @@ const handlePlaceOrder = async() => {
     }
 }
 
-{if (totalQuantity === 0) return (
-        <NotFound />
-      )}
+// if (!items.length) {
+//   return <NotFound />
+// }
 
   return (
     <div className="bg-gray-100 min-h-screen py-10">
-      
       <div className="max-w-[1240px] mx-auto px-4">
         <h1 className="text-2xl font-semibold mb-6">Checkout</h1>
-
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* LEFT SECTION */}
           <div className="lg:col-span-2 space-y-6">
@@ -191,12 +215,12 @@ const handlePlaceOrder = async() => {
             <div className="space-y-4">
               {items.map((item) => (
                 <div key={item._id} className="flex gap-3">
-                  <img src={`${API_CONFIG.imageURL2}${item.product.images[0]}`} alt="product" className="w-16 h-16 rounded" />
+                  <img src={`${API_CONFIG.imageURL2}${item?.product?.images[0] ?? item?.images[0]}`} alt="product" className="w-16 h-16 rounded" />
                   <div className="flex-1">
-                    <p className="text-sm font-medium line-clamp-1">{item.product.name}</p>
-                    <p className="text-sm text-gray-600">₹{item.finalUnitPrice} × {item.quantity}</p>
+                    <p className="text-sm font-medium line-clamp-1">{item?.product?.name ?? item.name}</p>
+                    <p className="text-sm text-gray-600">₹{item.finalUnitPrice ?? item.sellingPrice} × {item.quantity}</p>
                   </div>
-                  <p className="font-medium">₹{item.itemTotal}</p>
+                  <p className="font-medium">₹{item.itemTotal ?? item.sellingPrice }</p>
                 </div>
               ))}
             </div>
@@ -234,7 +258,7 @@ const handlePlaceOrder = async() => {
 
             <div className="flex justify-between font-semibold text-lg mb-4">
               <span>Total</span>
-              <span>₹{finalPayable}</span>
+              <span>₹{grandTotal}</span>
             </div>
 
             <button
@@ -252,3 +276,24 @@ const handlePlaceOrder = async() => {
 } ) 
 
 export default CheckOut
+
+
+
+
+
+
+
+
+
+
+
+//   if (isBuyNow) {
+    
+//   }
+
+// const selectCheckoutItems = useMemo(
+//   () => makeSelectCheckoutItems(isBuyNow),
+//   [isBuyNow]
+// );
+
+// const items = useSelector(selectCheckoutItems);
