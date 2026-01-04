@@ -50,11 +50,11 @@ const Table = ({ data, columns, actions, keyId, type='' , onStatusChange}) => {
                       </option>
                     ))}
                   </select>
-                ) : col === "images" ? (
+                ) : col === "images" || col === "image" ? (
                   <img
                     width={70}
                     height={70}
-                    src={`http://localhost:5001${item[col][0]}`}
+                    src={col === "images" ? `http://localhost:5001${item[col][0]}`:`http://localhost:5001${item[col]}`}
                   />
                 ) : (
                   item[col.replace(" ", "")] ?? "---"

@@ -100,17 +100,13 @@ const Categories = memo(() => {
   const handleSubmit = async (categoryData) => {
     if (editData?._id) {
       const res = await updateCategory(editData._id, categoryData);
-
-      if (res?.success) {
         setEditData(null);
         setOpen(false);
-      }
     } else {
       const res = await addCategory(categoryData);
 
-      if (res?.success) {
         setOpen(false);
-      }
+
     }
   };
 
@@ -168,7 +164,7 @@ const Categories = memo(() => {
         <SearchNotFound searchQuery={filters.search} />
       ) : (
         <Table
-          columns={["name", "description", "createdAt"]}
+          columns={["image","name", "description", "createdAt"]}
           data={categories}
           actions={{
             onEdit: handleCategoryForm,

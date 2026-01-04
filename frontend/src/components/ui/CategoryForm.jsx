@@ -36,10 +36,10 @@ const CategoryForm = ({ initialData= null, handleSubmit }) => {
       validationSchema={validationSchema}
       enableReinitialize
       onSubmit={(values) => {
-        initialData ? handleSubmit({
+        initialData ? handleSubmit(values) : handleSubmit({
           image,
           ...values
-        }) : handleSubmit(values)
+        })
       }}
     >
       {({ values, errors, touched, handleChange, handleBlur }) => (
