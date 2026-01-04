@@ -29,7 +29,7 @@ class CategoryService {
 
             const totalPages = Math.ceil(totalCategories/limit)
 
-            logger.info(`Admin ${req.admin.email} fetched category list (page: ${page})`)
+            logger.info(`Admin ${req?.admin?.email} fetched category list (page: ${page})`)
             return { categories,
                 pagination: {
                     page,

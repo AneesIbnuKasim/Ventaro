@@ -4,16 +4,36 @@ import { useProduct } from "../context/ProductContext";
 import headphone from "../assets/headphone.jpg";
 import headphone2 from "../assets/headphone-2.jpg";
 import { Button } from "../components/ui";
+import { API_CONFIG } from "../config/app";
+import { useCategory } from "../context/CategoryContext";
+import { useNavigateWithReset } from "../hooks/useNavigateWithReset";
+import { useNavigate } from "react-router-dom";
 
 const Home = memo(() => {
-  const { fetchProduct, products } = useProduct();
+  const { fetchProduct, products, setGlobalCategory } = useProduct();
+  const { categories, fetchCategories } = useCategory();
+  const navigateWithReset = useNavigateWithReset()
+  const navigate = useNavigate()
+
+    //NAVIGATE TO CORRESPONDING CATEGORY WHEN CLICKS
+  const navigateToCategory = (cat) => {
+    console.log('catt', cat);
+    
+    setGlobalCategory(cat)
+    navigateWithReset(`/products/${cat}`)
+    ;
+  };
 
   useEffect(() => {
     const load = async () => await fetchProduct();
     load();
   }, []);
-  console.log("products", products);
-
+  console.log("products", categories);
+  useEffect(() => {
+    if (!categories.length > 0) {
+      fetchCategories();
+    }
+  }, []);
   return (
     <div>
       <main className="bg-slate-50">
@@ -55,24 +75,20 @@ const Home = memo(() => {
 
           <div className="flex gap-6 overflow-x-auto pb-2">
             {/* Example category item */}
-            {[
-              "Gaming",
-              "Sports",
-              "Kitchen",
-              "Mobiles",
-              "Cameras",
-              "Computers",
-              "TV",
-              "Audio",
-            ].map((cat) => (
+            {categories?.map((cat, index) => (
               <div
-                key={cat}
+                key={index}
                 className="flex flex-col items-center min-w-[90px]"
               >
-                <div className="w-16 h-16 bg-slate-200 rounded-full flex items-center justify-center">
-                  {/* Replace with icon */}
+                <div
+                  className="w-13 h-13 rounded-full bg-center bg-cover"
+                  style={{
+                    backgroundImage: `url(${API_CONFIG.imageURL2}${cat.image[0]})`,
+                  }}
+                  onClick={() => navigateToCategory(cat.name)}
+                >
                 </div>
-                <span className="mt-2 text-sm text-slate-700">{cat}</span>
+                <span className="mt-2 text-sm text-slate-700">{cat.name}</span>
               </div>
             ))}
           </div>

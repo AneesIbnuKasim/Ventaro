@@ -86,20 +86,14 @@ const Products = memo((setTitle) => {
     setOpen(false);
   }, []);
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = (values) => {
     if (editData?._id) {
-      const res = await updateProduct(editData._id, values);
-
-      if (res.success) {
+      updateProduct(editData._id, values);
         setEditData(null);
         setOpen(false);
-      }
     } else {
-      const res = await addProduct(values);
-
-      if (res?.success) {
+        addProduct(values);
         setOpen(false);
-      }
     }
   };
 

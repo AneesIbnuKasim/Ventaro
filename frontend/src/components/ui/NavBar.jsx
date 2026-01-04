@@ -12,14 +12,6 @@ import { useAuth } from "../../context/AuthContext";
 
 export default function Navbar({
   logo = "Logo",
-  categories = [
-    "home",
-    "mobile",
-    "laptop",
-    "air conditioners",
-    "tablets",
-    "mobile accessories",
-  ],
   showProfile = true,
   showWishlist = true,
   showBag = true,
@@ -29,14 +21,16 @@ export default function Navbar({
   const { items } = useSelector((state) => state.cart);
 
   const [menuOpen, setMenuOpen] = useState(false);
-  const { filters, setFilters, setGlobalCategory } = useProduct();
+  const { filters, setFilters, allCategories, setGlobalCategory } = useProduct();
   const { logout } = useAuth();
   const [open, setOpen] = useState(false);
+  const categories = allCategories?.slice(0,5)
+  categories?.unshift('Home')
 
   //NAVIGATE TO CORRESPONDING CATEGORY WHEN CLICKS
   const navigateToCategory = (cat) => {
     setGlobalCategory(cat);
-    cat === 'home' ? navigateWithReset(`/${cat}`) : navigateWithReset(`/products/${cat}`)
+    cat === 'Home' ? navigate(`/`) : navigateWithReset(`/products/${cat}`)
     ;
   };
 
@@ -68,7 +62,7 @@ export default function Navbar({
           <div className="flex-1 flex items-center gap-10 justify-center">
             {/* Categories (dynamic) */}
             <ul className="hidden lg:flex items-center gap-8 text-sm font-semibold">
-              {categories.map((cat) => (
+              {categories?.map((cat) => (
                 <li
                   key={cat}
                   className="cursor-pointer hover:text-gray-700"
@@ -171,8 +165,11 @@ export default function Navbar({
         </div>
 
         <ul className="flex flex-col gap-6 p-6 text-base font-medium">
-          {categories.map((cat) => (
-            <li key={cat} className="cursor-pointer">
+          {categories?.map((cat) => (
+            <li key={cat} className="cursor-pointer" onClick={() => {
+              navigateToCategory(cat)
+              setMenuOpen(false)
+            }}>
               {cat}
             </li>
           ))}

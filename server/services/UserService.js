@@ -197,6 +197,8 @@ class UserService {
     }
 
   }
+
+  //fetch everything for home page
 }
 
 module.exports = UserService;

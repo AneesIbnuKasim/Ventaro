@@ -99,11 +99,11 @@ const Categories = memo(() => {
 
   const handleSubmit = async (categoryData) => {
     if (editData?._id) {
-      const res = await updateCategory(editData._id, categoryData);
+        updateCategory(editData._id, categoryData);
         setEditData(null);
         setOpen(false);
     } else {
-      const res = await addCategory(categoryData);
+        addCategory(categoryData);
 
         setOpen(false);
 

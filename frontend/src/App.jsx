@@ -48,6 +48,7 @@ const Home = lazy(() => import("./pages/Home.jsx"));
 const App = () => (
   <BrowserRouter>
     <UserProvider>
+      <CategoryProvider>
       <AdminProvider>
         <AuthProvider>
           <ProductProvider>
@@ -63,7 +64,7 @@ const App = () => (
             />
 
               
-                <Route path="/home" element={<AppLayout><Home /></AppLayout>} />
+                <Route path="/" element={<AppLayout><Home /></AppLayout>} />
                 <Route path="/products/:category" element={<AppLayout><ProductList /></AppLayout>} />
                 <Route path="/search" element={<AppLayout><SearchPage /></AppLayout>} />
                 <Route path="/product/:id" element={<AppLayout><ProductDetails /></AppLayout>} />
@@ -174,11 +175,11 @@ const App = () => (
               <Route
                 path="/admin"
                 element={
-                  <CategoryProvider>
+                  // <CategoryProvider>
                     <AdminRoute>
                       <AdminLayout />
                     </AdminRoute>
-                  </CategoryProvider>
+                  // {/* </CategoryProvider> */}
                 }
               >
                 <Route index element={<Dashoboard />} />
@@ -197,6 +198,7 @@ const App = () => (
           </ProductProvider>
         </AuthProvider>
       </AdminProvider>
+      </CategoryProvider>
     </UserProvider>
   </BrowserRouter>
 );

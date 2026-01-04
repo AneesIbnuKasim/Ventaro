@@ -6,7 +6,7 @@ const { default: upload } = require('../config/multer')
 const router = express.Router()
 
 //category api handlers
-router.get('/', authenticateAdmin, CategoryController.getAllCategories)
+router.get('/', CategoryController.getAllCategories)
 router.post('/', authenticateAdmin, upload.single('image'), CategoryController.addCategory)
 router.put('/:id',authenticateAdmin ,CategoryController.updateCategory)
 router.delete('/:id', authenticateAdmin, CategoryController.deleteCategory)
