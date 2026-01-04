@@ -86,14 +86,17 @@ const Products = memo((setTitle) => {
     setOpen(false);
   }, []);
 
-  const handleSubmit = (values) => {
+  const handleSubmit = async(values) => {
     if (editData?._id) {
       updateProduct(editData._id, values);
         setEditData(null);
         setOpen(false);
     } else {
-        addProduct(values);
-        setOpen(false);
+        const res = await addProduct(values);
+        
+        if (res.success) {
+setOpen(false);
+        }
     }
   };
 
@@ -148,7 +151,7 @@ const Products = memo((setTitle) => {
         <SearchNotFound searchQuery={filters.search} />
       ) : (
         <Table
-          columns={["images", "name", "description", "sellingPrice", "status"]}
+          columns={["images", "name", "stock", "sellingPrice", "status"]}
           data={products}
           actions={{
             onEdit: handleProductForm,

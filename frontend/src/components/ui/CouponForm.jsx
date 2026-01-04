@@ -24,11 +24,6 @@ const CouponForm = ({ editData, onConfirm }) => {
   ))
 
   useEffect(() => {
-    console.log('editData', editData);
-    
-  }, [])
-
-  useEffect(() => {
     if (!categories.length > 0) {
       fetchCategories();
     }

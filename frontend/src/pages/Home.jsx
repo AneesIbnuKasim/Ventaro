@@ -8,9 +8,10 @@ import { API_CONFIG } from "../config/app";
 import { useCategory } from "../context/CategoryContext";
 import { useNavigateWithReset } from "../hooks/useNavigateWithReset";
 import { useNavigate } from "react-router-dom";
+import Slider from '../components/ui/Slider';
 
 const Home = memo(() => {
-  const { fetchProduct, products, setGlobalCategory } = useProduct();
+  const { fetchProduct, fetchSingleProduct, products, setGlobalCategory } = useProduct();
   const { categories, fetchCategories } = useCategory();
   const navigateWithReset = useNavigateWithReset()
   const navigate = useNavigate()
@@ -23,6 +24,10 @@ const Home = memo(() => {
     navigateWithReset(`/products/${cat}`)
     ;
   };
+
+  const handleClick = async(productId) => {
+    fetchSingleProduct(productId)
+  }
 
   useEffect(() => {
     const load = async () => await fetchProduct();
@@ -68,12 +73,11 @@ const Home = memo(() => {
         </section>
 
         {/* POPULAR CATEGORIES */}
-        <section className="max-w-7xl mx-auto px-4 py-10">
+        <section className="max-w-7xl mx-auto px-4 py-7">
           <h2 className="text-lg font-semibold text-slate-900 mb-6">
             Popular Categories
           </h2>
-
-          <div className="flex gap-6 overflow-x-auto pb-2">
+          <div className="flex gap-8 overflow-x-auto ">
             {/* Example category item */}
             {categories?.map((cat, index) => (
               <div
@@ -81,7 +85,7 @@ const Home = memo(() => {
                 className="flex flex-col items-center min-w-[90px]"
               >
                 <div
-                  className="w-13 h-13 rounded-full bg-center bg-cover"
+                  className="w-20 h-20 rounded-full bg-center bg-cover"
                   style={{
                     backgroundImage: `url(${API_CONFIG.imageURL2}${cat.image[0]})`,
                   }}
@@ -95,28 +99,41 @@ const Home = memo(() => {
         </section>
 
         {/* BEST SELLER */}
-        <section className="max-w-7xl mx-auto px-4 py-8">
-          <div className="flex justify-between items-center mb-6">
+        <section className="max-w-7xl mx-auto px-4 ">
+          {/* <div className="flex justify-between items-center mb-6">
             <h2 className="text-lg font-semibold">Best Seller</h2>
             <button className="text-sm text-indigo-600">View all</button>
-          </div>
+          </div> */}
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+          <div className="flex gap-4">
             {products.length > 0 &&
-              products.map((product) => <ProductCard product={product} />)}
+              (<Slider 
+        title='Best Sellers'
+        items={products}
+        renderItem={(item)=><ProductCard 
+            product={item}
+            />}
+            handleClick = {handleClick}
+            />)}
           </div>
         </section>
 
         {/* FEATURED PRODUCTS */}
         <section className="max-w-7xl mx-auto px-4 py-10">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-lg font-semibold">Featured Products</h2>
+          {/* <div className="flex justify-between items-center mb-6">
+            <h2 className="text-lg font-semibold"></h2>
             <button className="text-sm text-indigo-600">View all</button>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          </div> */}
+          <div className="flex gap-4">
             {products.length > 0 &&
-              products.map((product) => <ProductCard product={product} />)}
+              (<Slider 
+        title='Featured Products'
+        items={products}
+        renderItem={(item)=><ProductCard 
+            product={item}
+            />}
+            handleClick = {handleClick}
+            />)}
           </div>
         </section>
 
@@ -124,9 +141,9 @@ const Home = memo(() => {
         <section className="max-w-7xl mx-auto px-4 py-10">
           <div className="bg-indigo-600 text-white rounded-2xl grid grid-cols-1 md:grid-cols-2 overflow-hidden">
             <div className="p-8">
-              <h3 className="text-xl font-semibold">Smart Watch Series</h3>
+              <h3 className="text-xl font-semibold">Smart Tv Series</h3>
               <p className="mt-2 text-indigo-100 text-sm">
-                Track fitness, heart rate and notifications seamlessly.
+                Full HD 4k Cinematic visuals right in your room.
               </p>
 
               <button className="mt-6 bg-white text-indigo-600 px-5 py-2 rounded-lg">
@@ -134,25 +151,32 @@ const Home = memo(() => {
               </button>
             </div>
 
-            <div className="flex items-center justify-center p-6">
+            <div className="flex items-center justify-end ">
               <img
-                src="/images/smartwatch.png"
-                alt="Smart Watch"
-                className="max-h-[220px]"
+                src={`${headphone2}`}
+                alt="Smart Tv"
+                className="max-h-[300px] flex-1"
               />
             </div>
           </div>
         </section>
 
         {/* CLEARANCE SALE */}
-        <section className="max-w-7xl mx-auto px-4 py-10">
-          <h2 className="text-lg font-semibold mb-6">
+        <section className="max-w-7xl mx-auto px-4 pb-10">
+          {/* <h2 className="text-lg font-semibold mb-6">
             Clearance Sale · Up to 70% OFF
-          </h2>
+          </h2> */}
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          <div className="flex gap-4">
             {products.length > 0 &&
-              products.map((product) => <ProductCard product={product} />)}
+              (<Slider 
+        title='Clearance Sale'
+        items={products}
+        renderItem={(item)=><ProductCard 
+            product={item}
+            />}
+            handleClick = {handleClick}
+            />)}
           </div>
         </section>
       </main>

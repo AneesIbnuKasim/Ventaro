@@ -158,7 +158,7 @@ const Coupons = memo(() => {
         <SearchNotFound searchQuery={filters.search} />
       ) : (
         <Table
-          columns={["code", "description", "price", "status"]}
+          columns={["code", "start Date", "end Date", "discount Value", "discount Type"]}
           data={coupons}
           actions={{
             onEdit: handleCouponEditForm,
