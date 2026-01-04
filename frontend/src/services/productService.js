@@ -38,6 +38,7 @@ export const productAPI = {
     });
 
     const token = localStorage.getItem("adminToken");
+    
     const res = await axios.post("http://localhost:5001/api/products", formData, {
       headers: {
         Authorization: `Bearer ${token}`,

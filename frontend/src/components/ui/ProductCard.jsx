@@ -9,7 +9,7 @@ import { addCartThunk } from "../../redux/slices/cartSlice";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-const ProductCard = memo(({ product, handleClick, buttons=false}) => {
+const ProductCard = memo(({ product, handleClick=()=>console.log('clicked'), buttons=false}) => {
   const {
     _id,
     name,

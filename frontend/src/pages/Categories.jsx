@@ -97,18 +97,18 @@ const Categories = memo(() => {
     setPagination({ page: 1 });
   }, []);
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (categoryData) => {
     if (editData?._id) {
-      const res = await updateCategory(editData._id, values);
+      const res = await updateCategory(editData._id, categoryData);
 
-      if (res.success) {
+      if (res?.success) {
         setEditData(null);
         setOpen(false);
       }
     } else {
-      const res = await addCategory(values);
+      const res = await addCategory(categoryData);
 
-      if (res.success) {
+      if (res?.success) {
         setOpen(false);
       }
     }
@@ -129,7 +129,7 @@ const Categories = memo(() => {
           <CategoryForm
             initialData={editData}
             // onClose={closeCategoryForm}
-            handleSubmit={handleSubmit}
+            handleSubmit={(values) => handleSubmit(values)}
           />
         </Modal>
       )}

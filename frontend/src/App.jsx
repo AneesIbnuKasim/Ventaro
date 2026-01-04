@@ -63,7 +63,7 @@ const App = () => (
             />
 
               
-                <Route path="/products/home" element={<AppLayout><Home /></AppLayout>} />
+                <Route path="/home" element={<AppLayout><Home /></AppLayout>} />
                 <Route path="/products/:category" element={<AppLayout><ProductList /></AppLayout>} />
                 <Route path="/search" element={<AppLayout><SearchPage /></AppLayout>} />
                 <Route path="/product/:id" element={<AppLayout><ProductDetails /></AppLayout>} />

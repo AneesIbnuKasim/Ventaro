@@ -12,6 +12,10 @@ const CategorySchema = new mongoose.Schema({
         type: String,
         required: [true, 'Description is required'],
         minlength: [2, 'Description must be at least 2 characters long'],
+    },
+    image: {
+        type: [String],
+        required: true
     }
 }, {timestamps: true})
 

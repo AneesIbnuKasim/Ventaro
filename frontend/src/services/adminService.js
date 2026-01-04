@@ -1,4 +1,6 @@
+import axios from 'axios';
 import { makeRequest } from '../utils/apiClient'
+import { API_CONFIG } from '../config/app';
 
 export const adminAPI = {
     login: (credentials)=>{
@@ -28,13 +30,25 @@ export const adminAPI = {
         })
     },
 
-    addCategory: (categoryData)=>{
+    addCategory: async(categoryData)=>{
 
-        return makeRequest({
-            method: 'post',
-            url: 'api/category',
-            data: categoryData
+        const { name, description, image } = categoryData
+
+        const formData = new FormData()
+
+        formData.append('image', image)
+        formData.append('description', description)
+        formData.append('name', name)
+
+        const token = localStorage.getItem("adminToken");
+        
+        const res = await axios.post(`http://localhost:5001/api/category`, formData, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
         })
+
+        return res.data
     },
 
     updateCategory: (categoryId, editData)=>{

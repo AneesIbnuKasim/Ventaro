@@ -65,7 +65,7 @@ export default function OrderItemCard({ order, onCancel, handleReturn }) {
           <div className="flex items-center gap-2 text-sm text-orange-500 mt-2">
             <Clock size={16} />
             Return pickup expected by{" "}
-            {expectedReturnDate(new Date(order.returnInfo.date)).toDateString()}
+            {expectedReturnDate(new Date()).toDateString()}
           </div>
         ) : (
           <div className="flex items-center gap-2 text-sm text-blue-500 mt-2">

@@ -94,9 +94,9 @@ if (loading) {
                   </p>
                   <p className="font-semibold mt-1">₹{item.itemTotal}</p>
 
-                  {item.status === "DELIVERED" ? (
+                  {selectedOrder.orderStatus === "DELIVERED" ? (
                     <div className="flex items-center gap-2 text-sm text-green-600 mt-2">
-                      <CheckCircle size={16} /> Delivered on {item.deliveredOn}
+                      <CheckCircle size={16} /> Delivered on {formatDate(Date())}
                     </div>
                   ) : (
                     <div className="flex items-center gap-2 text-sm text-orange-500 mt-2">

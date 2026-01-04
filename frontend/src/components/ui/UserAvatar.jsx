@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link, NavLink } from 'react-router-dom';
 
 const UserAvatar = ({ 
   user, 
@@ -56,11 +57,30 @@ const UserAvatar = ({
     <div className="flex items-center">
       {avatarElement}
       {(showName || showEmail) && (
-        <div className="ms-3">
+        <div className="ms-3 relative">
           {showName && user?.name && <h6 className="mb-0">{user.name}</h6>}
           {showEmail && user?.email && (
             <p className="text-muted mb-0 small">{user.email}</p>
           )}
+          <div className="absolute hidden w-25 text-center group-hover:block bg-violet-300 top-4 right-1 rounded z-100">
+                <NavLink className="flex flex-col w-full ">
+                  <Link
+                    to={"/profile/account"}
+                    className="hover:bg-violet-400 rounded p-1 "
+                  >
+                    Profile
+                  </Link>
+                  <Link
+                    to="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      logout();
+                    }}
+                  >
+                    Logout
+                  </Link>
+                </NavLink>
+              </div>
         </div>
       )}
     </div>

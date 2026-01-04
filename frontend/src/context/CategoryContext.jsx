@@ -186,6 +186,8 @@ export const CategoryProvider = ({ children }) => {
   const addCategory = async (categoryData) => {
     try {
       dispatch({ type: CATEGORY_ACTIONS.SET_LOADING, payload: true });
+      console.log('categoryData', categoryData);
+      
 
       const response = await adminAPI.addCategory(categoryData);
 

@@ -13,6 +13,7 @@ import { useAuth } from "../../context/AuthContext";
 export default function Navbar({
   logo = "Logo",
   categories = [
+    "home",
     "mobile",
     "laptop",
     "air conditioners",
@@ -35,7 +36,8 @@ export default function Navbar({
   //NAVIGATE TO CORRESPONDING CATEGORY WHEN CLICKS
   const navigateToCategory = (cat) => {
     setGlobalCategory(cat);
-    navigateWithReset(`/products/${cat}`);
+    cat === 'home' ? navigateWithReset(`/${cat}`) : navigateWithReset(`/products/${cat}`)
+    ;
   };
 
   return (
@@ -125,6 +127,7 @@ export default function Navbar({
                   </Link>
                   <Link
                     to="#"
+                    className="hover:bg-violet-400 rounded p-1 "
                     onClick={(e) => {
                       e.preventDefault();
                       logout();
