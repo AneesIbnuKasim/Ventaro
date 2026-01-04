@@ -56,7 +56,7 @@ export const selectDiscountTotal = createSelector(
             discount = Math.round( Math.min(discount, coupon.maxDiscountAmount))
         }
 
-        return Math.max(discount)
+        return Math.round(discount)
   }
 );
 

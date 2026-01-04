@@ -4,7 +4,7 @@ import { useProduct } from "../context/ProductContext";
 import ProductCard from "../components/ui/ProductCard";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Button } from "../components/ui";
+import { Button, Loading } from "../components/ui";
 import {
   selectAppliedCoupon,
   selectCartItems,
@@ -98,13 +98,18 @@ useEffect(()=> {
     <div className="bg-gray-100 py-10 px-5">
       <div className="max-w-7xl mx-auto bg-white rounded-xl p-8">
         {/* Top Section */}
-        {!hasCartItems && ! loading ? (
+        {loading ? (
+          <div>
+            <Loading />
+          </div>
+        ) :
+        !hasCartItems && ! loading ? (
           <div className=" text-gray-500 min-h-[400px] flex justify-center items-center h-full text-center flex-col gap-5">
             <p>Your cart is empty</p>
             <Button
               className="p-5"
               size="md"
-              onClick={() => navigate(`/products/Mobile`)}
+              onClick={() => navigate(`/`)}
             >
               HOME
             </Button>

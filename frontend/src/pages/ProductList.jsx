@@ -92,6 +92,8 @@ const ProductList = memo(() => {
 
           <div className="w-full flex flex-col justify-between p-5">
 
+<div className="min-h-60vh">
+    
   {/* HEADER */}
   {!loading && products.length > 0 && (
     <div className="w-full flex justify-between p-5">
@@ -101,20 +103,17 @@ const ProductList = memo(() => {
     </div>
   )}
 
-  {!loading && products?.length === 0 && !filters.search && (
-    <ProductNotFound className='text-3xl' content='Product Not Found...' />
-  )}
-
   {/* CONTENT STATES */}
+
   {loading ? (
-    <ProductsGridSkeleton length={8} />
+      <ProductsGridSkeleton length={8} />
   ) : filters.search && products.length === 0 ? (
     <div className="w-full flex justify-center items-center min-h-[50vh]">
       <SearchNotFound searchQuery={filters.search} />
     </div>
   ) : products.length === 0  ? (
     <div className="w-full flex justify-center items-center min-h-[50vh]">
-      <ProductNotFound />
+      <ProductNotFound content= 'Product not found' sub='Please use other filters...' />
     </div>
   ) : (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-2">
@@ -143,6 +142,7 @@ const ProductList = memo(() => {
                 />
               </div>
             )}
+          </div>
           </div>
         
         <ToggleChat />

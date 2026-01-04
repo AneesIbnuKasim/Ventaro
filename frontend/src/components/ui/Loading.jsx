@@ -40,13 +40,16 @@ const Loading = ({
   return (
     <div className={containerClasses} style={containerStyle}>
       <div className="text-center">
-        <div className={spinnerClasses} role="status">
-          <FaSpinner />
+        {text && fullScreen && (
+          <div className={spinnerClasses} cla role="status">
+          <FaSpinner  />
           <span className="visually-hidden"> {text}</span>
         </div>
+        )}
         {text && !fullScreen && (
-          <div className="mt-2 text-muted flex flex-col">
-            <FaSpinner /> <small>{text}</small>
+          <div className="mt-2 text-3xl gap-3 min-h-[300px] ms-auto w-full flex justify-center items-center">
+            <FaSpinner /> 
+            <small>{text}</small>
           </div>
         )}
       </div>
