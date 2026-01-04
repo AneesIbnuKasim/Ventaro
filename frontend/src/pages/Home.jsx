@@ -8,26 +8,27 @@ import { API_CONFIG } from "../config/app";
 import { useCategory } from "../context/CategoryContext";
 import { useNavigateWithReset } from "../hooks/useNavigateWithReset";
 import { useNavigate } from "react-router-dom";
-import Slider from '../components/ui/Slider';
+import Slider from "../components/ui/Slider";
 
 const Home = memo(() => {
-  const { fetchProduct, fetchSingleProduct, products, setGlobalCategory } = useProduct();
+  const { fetchProduct, fetchSingleProduct, products, setGlobalCategory } =
+    useProduct();
   const { categories, fetchCategories } = useCategory();
-  const navigateWithReset = useNavigateWithReset()
-  const navigate = useNavigate()
+  const navigateWithReset = useNavigateWithReset();
+  const navigate = useNavigate();
 
-    //NAVIGATE TO CORRESPONDING CATEGORY WHEN CLICKS
+  //NAVIGATE TO CORRESPONDING CATEGORY WHEN CLICKS
   const navigateToCategory = (cat) => {
-    console.log('catt', cat);
-    
-    setGlobalCategory(cat)
-    navigateWithReset(`/products/${cat}`)
-    ;
+    console.log("catt", cat);
+
+    setGlobalCategory(cat);
+    navigateWithReset(`/products/${cat}`);
   };
 
-  const handleClick = async(productId) => {
-    fetchSingleProduct(productId)
-  }
+  const handleClick = async (productId) => {
+    fetchSingleProduct(productId);
+    navigate(`/product/${productId}`)
+  };
 
   useEffect(() => {
     const load = async () => await fetchProduct();
@@ -90,8 +91,7 @@ const Home = memo(() => {
                     backgroundImage: `url(${API_CONFIG.imageURL2}${cat.image[0]})`,
                   }}
                   onClick={() => navigateToCategory(cat.name)}
-                >
-                </div>
+                ></div>
                 <span className="mt-2 text-sm text-slate-700">{cat.name}</span>
               </div>
             ))}
@@ -106,15 +106,14 @@ const Home = memo(() => {
           </div> */}
 
           <div className="flex gap-4">
-            {products.length > 0 &&
-              (<Slider 
-        title='Best Sellers'
-        items={products}
-        renderItem={(item)=><ProductCard 
-            product={item}
-            />}
-            handleClick = {handleClick}
-            />)}
+            {products.length > 0 && (
+              <Slider
+                title="Best Sellers"
+                items={products}
+                renderItem={(item) => <ProductCard product={item} />}
+                handleClick={handleClick}
+              />
+            )}
           </div>
         </section>
 
@@ -125,15 +124,14 @@ const Home = memo(() => {
             <button className="text-sm text-indigo-600">View all</button>
           </div> */}
           <div className="flex gap-4">
-            {products.length > 0 &&
-              (<Slider 
-        title='Featured Products'
-        items={products}
-        renderItem={(item)=><ProductCard 
-            product={item}
-            />}
-            handleClick = {handleClick}
-            />)}
+            {products.length > 0 && (
+              <Slider
+                title="Featured Products"
+                items={products}
+                renderItem={(item) => <ProductCard product={item} />}
+                handleClick={handleClick}
+              />
+            )}
           </div>
         </section>
 
@@ -168,15 +166,14 @@ const Home = memo(() => {
           </h2> */}
 
           <div className="flex gap-4">
-            {products.length > 0 &&
-              (<Slider 
-        title='Clearance Sale'
-        items={products}
-        renderItem={(item)=><ProductCard 
-            product={item}
-            />}
-            handleClick = {handleClick}
-            />)}
+            {products.length > 0 && (
+              <Slider
+                title="Clearance Sale"
+                items={products}
+                renderItem={(item) => <ProductCard product={item} />}
+                handleClick={handleClick}
+              />
+            )}
           </div>
         </section>
       </main>

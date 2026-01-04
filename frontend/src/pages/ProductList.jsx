@@ -15,6 +15,7 @@ import SearchNotFound from "../components/ui/SearchNotFound";
 import ProductNotFound from "../components/ui/ProductNotFound";
 import Loading from "../components/ui/Loading";
 import ToggleChat from "../components/ui/ToggleChat";
+import ProductsGridSkeleton from "../components/ui/ProductGridSkeleton";
 
 //USER PRODUCTS UI PAGE
 const ProductList = memo(() => {
@@ -47,6 +48,11 @@ const ProductList = memo(() => {
   }, [category, fetchProductByCategory]);
 
   const navigate = useNavigate();
+
+  useEffect(()=> {
+    console.log('search:', filters.search);
+    
+  }, [filters.search])
 
   const handleClick = (id) => {
     navigate(`/product/${id}`);
@@ -84,46 +90,45 @@ const ProductList = memo(() => {
 
           {/* MAIN CONTENT AREA */}
 
-          {
-            loading && (
-              <div className="flex flex-col items-center justify-center m-auto">
-              <div className="flex justify-center w-screen">
-                <Loading size="xl" fullScreen={true} text="Loading search result..." className="flex gap-5 items-center justify-center text-2xl"/>
-              </div>
-              </div>
-            )
-          }
+          <div className="w-full flex flex-col justify-between p-5">
 
-          <div className="flex flex-col items-center w-full m-5">
-            {/* CONTENT */}
-            {!loading && (
-              <div className="w-full flex flex-col justify-between p-5">
-                {/* HEADERS */}
-                {products.length > 0 && (
-                  <div className=" w-full flex h2 justify-between p-5">
-                <h1>{category.charAt(0).toUpperCase()+category.slice(1)}</h1>
-              </div>
-                )}
+  {/* HEADER */}
+  {!loading && products.length > 0 && (
+    <div className="w-full flex justify-between p-5">
+      <h1 className="text-xl font-semibold">
+        {category.charAt(0).toUpperCase() + category.slice(1)}
+      </h1>
+    </div>
+  )}
 
-                {/* GRID / EMPTY STATE */}
-                {!loading && products.length > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-2">
-                    {products.map((item) => (
-                      <ProductCard
-                        buttons= {true}
-                        key={item._id}
-                        product={item}
-                        handleClick={handleClick}
-                      />
-                    ))}
-                  </div>
-                ) : (
-                  <div className="w-full flex justify-center items-center min-h-[50vh]">
-                    <SearchNotFound searchQuery={filters.search} />
-                  </div>
-                )}
-              </div>
-            )}
+  {!loading && products?.length === 0 && !filters.search && (
+    <ProductNotFound className='text-3xl' content='Product Not Found...' />
+  )}
+
+  {/* CONTENT STATES */}
+  {loading ? (
+    <ProductsGridSkeleton length={8} />
+  ) : filters.search && products.length === 0 ? (
+    <div className="w-full flex justify-center items-center min-h-[50vh]">
+      <SearchNotFound searchQuery={filters.search} />
+    </div>
+  ) : products.length === 0  ? (
+    <div className="w-full flex justify-center items-center min-h-[50vh]">
+      <ProductNotFound />
+    </div>
+  ) : (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-2">
+      {products.map((item) => (
+        <ProductCard
+          key={item._id}
+          buttons={true}
+          product={item}
+          handleClick={handleClick}
+        />
+      ))}
+    </div>
+  )}
+</div>
 
             {/* PAGINATION */}
             {!loading && pagination.totalPages > 1 && (
@@ -139,7 +144,7 @@ const ProductList = memo(() => {
               </div>
             )}
           </div>
-        </div>
+        
         <ToggleChat />
     </>
   );

@@ -35,8 +35,7 @@ export const selectDiscountTotal = createSelector(
         if ( subTotal < 100) return toast.error(`Minimum cart value ${100} required`)
 
         //category check
-        if (coupon.applicableCategories.length) {
-
+        if (coupon?.applicableCategories.length) {
             const isApplicable = cartItems.some(item => (
                 coupon.applicableCategories.includes(item.product.categoryId)
             ))
@@ -57,15 +56,14 @@ export const selectDiscountTotal = createSelector(
             discount = Math.round( Math.min(discount, coupon.maxDiscountAmount))
         }
 
-        return discount
-    
+        return Math.max(discount)
   }
 );
 
 export const selectPayableTotal = createSelector(
   [selectSubTotal, selectDiscountTotal],
   (subTotal, discount) =>
-    Math.max(0, subTotal - discount)
+    Math.max(Math.max(0, subTotal - discount))
 );
 
 export const selectShippingFee = createSelector(
@@ -77,12 +75,12 @@ export const selectShippingFee = createSelector(
 export const selectRemainingForFreeDelivery = createSelector(
   [selectSubTotal],
   (subTotal) => 
-    Math.max(0, SHIPPING.freeShippingThreshold - subTotal+1)
+    Math.round(Math.max(0, SHIPPING.freeShippingThreshold - subTotal+1))
 )
 
 export const selectGrandTotal = createSelector(
   [selectPayableTotal, selectShippingFee],
-  (payableTotal, shippingFee) => payableTotal + shippingFee
+  (payableTotal, shippingFee) => Math.round(payableTotal + shippingFee)
 );
 
 export const selectCartTotals = createSelector(

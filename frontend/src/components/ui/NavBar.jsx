@@ -21,11 +21,17 @@ export default function Navbar({
   const { items } = useSelector((state) => state.cart);
 
   const [menuOpen, setMenuOpen] = useState(false);
-  const { filters, setFilters, allCategories, setGlobalCategory } = useProduct();
+  const { filters, setFilters, allCategories, setGlobalCategory, fetchProduct } = useProduct();
   const { logout } = useAuth();
   const [open, setOpen] = useState(false);
   const categories = allCategories?.slice(0,5)
   categories?.unshift('Home')
+
+  useEffect(() => {
+    if ( allCategories?.length === 0 || !allCategories) {
+      fetchProduct()
+    }
+  }, [allCategories])
 
   //NAVIGATE TO CORRESPONDING CATEGORY WHEN CLICKS
   const navigateToCategory = (cat) => {
