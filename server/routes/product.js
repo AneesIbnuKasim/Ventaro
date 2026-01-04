@@ -6,7 +6,7 @@ const { authenticateAdmin, authenticateUser } = require('../middlewares/auth')
 const router = express.Router()
 
 //admin product routes
-router.get('/',ProductController.getProducts)
+router.get('/', ProductController.getProducts)
 // router.get('/',()=> console.log('get products'))
 
 //admin product routes

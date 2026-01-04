@@ -45,7 +45,8 @@ export default function ProductForm({ onConfirm, onCancel, editData = '' }) {
       sellingPrice: editData.sellingPrice,
       originalPrice: editData.originalPrice,
       description: editData.description,
-      stock: editData.stock
+      stock: editData.stock,
+      isFeatured: editData.isFeatured
     } : {
       name: "",
       categoryId: "",
@@ -53,7 +54,8 @@ export default function ProductForm({ onConfirm, onCancel, editData = '' }) {
       sellingPrice: '',
       originalPrice: '',
       description: "",
-      stock: ""
+      stock: "",
+      isFeatured: false
     }
      ,
 
@@ -187,15 +189,22 @@ export default function ProductForm({ onConfirm, onCancel, editData = '' }) {
 
         <ImageInput handleMultiple={handleMultiple} editData={editData} />
 
+        <div>
+          <input name="isFeatured" value={formik.values.isFeatured} onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.isFeatured && formik.errors.isFeatured}  type='checkbox' className=' mr-3' />
+          <label>Is this featured product?</label>
+        </div>
+
         <div className="flex  justify-end gap-4 mt-4">
-          <Button
+          {/* <Button
             variant="danger"
             onClick={onCancel}
             size="sm"
             className={'flex-1'}
           >
             CANCEL
-          </Button>
+          </Button> */}
 
           <Button type="submit" variant="custom" size="sm" loading={loading} className={'flex-1'}>
            {editData ?  'UPDATE PRODUCT' : 'ADD PRODUCT'}

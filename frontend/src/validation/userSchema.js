@@ -44,6 +44,7 @@ export const productAddSchema = Yup.object({
     .min(8, "Description must be at least 8 characters")
     .required("Description is required"),
   originalPrice: Yup.number("Original Price must be a Number").min(Yup.ref('sellingPrice'), 'Original price should be greater than base price').nullable().notRequired(),
+  isFeatured: Yup.boolean()
 });
 
 // USER SECTION
