@@ -5,8 +5,10 @@ import qs from "qs";
 
 // LocalStorage helpers
 export const getAuthToken = () => localStorage.getItem(AUTH_CONFIG.tokenKey);
+
 export const getAdminToken = () =>
   localStorage.getItem(AUTH_CONFIG.adminTokenKey);
+
 export const getUser = () => {
   const userData = localStorage.getItem(AUTH_CONFIG.userKey);
   return userData ? JSON.parse(userData) : null;

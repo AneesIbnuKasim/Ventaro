@@ -11,6 +11,22 @@ export const adminAPI = {
         })
     },
 
+    getProfile: ()=>{
+        return makeRequest({
+            method: 'get',
+            url: 'api/admin/me'
+        })
+    },
+
+    //ADMIN PROFILE UPDATE
+  updateProfile: (editData) => {
+    return makeRequest({
+      method: "put",
+      url: "api/admin/profile",
+      data: editData,
+    });
+  },
+
     // uploadImages: (formData)=>{
     //     return makeRequest({
     //         method: 'post',

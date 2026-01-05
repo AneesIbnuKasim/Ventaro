@@ -13,7 +13,6 @@ const AppLayout = memo(({
     const { isAuthenticated, token } = useAuth()
     useEffect(() => {
       if (token) {
-        
         dispatch(fetchCartThunk())
       }
     }, [token, dispatch])

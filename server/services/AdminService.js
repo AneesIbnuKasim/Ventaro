@@ -39,6 +39,53 @@ class AdminService {
             throw error
         }
     }
+
+    static updateProfile = async (adminId, updateData) => {
+        console.log('in admin uopdate', updateData);
+        
+        try {
+          delete updateData?.password;
+          delete updateData?.email;
+          delete updateData?.role;
+          delete updateData?.status;
+          delete updateData?.isVerified;
+    
+          const admin = await Admin.findByIdAndUpdate(adminId, updateData, {
+            new: true,
+            runValidators: true,
+          });
+    console.log('admin', admin);
+    
+          if (!admin) {
+            logger.error("Admin not found");
+            throw NotFoundError("Admin not found");
+          }
+    
+          return { admin: await admin.getPublicProfile() };
+        } catch (error) {
+          logger.error("Profile update failed");
+          throw error;
+        }
+      };
+
+
+    static getProfile = async (adminId) => {
+    try {
+
+      const admin = await Admin.findById(adminId)
+
+      if (!admin) {
+        logger.error("Admin not found", adminId);
+        throw sendError(res, "Admin not found", 404);
+      }
+      const profileData = admin.getPublicProfile();
+
+      return { admin: profileData };
+    } catch (error) {
+      logger.error("Error loading admin profile");
+      throw error;
+    }
+  };
 }
 
 module.exports = AdminService

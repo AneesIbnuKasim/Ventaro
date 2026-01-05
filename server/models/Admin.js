@@ -27,6 +27,14 @@ const adminSchema = new mongoose.Schema({
         enum: ['admin'],
         default: 'admin'
     },
+    phone: {
+      type: String,
+      default: null,
+    },
+    avatar: {
+      type: String,
+      default: null,
+    },
     permissions: {
         type: String,
         enum: ['fullAccess', 'viewOnly'],

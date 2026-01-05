@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo, useRef } from "react";
+import React, { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { IoMdHome } from "react-icons/io";
 import { useAuth } from "../context/AuthContext";
@@ -14,7 +14,7 @@ const AdminLayout = React.memo(({
   
   const titleRef = useRef('test')
   
-  const { admin, logout } = useAdmin();
+  const { admin, logout, getProfile } = useAdmin();
   const user = admin
   const location = useLocation();
   const navigate = useNavigate();
@@ -22,10 +22,20 @@ const AdminLayout = React.memo(({
 
   const [ title, setTitle ] = useState('')
 
+  const adminData = JSON.parse(localStorage.getItem("user"));
+
+  useEffect(() => {
+        if (!admin?.id && adminData?.id) {
+          getProfile(adminData.id);
+        }
+      }, [admin?.id]);
+
   const handleLogout = useCallback(() => {
-    logout();
-    navigate("/admin/login");
-  }, [logout, navigate]);
+    setTimeout(() => {
+      logout()
+    }, 500)
+    navigate("/admin/login")
+  }, [logout, navigate])
 
   return (
     <>
@@ -41,6 +51,7 @@ const AdminLayout = React.memo(({
                 showName= {true}
                 showEmail={true}
                 size="sm"
+                onclick={handleLogout}
                 />
                 </AdminHeader>
                 <div className="m-5" >

@@ -1,41 +1,45 @@
-import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import React from "react";
+import { Link, NavLink } from "react-router-dom";
 
-const UserAvatar = ({ 
-  user, 
-  size = 'md', // xs, sm, md, lg, xl
-  variant = 'circle', // circle, rounded, square
+const UserAvatar = ({
+  user,
+  size = "md", // xs, sm, md, lg, xl
+  variant = "circle", // circle, rounded, square
   showName = false,
   showEmail = false,
-  className = ''
+  className = "",
+  onclick
 }) => {
   const getSizeClasses = () => {
     const sizes = {
-      xs: { width: '32px', height: '32px', fontSize: '0.75rem' },
-      sm: { width: '40px', height: '40px', fontSize: '1rem' },
-      md: { width: '60px', height: '60px', fontSize: '1.5rem' },
-      lg: { width: '80px', height: '80px', fontSize: '2rem' },
-      xl: { width: '120px', height: '120px', fontSize: '3rem' }
+      xs: { width: "32px", height: "32px", fontSize: "0.75rem" },
+      sm: { width: "40px", height: "40px", fontSize: "1rem" },
+      md: { width: "60px", height: "60px", fontSize: "1.5rem" },
+      lg: { width: "80px", height: "80px", fontSize: "2rem" },
+      xl: { width: "120px", height: "120px", fontSize: "3rem" },
     };
     return sizes[size] || sizes.md;
   };
 
   const getVariantClass = () => {
     switch (variant) {
-      case 'rounded': return 'rounded';
-      case 'square': return 'rounded-0';
-      default: return 'rounded-circle';
+      case "rounded":
+        return "rounded";
+      case "square":
+        return "rounded-0";
+      default:
+        return "rounded-circle";
     }
   };
 
   const sizeStyle = getSizeClasses();
   const variantClass = getVariantClass();
-  
+
   const avatarElement = user?.avatar ? (
     <img
-      src={user.avatar || '../public/LOGO.png'}
-      alt={user?.name || 'User'}
-      className={`${variantClass} ${className}`}
+      src={user.avatar || "../public/LOGO.png"}
+      alt={user?.name || "User"}
+      className={`${variantClass} ${className} `}
       style={sizeStyle}
     />
   ) : (
@@ -44,7 +48,7 @@ const UserAvatar = ({
       style={sizeStyle}
     >
       <span style={{ fontSize: sizeStyle.fontSize }}>
-        {user?.name?.charAt(0)?.toUpperCase() || 'U'}
+        {user?.name?.charAt(0)?.toUpperCase() || "U"}
       </span>
     </div>
   );
@@ -54,35 +58,36 @@ const UserAvatar = ({
   }
 
   return (
-    <div className="flex items-center">
-      {avatarElement}
-      {(showName || showEmail) && (
-        <div className="ms-3 relative">
-          {showName && user?.name && <h6 className="mb-0">{user.name}</h6>}
-          {showEmail && user?.email && (
-            <p className="text-muted mb-0 small">{user.email}</p>
+    <div className="flex items-center justify-center">
+      <div className="relative inline-block group">
+        <div className="flex">
+          {avatarElement}
+          <div
+            className="absolute right-10 top-8  hidden min-w-[140px] 
+                rounded-lg bg-white shadow-lg ring-1 ring-black/5 
+                group-hover:block z-50"
+          >
+            <Link
+              to="/admin/profile"
+              className="block px-4 py-2 text-sm hover:bg-violet-100"
+            >
+              Profile
+            </Link>
+
+            <button onClick={onclick} className="w-full text-left px-4 py-2 text-sm hover:bg-violet-100">
+              Logout
+            </button>
+          </div>
+          {(showName || showEmail) && (
+            <div className="ms-3">
+              {showName && user?.name && <h6 className="mb-0">{user.name}</h6>}
+              {showEmail && user?.email && (
+                <p className="text-muted mb-0 small">{user.email}</p>
+              )}
+            </div>
           )}
-          <div className="absolute hidden w-25 text-center group-hover:block bg-violet-300 top-4 right-1 rounded z-100">
-                <NavLink className="flex flex-col w-full ">
-                  <Link
-                    to={"/profile/account"}
-                    className="hover:bg-violet-400 rounded p-1 "
-                  >
-                    Profile
-                  </Link>
-                  <Link
-                    to="#"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      logout();
-                    }}
-                  >
-                    Logout
-                  </Link>
-                </NavLink>
-              </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };
