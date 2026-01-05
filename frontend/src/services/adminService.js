@@ -27,6 +27,25 @@ export const adminAPI = {
     });
   },
 
+  //UPDATE ADMIN PROFILE AVATAR
+  updateAvatar: async (formData) => {
+    console.log("formdata", formData);
+
+    const token = localStorage.getItem("adminToken");
+    
+    const res = await axios.put(
+      "http://localhost:5001/api/admin/avatar",
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return res.data;
+  },
+
     // uploadImages: (formData)=>{
     //     return makeRequest({
     //         method: 'post',

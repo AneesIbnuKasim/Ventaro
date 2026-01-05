@@ -38,6 +38,7 @@ const ADMIN_ACTIONS = {
   SET_ADMIN: "SET_ADMIN",
   UPDATE_ADMIN: "UPDATE_ADMIN",
   UPDATE_USER: "UPDATE_USER",
+  UPDATE_AVATAR: "UPDATE_AVATAR"
 };
 
 const adminReducer = (state, action) => {
@@ -93,6 +94,17 @@ const adminReducer = (state, action) => {
         ),
         loading: false,
       };
+
+      case ADMIN_ACTIONS.UPDATE_AVATAR:
+      return {
+        ...state,
+        admin: {
+          ...state.admin,
+          avatar: action.payload,
+        },
+      }
+
+      default: return state
   }
 };
 
@@ -246,6 +258,31 @@ export const AdminProvider = ({ children }) => {
     }
   };
 
+  //UPDATE USER AVATAR 
+    const updateAvatar = useCallback(async (file) => {
+    try {
+      const formData = new FormData();
+      formData.append("avatar", file);
+  
+      const res = await adminAPI.updateAvatar(formData);
+
+      console.log('avatar res', res);
+      
+  
+      dispatch({
+        type: ADMIN_ACTIONS.UPDATE_AVATAR,
+        payload: res.data.avatar,
+      });
+  
+      toast.success("Avatar updated");
+  
+      return { success: true };
+    } catch (error) {
+       dispatch({ type: ADMIN_ACTIONS.SET_ERROR, payload: error.message });
+        console.log(error);
+    }
+  }, []);
+
   const logout = useCallback(async () => {
     clearTokens();
     setTimeout(() => {
@@ -268,6 +305,7 @@ export const AdminProvider = ({ children }) => {
     updateUser,
     updateProfile,
     getProfile,
+    updateAvatar,
     logout,
   };
 

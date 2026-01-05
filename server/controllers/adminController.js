@@ -19,10 +19,14 @@ class AdminController extends BaseController {
     static updateProfile = BaseController.asyncHandler(async(req, res)=>{
         const validatedData = BaseController.validateRequest(updateProfileValidation, req.body)
         const admin = await AdminService.updateProfile(req.admin._id, validatedData)
-        console.log('admin in controller', admin);
-        
         BaseController.logAction('PROFILE_UPDATE', admin)
         BaseController.sendSuccess(res, 'Profile updated successfully', admin,200)
+    })
+
+    static updateAvatar = BaseController.asyncHandler(async(req, res)=>{
+        const avatar = await AdminService.updateAvatar(req)
+        BaseController.logAction('AVATAR_UPDATE', 'Avatar updated successfully', avatar)
+        BaseController.sendSuccess(res, 'Avatar updated successfully', avatar, 201)
     })
 }
 

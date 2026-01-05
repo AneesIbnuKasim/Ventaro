@@ -19,5 +19,6 @@ router.put('/orders/:orderId', authenticateAdmin, OrderController.updateStatus)
 //profile
 router.get('/me', authenticateAdmin, AdminController.getProfile)
 router.put('/profile', authenticateAdmin, AdminController.updateProfile)
+router.put('/avatar', upload.single('avatar'), authenticateAdmin, AdminController.updateAvatar)
 
 module.exports = router

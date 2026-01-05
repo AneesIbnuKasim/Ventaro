@@ -268,9 +268,11 @@ class DashboardService {
           ],
 
           recentOrders: [
+            {$sort: {createdAt: -1}},
             {$limit: 5},
             {$project: {createdAt:1, orderId:1, user:1, paymentMethod:1, paymentStatus:1, totalAmount:1, _id:0}}
           ],
+
           
           // OVERALL TOP PRODUCTS
         //   OverallProductSales: [

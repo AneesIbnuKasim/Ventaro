@@ -2,6 +2,8 @@ const Admin = require("../models/Admin")
 const { NotFoundError, ConflictError, AuthorizationError, AuthenticationError, ValidationError } = require("../utils/errors")
 const { generateAdminToken } = require("../utils/jwt")
 const logger = require("../utils/logger")
+const path = require('path')
+const fs = require('fs')
 
 class AdminService {
     static async login (userData) {
@@ -67,6 +69,33 @@ class AdminService {
           throw error;
         }
       };
+
+      static updateAvatar = async (req) => {
+          try {
+            if (!req.file) {
+              logger.error("No file uploaded");
+              throw new Error("No file uploaded");
+            }
+            const adminId = req.admin._id.toString();
+            const admin = await Admin.findById(adminId);
+      
+            if (admin.avatar) {
+              const oldPath = path.join("uploads/avatars", admin.avatar);
+      
+              if (fs.existsSync(oldPath)) {
+                fs.unlinkSync(oldPath);
+              }
+            }
+      
+            admin.avatar = req.file.filename;
+            await admin.save();
+      
+            return { avatar: req.file.filename };
+          } catch (error) {
+            logger.error("Avatar updating failed");
+            throw error;
+          }
+        };
 
 
     static getProfile = async (adminId) => {
