@@ -14,6 +14,7 @@ import {
 import { toast } from "react-toastify";
 import { adminAPI } from "../services/adminService";
 import { useNavigate } from "react-router-dom";
+import useDebounce from "../hooks/useDebounce";
 
 const AdminContext = createContext();
 
@@ -24,7 +25,16 @@ const initialState = {
   loading: false,
   error: null,
   users: [],
-  pagination: null,
+  filters: {
+    search: '',
+    status: ''
+  },
+  pagination: {
+    page: 1,
+    limit: 10,
+    totalPages: "",
+    totalUsers: "",
+  },
 };
 
 const ADMIN_ACTIONS = {
@@ -38,7 +48,10 @@ const ADMIN_ACTIONS = {
   SET_ADMIN: "SET_ADMIN",
   UPDATE_ADMIN: "UPDATE_ADMIN",
   UPDATE_USER: "UPDATE_USER",
-  UPDATE_AVATAR: "UPDATE_AVATAR"
+  UPDATE_AVATAR: "UPDATE_AVATAR",
+  SET_FILTERS: "SET_FILTERS",
+  CLEAR_FILTERS: "CLEAR_FILTERS",
+  SET_PAGINATION: "SET_PAGINATION",
 };
 
 const adminReducer = (state, action) => {
@@ -104,12 +117,35 @@ const adminReducer = (state, action) => {
         },
       }
 
+      case ADMIN_ACTIONS.SET_FILTERS:
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          ...action.payload,
+        },
+        pagination: {
+          ...state.pagination,
+          page: 1,
+        },
+      };
+
+      case ADMIN_ACTIONS.SET_PAGINATION:
+      return {
+        ...state,
+        pagination: {
+          ...state.pagination,
+          ...action.payload,
+        },
+      };
+
       default: return state
   }
 };
 
 export const AdminProvider = ({ children }) => {
   const [state, dispatch] = useReducer(adminReducer, initialState);
+  const debouncedSearch = useDebounce(state.filters.search, 500)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -124,6 +160,22 @@ export const AdminProvider = ({ children }) => {
       dispatch({ type: ADMIN_ACTIONS.CLEAR_ERROR });
     }
   }, [state.error]);
+
+  //SET PAGINATION
+  const setPagination = useCallback((payload) => {
+      dispatch({ type: ADMIN_ACTIONS.SET_PAGINATION, payload });
+    }, []);
+  
+    const setFilters = useCallback((payload) => {
+      dispatch({ type: ADMIN_ACTIONS.SET_FILTERS, payload });
+    }, []);
+  
+    const resetAllFilters = useCallback(() => {
+      dispatch({
+        type: ADMIN_ACTIONS.CLEAR_FILTERS,
+        payload: initialState.filters,
+      });
+    }, [dispatch]);
 
   //login logic
   const login = (admin, token) => {
@@ -204,16 +256,14 @@ export const AdminProvider = ({ children }) => {
     }
   };
 
-  const getUsers = async ({
-    page = 1,
-    limit = 10,
-    search = "",
-    status = "",
-  }) => {
+  const getUsers = async () => {
     try {
-      dispatch({ type: ADMIN_ACTIONS.SET_LOADING, payload: true });
+      // dispatch({ type: ADMIN_ACTIONS.SET_LOADING, payload: true });
 
-      const response = await adminAPI.getUsers({ page, limit, search, status });
+      const { page, limit } = state.pagination
+      const { status } = state.filters
+
+      const response = await adminAPI.getUsers({ page, limit, search:debouncedSearch, status });
 
       dispatch({
         type: ADMIN_ACTIONS.SET_USERS,
@@ -258,6 +308,38 @@ export const AdminProvider = ({ children }) => {
     }
   };
 
+  //BAN USER
+  const banUser = useCallback(async (userId) => {
+    try {
+      const response = await adminAPI.banUser(userId);
+      dispatch({
+        type: ADMIN_ACTIONS.UPDATE_USER,
+        payload: response.data.user,
+      });
+    } catch (error) {
+      dispatch({ type: ADMIN_ACTIONS.SET_ERROR, payload: error.message });
+      console.log(error);
+      return { success: false, error: error.message };
+    }
+  })
+
+  //UN BAN USER
+  const unBanUser = useCallback(async (userId) => {
+    try {
+      const response = await adminAPI.unBanUser(userId);
+      console.log('un ban resp', response);
+      
+      dispatch({
+        type: ADMIN_ACTIONS.UPDATE_USER,
+        payload: response.data.user,
+      });
+    } catch (error) {
+      dispatch({ type: ADMIN_ACTIONS.SET_ERROR, payload: error.message });
+      console.log(error);
+      return { success: false, error: error.message };
+    }
+  })
+
   //UPDATE USER AVATAR 
     const updateAvatar = useCallback(async (file) => {
     try {
@@ -298,6 +380,11 @@ export const AdminProvider = ({ children }) => {
     error: state.error,
     token: state.token,
     admin: state.admin,
+    debouncedSearch,
+    pagination: state.pagination,
+    filters: state.filters,
+    setPagination,
+    setFilters,
     login,
     register,
     getUsers,
@@ -306,7 +393,9 @@ export const AdminProvider = ({ children }) => {
     updateProfile,
     getProfile,
     updateAvatar,
-    logout,
+    banUser,
+    unBanUser,
+    logout
   };
 
   return (

@@ -27,6 +27,34 @@ export const adminAPI = {
     });
   },
 
+  //ADMIN USERS ACTION
+  //GET USERS
+  getUsers: (params={}) => {
+    console.log('params', params);
+    
+    return makeRequest({
+      method: "get",
+      url: "api/admin/users",
+      params
+    });
+  },
+
+  //BAN USER
+  banUser: (userId) => {
+    return makeRequest({
+      method: "patch",
+      url: `api/admin/users/${userId}/ban`
+    });
+  },
+
+  //UN BAN USER
+  unBanUser: (userId) => {
+    return makeRequest({
+      method: "patch",
+      url: `api/admin/users/${userId}/unban`
+    });
+  },
+
   //UPDATE ADMIN PROFILE AVATAR
   updateAvatar: async (formData) => {
     console.log("formdata", formData);

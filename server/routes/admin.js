@@ -21,4 +21,9 @@ router.get('/me', authenticateAdmin, AdminController.getProfile)
 router.put('/profile', authenticateAdmin, AdminController.updateProfile)
 router.put('/avatar', upload.single('avatar'), authenticateAdmin, AdminController.updateAvatar)
 
+//users
+router.get('/users', AdminController.getUsers)
+router.patch('/users/:userId/ban', AdminController.banUser)
+router.patch('/users/:userId/UNban', AdminController.unBanUser)
+
 module.exports = router

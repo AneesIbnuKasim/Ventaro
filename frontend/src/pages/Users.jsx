@@ -26,10 +26,6 @@ const Users = memo((setTitle) => {
   const [editData, setEditData] = useState(null);
   const [isDelete, setIsDelete] = useState(false);
   const [deleteData, setDeleteData] = useState(null);
-  const { fetchCategories, categories } = useCategory();
-
-
-  
 
   const {
     users,
@@ -37,21 +33,16 @@ const Users = memo((setTitle) => {
     filters,
     setFilters,
     setPagination,
-    
+    getUsers,
+    banUser,
+    unBanUser,
     debouncedSearch
   } = useAdmin();
 
   //fetch products on page load
   useEffect(() => {
     getUsers();
-  }, [
-    pagination.page,
-    pagination.limit,
-    filters.category,
-    filters.sortBy,
-    filters.sortOrder,
-    debouncedSearch,
-  ]);
+  }, [debouncedSearch]);
 
   const handleDeleteProduct = useCallback((product) => {
     setIsDelete(true);
@@ -151,9 +142,15 @@ setOpen(false);
       {filters.search && !users?.length ? (
         <SearchNotFound searchQuery={filters.search} />
       ) : (
-        <UserProfileCard 
-
+       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+         {users.map(user => (
+          <UserProfileCard 
+          user={user}
+          onBlock={(userId) => banUser(userId)}
+          unBlock={(userId)=> unBanUser(userId)}
         />
+        ))}
+       </div>
       )}
 
       {totalPages > 1 && (
@@ -162,7 +159,7 @@ setOpen(false);
           currentPage={pagination.page}
           totalPages={pagination.totalPages}
           itemsPerPage={pagination.limit}
-          totalItems={pagination.totalProducts}
+          totalItems={pagination.totalUsers}
           onPageChange={setPagination}
         />
       )}

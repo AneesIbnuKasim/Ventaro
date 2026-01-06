@@ -18,7 +18,7 @@ const ProfileSchema = Yup.object({
 });
 
 export default function AdminProfile() {
-  const { admin, getProfile, updateProfile, updateAvatar, loading } =
+  const { admin, getProfile, updateProfile, updateAvatar, debouncedSearch, loading } =
     useAdmin();
   const { name = "", email = "", phone = "" } = admin ?? {};
 

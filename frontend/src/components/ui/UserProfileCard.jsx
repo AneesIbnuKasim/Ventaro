@@ -1,6 +1,7 @@
 import { ShieldCheck, ShieldOff, UserX, Eye } from "lucide-react";
+import { API_CONFIG } from "../../config/app";
 
-export default function UserProfileCard({ user, onBlock, onVerify, onView }) {
+export default function UserProfileCard({ user, onBlock, unBlock, onVerify, onView }) {
   return (
     <div className="bg-white rounded-xl shadow-sm border p-4 flex gap-4 hover:shadow-md transition">
 
@@ -8,7 +9,7 @@ export default function UserProfileCard({ user, onBlock, onVerify, onView }) {
       <div className="shrink-0">
         {user.avatar ? (
           <img
-            src={user.avatar}
+            src={`${API_CONFIG.imageURL}${user.avatar}` || "../public/LOGO.png"}
             alt={user.name}
             className="w-14 h-14 rounded-full object-cover"
           />
@@ -59,15 +60,15 @@ export default function UserProfileCard({ user, onBlock, onVerify, onView }) {
 
         {/* Actions */}
         <div className="flex gap-2 mt-3">
-          <button
+          {/* <button
             onClick={() => onView(user._id)}
             className="flex items-center gap-1 px-3 py-1.5 text-sm rounded-md bg-gray-100 hover:bg-gray-200"
           >
             <Eye size={16} />
             View
-          </button>
+          </button> */}
 
-          {!user.isVerified && (
+          {/* {!user.isVerified && (
             <button
               onClick={() => onVerify(user._id)}
               className="flex items-center gap-1 px-3 py-1.5 text-sm rounded-md bg-indigo-100 text-indigo-700 hover:bg-indigo-200"
@@ -75,10 +76,10 @@ export default function UserProfileCard({ user, onBlock, onVerify, onView }) {
               <ShieldCheck size={16} />
               Verify
             </button>
-          )}
+          )} */}
 
           <button
-            onClick={() => onBlock(user._id)}
+            onClick={() => user.status === 'active' ? onBlock(user._id) : unBlock(user._id)}
             className="flex items-center gap-1 px-3 py-1.5 text-sm rounded-md bg-red-100 text-red-700 hover:bg-red-200"
           >
             {user.status === "active" ? (

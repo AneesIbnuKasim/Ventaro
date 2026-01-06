@@ -28,6 +28,24 @@ class AdminController extends BaseController {
         BaseController.logAction('AVATAR_UPDATE', 'Avatar updated successfully', avatar)
         BaseController.sendSuccess(res, 'Avatar updated successfully', avatar, 201)
     })
+
+    static getUsers = BaseController.asyncHandler(async(req, res)=>{
+        const users = await AdminService.getUsers(req)
+        BaseController.logAction('GET_USERS', 'User list fetched successfully', users)
+        BaseController.sendSuccess(res, 'User list fetched successfully', users, 200)
+    })
+
+    static banUser = BaseController.asyncHandler(async(req, res)=>{
+        const user = await AdminService.banUser(req.params.userId)
+        BaseController.logAction('BAN_USER', 'User banned', user)
+        BaseController.sendSuccess(res, 'User banned', user, 200)
+    })
+
+    static unBanUser = BaseController.asyncHandler(async(req, res)=>{
+        const user = await AdminService.unBanUser(req.params.userId)
+        BaseController.logAction('UNBAN_USER', 'User ban removed', user)
+        BaseController.sendSuccess(res, 'User ban removed', user, 200)
+    })
 }
 
 module.exports = AdminController
