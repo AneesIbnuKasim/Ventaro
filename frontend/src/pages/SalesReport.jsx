@@ -1,6 +1,6 @@
 import React, { memo, useEffect } from "react";
 import { Button, StatCard } from "../components/ui";
-import { Currency, ShieldAlert, ShoppingCart } from "lucide-react";
+import { Box, Currency, ShieldAlert, ShoppingCart, User } from "lucide-react";
 import ReportStatsCard from "../components/ui/ReportStatsCard";
 import DateFilter from "../components/ui/DateFilter";
 import SalesChart from "../components/ui/SalesChart";
@@ -17,6 +17,7 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { CURRENCY } from "../constants/ui";
 import { toast } from "react-toastify";
+import { GrOrderedList } from "react-icons/gr";
 
 const SalesReport = memo(() => {
   const {
@@ -27,6 +28,7 @@ const SalesReport = memo(() => {
     totalOrders,
     recentOrders,
     totalUsers,
+    returnedOrders
   } = useSelector((state) => state.sales);
   const period = filters.period;
   const dispatch = useDispatch();
@@ -170,28 +172,74 @@ const SalesReport = memo(() => {
             title={"Total Sales"}
             icon={<ShoppingCart className="w-13 h-13 text-violet-500" />}
             value={`${CURRENCY} ${Math.round(totalSales) || 0} `}
-            change={+2}
+            timeFrame={
+              period === "Daily"
+                ? "Today"
+                : period === "Weekly"
+                ? "Last 7 Days"
+                : period === "Monthly"
+                ? "Last 30 days"
+                : period === "Yearly"
+                ? "Last 365 Days"
+                : `${filters.startDate} / ${filters.endDate}`
+            }
+            
             className="flex-1 bg-red-50"
           />
           <ReportStatsCard
             title={"Total Orders"}
-            icon={<ShoppingCart className="w-13 h-13 text-violet-500" />}
+            icon={<Box className="w-13 h-13 text-violet-500" />}
             value={`${totalOrders || 0} `}
-            change={+2}
+            timeFrame={
+              period === "Daily"
+                ? "Today"
+                : period === "Weekly"
+                ? "Last 7 Days"
+                : period === "Monthly"
+                ? "Last 30 days"
+                : period === "Yearly"
+                ? "Last 365 Days"
+                : `${filters.startDate} / ${filters.endDate}`
+            }
+            
             className="flex-1 bg-red-50"
           />
           <ReportStatsCard
-            title={"Total Users"}
-            icon={<ShoppingCart className="w-13 h-13 text-violet-500" />}
-            value={`${totalUsers || 0} `}
-            change={+2}
+            title={"Total returned orders"}
+            icon={<User className="w-13 h-13 text-violet-500" />}
+            value={`${returnedOrders.totalReturnedOrders || 0} `}
+            timeFrame={
+              period === "Daily"
+                ? "Today"
+                : period === "Weekly"
+                ? "Last 7 Days"
+                : period === "Monthly"
+                ? "Last 30 days"
+                : period === "Yearly"
+                ? "Last 365 Days"
+                : `${filters.startDate !== "" && period === "Date"}`
+                ? `${filters.startDate} / ${filters.endDate}`
+                : "Overall"
+            }
+            
             className="flex-1 bg-red-50"
           />
           <ReportStatsCard
-            title={"Total Sales"}
+            title={"Total Returned Amount"}
             icon={<ShoppingCart className="w-13 h-13 text-violet-500" />}
-            value={`${CURRENCY} 300 `}
-            change={+2}
+            value={`${CURRENCY} ${returnedOrders.totalReturnedAmount || 0} `}
+            timeFrame={
+              period === "Daily"
+                ? "Today"
+                : period === "Weekly"
+                ? "Last 7 Days"
+                : period === "Monthly"
+                ? "Last 30 days"
+                : period === "Yearly"
+                ? "Last 365 Days"
+                : `${filters.startDate} / ${filters.endDate}`
+            }
+            
             className="flex-1 bg-red-50"
           />
         </div>
@@ -229,7 +277,17 @@ const SalesReport = memo(() => {
                   </div>
                 ))}
                 <div className="flex items-end justify-end">
-                  <p className="caption">Last 7 days</p>
+                  <p className="caption">
+                    {period === "Daily"
+                      ? "Today"
+                      : period === "Weekly"
+                      ? "Last 7 Days"
+                      : period === "Monthly"
+                      ? "Last 30 days"
+                      : period === "Yearly"
+                      ? "Last 365 Days"
+                      : `${filters.startDate} to ${filters.endDate}`}
+                  </p>
                 </div>
               </div>
             </div>

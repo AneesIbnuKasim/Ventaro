@@ -1,4 +1,4 @@
-export default function ReportStatsCard({ title, value, change, className, icon }) {
+export default function ReportStatsCard({ title, value, change, className, icon, timeFrame }) {
   return (
     <div className={`bg-white flex flex-col min-h-25 rounded-lg p-4 gap-3 shadow ${className}`}>
         <div>
@@ -13,7 +13,7 @@ export default function ReportStatsCard({ title, value, change, className, icon 
       <span className="text-green-500 text-sm">{change}</span>
       </div>
       <div className="flex items-end justify-end">
-        <p className="caption">Last 7 days</p>
+        <p className="caption">{timeFrame}</p>
       </div>
     </div>
   );

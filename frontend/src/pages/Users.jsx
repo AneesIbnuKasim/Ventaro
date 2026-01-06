@@ -44,55 +44,8 @@ const Users = memo((setTitle) => {
     getUsers();
   }, [debouncedSearch]);
 
-  const handleDeleteProduct = useCallback((product) => {
-    setIsDelete(true);
-    setDeleteData(product);
-  }, []);
 
-  const handleDeleteCancel = () => {
-    setIsDelete(false)
-    setDeleteData(null)
-  }
-
-  const handleDeleteSubmit = useCallback(() => {
-    setIsDelete(false);
-
-    deleteProduct(deleteData._id);
-
-    setDeleteData(null);
-  }, [deleteData]);
-
-  //open product form edit/add
-  const handleProductForm = useCallback((product) => {
-    if (product) setEditData(product);
-    setOpen(true);
-  }, []);
-
-  const closeProductForm = useCallback(() => {
-    setEditData(null);
-    setOpen(false);
-  }, []);
-
-  const handleCancel = useCallback(() => {
-    if (editData) setEditData(null);
-    setOpen(false);
-  }, []);
-
-  const handleSubmit = async(values) => {
-    if (editData?._id) {
-      updateProduct(editData._id, values);
-        setEditData(null);
-        setOpen(false);
-    } else {
-        const res = await addProduct(values);
-        
-        if (res.success) {
-setOpen(false);
-        }
-    }
-  };
-
-  const totalItems = pagination?.totalProducts || 30;
+  const totalItems = pagination?.totalUsers || 30;
   const totalPages = pagination?.totalPages;
 
   return (
@@ -128,7 +81,7 @@ setOpen(false);
           className={'flex-1 m-5'}
         />
 
-        <Button
+        {/* <Button
           size="sm"
           variant={'custom'}
           style={{ height: 30 }}
@@ -136,7 +89,7 @@ setOpen(false);
           className={'m-4'}
         >
           ADD PRODUCT
-        </Button>
+        </Button> */}
       </div>
 
       {filters.search && !users?.length ? (
@@ -145,6 +98,7 @@ setOpen(false);
        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
          {users.map(user => (
           <UserProfileCard 
+          key={user._id}
           user={user}
           onBlock={(userId) => banUser(userId)}
           unBlock={(userId)=> unBanUser(userId)}

@@ -7,7 +7,7 @@ const initialState = {
     totalSales: '',
     totalOrders: '',
     totalUsers: '',
-    // totalRefunds: 0,
+    returnedOrders: {},
     recentOrders: [],
     filters: {
         startDate: '',
@@ -57,6 +57,7 @@ const salesSlice = createSlice({
             state.salesByDate = report?.salesByDate
             state.topProducts = report?.topProducts
             state.recentOrders =report?.recentOrders
+            state.returnedOrders =report?.returnedOrders
             state.totalOrders = report?.totalOrders[0]?.value
             state.totalSales = report?.totalSales[0]?.value
 

@@ -169,7 +169,7 @@ class AdminService {
       }
     };
 
-    //BAN USERS
+    //BAN USER
     static banUser = async(userId) => {
       try {
         const user = await User.findByIdAndUpdate(
