@@ -155,14 +155,11 @@ export const ProductProvider = ({ children }) => {
   const [globalCategory, setGlobalCategory] = useState();
   const [allCategories, setAllCategories] = useState();
   const location = useLocation();
-  const isEnabled =
-    /^\/products/.test(location.pathname) ||
-    /^\/search/.test(location.pathname);
 
   const [state, dispatch] = useSyncedReducer(
     ProductReducer,
     initialState,
-    isEnabled,
+    true,
     {
       filterKeys: [
         "search",
@@ -174,6 +171,7 @@ export const ProductProvider = ({ children }) => {
         "category",
       ],
       paginationKeys: ["page", "limit"],
+      routes: ["/products", "/search"]
     }
   );
 
@@ -216,9 +214,6 @@ export const ProductProvider = ({ children }) => {
   const fetchProduct = useCallback(async () => {
     try {
       dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
-
-      console.log('here');
-      
 
       const response = await productAPI.getAllProduct({
         search: debouncedSearch,
@@ -270,7 +265,6 @@ export const ProductProvider = ({ children }) => {
         dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
 
         console.log('in prod', category);
-        
 
         const response = await productAPI.fetchProductByCategory(category, {
           sortBy,

@@ -1,10 +1,10 @@
 const { extend } = require("joi");
 const BaseController = require("./baseController");
-const DashboardService = require("../services/DashboardService");
+const AnalyticsService = require("../services/AnalyticsService");
 
-class DashboardController extends BaseController {
-    static fetchSalesReport = BaseController.asyncHandler(async(req, res) => {
-        const salesReport = await DashboardService.fetchSalesReport(req.query)
+class AnalyticsController extends BaseController {
+    static fetchAnalytics = BaseController.asyncHandler(async(req, res) => {
+        const salesReport = await AnalyticsService.fetchAnalytics(req.query)
         BaseController.logAction('SALES-REPORT', 'Sales report fetched successfully', salesReport)
         console.log('res in controller', salesReport);
         
@@ -12,4 +12,4 @@ class DashboardController extends BaseController {
     })
 }
 
-module.exports = DashboardController
+module.exports = AnalyticsController

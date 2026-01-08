@@ -1,9 +1,9 @@
 const express = require('express')
 const { authenticateAdmin } = require('../middlewares/auth')
-const DashboardController = require('../controllers/dashboardController')
+const AnalyticsController = require('../controllers/AnalyticsController')
 const router = express.Router()
 
-router.get('/', authenticateAdmin, DashboardController.fetchSalesReport)
+router.get('/', authenticateAdmin, AnalyticsController.fetchAnalytics)
 
 
 module.exports = router

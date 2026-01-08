@@ -6,7 +6,7 @@ export const dashboardAPI = {
         console.log('query in api service', urlQuery)
         return makeRequest({
             method: 'get',
-            url: `/api/dashboard?${urlQuery.toString()}`,
+            url: `/api/analytics?${urlQuery.toString()}`,
         })
     }
 }

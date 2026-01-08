@@ -1,116 +1,120 @@
-import React, { memo } from 'react'
-import { Button, StatCard } from '../components/ui'
-import { ShieldAlert, ShoppingCart } from 'lucide-react'
-import ReportStatsCard from '../components/ui/ReportStatsCard'
-import DateFilter from '../components/ui/DateFilter'
-import { CURRENCY } from '../constants/ui'
-import SalesChart from '../components/ui/SalesChart'
-import Table from '../components/ui/Table'
+import React, { memo, useEffect } from "react";
+import { Box, ShoppingCart, RotateCcw } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
 
-const  Dashoboard = memo(() => {
+import ReportStatsCard from "../components/ui/ReportStatsCard";
+import SalesChart from "../components/ui/SalesChart";
+import { fetchSalesReport } from "../redux/slices/salesSlice";
+import { API_CONFIG } from "../config/app";
+import { CURRENCY } from "../constants/ui";
+
+const Dashoboard = memo(() => {
+  const dispatch = useDispatch();
+
+  const {
+    salesByDate,
+    topProducts,
+    totalSales,
+    totalOrders,
+    returnedOrders,
+  } = useSelector((state) => state.sales);
+
+  // 🔒 Dashboard uses FIXED period (no filters)
+  useEffect(() => {
+    dispatch(fetchSalesReport({ mode: "dashboard", period: "Monthly" }));
+  }, [dispatch]);
+
   return (
-    <>
-      {/* {open && (
-        <Modal
-          isOpen={open}
-          size="xl"
-          onClose={closeProductForm}
-          className= 'overflow-y-auto'
-          title={editData ? "Edit Product" : "Add Product"}
-        >
-          <ProductForm onConfirm={handleSubmit} editData={editData} onCancel={handleCancel} />
-        </Modal>
-      )} */}
-
-      <div className="sm:flex justify-around items-center bg-white mb-5 rounded-lg">
-
-        <DateFilter />
-
-        <Button
-          size="sm"
-          variant={'custom'}
-          style={{ height: 30 }}
-          onClick={() => handleProductForm()}
-          className={'m-4'}
-        >
-          DOWNLOAD REPORT
-        </Button>
-      </div>
-
-      <div className=' flex flex-col gap-4'>
-
-      
-
-      <div className='flex gap-5'>
-        
-        
-        <ReportStatsCard 
-        title={'Total Sales'}
-        icon= {<ShoppingCart className='w-13 h-13 text-violet-500' />}
-        value={`${CURRENCY} 300 `}
-        change={+2}
-        className='flex-1 bg-red-50'
+    <div className="flex flex-col gap-6">
+      {/* ================= KPI CARDS ================= */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <ReportStatsCard
+          title="Total Sales"
+          icon={<ShoppingCart className="w-6 h-6 text-violet-500" />}
+          value={`${CURRENCY} ${Math.round(totalSales || 0)}`}
+          timeFrame="This Month"
+          className="bg-violet-50"
         />
-        <ReportStatsCard 
-        title={'Total Sales'}
-        icon= {<ShoppingCart className='w-13 h-13 text-violet-500' />}
-        value={`${CURRENCY} 300 `}
-        change={+2}
-        className='flex-1 bg-red-50'
+
+        <ReportStatsCard
+          title="Total Orders"
+          icon={<Box className="w-6 h-6 text-blue-500" />}
+          value={totalOrders || 0}
+          timeFrame="This Month"
+          className="bg-blue-50"
         />
-        <ReportStatsCard 
-        title={'Total Sales'}
-        icon= {<ShoppingCart className='w-13 h-13 text-violet-500' />}
-        value={`${CURRENCY} 300 `}
-        change={+2}
-        className='flex-1 bg-red-50'
+
+        <ReportStatsCard
+          title="Returned Orders"
+          icon={<RotateCcw className="w-6 h-6 text-red-500" />}
+          value={returnedOrders?.totalReturnedOrders || 0}
+          timeFrame="This Month"
+          className="bg-red-50"
         />
-        <ReportStatsCard 
-        title={'Total Sales'}
-        icon= {<ShoppingCart className='w-13 h-13 text-violet-500' />}
-        value={`${CURRENCY} 300 `}
-        change={+2}
-        className='flex-1 bg-red-50'
+
+        <ReportStatsCard
+          title="Returned Amount"
+          icon={<RotateCcw className="w-6 h-6 text-orange-500" />}
+          value={`${CURRENCY} ${returnedOrders?.totalReturnedAmount || 0}`}
+          timeFrame="This Month"
+          className="bg-orange-50"
         />
       </div>
-      <div className='flex gap-4'>
-        <SalesChart
-        className='flex-1'
-        />
-        <div className={`bg-white flex flex-1 flex-col min-h-25 rounded-lg p-4 gap-3 shadow `}>
-        <div>
-        <p className="text-sm text-gray-500"></p>
-           
-        </div>
-      <div className="flex justify-between items-center">
-         
-            {'erc'}
 
-      <h2 className="text-xl font-bold mt-1">d</h2>
-      <span className="text-green-500 text-sm">wef</span>
+      {/* ================= SALES CHART ================= */}
+      <div className="bg-white rounded-xl shadow p-4">
+        <h3 className="font-semibold mb-3">Sales Overview (Last 30 Days)</h3>
+
+        {salesByDate?.length > 0 ? (
+          <SalesChart data={salesByDate} />
+        ) : (
+          <p className="text-center text-gray-500 py-10">
+            No sales data available
+          </p>
+        )}
       </div>
-      <div className="flex items-end justify-end">
-        <p className="caption">Last 7 days</p>
+
+      {/* ================= TOP PRODUCTS ================= */}
+      <div className="bg-white rounded-xl shadow p-4">
+        <h3 className="font-semibold mb-3">Top Selling Products</h3>
+
+        {topProducts?.length > 0 ? (
+          <div className="space-y-3">
+            {topProducts.slice(0, 5).map((prod) => (
+              <div
+                key={prod._id}
+                className="flex items-center justify-between gap-4"
+              >
+                <div className="flex items-center gap-3">
+                  <img
+                    src={`${API_CONFIG.imageURL2}${prod?.product?.images?.[0]}`}
+                    alt={prod?.product?.name}
+                    className="w-12 h-12 rounded object-cover"
+                  />
+                  <div>
+                    <p className="text-sm font-medium">
+                      {prod?.product?.name}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      Qty Sold: {prod.quantitySold}
+                    </p>
+                  </div>
+                </div>
+
+                <p className="text-sm font-semibold">
+                  {CURRENCY} {Math.round(prod.revenue)}
+                </p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-center text-gray-500 py-6">
+            No product sales yet
+          </p>
+        )}
       </div>
     </div>
-      </div>
+  );
+});
 
-              <Table
-          columns={["Order Id", 'Customer Id', "Total Amount", "Payment Mode", ""]}
-          data={[]}
-
-        />
-      </div>
-
-
-      {/* {filters.search && !products?.length ? (
-        <SearchNotFound searchQuery={filters.search} />
-      ) : (
-
-      )} */}
-
-    </>
-  )
-}) 
-
-export default Dashoboard
+export default Dashoboard;

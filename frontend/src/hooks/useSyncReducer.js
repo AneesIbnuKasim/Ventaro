@@ -107,21 +107,28 @@ import { useLocation } from "react-router-dom";
 export default function useSyncReducer(
   reducer,
   initialState,
-  isEnabled,
-  { filterKeys = [], paginationKeys = [] }
+  isEnabled = false,
+  {
+    filterKeys = [],
+    paginationKeys = [],
+    routes = [] // 👈 allowed paths
+  }
 ) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const location = useLocation();
   const isHydrated = useRef(false);
-  const isProductsRoute =
-    location.pathname.startsWith("/products") ||
-    location.pathname.startsWith("/search");
+
+const isAllowedRoute =
+  routes.length === 0 ||
+  routes.some((route) =>
+    location.pathname.startsWith(route)
+  );
 
   // URL → STATE (ONCE ON LOAD)
 
   useEffect(() => {
     if (!isEnabled) return;
-    if (!isProductsRoute) return;
+    if (!isAllowedRoute) return;
     if (isHydrated.current) return;
 
     const params = new URLSearchParams(location.search);
@@ -135,8 +142,7 @@ export default function useSyncReducer(
       const value = params.get(key);
 
       // array support (rating)
-      if (key === "rating") {
-        
+      if (key === "rating") {   
         filters[key] = value.split(",").map(Number).filter(v=> v!==0)
         console.log('filters.rating:', filters['rating']);
       }
@@ -173,7 +179,7 @@ export default function useSyncReducer(
 
   useEffect(() => {
     if (!isEnabled) return;
-    if (!isProductsRoute) return;
+    if (!isAllowedRoute) return;
     if (!isHydrated.current) return;
 
     const params = new URLSearchParams();

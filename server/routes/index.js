@@ -9,7 +9,7 @@ const cartRoutes = require('./cart')
 const couponRoutes = require('./coupon')
 const paymentRoutes = require('./payment')
 const orderRoutes = require('./order')
-const dashboardRoutes = require('./dashboard')
+const analyticsRoutes = require('./analytics')
 const chatRoutes = require('./chat')
 
 const setupRoutes = (app)=>{
@@ -23,7 +23,7 @@ const setupRoutes = (app)=>{
     app.use('/api/coupon',couponRoutes)
     app.use('/api/payments',paymentRoutes)
     app.use('/api/orders',orderRoutes)
-    app.use('/api/dashboard',dashboardRoutes)
+    app.use('/api/analytics',analyticsRoutes)
     app.use('/api/chat',chatRoutes)
 }
 

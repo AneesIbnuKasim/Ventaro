@@ -34,6 +34,7 @@ class ProductService {
         } else if (minPrice) filter.sellingPrice = { $gte: minPrice };
         else if (maxPrice) filter.sellingPrice = { $lte: maxPrice };
       }
+      console.log("rating", rating);
 
       if (rating) filter.ratings.rating = { $gte: rating };
 
@@ -82,7 +83,7 @@ class ProductService {
 
       const minPrice = parseInt(req.query.minPrice);
       const maxPrice = parseInt(req.query.maxPrice);
-      const rating = parseInt(req.query.rating);
+      let rating = req.query.rating
       const page = parseInt(req.query.page);
       const limit = parseInt(req.query.limit) || 10;
 
@@ -97,7 +98,16 @@ class ProductService {
         else if (maxPrice) filter.sellingPrice = { $lte: maxPrice };
       }
 
-      if (rating) filter.rating = { $lte: rating };
+      if (rating) rating = rating.split(',')
+
+      const ratings = Array.isArray(rating)
+  ? rating.map(Number).filter(Number.isFinite)
+  : [];
+
+  console.log('ratings::', ratings);
+  
+
+     if (ratings.length)  filter.avgRating = { $gte: Math.min(...ratings) };
 
       sortOrder = sortOrder === "asc" ? 1 : -1;
       const sortObj = { [sortBy]: sortOrder };
@@ -146,9 +156,9 @@ class ProductService {
       });
 
       const hasPurchased = !!orders;
-      const hasReviewed = !!alreadyReviewed
+      const hasReviewed = !!alreadyReviewed;
 
-      return { product, hasPurchased, hasReviewed }
+      return { product, hasPurchased, hasReviewed };
     } catch (error) {
       logger.error("Error fetching product");
       throw error;
@@ -162,8 +172,7 @@ class ProductService {
       if (!productId) return new NotFoundError("Product Not found");
       if (!reviewData) return new NotFoundError("No review data provided");
 
-      console.log('',typeof rating);
-      
+      console.log("", typeof rating);
 
       const product = await Product.findById(productId);
 
@@ -176,15 +185,14 @@ class ProductService {
         review,
       };
 
-      product.ratingCount = product.ratings.length
+      product.ratingCount = product.ratings.length;
 
-
-      product.avgRating = product.ratings.reduce((sum, r) => (
-        (sum+r.rating)),0)/product.ratingCount
+      product.avgRating =
+        product.ratings.reduce((sum, r) => sum + r.rating, 0) /
+        product.ratingCount;
 
       await product.save();
-      console.log('return product', product);
-      
+      console.log("return product", product);
 
       return product;
     } catch (error) {

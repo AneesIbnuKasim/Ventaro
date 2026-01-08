@@ -17,7 +17,6 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { CURRENCY } from "../constants/ui";
 import { toast } from "react-toastify";
-import { GrOrderedList } from "react-icons/gr";
 
 const SalesReport = memo(() => {
   const {
@@ -50,7 +49,7 @@ const SalesReport = memo(() => {
   };
 
   useEffect(() => {
-    dispatch(fetchSalesReport(query));
+    dispatch(fetchSalesReport({mode:'report', ...query}));
   }, [filters.startDate, filters.endDate, filters.period]);
 
   const handlePeriodSelect = (data) => {
@@ -181,7 +180,9 @@ const SalesReport = memo(() => {
                 ? "Last 30 days"
                 : period === "Yearly"
                 ? "Last 365 Days"
-                : `${filters.startDate} / ${filters.endDate}`
+                : filters.startDate === "" && period === "Date"
+                ? `${filters.startDate} / ${filters.endDate}`
+                : "Overall"
             }
             
             className="flex-1 bg-red-50"
@@ -199,7 +200,9 @@ const SalesReport = memo(() => {
                 ? "Last 30 days"
                 : period === "Yearly"
                 ? "Last 365 Days"
-                : `${filters.startDate} / ${filters.endDate}`
+                : filters.startDate === "" && period === "Date"
+                ? `${filters.startDate} / ${filters.endDate}`
+                : "Overall"
             }
             
             className="flex-1 bg-red-50"
@@ -207,7 +210,7 @@ const SalesReport = memo(() => {
           <ReportStatsCard
             title={"Total returned orders"}
             icon={<User className="w-13 h-13 text-violet-500" />}
-            value={`${returnedOrders.totalReturnedOrders || 0} `}
+            value={`${returnedOrders?.totalReturnedOrders || 0} `}
             timeFrame={
               period === "Daily"
                 ? "Today"
@@ -217,7 +220,7 @@ const SalesReport = memo(() => {
                 ? "Last 30 days"
                 : period === "Yearly"
                 ? "Last 365 Days"
-                : `${filters.startDate !== "" && period === "Date"}`
+                : filters.startDate === "" && period === "Date"
                 ? `${filters.startDate} / ${filters.endDate}`
                 : "Overall"
             }
@@ -227,7 +230,7 @@ const SalesReport = memo(() => {
           <ReportStatsCard
             title={"Total Returned Amount"}
             icon={<ShoppingCart className="w-13 h-13 text-violet-500" />}
-            value={`${CURRENCY} ${returnedOrders.totalReturnedAmount || 0} `}
+            value={`${CURRENCY} ${returnedOrders?.totalReturnedAmount || 0} `}
             timeFrame={
               period === "Daily"
                 ? "Today"
@@ -237,14 +240,16 @@ const SalesReport = memo(() => {
                 ? "Last 30 days"
                 : period === "Yearly"
                 ? "Last 365 Days"
-                : `${filters.startDate} / ${filters.endDate}`
+                : filters.startDate === "" && period === "Date"
+                ? `${filters.startDate} / ${filters.endDate}`
+                : "Overall"
             }
             
             className="flex-1 bg-red-50"
           />
         </div>
 
-        {salesByDate.length > 0 ? (
+        {salesByDate?.length > 0 ? (
           <>
             <div className="flex flex-col gap-4">
               <SalesChart data={salesByDate} className="flex-1" />
@@ -260,7 +265,7 @@ const SalesReport = memo(() => {
                   <h2 className="text-xs mt-1 w-50">Quantity Sold</h2>
                   <h2 className="text-xs mt-1">Total revenue</h2>
                 </div>
-                {topProducts.map((prod) => (
+                {topProducts?.map((prod) => (
                   <div className="flex gap-3 justify-between items-center">
                     <img
                       width={50}
@@ -295,10 +300,8 @@ const SalesReport = memo(() => {
             <Table
               columns={[
                 "order Id",
-                "user",
                 "total Amount",
                 "payment Method",
-                "payment Status",
               ]}
               data={recentOrders ?? []}
             />

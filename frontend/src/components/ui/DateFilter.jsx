@@ -1,6 +1,6 @@
 import Button from "./Button";
 
-export default function DateFilter({ periodPicker, filters, handleStartDate, handleEndDate}) {
+export default function DateFilter({ periodPicker, filters = [], handleStartDate, handleEndDate}) {
   return (
     <div className="flex gap-2">
       {["Daily", "Weekly", "Monthly","Yearly", "Date"].map((type) => {

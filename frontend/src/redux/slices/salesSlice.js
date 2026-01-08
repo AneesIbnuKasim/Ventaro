@@ -51,7 +51,8 @@ const salesSlice = createSlice({
             state.loading = true
         })
         .addCase(fetchSalesReport.fulfilled, (state, action) => {
-            const report = action.payload?.salesReport
+            state.loading = false
+            const report = action.payload
             const usersList = action.payload?.users
 
             state.salesByDate = report?.salesByDate
@@ -65,7 +66,7 @@ const salesSlice = createSlice({
         })
         .addCase(fetchSalesReport.rejected, (state, action) => {
             state.loading = false
-            state.error = action.payload.error
+            state.error = action.payload
         })
     }
 })

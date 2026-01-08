@@ -8,7 +8,7 @@ import {
   CartesianGrid,
 } from "recharts";
 
-export default function SalesChart({ data, className }) {
+export default function SalesChart({ data=[], className }) {
 
   const safeData = data.map(d => ({
     ...d,
