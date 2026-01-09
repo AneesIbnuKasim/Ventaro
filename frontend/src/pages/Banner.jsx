@@ -11,7 +11,7 @@ import SearchNotFound from "../components/ui/SearchNotFound";
 import { useCategory } from "../context/CategoryContext";
 import { useDispatch, useSelector } from "react-redux";
 import BannerForm from "../components/ui/BannerForm";
-import { createBannerThunk } from "../redux/slices/bannerSlice";
+import { createBannerThunk, fetchBannerThunk } from "../redux/slices/bannerSlice";
 
 ///Admin product page
 
@@ -36,6 +36,10 @@ const Products = memo((setTitle) => {
 //     debouncedSearch,
 //   ]);
 
+useEffect(() => {
+    dispatch(fetchBannerThunk())
+}, [])
+
   const handleDeleteBanner = useCallback((banner) => {
     setIsDelete(true);
     setDeleteData(banner);
@@ -53,6 +57,11 @@ const Products = memo((setTitle) => {
 
     setDeleteData(null);
   }, [deleteData]);
+
+  useEffect(()=>{
+    console.log('banners eff', banners);
+    
+  }, [])
 
   //open product form edit/add
   const handleBannerForm = useCallback((banner) => {
@@ -76,11 +85,8 @@ const Products = memo((setTitle) => {
         setEditData(null);
         setOpen(false);
     } else {
-        dispatch(createBannerThunk(values))
-        
-//         if (res.success) {
-// setOpen(false);
-//         }
+        const data = dispatch(createBannerThunk(values)).unwrap()
+        setOpen(false)
     }
   };
 
@@ -132,7 +138,7 @@ const Products = memo((setTitle) => {
         <SearchNotFound searchQuery={filters.search} />
       ) : (
         <Table
-          columns={["image", "name", "stock", "sellingPrice", "status"]}
+          columns={["image", "title", "sub Title", "url Link", "position", 'is Active']}
           data={banners}
           actions={{
             onEdit: handleBannerForm,

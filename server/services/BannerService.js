@@ -15,6 +15,16 @@ class BannerService {
       throw error;
     }
   };
+
+  //FETCH BANNERS
+  static fetchBanner = async (data) => {
+    try {
+      const banner = await Banner.find()
+      return banner;
+    } catch (error) {
+      throw error;
+    }
+  };
 }
 
 module.exports = BannerService;

@@ -12,6 +12,13 @@ class BannerController extends BaseController {
         BaseController.sendSuccess(res, 'Banner created successfully', banner)
 
     })
+
+    static fetchBanner = BaseController.asyncHandler(async(req, res) => {
+        const banner = await BannerService.fetchBanner(req.body)
+        BaseController.logAction('FETCH-BANNER', 'Banner fetched')
+        BaseController.sendSuccess(res, 'Banner fetched successfully', banner)
+
+    })
 }
 
 module.exports = BannerController
