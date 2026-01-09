@@ -1,14 +1,19 @@
 import { useEffect } from "react";
 import { ORDER_STATUS } from "../../config/app";
 
-const Table = ({ data, columns, actions, keyId, type='' , onStatusChange}) => {
-
-  const STATUS_OPTIONS = type === 'orders' ? ORDER_STATUS : null
+const Table = ({
+  data = [{title:'banner'}],
+  columns,
+  actions,
+  keyId,
+  type = "",
+  onStatusChange,
+}) => {
+  const STATUS_OPTIONS = type === "orders" ? ORDER_STATUS : null;
 
   useEffect(() => {
-    console.log('data orders',data);
-    
-  }, [data])
+    console.log("data orders", data);
+  }, [data]);
 
   return (
     <table className="w-full border bg-white border-gray-300 text-left rounded-xl">
@@ -31,7 +36,7 @@ const Table = ({ data, columns, actions, keyId, type='' , onStatusChange}) => {
         </tr>
       </thead>
 
-      <tbody >
+      <tbody>
         {data?.map((item) => (
           <tr key={item._id} className="hover:bg-gray-50 ">
             {columns.map((col) => (
@@ -39,9 +44,7 @@ const Table = ({ data, columns, actions, keyId, type='' , onStatusChange}) => {
                 {col === "order Status" ? (
                   <select
                     value={item.orderStatus}
-                    onChange={(e) =>
-                      onStatusChange?.(item._id, e.target.value)
-                    }
+                    onChange={(e) => onStatusChange?.(item._id, e.target.value)}
                     className=" rounded px-2 py-1 text-sm"
                   >
                     {STATUS_OPTIONS?.map((status) => (
@@ -54,7 +57,11 @@ const Table = ({ data, columns, actions, keyId, type='' , onStatusChange}) => {
                   <img
                     width={70}
                     height={70}
-                    src={col === "images" ? `http://localhost:5001${item[col][0]}`:`http://localhost:5001${item[col]}`}
+                    src={
+                      col === "images"
+                        ? `http://localhost:5001${item[col][0]}`
+                        : `http://localhost:5001${item[col]}`
+                    }
                   />
                 ) : (
                   item[col.replace(" ", "")] ?? "---"
@@ -66,7 +73,7 @@ const Table = ({ data, columns, actions, keyId, type='' , onStatusChange}) => {
               <td className="px-4 py-2 border border-gray-300 space-x-2">
                 {actions.onEdit && (
                   <button
-                    onClick={() => (actions.onEdit(item))}
+                    onClick={() => actions.onEdit(item)}
                     className="px-2 py-1 text-blue-600 hover:underline"
                   >
                     Edit
@@ -99,4 +106,4 @@ const Table = ({ data, columns, actions, keyId, type='' , onStatusChange}) => {
   );
 };
 
-export default Table
+export default Table;

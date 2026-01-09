@@ -7,6 +7,7 @@ import checkoutReducer from './slices/checkoutSlice'
 import orderReducer from './slices/orderSlice'
 import salesReducer from './slices/salesSlice'
 import chatReducer from './slices/chatSlice'
+import bannerReducer from './slices/bannerSlice'
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
     order: orderReducer,
     sales: salesReducer,
     chat: chatReducer,
+    banner: bannerReducer,
   },
   middleware: (getDefault) =>
     getDefault().concat(

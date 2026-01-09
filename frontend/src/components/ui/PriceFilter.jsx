@@ -33,7 +33,7 @@ export default function PriceFilter({
      <div className="flex items-center gap-5  ">
          <RangeSlider
         min={0}
-        max={10000}
+        max={100000}
         step={10}
         value={values}
         thumbSize={4}

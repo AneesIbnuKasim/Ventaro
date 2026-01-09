@@ -1,8 +1,9 @@
 {
   "dependencies": {
-    "jspdf": "^3.0.4",
+    "jspdf": "^4.0.0",
     "jspdf-autotable": "^5.0.2",
     "razorpay": "^2.9.6",
-    "react-router-dom": "^7.9.6"
+    "react-router-dom": "^7.9.6",
+    "swiper": "^12.0.3"
   }
 }
