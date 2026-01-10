@@ -1,63 +1,77 @@
-import { useLocation } from "react-router-dom"
-import makeRequest from "../utils/apiClient"
-import axios from "axios"
+import { useLocation } from "react-router-dom";
+import makeRequest from "../utils/apiClient";
+import axios from "axios";
 
 const bannerAPI = {
-    
-    fetchBanner: (params= {}) => {
-        
-        const urlParams = new URLSearchParams(params)
-        
-        return makeRequest(({
-            method: 'get',
-            url: `/api/banner?${urlParams.toString()}`
-        }))
-    },
+  fetchBanner: (params = {}) => {
+    const urlParams = new URLSearchParams(params);
 
-    createBanner: async(data={}) => {
+    return makeRequest({
+      method: "get",
+      url: `/api/banner?${urlParams.toString()}`,
+    });
+  },
 
-         const { title, subTitle, urlLink, position, isActive, order, image } = data
+  createBanner: async (data = {}) => {
+    const { title, subTitle, urlLink, position, isActive, order, image } = data;
 
-        const formData = new FormData()
+    const formData = new FormData();
 
-        formData.append('image', image)
-        formData.append('title', title)
-        formData.append('subTitle', subTitle)
-        formData.append('urlLink', urlLink)
-        formData.append('position', position)
-        formData.append('isActive', isActive)
-        formData.append('order', order)
+    formData.append("image", image);
+    formData.append("title", title);
+    formData.append("subTitle", subTitle);
+    formData.append("urlLink", urlLink);
+    formData.append("position", position);
+    formData.append("isActive", isActive);
+    formData.append("order", order);
 
-        const token = localStorage.getItem("adminToken");
-        
-        const res = await axios.post(`http://localhost:5001/api/banner`, formData, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
+    const token = localStorage.getItem("adminToken");
 
-        return res.data
-    },
+    const res = await axios.post(`http://localhost:5001/api/banner`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-    updateBanner: (bannerId, data={}) => {
-        console.log('data update', data);
-        
-        return makeRequest(({
-            method: 'put',
-            url: `/api/banner/${bannerId}`,
-            data
-        }))
-    },
+    return res.data;
+  },
 
-    removeBanner: (bannerId) => {
-        console.log('coup:', bannerId);
-        
-        return makeRequest(({
-            method: 'delete',
-            url: `/api/banner/${bannerId}`,
-        }))
-    },
-    
-}
+  updateBanner: async({ bannerId, values }) => {
+  const formData = new FormData()
 
-export default bannerAPI
+  // append TEXT fields only
+  Object.entries(values).forEach(([key, value]) => {
+    if (key !== 'image' && value !== undefined && value !== null) {
+      formData.append(key, value)
+    }
+  })
+
+  // append FILE only if present
+  if (values.image instanceof File) {
+    formData.append('image', values.image)
+  }
+
+  const res = await axios.put(
+    `http://localhost:5001/api/banner/${bannerId}`,
+    formData,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
+      }
+    }
+  )
+
+  return res.data
+},
+
+  removeBanner: (bannerId) => {
+    console.log("coup:", bannerId);
+
+    return makeRequest({
+      method: "delete",
+      url: `/api/banner/${bannerId}`,
+    });
+  },
+};
+
+export default bannerAPI;

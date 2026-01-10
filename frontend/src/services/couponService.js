@@ -39,7 +39,6 @@ const couponAPI = {
             url: `/api/coupon/${couponId}`,
         }))
     },
-    
 }
 
 export default couponAPI

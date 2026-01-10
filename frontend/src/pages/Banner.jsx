@@ -1,9 +1,5 @@
 import React, { memo, useCallback, useEffect, useState } from "react";
-import {
-  Button,
-  FormInput,
-  Modal,
-} from "../components/ui";
+import { Button, FormInput, Modal } from "../components/ui";
 import Table from "../components/ui/Table";
 import { IoSearch } from "react-icons/io5";
 import ConfirmDialog from "../components/ui/ConfirmDialog";
@@ -11,7 +7,12 @@ import SearchNotFound from "../components/ui/SearchNotFound";
 import { useCategory } from "../context/CategoryContext";
 import { useDispatch, useSelector } from "react-redux";
 import BannerForm from "../components/ui/BannerForm";
-import { createBannerThunk, fetchBannerThunk } from "../redux/slices/bannerSlice";
+import {
+  createBannerThunk,
+  fetchBannerThunk,
+  updateBannerThunk,
+} from "../redux/slices/bannerSlice";
+import { toast } from "react-toastify";
 
 ///Admin product page
 
@@ -21,24 +22,24 @@ const Products = memo((setTitle) => {
   const [isDelete, setIsDelete] = useState(false);
   const [deleteData, setDeleteData] = useState(null);
   const { fetchCategories, categories } = useCategory();
-  const {banners, filters, loading } = useSelector(state => state.banner)
-  const dispatch = useDispatch()
+  const { banners, filters, loading } = useSelector((state) => state.banner);
+  const dispatch = useDispatch();
 
   //fetch products on page load
-//   useEffect(() => {
-//     fetchProduct();
-//   }, [
-//     pagination.page,
-//     pagination.limit,
-//     filters.category,
-//     filters.sortBy,
-//     filters.sortOrder,
-//     debouncedSearch,
-//   ]);
+  //   useEffect(() => {
+  //     fetchProduct();
+  //   }, [
+  //     pagination.page,
+  //     pagination.limit,
+  //     filters.category,
+  //     filters.sortBy,
+  //     filters.sortOrder,
+  //     debouncedSearch,
+  //   ]);
 
-useEffect(() => {
-    dispatch(fetchBannerThunk())
-}, [])
+  useEffect(() => {
+    dispatch(fetchBannerThunk());
+  }, []);
 
   const handleDeleteBanner = useCallback((banner) => {
     setIsDelete(true);
@@ -46,9 +47,9 @@ useEffect(() => {
   }, []);
 
   const handleDeleteCancel = () => {
-    setIsDelete(false)
-    setDeleteData(null)
-  }
+    setIsDelete(false);
+    setDeleteData(null);
+  };
 
   const handleDeleteSubmit = useCallback(() => {
     setIsDelete(false);
@@ -58,13 +59,13 @@ useEffect(() => {
     setDeleteData(null);
   }, [deleteData]);
 
-  useEffect(()=>{
-    console.log('banners eff', banners);
-    
-  }, [])
+  useEffect(() => {
+    console.log("banners eff", banners);
+  }, []);
 
   //open product form edit/add
   const handleBannerForm = useCallback((banner) => {
+    console.log('editData', editData);
     if (banner) setEditData(banner);
     setOpen(true);
   }, []);
@@ -79,14 +80,18 @@ useEffect(() => {
     setOpen(false);
   }, []);
 
-  const handleSubmit = async(values) => {
+  const handleSubmit = async (values) => {
+    
     if (editData?._id) {
-      updateBanner(editData._id, values);
-        setEditData(null);
-        setOpen(false);
+      const data = dispatch(
+        updateBannerThunk({ bannerId: editData._id, values })
+      ).unwrap();
+      toast.success('Banner updated successfully')
+      setOpen(false);
+      setEditData(null);
     } else {
-        const data = dispatch(createBannerThunk(values)).unwrap()
-        setOpen(false)
+      const data = dispatch(createBannerThunk(values)).unwrap();
+      setOpen(false);
     }
   };
 
@@ -97,10 +102,14 @@ useEffect(() => {
           isOpen={open}
           size="xl"
           onClose={closeBannerForm}
-          className= 'overflow-y-auto'
+          className="overflow-y-auto"
           title={editData ? "Edit Banner" : "Add Banner"}
         >
-          <BannerForm onConfirm={handleSubmit} editData={editData} onCancel={handleCancel} />
+          <BannerForm
+            onConfirm={handleSubmit}
+            editData={editData}
+            onCancel={handleCancel}
+          />
         </Modal>
       )}
 
@@ -120,15 +129,15 @@ useEffect(() => {
           icon={<IoSearch />}
           value={filters.search || ""}
           onChange={(e) => setFilters({ search: e.target.value })}
-          className={'flex-1 m-5'}
+          className={"flex-1 m-5"}
         />
 
         <Button
           size="sm"
-          variant={'custom'}
+          variant={"custom"}
           style={{ height: 30 }}
           onClick={() => handleBannerForm()}
-          className={'m-4'}
+          className={"m-4"}
         >
           ADD BANNER
         </Button>
@@ -138,7 +147,14 @@ useEffect(() => {
         <SearchNotFound searchQuery={filters.search} />
       ) : (
         <Table
-          columns={["image", "title", "sub Title", "url Link", "position", 'is Active']}
+          columns={[
+            "image",
+            "title",
+            "sub Title",
+            "url Link",
+            "position",
+            "is Active",
+          ]}
           data={banners}
           actions={{
             onEdit: handleBannerForm,

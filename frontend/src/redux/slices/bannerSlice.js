@@ -38,6 +38,21 @@ export const fetchBannerThunk = createAsyncThunk(
   }
 );
 
+//UPDATE BANNERS
+export const updateBannerThunk = createAsyncThunk(
+  "update/banner",
+  async ({bannerId, values}, { rejectWithValue }) => {
+    try {
+      const response = await bannerAPI.updateBanner({bannerId, values});
+      console.log('res in update', response);
+      
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 const bannerSlice = createSlice({
   name: "bannerSlice",
   initialState: initialState,
@@ -74,6 +89,21 @@ const bannerSlice = createSlice({
         state.banners = action.payload
       })
       .addCase(fetchBannerThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      //UPDATE BANNER
+      .addCase(updateBannerThunk.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateBannerThunk.fulfilled, (state, action) => {
+        const updatedBanner = action.payload
+        console.log('payload', action.payload);
+        state.banners = state.banners.map(banner => banner._id === updatedBanner._id ? updatedBanner : banner)
+        state.loading = false;
+      })
+      .addCase(updateBannerThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

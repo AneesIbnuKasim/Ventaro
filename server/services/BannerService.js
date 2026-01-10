@@ -1,4 +1,6 @@
 const Banner = require("../models/Banner");
+const { NotFoundError } = require("../utils/errors");
+const logger = require("../utils/logger");
 
 class BannerService {
   static createBanner = async (image, formData) => {
@@ -15,6 +17,30 @@ class BannerService {
       throw error;
     }
   };
+
+  //UPDATE BANNER
+  static async updateBanner(bannerId, data, image) {
+  try {
+    const updateData = { ...data }
+
+    console.log('image in service', image)
+    
+
+  if (image) {
+    updateData.image = `/uploads/${image}`
+  }
+
+  const updated = await Banner.findByIdAndUpdate(
+    bannerId,
+    updateData,
+    { new: true }
+  )
+
+  return updated
+  } catch (error) {
+    throw error
+  }
+}
 
   //FETCH BANNERS
   static fetchBanner = async (data) => {

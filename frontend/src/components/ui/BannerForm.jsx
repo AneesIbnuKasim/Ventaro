@@ -9,6 +9,7 @@ import FormInput from "./FormInput";
 import FormSelect from "./FormSelect";
 import { bannerSchema } from "../../validation/userSchema";
 import { useSelector } from "react-redux";
+import { API_CONFIG } from "../../config/app";
 
 export default function BannerForm({ onConfirm, onCancel, editData = "" }) {
   const { loading } = useSelector((state) => state.banner);
@@ -39,6 +40,15 @@ export default function BannerForm({ onConfirm, onCancel, editData = "" }) {
       setImage(null); // only send new file if changed
     }
   }, [editData]);
+
+  //PREVIEW EDIT DATA IMAGE
+  useEffect(() => {
+  if (editData?.image) {
+    const imageUrl = `${API_CONFIG.imageURL2}${editData.image}`
+    setPreview(imageUrl)
+    setImage(null)
+  }
+}, [editData])
 
   // ---- FORM STATE ----
   const formik = useFormik({
@@ -165,7 +175,14 @@ export default function BannerForm({ onConfirm, onCancel, editData = "" }) {
 
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-3">
-          <label className="cursor-pointer">
+          <label className="cursor-pointer relative">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImage}
+              className="absolute inset-0 opacity-0 cursor-pointer z-10"
+            />
+
             {preview ? (
               <img
                 src={preview}
@@ -175,12 +192,6 @@ export default function BannerForm({ onConfirm, onCancel, editData = "" }) {
             ) : (
               <div className="w-full h-48 border-2 border-dashed rounded-xl flex items-center justify-center text-gray-400">
                 Click to upload banner image
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImage}
-                  hidden
-                />
               </div>
             )}
           </label>

@@ -71,7 +71,7 @@ class CategoryService {
             const category = await Category.findById(categoryId)
         
         if (!category) {
-            throw new NotFoundError('Category not foun')
+            throw new NotFoundError('Category not found')
         }
 
         if (categoryData.name) {
