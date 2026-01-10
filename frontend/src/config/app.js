@@ -31,3 +31,5 @@ export const RAZORPAY = {
 }
 
 export const ORDER_STATUS = ["PENDING", "SHIPPED", "DELIVERED", "CANCELLED", "RETURN_INITIATED", "RETURNED"]
+
+export const ACTIVE_STATUS = ["active", "inactive"]

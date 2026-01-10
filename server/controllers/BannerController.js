@@ -32,6 +32,18 @@ console.log('updated', updated);
 
     BaseController.sendSuccess(res, "Banner updated successfully", updated)
   })
+
+    static deleteBanner = BaseController.asyncHandler(async (req, res) => {
+    const banner = await BannerService.deleteBanner(req.params.bannerId)
+    BaseController.logAction("FETCH-BANNER", "Banner deleted")
+    BaseController.sendSuccess(res, "Banner deleted successfully", banner)
+  });
+
+    static toggleBannerStatus = BaseController.asyncHandler(async (req, res) => {
+    const banner = await BannerService.toggleBannerStatus(req.params.bannerId)
+    BaseController.logAction("TOGGLE-BANNER", "Banner deleted")
+    BaseController.sendSuccess(res, "Banner status updated successfully", banner)
+  });
 }
 
 module.exports = BannerController;

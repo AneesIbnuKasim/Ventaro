@@ -8,15 +8,20 @@ const BannerSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    urlLink: String, // redirect URL
+    linkValue: String, // redirect URL
+    linkType: {
+      type: String,
+      enum: ['category', 'product', 'filter', 'search'],
+      required: true
+    },
     position: {
       type: String,
       enum: ["HOME_TOP", "HOME_MIDDLE"],
       default: "HOME_TOP",
     },
-    isActive: {
-      type: Boolean,
-      default: true,
+    status: {
+      type: String,
+      default: 'active',
     },
     order: {
       type: Number,

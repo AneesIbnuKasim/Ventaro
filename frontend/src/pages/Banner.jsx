@@ -9,7 +9,9 @@ import { useDispatch, useSelector } from "react-redux";
 import BannerForm from "../components/ui/BannerForm";
 import {
   createBannerThunk,
+  deleteBannerThunk,
   fetchBannerThunk,
+  toggleStatusThunk,
   updateBannerThunk,
 } from "../redux/slices/bannerSlice";
 import { toast } from "react-toastify";
@@ -21,7 +23,6 @@ const Products = memo((setTitle) => {
   const [editData, setEditData] = useState(null);
   const [isDelete, setIsDelete] = useState(false);
   const [deleteData, setDeleteData] = useState(null);
-  const { fetchCategories, categories } = useCategory();
   const { banners, filters, loading } = useSelector((state) => state.banner);
   const dispatch = useDispatch();
 
@@ -54,14 +55,10 @@ const Products = memo((setTitle) => {
   const handleDeleteSubmit = useCallback(() => {
     setIsDelete(false);
 
-    deleteProduct(deleteData._id);
-
+    dispatch(deleteBannerThunk(deleteData._id))
+    toast.success('Banner deleted successfully')
     setDeleteData(null);
   }, [deleteData]);
-
-  useEffect(() => {
-    console.log("banners eff", banners);
-  }, []);
 
   //open product form edit/add
   const handleBannerForm = useCallback((banner) => {
@@ -81,20 +78,27 @@ const Products = memo((setTitle) => {
   }, []);
 
   const handleSubmit = async (values) => {
+    console.log('gere');
     
     if (editData?._id) {
-      const data = dispatch(
+      const data = await dispatch(
         updateBannerThunk({ bannerId: editData._id, values })
       ).unwrap();
       toast.success('Banner updated successfully')
       setOpen(false);
       setEditData(null);
     } else {
-      const data = dispatch(createBannerThunk(values)).unwrap();
+      const data = await dispatch(createBannerThunk(values)).unwrap();
       setOpen(false);
     }
   };
 
+  const handleStatus = async(id, data) => {
+    // dispatch(toggleStatus(id))
+   const res = await dispatch(toggleStatusThunk(id)).unwrap()
+   toast.success('Status changed')
+    
+  }
   return (
     <>
       {open && (
@@ -151,15 +155,18 @@ const Products = memo((setTitle) => {
             "image",
             "title",
             "sub Title",
-            "url Link",
+            "link Value",
+            "link Type",
             "position",
-            "is Active",
+            "status",
           ]}
+          type="status"
           data={banners}
           actions={{
             onEdit: handleBannerForm,
             onDelete: handleDeleteBanner,
           }}
+          onStatusChange={handleStatus}
         />
       )}
     </>

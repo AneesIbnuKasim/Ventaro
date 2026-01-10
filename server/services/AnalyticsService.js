@@ -520,27 +520,26 @@ class AnalyticsService {
     const dateMatch = {};
 
     if (mode === "dashboard") {
-  const today = new Date();
-  today.setHours(23, 59, 59, 999);
-
-  const from = new Date();
-  from.setDate(from.getDate() - 6); // ← important (6, not 7)
-  from.setHours(0, 0, 0, 0);
-
-  dateMatch.createdAt = {
-    $gte: from,
-    $lte: today,
-  };
-}
+      const from = new Date();
+          from.setDate(from.getDate() - 30);
+          from.setHours(0, 0, 0, 0);
+          dateMatch.updatedAt = { $gte: from, $lte: new Date() };
+    }
 
     if (mode === "report") {
       switch (period) {
         case "Daily": {
           const today = new Date();
-          today.setHours(0, 0, 0, 0);
-          const tomorrow = new Date(today);
-          tomorrow.setDate(today.getDate() + 1);
-          dateMatch.createdAt = { $gte: today, $lt: tomorrow };
+          today.setHours(23, 59, 59, 999);
+
+          const from = new Date();
+          from.setDate(from.getDate() - 6); // ← important (6, not 7)
+          from.setHours(0, 0, 0, 0);
+
+          dateMatch.updatedAt = {
+            $gte: from,
+            $lte: today,
+          };
           break;
         }
 
@@ -548,7 +547,7 @@ class AnalyticsService {
           const from = new Date();
           from.setDate(from.getDate() - 7);
           from.setHours(0, 0, 0, 0);
-          dateMatch.createdAt = { $gte: from, $lte: new Date() };
+          dateMatch.updatedAt = { $gte: from, $lte: new Date() };
           break;
         }
 
@@ -556,7 +555,7 @@ class AnalyticsService {
           const from = new Date();
           from.setDate(from.getDate() - 30);
           from.setHours(0, 0, 0, 0);
-          dateMatch.createdAt = { $gte: from, $lte: new Date() };
+          dateMatch.updatedAt = { $gte: from, $lte: new Date() };
           break;
         }
 
@@ -564,7 +563,7 @@ class AnalyticsService {
           const from = new Date();
           from.setDate(from.getDate() - 365);
           from.setHours(0, 0, 0, 0);
-          dateMatch.createdAt = { $gte: from, $lte: new Date() };
+          dateMatch.updatedAt = { $gte: from, $lte: new Date() };
           break;
         }
 
@@ -572,7 +571,7 @@ class AnalyticsService {
           if (startDate && endDate) {
             const end = new Date(endDate);
             end.setHours(23, 59, 59, 999);
-            dateMatch.createdAt = {
+            dateMatch.updatedAt = {
               $gte: new Date(startDate),
               $lte: end,
             };

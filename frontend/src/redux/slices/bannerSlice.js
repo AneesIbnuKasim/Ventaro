@@ -2,12 +2,12 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import bannerAPI from "../../services/bannerService";
 
 const initialState = {
- banners: [],
- filters: {
-    search: '',
- },
- loading: '',
- error: ''
+  banners: [],
+  filters: {
+    search: "",
+  },
+  loading: "",
+  error: "",
 };
 
 //CREATE-BANNER
@@ -41,11 +41,41 @@ export const fetchBannerThunk = createAsyncThunk(
 //UPDATE BANNERS
 export const updateBannerThunk = createAsyncThunk(
   "update/banner",
-  async ({bannerId, values}, { rejectWithValue }) => {
+  async ({ bannerId, values }, { rejectWithValue }) => {
     try {
-      const response = await bannerAPI.updateBanner({bannerId, values});
-      console.log('res in update', response);
-      
+      const response = await bannerAPI.updateBanner({ bannerId, values });
+      console.log("res in update", response);
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+//DELETE BANNERS
+export const deleteBannerThunk = createAsyncThunk(
+  "delete/banner",
+  async (bannerId, { rejectWithValue }) => {
+    try {
+      const response = await bannerAPI.deleteBanner(bannerId);
+      console.log("res in update", response);
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+//TOGGLE BANNER STATUS
+export const toggleStatusThunk = createAsyncThunk(
+  "toggle/banner",
+  async (bannerId, { rejectWithValue }) => {
+    try {
+      const response = await bannerAPI.toggleStatus(bannerId);
+      console.log("res in toggle", response);
+
       return response.data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -56,12 +86,13 @@ export const updateBannerThunk = createAsyncThunk(
 const bannerSlice = createSlice({
   name: "bannerSlice",
   initialState: initialState,
-  reducers: {
-    setMessages: (state, action) => {
+  // reducers: {
+  //   toggleStatus: (state, action) => {
+  //     console.log('here', action);
       
-      state.messages.push(action.payload);
-    },
-  },
+  //     state.banners.map(banner => banner._id === action.payload._id ? banner.status === 'active' ? 'inactive' : 'active' : '' )
+  //   },
+  // },
   extraReducers: (builder) => {
     builder
       //CREATE-BANNER
@@ -69,14 +100,14 @@ const bannerSlice = createSlice({
         state.loading = true;
       })
       .addCase(createBannerThunk.fulfilled, (state, action) => {
-        console.log('payload', action.payload)
+        console.log("payload", action.payload);
 
         state.loading = false;
-        state.banners = [...state.banners, action.payload ]
+        state.banners = [...state.banners, action.payload];
       })
       .addCase(createBannerThunk.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload
+        state.error = action.payload;
       })
 
       //FETCH BANNERS
@@ -84,9 +115,9 @@ const bannerSlice = createSlice({
         state.loading = true;
       })
       .addCase(fetchBannerThunk.fulfilled, (state, action) => {
-        console.log('payload', action.payload);
+        console.log("payload", action.payload);
         state.loading = false;
-        state.banners = action.payload
+        state.banners = action.payload;
       })
       .addCase(fetchBannerThunk.rejected, (state, action) => {
         state.loading = false;
@@ -98,17 +129,53 @@ const bannerSlice = createSlice({
         state.loading = true;
       })
       .addCase(updateBannerThunk.fulfilled, (state, action) => {
-        const updatedBanner = action.payload
-        console.log('payload', action.payload);
-        state.banners = state.banners.map(banner => banner._id === updatedBanner._id ? updatedBanner : banner)
+        const updatedBanner = action.payload;
+        console.log("payload", action.payload);
+        state.banners = state.banners.map((banner) =>
+          banner._id === updatedBanner._id ? updatedBanner : banner
+        );
         state.loading = false;
       })
       .addCase(updateBannerThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      //DELETE BANNER
+      .addCase(deleteBannerThunk.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteBannerThunk.fulfilled, (state, action) => {
+        const deletedBanner = action.payload;
+        console.log("payload", action.payload);
+        state.banners = state.banners.filter((banner) =>
+          banner._id !== deletedBanner._id
+        );
+        state.loading = false;
+      })
+      .addCase(deleteBannerThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      //UPDATE BANNER STATUS
+      .addCase(toggleStatusThunk.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(toggleStatusThunk.fulfilled, (state, action) => {
+        const updatedBanner = action.payload;
+        console.log("payload", action.payload);
+        state.banners = state.banners.map((banner) =>
+          banner._id === updatedBanner._id ? updatedBanner : banner
+        );
+        state.loading = false;
+      })
+      .addCase(toggleStatusThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
   },
 });
 
-export const { setMessages } = bannerSlice.actions;
+// export const { toggleStatus } = bannerSlice.actions;
 export default bannerSlice.reducer;

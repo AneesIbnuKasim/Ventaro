@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { ORDER_STATUS } from "../../config/app";
+import { ACTIVE_STATUS, ORDER_STATUS } from "../../config/app";
 
 const Table = ({
   data = [{title:'banner'}],
@@ -9,11 +9,7 @@ const Table = ({
   type = "",
   onStatusChange,
 }) => {
-  const STATUS_OPTIONS = type === "orders" ? ORDER_STATUS : null;
-
-  useEffect(() => {
-    console.log("data orders", data);
-  }, [data]);
+  const STATUS_OPTIONS = type === "orders" ? ORDER_STATUS : type === "status" ? ACTIVE_STATUS : ''
 
   return (
     <table className="w-full border bg-white border-gray-300 text-left rounded-xl">
@@ -41,11 +37,11 @@ const Table = ({
           <tr key={item._id} className="hover:bg-gray-50 ">
             {columns.map((col) => (
               <td key={col} className="px-4 py-2 border border-gray-200 ">
-                {col === "order Status" ? (
+                {col === "order Status" || col === "status" ? (
                   <select
-                    value={item.orderStatus}
+                    value={item.orderStatus ?? item.status}
                     onChange={(e) => onStatusChange?.(item._id, e.target.value)}
-                    className=" rounded px-2 py-1 text-sm"
+                    className="rounded px-2 py-1 text-sm"
                   >
                     {STATUS_OPTIONS?.map((status) => (
                       <option key={status} value={status}>

@@ -51,11 +51,11 @@ export const productAddSchema = Yup.object({
 export const bannerSchema = Yup.object({
   title: Yup.string().required("Banner title is required"),
   subTitle: Yup.string().required("Sub-title is required"),
-  urlLink: Yup.string("Url link must be a string")
-    .required("Stock is required"),
+  linkValue: Yup.string("Url link must be a string"),
+  linkType: Yup.string().required("Url Type required"),
   position: Yup.string().oneOf(["HOME_TOP", "HOME_MIDDLE"])
     .required("position required"),
-  isActive: Yup.string().optional(),
+  status: Yup.string().optional(),
   order: Yup.number()
     .required("Order is required"),
 });

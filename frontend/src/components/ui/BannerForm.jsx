@@ -56,17 +56,19 @@ export default function BannerForm({ onConfirm, onCancel, editData = "" }) {
       ? {
           title: editData.title,
           subTitle: editData.subTitle,
-          urlLink: editData.urlLink,
+          linkType: editData.linkType,
+          linkValue: editData.linkValue,
           position: editData.position,
-          isActive: editData.isActive,
+          status: editData.status,
           order: editData.order,
         }
       : {
           title: "",
           subTitle: "",
-          urlLink: "",
+          linkType: "",
+          linkValue: "",
           position: "",
-          isActive: "",
+          status: "",
           order: "",
         },
     validationSchema: bannerSchema,
@@ -76,8 +78,7 @@ export default function BannerForm({ onConfirm, onCancel, editData = "" }) {
         ...values,
         image,
       };
-
-      console.log("final data", finalData);
+console.log('on submit');
 
       onConfirm(finalData);
     },
@@ -102,7 +103,9 @@ export default function BannerForm({ onConfirm, onCancel, editData = "" }) {
           error={formik.touched.title && formik.errors.title}
         />
 
-        <FormInput
+
+          <div className="grid grid-cols-2 gap-4">
+            <FormInput
           label="Sub Title"
           name="subTitle"
           required
@@ -112,10 +115,7 @@ export default function BannerForm({ onConfirm, onCancel, editData = "" }) {
           onBlur={formik.handleBlur}
           error={formik.touched.subTitle && formik.errors.subTitle}
         />
-
-        {/* Position */}
-        <div className="grid grid-cols-2 gap-4">
-          <FormSelect
+            <FormSelect
             label="Position"
             name="position"
             value={formik.values.position}
@@ -129,34 +129,52 @@ export default function BannerForm({ onConfirm, onCancel, editData = "" }) {
             }))}
             error={formik.touched.position && formik.errors.position}
           />
+          </div>
+        {/* Position */}
+        <div className="grid grid-cols-2 gap-4">
+        
+            <FormSelect
+            label="URL Type"
+            name="linkType"
+            value={formik.values.linkType}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            required
+            placeholder="Choose type"
+            options={(["category", "product", 'filter', 'search'] || []).map((p) => ({
+              value: p,
+              label: p.replace("_", " "),
+            }))}
+            error={formik.touched.linkType && formik.errors.linkType}
+          />
 
           <FormInput
-            label="URL Link"
-            name="urlLink"
+            label="Link Value"
+            name="linkValue"
             required
             type="string"
             placeholder="Enter URL link..."
-            value={formik.values.urlLink}
+            value={formik.values.linkValue}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={formik.touched.urlLink && formik.errors.urlLink}
+            error={formik.touched.linkValue && formik.errors.linkValue}
           />
         </div>
         {/* Active + Order */}
         <div className="grid grid-cols-2 gap-4">
           <FormSelect
-            label="Active"
-            name="isActive"
-            value={formik.values.isActive}
+            label="Status"
+            name="status"
+            value={formik.values.status}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             required
             placeholder="Choose position"
-            options={(["Yes", "No"] || []).map((p) => ({
-              value: p === "Yes" ? true : false,
+            options={(["active", "inactive"] || []).map((p) => ({
+              value: p ,
               label: p,
             }))}
-            error={formik.touched.isActive && formik.errors.isActive}
+            error={formik.touched.status && formik.errors.status}
           />
           <FormInput
             label="Order"

@@ -13,16 +13,17 @@ const bannerAPI = {
   },
 
   createBanner: async (data = {}) => {
-    const { title, subTitle, urlLink, position, isActive, order, image } = data;
+    const { title, subTitle, linkType, linkValue, position, status, order, image } = data;
 
     const formData = new FormData();
 
     formData.append("image", image);
     formData.append("title", title);
     formData.append("subTitle", subTitle);
-    formData.append("urlLink", urlLink);
+    formData.append("linkValue", linkValue);
+    formData.append("linkType", linkType);
     formData.append("position", position);
-    formData.append("isActive", isActive);
+    formData.append("status", status);
     formData.append("order", order);
 
     const token = localStorage.getItem("adminToken");
@@ -64,11 +65,20 @@ const bannerAPI = {
   return res.data
 },
 
-  removeBanner: (bannerId) => {
+  deleteBanner: (bannerId) => {
     console.log("coup:", bannerId);
 
     return makeRequest({
       method: "delete",
+      url: `/api/banner/${bannerId}`,
+    });
+  },
+
+  toggleStatus: (bannerId) => {
+    console.log("coup:", bannerId);
+
+    return makeRequest({
+      method: "patch",
       url: `/api/banner/${bannerId}`,
     });
   },
