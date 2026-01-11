@@ -20,7 +20,7 @@ return (
       pagination={{ clickable: true }}
       navigation
       loop
-      className="w-full h-[400px] rounded-xl"
+      className="w-full h-[500px] rounded-xl"
     >
       {banners.map((banner) => {
         const link = getBannerLink(banner);
@@ -31,7 +31,7 @@ return (
               src={`${API_CONFIG.imageURL2}${banner.image}`}
               alt={banner.title}
               onClick={() => navigate(link)}
-              className="w-full h-full object-cover cursor-pointer"
+              className="w-full h-full object-fill cursor-pointer"
             />
             {banner.linkType === 'product' && (
                 <button

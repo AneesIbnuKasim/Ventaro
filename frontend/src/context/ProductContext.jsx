@@ -443,6 +443,27 @@ export const ProductProvider = ({ children }) => {
     }
   }, []);
 
+  //TOGGLE PRODUCT STATUS
+  const toggleProductStatus = useCallback(async (productId, userId) => {
+    try {
+      const response = await productAPI.toggleProductStatus(productId);
+
+      console.log('fetch status response', response.data);
+      
+
+      dispatch({ type: PRODUCT_ACTIONS.UPDATE_PRODUCT, payload: response.data.product });
+      toast.success('Product status changed successfully')
+      return { success: true}
+    } catch (error) {
+      dispatch({
+        type: PRODUCT_ACTIONS.SET_ERROR,
+        payload: { error: error.message },
+      });
+      console.log(error);
+      return { success: false, error: error.message };
+    }
+  }, []);
+
   //SUBMIT REVIEW AND COMMENT
   const submitReview = useCallback(async(values) => {
     try {
@@ -558,6 +579,7 @@ export const ProductProvider = ({ children }) => {
       updateProduct,
       deleteProduct,
       fetchSingleProduct,
+      toggleProductStatus,
       // handleAddToCart,
       resetAllFilters,
       filters: state.filters,
@@ -584,6 +606,7 @@ export const ProductProvider = ({ children }) => {
       updateProduct,
       deleteProduct,
       fetchSingleProduct,
+      toggleProductStatus,
       // handleAddToCart,
       resetAllFilters,
       setFilters,

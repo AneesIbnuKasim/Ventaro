@@ -37,7 +37,8 @@ const Products = memo((setTitle) => {
     addProduct,
     updateProduct,
     deleteProduct,
-    debouncedSearch
+    debouncedSearch,
+    toggleProductStatus
   } = useProduct();
 
   //fetch products on page load
@@ -152,11 +153,13 @@ setOpen(false);
       ) : (
         <Table
           columns={["images", "name", "stock", "sellingPrice", "status"]}
+          type="status"
           data={products}
           actions={{
             onEdit: handleProductForm,
             onDelete: handleDeleteProduct,
           }}
+          onStatusChange={toggleProductStatus}
         />
       )}
 

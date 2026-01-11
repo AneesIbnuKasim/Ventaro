@@ -75,6 +75,15 @@ export const productAPI = {
     });
   },
 
+  //TOGGLE PRODUCT STATUS
+  toggleProductStatus: (productId) => {
+
+    return makeRequest({
+      method: "patch",
+      url: `api/products/${productId}`,
+    });
+  },
+
   //SUBMIT USER REVIEW FOR PRODUCT
   submitReview: (reviewData) => {
     const { id:productId, ...data } = reviewData

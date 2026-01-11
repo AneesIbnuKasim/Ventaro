@@ -10,12 +10,14 @@ import FormSelect from "./FormSelect";
 import { bannerSchema } from "../../validation/userSchema";
 import { useSelector } from "react-redux";
 import { API_CONFIG } from "../../config/app";
+import ProductSearchInput from "./ProductSearchInput";
 
 export default function BannerForm({ onConfirm, onCancel, editData = "" }) {
   const { loading } = useSelector((state) => state.banner);
 
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
+  const { products, fetchProduct } = useProduct()
 
   // ---- IMAGE HANDLING ----
   const handleImage = (e) => {
@@ -43,12 +45,27 @@ export default function BannerForm({ onConfirm, onCancel, editData = "" }) {
 
   //PREVIEW EDIT DATA IMAGE
   useEffect(() => {
-  if (editData?.image) {
-    const imageUrl = `${API_CONFIG.imageURL2}${editData.image}`
-    setPreview(imageUrl)
-    setImage(null)
+    if (editData?.image) {
+      const imageUrl = `${API_CONFIG.imageURL2}${editData.image}`;
+      setPreview(imageUrl);
+      setImage(null);
+    }
+  }, [editData]);
+
+  useEffect(() => {
+    if (!products.length > 0) {
+      fetchProduct()
+    }
+  },[])
+  useEffect(()=>{
+    console.log('products', products);
+  }, [products])
+  
+  const handleProductSelect = (product) => {
+    console.log('prod', product._id);
+    
+    formik.setFieldValue('linkValue', product._id)
   }
-}, [editData])
 
   // ---- FORM STATE ----
   const formik = useFormik({
@@ -78,7 +95,7 @@ export default function BannerForm({ onConfirm, onCancel, editData = "" }) {
         ...values,
         image,
       };
-console.log('on submit');
+      console.log("on submit", finalData);
 
       onConfirm(finalData);
     },
@@ -91,7 +108,7 @@ console.log('on submit');
       className="w-full h-[80vh] overflow-y-auto bg-white p-6 rounded-xl shadow-sm grid grid-cols-1 gap-6"
     >
       <div className="flex flex-col gap-4">
-        {/* banner title */}
+        {/* TITLE */}
         <FormInput
           label="Banner Title"
           name="title"
@@ -103,19 +120,20 @@ console.log('on submit');
           error={formik.touched.title && formik.errors.title}
         />
 
-
-          <div className="grid grid-cols-2 gap-4">
-            <FormInput
-          label="Sub Title"
-          name="subTitle"
-          required
-          placeholder="Enter banner sub-title..."
-          value={formik.values.subTitle}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={formik.touched.subTitle && formik.errors.subTitle}
-        />
-            <FormSelect
+        <div className="grid grid-cols-2 gap-4">
+          {/* SUBTITLE */}
+          <FormInput
+            label="Sub Title"
+            name="subTitle"
+            required
+            placeholder="Enter banner sub-title..."
+            value={formik.values.subTitle}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.subTitle && formik.errors.subTitle}
+          />
+          {/* POSITION */}
+          <FormSelect
             label="Position"
             name="position"
             value={formik.values.position}
@@ -129,11 +147,10 @@ console.log('on submit');
             }))}
             error={formik.touched.position && formik.errors.position}
           />
-          </div>
-        {/* Position */}
+        </div>
         <div className="grid grid-cols-2 gap-4">
-        
-            <FormSelect
+          {/* URL TYPE */}
+          <FormSelect
             label="URL Type"
             name="linkType"
             value={formik.values.linkType}
@@ -141,26 +158,35 @@ console.log('on submit');
             onBlur={formik.handleBlur}
             required
             placeholder="Choose type"
-            options={(["category", "product", 'filter', 'search'] || []).map((p) => ({
-              value: p,
-              label: p.replace("_", " "),
-            }))}
+            options={(["category", "product", "filter", "search"] || []).map(
+              (p) => ({
+                value: p,
+                label: p.replace("_", " "),
+              })
+            )}
             error={formik.touched.linkType && formik.errors.linkType}
           />
 
-          <FormInput
-            label="Link Value"
-            name="linkValue"
-            required
-            type="string"
-            placeholder="Enter URL link..."
-            value={formik.values.linkValue}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.linkValue && formik.errors.linkValue}
-          />
+          {/* LINK VALUE */}
+          {formik.values.linkType === "product" ? (
+            <div className='mt-5'>
+              <ProductSearchInput label={'Link Value'} onSelect={handleProductSelect}  products={products} />
+            </div>
+          ) : (
+            <FormInput
+              label="Link Value"
+              name="linkValue"
+              required
+              type="string"
+              placeholder="Enter URL link..."
+              value={formik.values.linkValue}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.linkValue && formik.errors.linkValue}
+            />
+          )}
         </div>
-        {/* Active + Order */}
+        {/* STATUS + ORDER */}
         <div className="grid grid-cols-2 gap-4">
           <FormSelect
             label="Status"
@@ -171,7 +197,7 @@ console.log('on submit');
             required
             placeholder="Choose position"
             options={(["active", "inactive"] || []).map((p) => ({
-              value: p ,
+              value: p,
               label: p,
             }))}
             error={formik.touched.status && formik.errors.status}
