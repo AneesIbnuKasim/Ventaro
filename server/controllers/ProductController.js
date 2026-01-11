@@ -21,6 +21,14 @@ class ProductController extends BaseController {
         BaseController.sendSuccess(res, 'Product fetched successfully', result, 200)
     })
 
+    static toggleProductStatus = BaseController.asyncHandler(async(req, res)=>{
+        const result = await ProductService.toggleProductStatus(req.params.id)
+        console.log('status product', result);
+        
+        BaseController.logAction('TOGGLE_STATUS', result)
+        BaseController.sendSuccess(res, 'Product status changed successfully', result, 200)
+    })
+
     static submitReview = BaseController.asyncHandler(async(req, res)=>{
         const product = await ProductService.submitReview(req.params.id, req.body, req.user?._id)
         BaseController.logAction('SUBMIT_REVIEW', product)

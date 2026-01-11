@@ -12,6 +12,7 @@ router.get('/', ProductController.getProducts)
 //admin product routes
 router.post('/', upload.array('images',6), authenticateAdmin, ProductController.addProduct)
 router.put('/:id', upload.array('images',6), authenticateAdmin , ProductController.editProduct)
+router.patch('/:id', authenticateAdmin , ProductController.toggleProductStatus)
 router.delete('/:id', authenticateAdmin, ProductController.deleteProduct)
 
 //USER PRODUCT ROUTES

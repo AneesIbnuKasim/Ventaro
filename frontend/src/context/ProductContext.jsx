@@ -46,6 +46,7 @@ const PRODUCT_ACTIONS = {
   ADD_PRODUCT: "ADD_PRODUCT",
   UPDATE_PRODUCT: "UPDATE_PRODUCT",
   DELETE_PRODUCT: "DELETE_PRODUCT",
+  TOGGLE_STATUS: "TOGGLE_STATUS",
   SET_FILTERS: "SET_FILTERS",
   CLEAR_FILTERS: "CLEAR_FILTERS",
   SET_PAGINATION: "SET_PAGINATION",
@@ -138,6 +139,17 @@ const ProductReducer = (state, action) => {
         ...state,
         products: state.products.map((product) =>
           product._id === action.payload._id ? action.payload : product
+        ),
+        loading: false,
+      };
+
+    case PRODUCT_ACTIONS.TOGGLE_STATUS:
+      console.log('pay', action.payload);
+      
+      return {
+        ...state,
+        products: state.products.map((product) =>
+          product._id === action.payload._id ? {...product, status: action.payload.status} : product
         ),
         loading: false,
       };
@@ -444,14 +456,13 @@ export const ProductProvider = ({ children }) => {
   }, []);
 
   //TOGGLE PRODUCT STATUS
-  const toggleProductStatus = useCallback(async (productId, userId) => {
+  const toggleProductStatus = useCallback(async (productId) => {
     try {
-      const response = await productAPI.toggleProductStatus(productId);
+      const response = await productAPI.toggleProductStatus(productId)
 
-      console.log('fetch status response', response.data);
+      console.log('fetch status response', response.data)
       
-
-      dispatch({ type: PRODUCT_ACTIONS.UPDATE_PRODUCT, payload: response.data.product });
+      dispatch({ type: PRODUCT_ACTIONS.TOGGLE_STATUS, payload: response.data })
       toast.success('Product status changed successfully')
       return { success: true}
     } catch (error) {

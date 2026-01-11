@@ -165,6 +165,20 @@ class ProductService {
     }
   };
 
+  //TOGGLE PRODUCT STATUS
+static toggleProductStatus = async(productId) => {
+  try {
+        const product = await Product.findById(productId)
+        if (!product) return new NotFoundError('Product not found')
+        product.status = product.status === 'active' ? 'inactive' : 'active'
+      
+      await product.save()
+        return product;
+      } catch (error) {
+        throw error;
+      }
+}
+
   //SUBMIT PRODUCT REVIEW
   static async submitReview(productId, reviewData, userId) {
     try {
