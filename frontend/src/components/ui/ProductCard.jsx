@@ -1,13 +1,13 @@
 import { Heart, ShoppingCart } from "lucide-react";
 import { memo } from "react";
 import RatingStars from "./RatingStars";
-import Button from "./Button";
-import { BsLightningChargeFill } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import { setCheckoutItems } from "../../redux/slices/checkoutSlice";
 import { addCartThunk } from "../../redux/slices/cartSlice";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import WishlistButton from "./wishlistButton";
+import { API_CONFIG } from "../../config/app";
 
 const ProductCard = memo(({ product, handleClick=()=>console.log('clicked'), buttons=false}) => {
   const {
@@ -19,15 +19,14 @@ const ProductCard = memo(({ product, handleClick=()=>console.log('clicked'), but
     sellingPrice,
     originalPrice,
     ratings,
+    avgRating,
     discount,
   } = product;
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-
     const addToCart = () => {
-      
       dispatch(addCartThunk({ productId:_id, quantity: 1 })).unwrap()
       toast.success('Product added to cart')
     }
@@ -54,11 +53,12 @@ const ProductCard = memo(({ product, handleClick=()=>console.log('clicked'), but
   return (
     <div className="w-full max-w-[260px] min-h-[400px]  bg-white rounded-xl border border-gray-200  p-4 shadow-md hover:shadow-xl transition cursor-pointer">
       
-      {/* --- Top badge + wishlist icon --- */}
+      {/* --- TOP BADGE + WISHLIST ICON --- */}
       <div className="flex items-start justify-between">
-        <button className="text-gray-500 hover:text-red-500">
+        {/* <button className="text-gray-500 hover:text-red-500">
           <Heart size={20} />
-        </button>
+        </button> */}
+        <WishlistButton productId={_id} />
         {originalPrice && (
           <span className="bg-green-500 text-white text-xs font-medium px-3 py-[2px] rounded-md">
             {(((originalPrice-sellingPrice)/originalPrice)*100).toFixed()}% OFF
@@ -71,16 +71,16 @@ const ProductCard = memo(({ product, handleClick=()=>console.log('clicked'), but
 
       
 
-      {/* --- Product Image --- */}
+      {/* --- PRODUCT IMAGE --- */}
       <div className="w-full flex justify-center my-4">
         <img
-          src={`http://localhost:5001${images[0]}`}
+          src={`${API_CONFIG.imageURL2}${images[0]}`}
           alt={name}
           className="h-40 object-contain"
         />
       </div>
 
-      {/* --- Product Title --- */}
+      {/* --- PRODUCT TITLE --- */}
       <h3 className="font-semibold text-[15px] leading-tight">
         {name}
       </h3>
@@ -88,16 +88,14 @@ const ProductCard = memo(({ product, handleClick=()=>console.log('clicked'), but
         {brandName}
       </span>
 
-      {/* --- Rating --- */}
-      {/* {ratings?.rating && 
-      <div className="flex items-center gap-1 py-1">
-       
-        <RatingStars avg={ratings} />
-        <span className="text-gray-500 text-sm">({rating})</span>
-      </div>
-      } */}
+      {/* --- RATING --- */}
+      {avgRating > 0 && (
+            <div className="flex mt-1">
+        <RatingStars avg={avgRating} /> <span className="ml-2 text-sm text-gray-600">
+  {avgRating.toFixed(1)} ({ratings?.length}) </span>
+  </div> ) }
 
-      {/* --- Price Section --- */}
+      {/* --- PRICE SECTION --- */}
       <div className="flex items-center gap-2 mt-1">
         <span className="font-semibold text-lg">Rs. {sellingPrice}</span>
 

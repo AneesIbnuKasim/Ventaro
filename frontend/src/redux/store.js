@@ -8,6 +8,7 @@ import orderReducer from './slices/orderSlice'
 import salesReducer from './slices/salesSlice'
 import chatReducer from './slices/chatSlice'
 import bannerReducer from './slices/bannerSlice'
+import wishlistReducer from './slices/wishlistSlice'
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
     sales: salesReducer,
     chat: chatReducer,
     banner: bannerReducer,
+    wishlist: wishlistReducer,
   },
   middleware: (getDefault) =>
     getDefault().concat(

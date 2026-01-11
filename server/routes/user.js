@@ -14,5 +14,7 @@ router.post('/addresses', checkUserStatus, authenticateUser, UserController.addA
 router.put('/addresses/:id', checkUserStatus, authenticateUser, UserController.updateAddress)
 router.delete('/addresses/:id', checkUserStatus, authenticateUser, UserController.deleteAddress)
 router.put('/change-password', checkUserStatus, authenticateUser, UserController.changePassword)
+router.get('/wishlist', checkUserStatus, authenticateUser, UserController.fetchWishlist)
+router.post('/wishlist/:productId', checkUserStatus, authenticateUser, UserController.toggleWishlist)
 
 module.exports = router

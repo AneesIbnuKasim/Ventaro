@@ -113,7 +113,6 @@ class UserService {
 
   static updateAddress = async (addressId, updateData) => {
     try {
-
       const updatedAddress = await Address.findByIdAndUpdate(
         addressId,
         updateData,
@@ -130,7 +129,6 @@ class UserService {
       throw error;
     }
   };
-
 
   static deleteAddress = async (req) => {
     try {
@@ -158,47 +156,83 @@ class UserService {
   };
 
   //CHANGE PASSWORD FROM USER PROFILE
-  static async changePassword (userId, passwordData) {
-          try {
-          const { currentPassword, newPassword } = passwordData
-  
-          const user = await User.findById(userId)
-  
-          if (!user) {
-               throw new Error('User not found')
-          }
-  
-          const isCurrentPasswordValid = await user.comparePassword(currentPassword)
-          if (!isCurrentPasswordValid) {
-              throw new Error('Current password is incorrect')
-          }
-  
-          user.password = newPassword
-          await user.save()
-  
-          logger.info('Password changed successfully')
-  
-          return true
-          } catch (error) {
-              logger.error('Password change error')
-              throw error
-          }
+  static async changePassword(userId, passwordData) {
+    try {
+      const { currentPassword, newPassword } = passwordData;
+
+      const user = await User.findById(userId);
+
+      if (!user) {
+        throw new Error("User not found");
       }
 
+      const isCurrentPasswordValid = await user.comparePassword(
+        currentPassword
+      );
+      if (!isCurrentPasswordValid) {
+        throw new Error("Current password is incorrect");
+      }
+
+      user.password = newPassword;
+      await user.save();
+
+      logger.info("Password changed successfully");
+
+      return true;
+    } catch (error) {
+      logger.error("Password change error");
+      throw error;
+    }
+  }
+
   //fetch wallet
-  static fetchWallet = async(userId) => {
+  static fetchWallet = async (userId) => {
+    try {
+      const user = await User.findById(userId);
+
+      if (!user) throw new NotFoundError("User not found");
+      return { wallet: user.wallet };
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  //FETCH WISHLIST
+  static fetchWishlist = async (userId, productId) => {
+    try {
+      const user = await User.findById(userId).populate('wishlist')
+
+      if (!user) throw new NotFoundError("User not found");
+      return user.wishlist
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  //TOGGLE TO WISHLIST
+  static toggleWishlist = async (productId, userId) => {
     try {
       const user = await User.findById(userId)
 
-      if (!user) throw new NotFoundError('User not found')
-      return { wallet: user.wallet }
+      console.log('user', user);
+
+      if (!user) throw new NotFoundError("User not found");
+      const exists = user.wishlist?.includes(productId);
+
+      if (exists) {
+        user.wishlist.pull(productId)
+      } else {
+        user.wishlist.push(productId)
+      }
+
+      await user.save()
+
+      return user.wishlist
     } catch (error) {
-      throw error
+      throw error;
     }
+  };
 
-  }
-
-  //fetch everything for home page
 }
 
 module.exports = UserService;

@@ -100,7 +100,7 @@ const Home = memo(() => {
       </section>
 
       {/* ================= BEST SELLERS ================= */}
-      <section className="max-w-7xl mx-auto px-4 py-8">
+      <section className="max-w-7xl mx-auto px-4 ">
         {products.length > 0 && (
           <Slider
             title="Best Sellers"
@@ -112,7 +112,7 @@ const Home = memo(() => {
       </section>
 
       {/* ================= FEATURED PRODUCTS ================= */}
-      <section className="max-w-7xl mx-auto px-4 py-8">
+      <section className="max-w-7xl mx-auto px-4 py-4">
         {products.length > 0 && (
           <Slider
             title="Featured Products"
@@ -149,7 +149,7 @@ const Home = memo(() => {
       )}
 
       {/* ================= CLEARANCE SALE ================= */}
-      <section className="max-w-7xl mx-auto px-4 py-8">
+      <section className="max-w-7xl mx-auto px-4 pb-8">
         {products.length > 0 && (
           <Slider
             title="Clearance Sale"
