@@ -1,26 +1,26 @@
 import { Heart } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleWishlistThunk } from "../../redux/slices/wishlistSlice";
+import { useWishlist } from "../../hooks/useWishlist";
 
-const WishlistButton = ({productId}) => {
+const WishlistButton = ({productId, className='', heartClass=''}) => {
   const dispatch = useDispatch();
-  const wishlist = useSelector(state => state.wishlist.items);
-console.log('wishlist:',wishlist)
+  const ids = useSelector(state => state.wishlist.ids);
 
-  const isWishlisted = wishlist?.includes(productId);
+  const isWishlisted = ids.includes(productId);
 
-  const handleClick = (e, productId) => {
-    e.stopPropagation()
-    dispatch(toggleWishlistThunk(productId))
-  }
+  const handleClick = (e) => {
+    e.stopPropagation();
+    dispatch(toggleWishlistThunk(productId));
+  };
 
   return (
     <button
       onClick={(e)=>handleClick(e, productId)}
-      className=""
+      className={`${className}`}
     >
       <Heart
-        className={`w-5 h-5 transition ${
+        className={`w-5 h-5 transition ${heartClass} ${
           isWishlisted ? "fill-red-500 text-red-500" : "text-gray-400"
         }`}
       />

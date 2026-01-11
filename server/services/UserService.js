@@ -6,6 +6,7 @@ const path = require("path");
 const fs = require("fs");
 const Address = require("../models/Address");
 const mongoose = require("mongoose");
+const Product = require("../models/Product");
 
 class UserService {
   static getProfile = async (req, res) => {
@@ -198,40 +199,41 @@ class UserService {
   };
 
   //FETCH WISHLIST
-  static fetchWishlist = async (userId, productId) => {
-    try {
-      const user = await User.findById(userId).populate('wishlist')
+ static fetchWishlist = async (userId) => {
+  const user = await User.findById(userId)
+    .populate("wishlist");
 
-      if (!user) throw new NotFoundError("User not found");
-      return user.wishlist
-    } catch (error) {
-      throw error;
-    }
-  };
+  if (!user) throw new NotFoundError("User not found");
+
+  return user.wishlist;
+};
 
   //TOGGLE TO WISHLIST
   static toggleWishlist = async (productId, userId) => {
-    try {
-      const user = await User.findById(userId)
+  const user = await User.findById(userId);
 
-      console.log('user', user);
+  if (!user) throw new NotFoundError("User not found");
 
-      if (!user) throw new NotFoundError("User not found");
-      const exists = user.wishlist?.includes(productId);
+  const productObjectId = productId.toString();
 
-      if (exists) {
-        user.wishlist.pull(productId)
-      } else {
-        user.wishlist.push(productId)
-      }
+  const exists = user.wishlist.some(
+    (id) => id.toString() === productObjectId
+  );
 
-      await user.save()
+  if (exists) {
+    user.wishlist.pull(productObjectId);
+  } else {
+    user.wishlist.addToSet(productObjectId); // prevents duplicates
+  }
 
-      return user.wishlist
-    } catch (error) {
-      throw error;
-    }
-  };
+  await user.save();
+
+  // AFTER save
+const updatedProduct = await Product.findById(productId);
+return updatedProduct;
+
+  return user.wishlist;
+};
 
 }
 

@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import { getAuthToken } from '../utils/apiClient'
 import { fetchCartThunk } from '../redux/slices/cartSlice'
 import { useAuth } from '../context/AuthContext'
+import { fetchWishlistThunk } from '../redux/slices/wishlistSlice'
 
 const AppLayout = memo(({
     children
@@ -16,6 +17,10 @@ const AppLayout = memo(({
         dispatch(fetchCartThunk())
       }
     }, [token, dispatch])
+
+  useEffect(() => {
+    dispatch(fetchWishlistThunk());
+  }, [dispatch]);
   return (
     <>
       <Navbar/>

@@ -46,6 +46,7 @@ const SalesReport = lazy(() => import("./pages/SalesReport.jsx"));
 const Home = lazy(() => import("./pages/Home.jsx"));
 const AdminProfile = lazy(() => import("./pages/AdminProfile.jsx"));
 const Banner = lazy(() => import("./pages/Banner.jsx"));
+const Wishlist = lazy(() => import("./pages/Wishlist.jsx"));
 
 const App = () => (
   <BrowserRouter>
@@ -122,6 +123,12 @@ const App = () => (
                <Route path="/checkout" element={<AppLayout>
                 <ProtectedRoute>
                   <CheckOut />
+                </ProtectedRoute>
+              </AppLayout>} />
+
+               <Route path="/wishlist" element={<AppLayout>
+                <ProtectedRoute>
+                  <Wishlist />
                 </ProtectedRoute>
               </AppLayout>} />
               

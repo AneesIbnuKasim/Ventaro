@@ -1,7 +1,7 @@
 import { Heart, ShoppingCart } from "lucide-react";
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import RatingStars from "./RatingStars";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCheckoutItems } from "../../redux/slices/checkoutSlice";
 import { addCartThunk } from "../../redux/slices/cartSlice";
 import { toast } from "react-toastify";
@@ -25,6 +25,9 @@ const ProductCard = memo(({ product, handleClick=()=>console.log('clicked'), but
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
+
+  // useEffect(())
 
     const addToCart = () => {
       dispatch(addCartThunk({ productId:_id, quantity: 1 })).unwrap()
@@ -55,9 +58,6 @@ const ProductCard = memo(({ product, handleClick=()=>console.log('clicked'), but
       
       {/* --- TOP BADGE + WISHLIST ICON --- */}
       <div className="flex items-start justify-between">
-        {/* <button className="text-gray-500 hover:text-red-500">
-          <Heart size={20} />
-        </button> */}
         <WishlistButton productId={_id} />
         {originalPrice && (
           <span className="bg-green-500 text-white text-xs font-medium px-3 py-[2px] rounded-md">

@@ -9,6 +9,7 @@ import { useNavigateWithReset } from "../../hooks/useNavigateWithReset";
 import { useSelector } from "react-redux";
 import { BiNotification } from "react-icons/bi";
 import { useAuth } from "../../context/AuthContext";
+import { fetchWishlistThunk } from "../../redux/slices/wishlistSlice";
 
 export default function Navbar({
   logo = "Logo",
@@ -22,6 +23,11 @@ export default function Navbar({
 
   const [menuOpen, setMenuOpen] = useState(false);
   const { filters, setFilters, allCategories, setGlobalCategory, fetchProduct } = useProduct();
+
+    const { items: wishlist, loading } = useSelector(
+      (state) => state.wishlist
+    );
+
   const { logout } = useAuth();
   const [open, setOpen] = useState(false);
   const categories = allCategories?.slice(0,5)
@@ -32,6 +38,15 @@ export default function Navbar({
       fetchProduct()
     }
   }, [allCategories])
+
+
+  useEffect(() => {
+    if (!items) {
+      fetchWishlistThunk()
+    }
+  }, [items])
+
+  
 
   //NAVIGATE TO CORRESPONDING CATEGORY WHEN CLICKS
   const navigateToCategory = (cat) => {
@@ -138,7 +153,7 @@ export default function Navbar({
                 </NavLink>
               </div>
             </div>
-            {showWishlist && <Heart size={22} className="cursor-pointer" />}
+            {showWishlist && <Heart size={22} className="cursor-pointer" onClick={() => navigate("/wishlist", { replace: true })} />}
             {showBag && (
               <div className="relative">
                 <ShoppingBag

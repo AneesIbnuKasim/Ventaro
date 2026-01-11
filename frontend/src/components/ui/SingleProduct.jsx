@@ -10,6 +10,7 @@ import { GiBuyCard } from "react-icons/gi";
 import { BsLightningChargeFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { setCheckoutItems } from "../../redux/slices/checkoutSlice";
+import WishlistButton from "./wishlistButton";
 
 export default function SingleProduct({ product = {}, avgRating = '' }) {
 
@@ -62,7 +63,10 @@ const handleBuyNow = () => {
 
   return (
     <div className="w-full max-w-[1440px] mx-auto px-4 py-10 grid grid-cols-1 lg:grid-cols-2 gap-10">
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center relative">
+        <div >
+          <WishlistButton productId={product._id} heartClass="w-7 h-7" className="absolute top-10 right-10" />
+        </div>
         <img
           
           src={`http://localhost:5001${mainImage}`}
