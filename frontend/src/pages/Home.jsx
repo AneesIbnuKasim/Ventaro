@@ -9,6 +9,9 @@ import { useCategory } from "../context/CategoryContext";
 import { useNavigateWithReset } from "../hooks/useNavigateWithReset";
 import { useNavigate } from "react-router-dom";
 import Slider from "../components/ui/Slider";
+import { useDispatch, useSelector } from "react-redux";
+import BannerSlider from "../components/ui/BannerSlider";
+import { fetchBannerThunk } from "../redux/slices/bannerSlice";
 
 const Home = memo(() => {
   const { fetchProduct, fetchSingleProduct, products, setGlobalCategory } =
@@ -16,10 +19,30 @@ const Home = memo(() => {
   const { categories, fetchCategories } = useCategory();
   const navigateWithReset = useNavigateWithReset();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { banners } = useSelector((state) => state.banner);
+
+  useEffect(() => {
+    dispatch(fetchBannerThunk());
+  }, []);
+
+  const topBanners = banners.filter(
+    (b) => b.position === "HOME_TOP" && b.status === 'active'
+  );
+  console.log('top banners', topBanners);
+  
+
+  const middleBanners = banners.filter(
+    (b) => b.position === "HOME_MIDDLE" && b.status === 'active'
+  );
+
+  const bottomBanners = banners.filter(
+    (b) => b.position === "HOME_BOTTOM" && b.status === 'active'
+  );
 
   //NAVIGATE TO CORRESPONDING CATEGORY WHEN CLICKS
   const navigateToCategory = (cat) => {
-    console.log("catt", cat);
+    console.log("cat", cat);
 
     setGlobalCategory(cat);
     navigateWithReset(`/products/${cat}`);
@@ -27,7 +50,7 @@ const Home = memo(() => {
 
   const handleClick = async (productId) => {
     fetchSingleProduct(productId);
-    navigate(`/product/${productId}`)
+    navigate(`/product/${productId}`);
   };
 
   useEffect(() => {
@@ -35,16 +58,20 @@ const Home = memo(() => {
     load();
   }, []);
   console.log("products", categories);
+
   useEffect(() => {
     if (!categories.length > 0) {
       fetchCategories();
     }
   }, []);
+
+  console.log('banners in home', banners)
+
   return (
     <div>
       <main className="bg-slate-50">
         {/* HERO SECTION */}
-        <section className="max-w-7xl mx-auto px-4 py-8">
+        {/* <section className="max-w-7xl mx-auto px-4 py-8">
           <div
             className="flex items-center justify-center bg-cover rounded-2xl bg-center h-100"
             style={{ backgroundImage: `url(${headphone2})` }}
@@ -71,7 +98,13 @@ const Home = memo(() => {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
+
+        {topBanners.length > 0 && (
+          <section className="max-w-7xl mx-auto px-4 py-8">
+            <BannerSlider banners={topBanners} />
+          </section>
+        )}
 
         {/* POPULAR CATEGORIES */}
         <section className="max-w-7xl mx-auto px-4 py-7">
@@ -79,7 +112,6 @@ const Home = memo(() => {
             Popular Categories
           </h2>
           <div className="flex gap-8 overflow-x-auto ">
-            {/* Example category item */}
             {categories?.map((cat, index) => (
               <div
                 key={index}
@@ -136,28 +168,11 @@ const Home = memo(() => {
         </section>
 
         {/* PROMO / HIGHLIGHT SECTION */}
-        <section className="max-w-7xl mx-auto px-4 py-10">
-          <div className="bg-indigo-600 text-white rounded-2xl grid grid-cols-1 md:grid-cols-2 overflow-hidden">
-            <div className="p-8">
-              <h3 className="text-xl font-semibold">Smart Tv Series</h3>
-              <p className="mt-2 text-indigo-100 text-sm">
-                Full HD 4k Cinematic visuals right in your room.
-              </p>
-
-              <button className="mt-6 bg-white text-indigo-600 px-5 py-2 rounded-lg">
-                Shop Now
-              </button>
-            </div>
-
-            <div className="flex items-center justify-end ">
-              <img
-                src={`${headphone2}`}
-                alt="Smart Tv"
-                className="max-h-[300px] flex-1"
-              />
-            </div>
-          </div>
-        </section>
+        {middleBanners.length > 0 && (
+          <section className="max-w-7xl mx-auto px-4 py-8">
+            <BannerSlider banners={middleBanners} />
+          </section>
+        )}
 
         {/* CLEARANCE SALE */}
         <section className="max-w-7xl mx-auto px-4 pb-10">
