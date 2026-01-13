@@ -70,7 +70,7 @@ function SearchInput() {
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
           placeholder="Search products..."
-          className="w-full bg-[#F3F3F5] rounded-full py-2.5 pl-5 pr-12 text-sm outline-none border border-transparent focus:border-gray-300"
+          className="w-full search-input rounded-full py-2.5 pl-5 pr-12 text-sm outline-none border border-transparent focus:border-gray-300"
         />
 
         <button
@@ -85,11 +85,11 @@ function SearchInput() {
       </div>
 
       {showSuggestion && (
-        <ul className="absolute bg-gray-200 w-full mt-1 max-h-60 rounded-b-xl overflow-auto z-50">
+        <ul className="absolute bg-card w-full mt-1 max-h-60 rounded-b-xl overflow-auto z-50">
           {suggestions.map((item) => (
             <li
               key={item._id}
-              className="p-2 hover:bg-gray-100 cursor-pointer"
+              className="p-2 hover:bg-gray-500 cursor-pointer"
               onClick={() => {
                 setFilters({ search: item.name })
                 navigateWithReset(`/search?search=${encodeURIComponent(item.name)}`)

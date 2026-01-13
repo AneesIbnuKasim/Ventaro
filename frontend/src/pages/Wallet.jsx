@@ -32,9 +32,9 @@ function Wallet() {
             </div> : (<main className="flex-1">
           <h1 className="text-xl font-semibold mb-6">My Wallet</h1>
           <div className='flex h-full w-full justify-center'>
-            <div className=' bg-gray-100 w-1/2 flex flex-col items-center h-1/2 p-8 gap-4 rounded-lg '>
-            <p>CURRENT BALANCE: {wallet.balance}</p>
-            <p className='text-small text-gray-500'>Conversion Rate: 1 Vento = {CURRENCY} 1</p>
+            <div className=' bg-inner-card w-1/2 flex flex-col items-center h-1/2 p-8 gap-4 rounded-lg '>
+            <p>CURRENT BALANCE: {Math.ceil(wallet.balance)}</p>
+            <p className='text-small helper'>Conversion Rate: 1 Vento = {CURRENCY} 1</p>
           </div>
           </div>
         </main>)

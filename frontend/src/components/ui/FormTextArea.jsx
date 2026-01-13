@@ -36,9 +36,9 @@ const FormTextarea = memo(
 
       const textareaClassName = useMemo(() => {
         const base =
-          "block w-full rounded-md border border-gray-300 bg-white px-3 py-2 placeholder-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500";
+          "block w-full rounded-md border border-gray-300 input px-3 py-2 placeholder-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500";
         const errorCls = error
-          ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+          ? "border-red-500 focus:border-red-500 input-error focus:ring-red-500"
           : "";
         return `${base} ${fieldClassName} ${errorCls}`;
       }, [error, fieldClassName]);
@@ -46,7 +46,7 @@ const FormTextarea = memo(
       const labelElement = label ? (
         <label
           htmlFor={inputId}
-          className={`block mb-2 text-sm font-medium ${labelColor}`}
+          className={`block mb-2 text-sm font-medium  `}
         >
           {label}
           {required && <span className="text-red-600 ml-1">*</span>}

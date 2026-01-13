@@ -32,7 +32,7 @@ const AddressForm = memo(({ userId, isAdd, initialData = {}, onSubmit, loading, 
   }
 
   return (
-    <div className="overflow-y-auto max-h-[80vh]">
+    <div className=" overflow-y-auto max-h-[80vh] ">
         <Formik
       initialValues={initialValues}
       validationSchema={addressValidationSchema}
@@ -48,7 +48,7 @@ const AddressForm = memo(({ userId, isAdd, initialData = {}, onSubmit, loading, 
         handleChange,
         handleBlur,
       }) => (
-        <Form noValidate className="bg-white rounded-xl shadow px-6 max-w-lg">
+        <Form noValidate className="rounded-xl shadow px-6 max-w-lg">
 
           {/* <h2 className="text-lg font-semibold mb-4">
             {initialData?._id ? "Edit Address" : "Add Address"}
@@ -145,8 +145,9 @@ const AddressForm = memo(({ userId, isAdd, initialData = {}, onSubmit, loading, 
               checked={values.isDefault}
               onChange={handleChange}
               id="isDefault"
+              className="label:input"
             />
-            <label htmlFor="isDefault" className="text-sm text-gray-700">
+            <label htmlFor="isDefault" className="text-sm ">
               Set as default address
             </label>
           </div>
@@ -154,6 +155,7 @@ const AddressForm = memo(({ userId, isAdd, initialData = {}, onSubmit, loading, 
           <div className="mt-6">
             <Button
               type="submit"
+              variant='custom'
               block
               loading={loading}
             >

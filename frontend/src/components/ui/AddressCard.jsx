@@ -89,23 +89,23 @@ export default function AddressCard({
         {user.addresses?.length > 0 ? (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
             {user.addresses.map((address) => (
-              <div className="max-w-[500px] lg:max-w-[420px] bg-gray-100 hover:outline-1 outline-violet-300 rounded-xl p-6 shadow-sm">
+              <div className="max-w-125 lg:max-w-105 bg-inner-card hover:outline-1 outline-violet-300 rounded-xl p-6 shadow-sm">
                 {/* NAME */}
-                <h3 className="font-semibold text-gray-900 mb-2">
+                <h3 className="font-semibold  mb-2">
                   {address.fullName}
                 </h3>
 
                 {/* ADDRESS */}
-                <div className="text-sm text-gray-600 space-y-1">
+                <div className="text-sm  space-y-1">
                   <p>{address.addressLine}</p>
                   <p>{address.city}</p>
                   <p>{address.state}</p>
                   <p>
-                    <span className="font-medium text-gray-700">Mobile:</span>{" "}
+                    <span className="font-medium">Mobile:</span>{" "}
                     {address?.phone}
                   </p>
                   <p>
-                    <span className="font-medium text-gray-700">
+                    <span className="font-medium ">
                       {address?.label}
                     </span>{" "}
                   </p>

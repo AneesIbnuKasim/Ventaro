@@ -72,12 +72,11 @@ const ProfileLayout = () => {
   }, [avatarPreview]);
   
     return (
-      <div className="min-h-[70vh] bg-slate-100 flex flex-col">
+      <div className="min-h-[70vh] bg-page flex flex-col">
         <div className="max-w-7xl w-full mx-auto p-6">
-          <div className="bg-white rounded-2xl shadow-sm flex overflow-hidden">
+          <div className="bg-card rounded-2xl shadow-sm flex overflow-hidden">
             {/* SIDEBAR */}
             <aside className="w-64 bg-slate-200 p-6">
-  
               {/* AVATAR PREVIEW AND EDIT SAVE SECTION */}
               <div className="flex flex-col items-center gap-5 mb-5">
                 <div className="relative">
@@ -89,7 +88,6 @@ const ProfileLayout = () => {
                     className="w-30 h-30 rounded-xl object-cover  cursor-pointer border"
                     onClick={() => document.getElementById("avatarInput").click()}
                   />
-                  
                   <input
                     id="avatarInput"
                     type="file"
@@ -107,7 +105,6 @@ const ProfileLayout = () => {
                     >
                       SAVE
                     </Button>
-  
                     <button
                       onClick={handleAvatarCancel}
                       className="bg-gray-300 px-4 py-1 rounded-md"
@@ -117,7 +114,6 @@ const ProfileLayout = () => {
                   </div>
                 )}
               </div>
-  
               {/* NAVIGATION MENU SECTION */}
               <nav className="space-y-2">
                 {menuItems.map(({ label, path}) => {
@@ -137,7 +133,7 @@ const ProfileLayout = () => {
               </nav>
             </aside>
                   {/* RIGHT SECTION (DYNAMIC) */}
-      <section className="flex-1 bg-white rounded-lg p-6">
+      <section className="flex-1 bg-card rounded-lg p-6">
         {loading ? <Loading fullScreen /> : <Outlet />}
       </section>
             

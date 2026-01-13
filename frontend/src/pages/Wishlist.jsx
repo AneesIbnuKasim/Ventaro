@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import ProductCard from "../components/ui/ProductCard";
 import { fetchWishlistThunk } from "../redux/slices/wishlistSlice";
 import { HeartOff } from "lucide-react";
+import { Button } from "../components/ui";
 
 const Wishlist = () => {
   const dispatch = useDispatch();
@@ -48,12 +49,13 @@ const handleClick = (id) => {
         <p className="text-sm text-slate-500 mt-1">
           Save items you like and review them later
         </p>
-        <button
-          onClick={() => navigate("/products")}
-          className="mt-4 px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+        <Button
+          onClick={() => navigate("/")}
+          variant={'custom'}
+          className='mt-5'
         >
-          Browse Products
-        </button>
+          Browse Home
+        </Button>
       </div>
     );
   }

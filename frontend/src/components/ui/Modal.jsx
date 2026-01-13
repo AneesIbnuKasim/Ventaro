@@ -23,7 +23,7 @@ const Modal = ({
       onClick={onClose}
     >
       <div
-        className={`bg-white rounded-xl shadow-xl w-full ${sizeClass[size]} mx-4 transform transition-all`}
+        className={`bg-card rounded-xl shadow-xl w-full ${sizeClass[size]} mx-4 transform transition-all`}
         onClick={(e)=>e.stopPropagation()}
       >
         {/* Header */}

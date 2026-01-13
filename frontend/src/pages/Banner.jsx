@@ -97,7 +97,6 @@ const Products = memo((setTitle) => {
     // dispatch(toggleStatus(id))
    const res = await dispatch(toggleStatusThunk(id)).unwrap()
    toast.success('Status changed')
-    
   }
   return (
     <>

@@ -17,7 +17,7 @@ function PasswordChange() {
   };
 
   return (
-    <div className="max-w-md mx-auto bg-white p-6 rounded-2xl shadow-sm">
+    <div className="max-w-md mx-auto bg-inner-card p-6 rounded-2xl shadow-sm">
       <h2 className="text-lg font-semibold mb-4">Change Password</h2>
 
       <Formik
@@ -39,7 +39,7 @@ function PasswordChange() {
               <Field
                 type="password"
                 name="currentPassword"
-                className="w-full rounded-md input-border px-3 py-2"
+                className="w-full rounded-md input input-border px-3 py-2"
               />
               <ErrorMessage
                 name="currentPassword"
@@ -56,7 +56,7 @@ function PasswordChange() {
               <Field
                 type="password"
                 name="newPassword"
-                className="w-full rounded-md input-border px-3 py-2"
+                className="w-full rounded-md input input-border px-3 py-2"
               />
               <ErrorMessage
                 name="newPassword"
@@ -73,7 +73,7 @@ function PasswordChange() {
               <Field
                 type="password"
                 name="confirmPassword"
-                className="w-full rounded-md input-border px-3 py-2"
+                className="w-full rounded-md input input-border px-3 py-2"
               />
               <ErrorMessage
                 name="confirmPassword"

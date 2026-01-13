@@ -67,7 +67,7 @@ const Home = memo(() => {
 
   /* ================= UI ================= */
   return (
-    <main className="bg-slate-50 min-h-screen">
+    <main className="min-h-screen ">
 
       {/* ================= HERO / TOP BANNER ================= */}
       {topBanners.length > 0 && (

@@ -29,9 +29,9 @@ const FormInput = memo(
 
       const inputClassName = useMemo(() => {
         const baseClasses =
-          `block w-full rounded-md border border-gray-300 bg-white px-3 py-2 placeholder-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 ${fieldClassName}`
+          `block w-full rounded-md border border-gray-300 bg-white px-3 py-2 placeholder-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 ${fieldClassName} input`
         const errorClasses = error
-          ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
+          ? 'border-red-500 focus:border-red-500 focus:ring-red-500 input-error'
           : ''
         return `${baseClasses} ${errorClasses}`;
       }, [error])
@@ -49,7 +49,7 @@ const FormInput = memo(
         return (
           <label
             htmlFor={inputId}
-            className={`block mb-2 text-sm font-medium ${labelColor}`}
+            className={`block mb-2 text-sm font-medium `}
           >
             {label}
             {required && <span className="text-red-600 ml-1">*</span>}
@@ -64,7 +64,7 @@ const FormInput = memo(
             <input
               ref={ref}
               type={type}
-              className="block w-full min-h-full border-0 focus:ring-0 focus:outline-0 text-md text-gray-900 placeholder-gray-400"
+              className="block w-full min-h-full border-0 focus:ring-0 focus:outline-0 text-md input::placeholder "
               id={inputId}
               placeholder={placeholder}
               required={required}
@@ -98,7 +98,7 @@ const FormInput = memo(
 
       const helpElement = useMemo(() => {
         if (!helpText || error) return null
-        return <p className="mt-1 text-sm text-gray-500">{helpText}</p>
+        return <p className="mt-1 text-sm helper">{helpText}</p>
       }, [helpText, error])
 
       const iconElement = icon ? (

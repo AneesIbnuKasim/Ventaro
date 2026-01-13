@@ -44,7 +44,7 @@ const Footer = memo(() => {
   ];
 
   return (
-    <footer className="w-full bg-gray-200 shadow-md pt-14">
+    <footer className="w-full bg-gray-200 shadow-md pt-14 dark:bg-[var(--color-bg-card)]">
       <div className="max-w-[1440px] mx-auto px-4 md:px-10">
 
         {/* TOP Section */}

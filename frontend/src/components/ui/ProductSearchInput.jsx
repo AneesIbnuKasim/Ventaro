@@ -26,7 +26,7 @@ const ProductSearchInput = ({
           setShow(true);
         }}
         placeholder="Search product..."
-        className="w-full border border-gray-300 rounded-md px-3 py-2"
+        className="w-full border rounded-md px-3 py-2"
       />
 
       {show && query && (

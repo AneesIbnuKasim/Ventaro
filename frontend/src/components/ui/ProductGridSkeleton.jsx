@@ -6,19 +6,19 @@ const ProductsGridSkeleton = memo(({length= 12}) => {
       {Array.from({ length }).map((_, i) => (
         <div
           key={i}
-          className="animate-pulse rounded-xl border border-gray-200 bg-white p-3 space-y-3"
+          className="animate-pulse rounded-xl border border-theme bg-card p-3 space-y-3"
         >
           {/* Image */}
-          <div className="h-40 w-full rounded-lg bg-gray-200" />
+          <div className="h-40 w-full rounded-lg bg-skeleton" />
 
           {/* Title */}
-          <div className="h-4 w-3/4 rounded bg-gray-200" />
+          <div className="h-4 w-3/4 rounded bg-skeleton" />
 
           {/* Price */}
-          <div className="h-4 w-1/2 rounded bg-gray-200" />
+          <div className="h-4 w-1/2 rounded bg-skeleton" />
 
           {/* Button */}
-          <div className="h-9 w-full rounded-lg bg-gray-200" />
+          <div className="h-9 w-full rounded-lg bg-skeleton" />
         </div>
       ))}
     </div>

@@ -8,6 +8,7 @@ import ProductCard from '../components/ui/ProductCard';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useProduct } from '../context/ProductContext';
 import { getUser } from '../utils/apiClient';
+import ProductDetailsSkeleton from '../components/ui/ProductDetailsSkeleton';
 
 function ProductDetails() {
 
@@ -121,7 +122,7 @@ function ProductDetails() {
     <>
         <div className='m-10 flex flex-col gap-10'>
             {loading || !product ? (
-                <div className="h-[420px] w-[380px] bg-gray-200 animate-pulse rounded-lg" />
+                <ProductDetailsSkeleton />
             ):(
                 <SingleProduct product={product} avgRating= {avgRating} />
 

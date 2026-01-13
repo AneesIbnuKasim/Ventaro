@@ -54,7 +54,8 @@ const ProductCard = memo(({ product, handleClick=()=>console.log('clicked'), but
   
 
   return (
-    <div className="w-full max-w-[260px] min-h-[400px]  bg-white rounded-xl border border-gray-200  p-4 shadow-md hover:shadow-xl transition cursor-pointer">
+    <div className="max-w-65 min-h-100 rounded-xl border border-card-theme  p-4 shadow-md hover:shadow-xl transition cursor-pointer
+    bg-card ">
       
       {/* --- TOP BADGE + WISHLIST ICON --- */}
       <div className="flex items-start justify-between">

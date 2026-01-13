@@ -12,7 +12,7 @@ const UserProfile = ({
   const isVertical = layout === 'vertical'
   
   return (
-    <div className={`${isVertical ? 'text-center' : 'd-flex align-items-center'} ${className}`}>
+    <div className={`${isVertical ? 'text-center' : 'flex align-items-center'} ${className}`}>
       <UserAvatar 
         user={user} 
         size={avatarSize} 

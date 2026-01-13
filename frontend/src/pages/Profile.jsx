@@ -80,7 +80,7 @@ export default function AccountInfo() {
                 handleBlur,
                 isSubmitting,
               }) => (
-                <Form className="space-y-6 max-w-2xl">
+                <Form className="space-y-6 max-w-2xl text">
                   <div className="grid md:grid-cols-2 gap-6">
                     <FormInput
                       label="First Name"
@@ -108,6 +108,9 @@ export default function AccountInfo() {
                     type="email"
                     icon={<MdEmail />}
                     value={email}
+                    className='input:disabled input::placeholder'
+                    fieldClassName='text-white'
+                    inputGroupClassName='input input:disabled input::placeholder'
                     disabled
                   />
 

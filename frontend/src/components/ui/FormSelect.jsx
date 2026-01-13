@@ -34,7 +34,7 @@ const FormSelect = memo(
 
       const selectClassName = useMemo(() => {
         const base =
-          `block w-full rounded-md border border-gray-300 bg-white px-3 py-[10px] placeholder-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 ${fieldClassName}`
+          `input block w-full rounded-md border border-gray-300 bg-white px-3 py-[10px] input::placeholder focus:border-blue-500 focus:ring-1 focus:ring-blue-500 ${fieldClassName}`
         const errorCls = error
           ? "border-red-500 focus:border-red-500 focus:ring-red-500"
           : "";
@@ -44,7 +44,7 @@ const FormSelect = memo(
       const labelElement = label ? (
         <label
           htmlFor={selectId}
-          className={`block mb-2 text-sm font-medium ${labelColor}`}
+          className={`block mb-2 text-sm font-medium`}
         >
           {label}
           {required && <span className="text-red-600 ml-1">*</span>}

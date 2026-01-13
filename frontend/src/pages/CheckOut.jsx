@@ -117,17 +117,17 @@ const handlePlaceOrder = async() => {
 // }
 
   return (
-    <div className="bg-gray-100 min-h-screen py-10">
-      <div className="max-w-[1240px] mx-auto px-4">
+    <div className=" min-h-screen py-10">
+      <div className="max-w-310 mx-auto px-4">
         <h1 className="text-2xl font-semibold mb-6">Checkout</h1>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* LEFT SECTION */}
           <div className="lg:col-span-2 space-y-6">
             {/* ADDRESS SECTION */}
-            <div className="bg-white rounded-xl shadow-sm p-6">
+            <div className="bg-card rounded-xl shadow-sm p-6">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-lg font-semibold">Select Delivery Address</h2>
-                <Button onClick={() => navigate(`/profile/address`)} variant='outline-custom' className="text-sm">+ Add New Address</Button>
+                <Button onClick={() => navigate(`/profile/address`)} variant='custom' className="text-sm">+ Add New Address</Button>
               </div>
 
               <div className="space-y-4">
@@ -136,7 +136,7 @@ const handlePlaceOrder = async() => {
                     key={addr._id}
                     className={`flex gap-4 p-4 rounded-lg border cursor-pointer transition ${
                       deliveryAddress?._id === addr._id
-                        ? "border-purple-600 bg-purple-50"
+                        ? "border-purple-400 "
                         : "border-gray-200"
                     }`}
                   >
@@ -149,12 +149,12 @@ const handlePlaceOrder = async() => {
                     />
                     <div className="flex-1">
                       <p className="font-medium">{addr.fullName}</p>
-                      <p className="text-sm text-gray-600">{addr.addressLine}</p>
-                      <p className="text-sm text-gray-600">{addr.city}</p>
-                      <p className="text-sm text-gray-600">{addr.pinCode}</p>
-                      <p className="text-sm text-gray-600">{addr.phone}</p>
-                      <p className="text-sm text-gray-600 flex gap-2 items-center"><MdDeliveryDining></MdDeliveryDining><b>{addr.label}</b></p>
-                      <p className="text-sm text-gray-600 mt-2">{addr.isDefault ? 'Default Address' : ''}</p>
+                      <p className="text-sm text-secondary">{addr.addressLine}</p>
+                      <p className="text-sm text-secondary">{addr.city}</p>
+                      <p className="text-sm text-secondary">{addr.pinCode}</p>
+                      <p className="text-sm text-secondary">{addr.phone}</p>
+                      <p className="text-sm text-secondary flex gap-2 items-center"><MdDeliveryDining></MdDeliveryDining><b>{addr.label}</b></p>
+                      <p className="text-sm text-secondary mt-2">{addr.isDefault ? 'Default Address' : ''}</p>
                     </div>
                   </label>
                 ))}
@@ -162,7 +162,7 @@ const handlePlaceOrder = async() => {
             </div>
 
             {/* PAYMENT SECTION */}
-            <div className="bg-white rounded-xl shadow-sm p-6">
+            <div className="bg-card rounded-xl shadow-sm p-6">
               <h2 className="text-lg font-semibold mb-4">Select Payment Option</h2>
 
               <div className="space-y-4">
@@ -175,7 +175,7 @@ const handlePlaceOrder = async() => {
                   />
                   <div>
                     <p className="font-medium">Razorpay</p>
-                    <p className="text-sm text-gray-600">UPI, Cards, Net Banking</p>
+                    <p className="text-sm text-secondary">UPI, Cards, Net Banking</p>
                   </div>
                 </label>
 
@@ -188,7 +188,7 @@ const handlePlaceOrder = async() => {
                   />
                   <div>
                     <p className="font-medium">Wallet</p>
-                    <p className="text-sm text-gray-600">Use wallet balance</p>
+                    <p className="text-sm text-secondary">Use wallet balance</p>
                   </div>
                 </label>
 
@@ -201,7 +201,7 @@ const handlePlaceOrder = async() => {
                   />
                   <div>
                     <p className="font-medium">Cash on Delivery</p>
-                    <p className="text-sm text-gray-600">Pay when product arrives</p>
+                    <p className="text-sm text-secondary">Pay when product arrives</p>
                   </div>
                 </label>
               </div>
@@ -209,7 +209,7 @@ const handlePlaceOrder = async() => {
           </div>
 
           {/* SUMMARY */}
-          <div className="bg-white rounded-xl shadow-sm p-6 h-fit sticky top-6">
+          <div className="bg-card rounded-xl shadow-sm p-6 h-fit sticky top-6">
             <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
 
             <div className="space-y-4">
@@ -218,7 +218,7 @@ const handlePlaceOrder = async() => {
                   <img src={`${API_CONFIG.imageURL2}${item?.product?.images[0] ?? item?.images[0]}`} alt="product" className="w-16 h-16 rounded" />
                   <div className="flex-1">
                     <p className="text-sm font-medium line-clamp-1">{item?.product?.name ?? item.name}</p>
-                    <p className="text-sm text-gray-600">₹{item.finalUnitPrice ?? item.sellingPrice} × {item.quantity}</p>
+                    <p className="text-sm text-secondary">₹{item.finalUnitPrice ?? item.sellingPrice} × {item.quantity}</p>
                   </div>
                   <p className="font-medium">₹{item.itemTotal ?? item.sellingPrice }</p>
                 </div>
@@ -243,7 +243,7 @@ const handlePlaceOrder = async() => {
               </div>
               )}
               <div className="flex justify-between">
-                    <span className="text-gray-500">Discount</span>
+                    <span className="text-secondary">Discount</span>
                     <span className="text-green-600">
                       -{CURRENCY}{discountTotal}
                     </span>

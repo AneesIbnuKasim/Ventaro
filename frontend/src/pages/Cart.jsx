@@ -95,8 +95,8 @@ useEffect(()=> {
 
 
   return (
-    <div className="bg-gray-100 py-10 px-5">
-      <div className="max-w-7xl mx-auto bg-white rounded-xl p-8">
+    <div className="py-10 px-5">
+      <div className="max-w-7xl mx-auto rounded-xl p-8">
         {/* Top Section */}
         {loading ? (
           <div>
@@ -104,7 +104,7 @@ useEffect(()=> {
           </div>
         ) :
         !hasCartItems && ! loading ? (
-          <div className=" text-gray-500 min-h-[400px] flex justify-center items-center h-full text-center flex-col gap-5">
+          <div className="text-gray-500 min-h-100 flex justify-center items-center h-full text-center flex-col gap-5">
             <p>Your cart is empty</p>
             <Button
               className="p-5"
@@ -117,14 +117,14 @@ useEffect(()=> {
         ) : (
           <>
             <h1 className="h2 mb-5">Shopping Cart</h1>
-            <div className="flex flex-col lg:flex-row md:gap-15 lg:gap-20">
-              <div className="grid flex-1 grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="flex flex-col lg:flex-row md:gap-15 lg:gap-20 ">
+              <div className="grid flex-1 grid-cols-1 lg:grid-cols-2 gap-8 ">
                 {/* Cart Items */}
-                <div className="lg:col-span-2 space-y-6">
+                <div className="lg:col-span-2 space-y-6 ">
                   {items?.map((item) => (
                     <div
                       key={item._id}
-                      className="flex items-start gap-6 shadow-gray-300 shadow-sm p-6"
+                      className="flex items-start gap-6 shadow-gray-200 bg-inner-card shadow-sm p-6"
                     >
                       <img
                         src={`http://localhost:5001${item?.product?.images[0] ?? ''} `}
@@ -134,16 +134,16 @@ useEffect(()=> {
                       />
 
                       <div className="flex-1">
-                        <h3 className="font-semibold text-gray-800">
+                        <h3 className="font-semibold">
                           {item.product.name}
                         </h3>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-sm text-secondary">
                           {item.product.brandName}
                         </p>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-sm text-secondary">
                           Memory Size: 128GB
                         </p>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-sm text-secondary">
                           Color Variant: White
                         </p>
 
@@ -180,7 +180,7 @@ useEffect(()=> {
               </div>
 
               {/* Summary */}
-<div className="bg-white rounded-xl flex flex-col gap-3 shadow-sm p-6 h-fit sticky top-6">
+<div className="bg-inner-card rounded-xl flex flex-col gap-3 shadow-sm p-6 h-fit sticky top-6">
   <h2 className="text-lg font-semibold mb-4">Cart Summary</h2>
   <ApplyCouponForm />
 
@@ -197,20 +197,20 @@ useEffect(()=> {
 
   {/* Price breakdown */}
   <div className="space-y-3 text-sm">
-    <div className="flex justify-between">
-      <span className="text-gray-500">Subtotal</span>
+    <div className="flex justify-between ">
+      <span className="text-secondary">Subtotal</span>
       <span>{CURRENCY}{subTotal}</span>
     </div>
 
     <div className="flex justify-between">
-      <span className="text-gray-500">Discount</span>
+      <span className="text-secondary">Discount</span>
       <span className="text-green-600">
         -{CURRENCY}{discountTotal}
       </span>
     </div>
 
     <div className="flex justify-between">
-      <span className="text-gray-500">Shipping Fee</span>
+      <span className="text-secondary">Shipping Fee</span>
       <span>
         {shippingFee === 0 ? (
           <span className="text-green-600 font-medium">FREE</span>

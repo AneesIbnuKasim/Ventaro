@@ -37,7 +37,7 @@ export default function Slider({
         <button
           onClick={() => scroll("left")}
           className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 
-                     bg-white shadow-md w-10 h-10 rounded-full items-center justify-center"
+                     bg-card shadow-md w-10 h-10 rounded-full items-center justify-center"
         >
           <ChevronLeft size={22} />
         </button>
@@ -63,7 +63,7 @@ export default function Slider({
         <button
           onClick={() => scroll("right")}
           className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 
-                     bg-white shadow-md w-10 h-10 rounded-full items-center justify-center"
+                     bg-card shadow-md w-10 h-10 rounded-full items-center justify-center"
         >
           <ChevronRight size={22} />
         </button>

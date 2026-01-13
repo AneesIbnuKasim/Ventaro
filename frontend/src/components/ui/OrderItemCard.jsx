@@ -43,10 +43,10 @@ export default function OrderItemCard({ order, onCancel, handleReturn }) {
       <div className="flex-1">
         <h3 className="font-medium">{order.title}</h3>
         <p className="font-semibold mt-2">Order Amount: ₹{order.totalAmount}</p>
-        <p className="text-sm text-gray-500 mt-1">
+        <p className="text-sm helper mt-1">
           Payment: {order.paymentStatus}
         </p>
-        <p className="text-sm text-gray-500 mt-1">
+        <p className="text-sm helper mt-1">
           Status: {order.orderStatus}
         </p>
 

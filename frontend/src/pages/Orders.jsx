@@ -60,16 +60,16 @@ useEffect(() => {
             {orders?.map((order) => (
               <div
                 key={order._id}
-                className="bg-gray-50 rounded-2xl p-6 shadow-sm"
+                className="bg-inner-card rounded-2xl p-6 shadow-sm"
               >
                 {/* ORDER HEADER */}
                 <div className="flex justify-between items-center pb-4 mb-4">
                   <div>
-                    <p className="text-sm text-gray-500">Order ID</p>
+                    <p className="text-sm helper">Order ID</p>
                     <p className="font-medium">{order.orderId}</p>
                   </div>
 
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm helper">
                     Placed on {new Date(order.createdAt).toDateString()}
                   </div>
                 </div>

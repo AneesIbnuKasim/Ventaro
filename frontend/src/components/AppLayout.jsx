@@ -21,14 +21,21 @@ const AppLayout = memo(({
   useEffect(() => {
     dispatch(fetchWishlistThunk());
   }, [dispatch]);
+
+  //APPLY THEME ON LOAD
+  useEffect(() => {
+  if (localStorage.getItem("theme") === "dark") {
+    document.documentElement.classList.add("dark");
+  }
+}, []);
   return (
-    <>
+    <div>
       <Navbar/>
       <div>
         {children}
       </div>
       <Footer/>
-    </>
+    </div>
   )
 })
 

@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
-import { Search, User, Heart, ShoppingBag, Menu, X, Badge } from "lucide-react";
+import { Search, User, Heart, ShoppingBag, Menu, X, ToggleLeft, ToggleRight } from "lucide-react";
 import { FormInput } from ".";
 import Footer from "./Footer";
 import { useProduct } from "../../context/ProductContext";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import SearchInput from "./SearchInput";
 import { useNavigateWithReset } from "../../hooks/useNavigateWithReset";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BiNotification } from "react-icons/bi";
 import { useAuth } from "../../context/AuthContext";
 import { fetchWishlistThunk } from "../../redux/slices/wishlistSlice";
+import { toggleTheme } from "../../redux/slices/themeSlice";
 
 export default function Navbar({
   logo = "Logo",
@@ -20,6 +21,7 @@ export default function Navbar({
   const navigate = useNavigate();
   const navigateWithReset = useNavigateWithReset();
   const { items } = useSelector((state) => state.cart);
+  const dispatch = useDispatch()
 
   const [menuOpen, setMenuOpen] = useState(false);
   const { filters, setFilters, allCategories, setGlobalCategory, fetchProduct } = useProduct();
@@ -27,6 +29,8 @@ export default function Navbar({
     const { items: wishlist, loading } = useSelector(
       (state) => state.wishlist
     );
+
+    const { mode } = useSelector(state => state.theme)
 
   const { logout } = useAuth();
   const [open, setOpen] = useState(false);
@@ -46,8 +50,6 @@ export default function Navbar({
     }
   }, [items])
 
-  
-
   //NAVIGATE TO CORRESPONDING CATEGORY WHEN CLICKS
   const navigateToCategory = (cat) => {
     setGlobalCategory(cat);
@@ -57,7 +59,7 @@ export default function Navbar({
 
   return (
     <>
-      <nav className="w-full bg-white shadow-lg sticky top-0 z-50">
+      <nav className="w-full shadow-lg sticky top-0 z-50 dark:bg-[var(--color-bg-primary)]">
         <div className="max-w-[1440px] mx-auto px-4 h-18 flex items-center justify-between gap-4">
           {/* LEFT: Mobile menu + Logo */}
           <div className="flex items-center gap-3">
@@ -123,7 +125,14 @@ export default function Navbar({
             <button className="sm:hidden">
               <Search size={22} />
             </button>
-
+              {/* THEME ICON */}
+            {
+              mode === 'light' ? (
+                <ToggleLeft size={22} className={`cursor-pointer text-${wishlist.length>0 ? 'red-500' : ''}`} onClick={() => dispatch(toggleTheme())} />
+              ) :
+              <ToggleRight size={22} className={`cursor-pointer text-${wishlist.length>0 ? 'red-500' : ''}`} onClick={() => dispatch(toggleTheme())} />
+            }
+              
             <div className="relative group inline-block">
               {showProfile && (
                 <User
@@ -153,7 +162,18 @@ export default function Navbar({
                 </NavLink>
               </div>
             </div>
-            {showWishlist && <Heart size={22} className="cursor-pointer" onClick={() => navigate("/wishlist", { replace: true })} />}
+            {showWishlist && (
+              <div className="relative">
+                <Heart size={22} className={`cursor-pointer text-${wishlist.length>0 ? 'red-500' : ''}`} onClick={() => navigate("/wishlist", { replace: true })} />
+                  {wishlist.length > 0 && (
+                  <span className="absolute flex rounded-xl text-xs bottom-4 left-3  text-white bg-red-600 w-4 h-4 justify-center items-center">
+                    {wishlist.length}
+                  </span>
+                )}
+              </div>
+            )
+              
+              }
             {showBag && (
               <div className="relative">
                 <ShoppingBag

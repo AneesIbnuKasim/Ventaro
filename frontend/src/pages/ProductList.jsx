@@ -63,7 +63,7 @@ const ProductList = memo(() => {
         <div className="flex ml-0 m-2">
           {/* filters */}
           <div className="w-[50%] md:w-[20%] lg:w-[25%]">
-            <aside className="w-full p-5 bg-white shadow-md">
+            <aside className="w-full p-5 bg-card shadow-md">
               {/* Header */}
               <div className="flex justify-between items-center mb-3">
                 <h3 className="font-semibold text-[18px]">FILTERS</h3>

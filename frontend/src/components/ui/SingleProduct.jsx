@@ -62,7 +62,7 @@ const handleBuyNow = () => {
 
 
   return (
-    <div className="w-full max-w-[1440px] mx-auto px-4 py-10 grid grid-cols-1 lg:grid-cols-2 gap-10">
+    <div className="w-full max-w-360 mx-auto px-4 py-10 grid grid-cols-1 lg:grid-cols-2 gap-10">
       <div className="flex flex-col items-center relative">
         <div >
           <WishlistButton productId={product._id} heartClass="w-7 h-7" className="absolute top-10 right-10" />
@@ -90,9 +90,9 @@ const handleBuyNow = () => {
       <div className="space-y-4">
         <h2 className="text-2xl font-semibold leading-snug">{product.name}</h2>
 
-        <p className="text-3xl font-bold text-gray-900">Rs. {product.sellingPrice ?? "-"} 
+        <p className="text-3xl font-bold price">Rs. {product.sellingPrice ?? "-"} 
           {product.originalPrice && (
-             <span className="text-gray-400 ml-3 line-through text-md">
+             <span className=" ml-3 line-through old-price">
             Rs. {product.originalPrice}
           </span>
         )}
@@ -100,12 +100,12 @@ const handleBuyNow = () => {
 
         <p className="text-sm text-gray-600 leading-relaxed max-w-lg">{product.shortDescription}</p>
 
-        <div className="mt-4 flex flex-col gap-3 text-sm text-gray-700 space-y-1">
+        <div className="mt-4 flex flex-col gap-3 text-sm helper space-y-1">
           <p><span className="font-semibold">CATEGORY:</span> {product.categoryId?.name ?? "-"}</p>
           <p><span className="font-semibold">BRAND:</span> <span className="text-green-600">{product.brandName ?? "-"}</span></p>
           {avgRating > 0 && (
             <div className="flex">
-        <RatingStars avg={avgRating} /> <span className="ml-2 text-sm text-gray-600">
+        <RatingStars avg={avgRating} /> <span className="ml-2 text-sm helper">
   {avgRating.toFixed(1)} ({product.ratings?.length})
 </span>
       </div>
@@ -125,7 +125,7 @@ const handleBuyNow = () => {
 
         <div className="mt-10">
           <h3 className="text-lg font-semibold mb-2">DESCRIPTION</h3>
-          <p className="text-sm text-gray-600 leading-relaxed max-w-2xl">{product.description}</p>
+          <p className="text-sm helper leading-relaxed max-w-2xl">{product.description}</p>
         </div>
       </div>
     </div>
