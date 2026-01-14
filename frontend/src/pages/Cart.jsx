@@ -117,7 +117,7 @@ useEffect(()=> {
         ) : (
           <>
             <h1 className="h2 mb-5">Shopping Cart</h1>
-            <div className="flex flex-col lg:flex-row md:gap-15 lg:gap-20 ">
+            <div className="flex flex-col lg:flex-row gap-5 md:gap-15 lg:gap-20 ">
               <div className="grid flex-1 grid-cols-1 lg:grid-cols-2 gap-8 ">
                 {/* Cart Items */}
                 <div className="lg:col-span-2 space-y-6 ">
@@ -154,14 +154,14 @@ useEffect(()=> {
                       <div className="flex items-center border rounded-lg">
                         <button
                           onClick={() => decreaseQuantity(item._id)}
-                          className="px-3 py-1"
+                          className="sm:px-3 sm:py-1"
                         >
                           -
                         </button>
                         <span className="px-3">{item.quantity}</span>
                         <button
                           onClick={() => addQuantity(item._id)}
-                          className="px-3 py-1"
+                          className="sm:px-3 sm:py-1"
                         >
                           +
                         </button>

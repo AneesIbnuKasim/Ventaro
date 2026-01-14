@@ -11,7 +11,6 @@ import { useAdmin } from "../context/AdminContext";
 
 const AdminLayout = React.memo(({ 
  }) => {
-  
   const titleRef = useRef('test')
   
   const { admin, logout, getProfile } = useAdmin();

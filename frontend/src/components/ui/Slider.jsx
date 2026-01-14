@@ -50,7 +50,7 @@ export default function Slider({
           {items.map((item, index) => (
             <div
               key={item._id || index}
-              className="shrink-0"
+              className="shrink-0 max-w-65"
               style={{ minWidth: itemWidth }}
               onClick={()=>handleClick(item._id)}
               >

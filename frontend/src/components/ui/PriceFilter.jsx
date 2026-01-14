@@ -27,7 +27,7 @@ export default function PriceFilter({
 
   return (
     <div className="w-full">
-      <h4 className="text-lg font-semibold text-gray-800 mb-4">Price Range</h4>
+      <h4 className="text-lg font-semibold text-secondary mb-4">Price Range</h4>
 
       {/* Slider */}
      <div className="flex items-center gap-5  ">
@@ -44,7 +44,7 @@ export default function PriceFilter({
      </div>
       
 
-      <div className="text-center w-[80%] text-gray-700 text-sm mt-3">
+      <div className="text-center w-[80%] helper text-sm mb-3">
         Rs.{values[0]} — Rs.{values[1]}
         
       </div>

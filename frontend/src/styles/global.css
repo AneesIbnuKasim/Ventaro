@@ -76,6 +76,8 @@ html.dark {
   --border-color: #1e293b;
   --card-border-color: #1e293b;
 
+  --color-primary: #6366f1;
+
   /* input */
   --input-bg: #020617;
   --input-text: #f8fafc;
@@ -225,6 +227,10 @@ html.dark {
   .border-card-theme {
     border-color: var(--card-border-color);
   }
+
+  .menu-text:hover {
+    color: var(--color-primary);
+  }
 }
 
 
@@ -274,5 +280,102 @@ html.dark {
 
   .input-success {
     border-color: var(--color-success);
+  }
+}
+
+
+
+/* MOBILE RESPONSIVE <=640 */
+
+@media (max-width: 640px) {
+  /* Base */
+  html {
+    font-size: 14px;
+  }
+
+  body {
+    line-height: 1.5;
+  }
+
+  /* Headings */
+  .display-heading {
+    font-size: clamp(1.75rem, 8vw, 2.5rem);
+  }
+
+  .h1 {
+    font-size: 1.5rem;
+  }
+
+  .h2 {
+    font-size: 1.25rem;
+  }
+
+  .h3 {
+    font-size: 1.125rem;
+  }
+
+  /* Text helpers */
+  .helper,
+  .meta-text {
+    font-size: 0.75rem;
+  }
+
+  /* Cards */
+  .bg-card {
+    padding: 0.75rem;
+    border-radius: var(--radius-md);
+  }
+
+  .bg-inner-card {
+    padding: 0.75rem;
+  }
+
+  /* Product */
+  .product-title {
+    font-size: 0.875rem;
+    -webkit-line-clamp: 2;
+  }
+
+  .price {
+    font-size: 1.125rem;
+  }
+
+  .old-price {
+    font-size: 0.75rem;
+  }
+
+  /* Inputs */
+  .input,
+  .search-input {
+    padding: 0.75rem 0.875rem;
+    font-size: 0.875rem;
+  }
+
+  /* Scrollbar (hide on mobile) */
+  .scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+
+
+   /* TABLET RESPONSIVE (641px – 1024px) */
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  html {
+    font-size: 15px;
+  }
+
+  .display-heading {
+    font-size: clamp(2rem, 6vw, 3rem);
+  }
+
+  .product-title {
+    font-size: 0.95rem;
+  }
+
+  .input,
+  .search-input {
+    font-size: 0.9rem;
   }
 }

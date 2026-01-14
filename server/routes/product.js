@@ -7,6 +7,7 @@ const router = express.Router()
 
 //admin product routes
 router.get('/', ProductController.getProducts)
+router.get('/featured', ProductController.fetchHomePageProducts)
 // router.get('/',()=> console.log('get products'))
 
 //admin product routes

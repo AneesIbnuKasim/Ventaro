@@ -112,6 +112,9 @@ class ProductService {
       sortOrder = sortOrder === "asc" ? 1 : -1;
       const sortObj = { [sortBy]: sortOrder };
 
+      console.log('sort-obj', sortObj);
+      
+
       const currentPage = page || 1;
       const productPerPage = limit || 6;
       const skipValue = (currentPage - 1) * productPerPage;
@@ -121,6 +124,7 @@ class ProductService {
 
       const products = await Product.find(filter)
         .sort(sortObj)
+        .collation({ locale: "en", strength: 2 })
         .skip(skipValue)
         .limit(limit);
       return {
@@ -165,8 +169,20 @@ class ProductService {
     }
   };
 
+  // GET FEATURED/BEST SELLER PRODUCTS
+  static fetchHomePageProducts = async () => {
+    try {
+      const featuredProducts = await Product.find({isFeatured: true})
+
+      return { featuredProducts }
+    } catch (error) {
+      logger.error("Error fetching product")
+      throw error
+    }
+  };
+
   //TOGGLE PRODUCT STATUS
-static toggleProductStatus = async(productId) => {
+  static toggleProductStatus = async(productId) => {
   try {
         const product = await Product.findById(productId)
         if (!product) return new NotFoundError('Product not found')

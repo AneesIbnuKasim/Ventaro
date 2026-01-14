@@ -63,13 +63,13 @@ useEffect(() => {
                 className="bg-inner-card rounded-2xl p-6 shadow-sm"
               >
                 {/* ORDER HEADER */}
-                <div className="flex justify-between items-center pb-4 mb-4">
+                <div className="flex gap-3 sm:justify-between items-center pb-4 mb-4">
                   <div>
                     <p className="text-sm helper">Order ID</p>
                     <p className="font-medium">{order.orderId}</p>
                   </div>
 
-                  <div className="text-sm helper">
+                  <div className="text-sm text-secondary">
                     Placed on {new Date(order.createdAt).toDateString()}
                   </div>
                 </div>

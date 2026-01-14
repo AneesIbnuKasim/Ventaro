@@ -3,22 +3,26 @@ import { makeRequest } from "../utils/apiClient";
 
 export const productAPI = {
   getAllProduct: (params = {}) => {
-    console.log("get all products:", params);
-
     return makeRequest({
       method: "get",
       url: `api/products`,
       params,
-    });
+    })
   },
 
   fetchProductByCategory: (category, params = {}) => {
-    console.log("search in api:", params);
-
     return makeRequest({
       method: "get",
       url: `api/products/${category}`,
       params,
+    });
+  },
+
+  //FETCH SLIDER PRODUCTS FOR HOME PAGE
+  fetchHomePageProducts: () => {
+    return makeRequest({
+      method: "get",
+      url: `api/products/featured`,
     });
   },
 

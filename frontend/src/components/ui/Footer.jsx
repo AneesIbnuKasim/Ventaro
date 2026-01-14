@@ -45,10 +45,10 @@ const Footer = memo(() => {
 
   return (
     <footer className="w-full bg-gray-200 shadow-md pt-14 dark:bg-[var(--color-bg-card)]">
-      <div className="max-w-[1440px] mx-auto px-4 md:px-10">
+      <div className="max-w-360 mx-auto px-4 md:px-10">
 
         {/* TOP Section */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-10 pb-10">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-10 pb-10">
 
           {/* BRAND INFO */}
           <div>

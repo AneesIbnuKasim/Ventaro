@@ -5,6 +5,7 @@ import ProductCard from "../components/ui/ProductCard";
 import { fetchWishlistThunk } from "../redux/slices/wishlistSlice";
 import { HeartOff } from "lucide-react";
 import { Button } from "../components/ui";
+import ProductsGridSkeleton from "../components/ui/ProductGridSkeleton";
 
 const Wishlist = () => {
   const dispatch = useDispatch();
@@ -25,16 +26,8 @@ const handleClick = (id) => {
 
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 py-10">
-        <h1 className="text-xl font-semibold mb-6">My Wishlist</h1>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[...Array(6)].map((_, i) => (
-            <div
-              key={i}
-              className="h-64 bg-slate-200 animate-pulse rounded-xl"
-            />
-          ))}
-        </div>
+      <div className="py-10 px-4">
+        <ProductsGridSkeleton length={6} />
       </div>
     );
   }
@@ -66,7 +59,7 @@ const handleClick = (id) => {
         My Wishlist ({wishlist.length})
       </h1>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
         {wishlist.map((product) => (
           <ProductCard key={product._id} product={product} handleClick={handleClick} />
         ))}

@@ -116,7 +116,9 @@ const ProductList = memo(() => {
       <ProductNotFound content= 'Product not found' sub='Please use other filters...' />
     </div>
   ) : (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-2">
+    <div className="grid 
+    items-stretch
+    grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-6 p-2">
       {products.map((item) => (
         <ProductCard
           key={item._id}

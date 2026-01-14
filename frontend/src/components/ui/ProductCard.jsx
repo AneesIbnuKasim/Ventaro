@@ -54,14 +54,14 @@ const ProductCard = memo(({ product, handleClick=()=>console.log('clicked'), but
   
 
   return (
-    <div className="max-w-65 min-h-100 rounded-xl border border-card-theme  p-4 shadow-md hover:shadow-xl transition cursor-pointer
+    <div className=" min-h-100 rounded-xl border border-card-theme p-4 shadow-md hover:shadow-xl transition cursor-pointer
     bg-card ">
       
       {/* --- TOP BADGE + WISHLIST ICON --- */}
       <div className="flex items-start justify-between">
         <WishlistButton productId={_id} />
         {originalPrice && (
-          <span className="bg-green-500 text-white text-xs font-medium px-3 py-[2px] rounded-md">
+          <span className="bg-green-500 text-white text-xs font-medium px-3 py-0.5 rounded-md">
             {(((originalPrice-sellingPrice)/originalPrice)*100).toFixed()}% OFF
           </span>
         )}

@@ -13,7 +13,7 @@ import { fetchWishlistThunk } from "../../redux/slices/wishlistSlice";
 import { toggleTheme } from "../../redux/slices/themeSlice";
 
 export default function Navbar({
-  logo = "Logo",
+  logo = "Ventaro",
   showProfile = true,
   showWishlist = true,
   showBag = true,
@@ -59,8 +59,8 @@ export default function Navbar({
 
   return (
     <>
-      <nav className="w-full shadow-lg sticky top-0 z-50 dark:bg-[var(--color-bg-primary)]">
-        <div className="max-w-[1440px] mx-auto px-4 h-18 flex items-center justify-between gap-4">
+      <nav className="w-full shadow-lg sticky top-0 z-50 bg-card">
+        <div className="max-w-360 mx-auto px-4 h-18 flex items-center justify-between gap-4">
           {/* LEFT: Mobile menu + Logo */}
           <div className="flex items-center gap-3">
             <button className="lg:hidden" onClick={() => setMenuOpen(true)}>
@@ -68,12 +68,7 @@ export default function Navbar({
             </button>
 
             <div className="flex items-center gap-2 cursor-pointer">
-              <div className="bg-blue-500 p-2 rounded-lg">
-                {/* Default logo icon */}
-                <svg width="20" height="20" fill="white" viewBox="0 0 24 24">
-                  <path d="M12 2L2 7l10 5 10-5-10-5zm0 7.5L2 5l10 5 10-5-10 4.5z" />
-                </svg>
-              </div>
+              <img width={40} src="LOGO.svg" alt="" />
 
               <span className="font-semibold text-lg hidden sm:block">
                 {logo}
@@ -88,7 +83,7 @@ export default function Navbar({
               {categories?.map((cat) => (
                 <li
                   key={cat}
-                  className="cursor-pointer hover:text-gray-700"
+                  className="cursor-pointer menu-text"
                   onClick={() => navigateToCategory(cat)}
                 >
                   {cat.toUpperCase()}

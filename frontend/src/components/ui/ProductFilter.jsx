@@ -7,7 +7,7 @@ import SortFilter from "./SortFilter";
 
 function ProductFilter({ resetAll, filters, setFilters, allCategories }) {
   return (
-    <aside className="w-full p-5 bg-white shadow-md">
+    <aside className="w-full p-5 shadow-md bg-inner-card">
       {/* Header */}
       <div className="flex justify-between items-center mb-3">
         <h3 className="font-semibold text-[18px]">FILTERS</h3>

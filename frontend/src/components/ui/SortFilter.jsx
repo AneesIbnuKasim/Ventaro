@@ -5,16 +5,16 @@ import { IoMdArrowRoundDown, IoMdArrowRoundUp } from "react-icons/io";
 function SortFilter({ setFilters, filters }) {
   const sortValue = [
     {
+      label: "Relevant",
+      value: "createdAt",
+    },
+    {
       label: "Name",
       value: "name",
     },
     {
       label: "Price",
-      value: "price",
-    },
-    {
-      label: "Relevant",
-      value: "createdAt",
+      value: "sellingPrice",
     },
   ];
 
@@ -35,7 +35,7 @@ function SortFilter({ setFilters, filters }) {
           value: s.value,
           label: s.label,
         }))}
-        placeholder= 'Select'
+        placeholder= ''
         onChange={handleSortChange}
         value={filters.sortBy}
         className="ml-1 flex-1"

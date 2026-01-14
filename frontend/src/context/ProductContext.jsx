@@ -8,13 +8,11 @@ import {
   useReducer,
   useRef,
   useState,
-} from "react";
+} from "react"
 import { toast } from "react-toastify";
 import { productAPI } from "../services/productService";
 import useDebounce from "../hooks/useDebounce";
 import useSyncedReducer from "../hooks/useSyncReducer";
-import { clearTokens, getAuthToken } from "../utils/apiClient";
-import { useAdmin } from "./AdminContext";
 import { useLocation } from "react-router-dom";
 
 const ProductContext = createContext();
@@ -23,6 +21,8 @@ const initialState = {
   loading: false,
   error: null,
   products: [],
+  featuredProducts: [],
+  bestSellerProducts: [],
   filters: {
     search: "",
     minPrice: "",
@@ -43,6 +43,7 @@ const initialState = {
 const PRODUCT_ACTIONS = {
   SET_LOADING: "SET_LOADING",
   SET_PRODUCT: "SET_PRODUCTS",
+  SET_HOMEPAGE_PRODUCTS: "SET_HOMEPAGE_PRODUCTS",
   ADD_PRODUCT: "ADD_PRODUCT",
   UPDATE_PRODUCT: "UPDATE_PRODUCT",
   DELETE_PRODUCT: "DELETE_PRODUCT",
@@ -109,6 +110,14 @@ const ProductReducer = (state, action) => {
         loading: false,
       };
 
+    case PRODUCT_ACTIONS.SET_HOMEPAGE_PRODUCTS:
+      return {
+        ...state,
+        featuredProducts: action.payload.featuredProducts || [],
+        bestSellerProducts: action.payload.bestSellerProducts || [],
+        loading: false,
+      };
+
     case PRODUCT_ACTIONS.ADD_PRODUCT:
       return {
         ...state,
@@ -144,12 +153,14 @@ const ProductReducer = (state, action) => {
       };
 
     case PRODUCT_ACTIONS.TOGGLE_STATUS:
-      console.log('pay', action.payload);
-      
+      console.log("pay", action.payload);
+
       return {
         ...state,
         products: state.products.map((product) =>
-          product._id === action.payload._id ? {...product, status: action.payload.status} : product
+          product._id === action.payload._id
+            ? { ...product, status: action.payload.status }
+            : product
         ),
         loading: false,
       };
@@ -183,13 +194,15 @@ export const ProductProvider = ({ children }) => {
         "category",
       ],
       paginationKeys: ["page", "limit"],
-      routes: ["/products", "/search"]
+      routes: ["/products", "/search"],
     }
   );
 
   const debouncedSearch = useDebounce(state.filters.search, 500);
+
   const { category, sortBy, sortOrder, minPrice, maxPrice, rating } =
     state.filters;
+    const { featuredProducts, bestSellerProducts } = state
   const { page, limit } = state.pagination;
 
   useEffect(() => {
@@ -276,7 +289,7 @@ export const ProductProvider = ({ children }) => {
       try {
         dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
 
-        console.log('in prod', category);
+        console.log("in prod", category);
 
         const response = await productAPI.fetchProductByCategory(category, {
           sortBy,
@@ -326,18 +339,17 @@ export const ProductProvider = ({ children }) => {
       try {
         dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
 
-        const res = await productAPI.fetchSearch({ 
+        const res = await productAPI.fetchSearch({
           search,
           sortBy,
           sortOrder,
           minPrice,
           maxPrice,
           rating,
-          category
-         });
+          category,
+        });
 
-         console.log('search response :', res);
-         
+        console.log("search response :", res);
 
         dispatch({
           type: PRODUCT_ACTIONS.SET_PRODUCT,
@@ -358,6 +370,31 @@ export const ProductProvider = ({ children }) => {
     },
     [category, rating, sortBy, sortOrder, minPrice, maxPrice, page, limit]
   );
+
+  //FETCH FEATURED AND BEST SELLERS
+  const fetchHomePageProducts = useCallback(async () => {
+    try {
+      dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
+
+      const response = await productAPI.fetchHomePageProducts();
+
+      console.log('fetch featured', response);
+      
+
+      dispatch({
+        type: PRODUCT_ACTIONS.SET_HOMEPAGE_PRODUCTS,
+        payload: {
+          featuredProducts: response.data.featuredProducts,
+          bestSellerProducts: response?.data?.bestSellerProducts,
+        },
+      });
+    } catch (error) {
+      dispatch({
+        type: PRODUCT_ACTIONS.SET_ERROR,
+        payload: { error: error.message },
+      });
+    }
+  }, []);
 
   const addProduct = useCallback(async (ProductData) => {
     try {
@@ -435,16 +472,22 @@ export const ProductProvider = ({ children }) => {
     try {
       dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
 
-      const response = await productAPI.fetchSingleProduct({productId, userId});
+      const response = await productAPI.fetchSingleProduct({
+        productId,
+        userId,
+      });
 
-      console.log('fetch single response', response.data);
-      
+      console.log("fetch single response", response.data);
 
       dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: false });
 
       setProduct(response.data.product);
 
-      return { success: true, hasPurchased:response.data.hasPurchased, hasReviewed: response.data.hasReviewed };
+      return {
+        success: true,
+        hasPurchased: response.data.hasPurchased,
+        hasReviewed: response.data.hasReviewed,
+      };
     } catch (error) {
       dispatch({
         type: PRODUCT_ACTIONS.SET_ERROR,
@@ -458,13 +501,13 @@ export const ProductProvider = ({ children }) => {
   //TOGGLE PRODUCT STATUS
   const toggleProductStatus = useCallback(async (productId) => {
     try {
-      const response = await productAPI.toggleProductStatus(productId)
+      const response = await productAPI.toggleProductStatus(productId);
 
-      console.log('fetch status response', response.data)
-      
-      dispatch({ type: PRODUCT_ACTIONS.TOGGLE_STATUS, payload: response.data })
-      toast.success('Product status changed successfully')
-      return { success: true}
+      console.log("fetch status response", response.data);
+
+      dispatch({ type: PRODUCT_ACTIONS.TOGGLE_STATUS, payload: response.data });
+      toast.success("Product status changed successfully");
+      return { success: true };
     } catch (error) {
       dispatch({
         type: PRODUCT_ACTIONS.SET_ERROR,
@@ -476,29 +519,27 @@ export const ProductProvider = ({ children }) => {
   }, []);
 
   //SUBMIT REVIEW AND COMMENT
-  const submitReview = useCallback(async(values) => {
+  const submitReview = useCallback(async (values) => {
     try {
       dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
 
-      const response = await productAPI.submitReview(values)
+      const response = await productAPI.submitReview(values);
 
-      console.log('review respo:', response);
-      
+      console.log("review respo:", response);
 
-      dispatch({ type: PRODUCT_ACTIONS.UPDATE_PRODUCT, payload: response.data });
-      
+      dispatch({
+        type: PRODUCT_ACTIONS.UPDATE_PRODUCT,
+        payload: response.data,
+      });
 
-      toast.success(response.message)
+      toast.success(response.message);
 
       return { success: true };
-      
     } catch (error) {
-       console.log(error);
+      console.log(error);
       return { success: false, error: error.message };
     }
-
-    
-  })
+  });
 
   //LOAD NOT LOGGED IN USER CART FROM LOCAL STORAGE
   const loadCart = () => {
@@ -577,7 +618,6 @@ export const ProductProvider = ({ children }) => {
   //   }
   // }, []);
 
-
   const values = useMemo(
     () => ({
       products: state.products,
@@ -590,6 +630,8 @@ export const ProductProvider = ({ children }) => {
       updateProduct,
       deleteProduct,
       fetchSingleProduct,
+      fetchHomePageProducts,
+      featuredProducts,
       toggleProductStatus,
       // handleAddToCart,
       resetAllFilters,
@@ -604,7 +646,7 @@ export const ProductProvider = ({ children }) => {
       fetchSearch,
       searchSuggestion,
       loadCart,
-      submitReview
+      submitReview,
     }),
     [
       state.products,
@@ -617,6 +659,8 @@ export const ProductProvider = ({ children }) => {
       updateProduct,
       deleteProduct,
       fetchSingleProduct,
+      fetchHomePageProducts,
+      featuredProducts,
       toggleProductStatus,
       // handleAddToCart,
       resetAllFilters,
@@ -630,7 +674,7 @@ export const ProductProvider = ({ children }) => {
       fetchSearch,
       searchSuggestion,
       loadCart,
-      submitReview
+      submitReview,
     ]
   );
 

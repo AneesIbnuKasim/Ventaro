@@ -82,6 +82,10 @@ const ProductSchema = mongoose.Schema(
       isFeatured: {
     type: Boolean,
     default: false
+  },
+  totalSold: {
+    type: Number,
+    default: 0
   }
   },
   { timestamps: true }

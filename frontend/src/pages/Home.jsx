@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -21,7 +21,7 @@ const Home = memo(() => {
   const navigate = useNavigate();
   const navigateWithReset = useNavigateWithReset();
 
-  const { fetchProduct, fetchSingleProduct, products, setGlobalCategory } =
+  const { fetchProduct, fetchSingleProduct, products, setGlobalCategory, fetchHomePageProducts, featuredProducts } =
     useProduct();
   const { categories, fetchCategories } = useCategory();
 
@@ -61,6 +61,11 @@ const Home = memo(() => {
     navigate(`/product/${id}`);
   };
 
+  // FEATURED PRODUCTS
+  useEffect(() => {
+    fetchHomePageProducts()
+  }, [])
+
   if (products.length === 0 ) {
     return <HomeSkelton />
   }
@@ -84,7 +89,7 @@ const Home = memo(() => {
           {categories.map((cat) => (
             <div
               key={cat._id}
-              className="flex flex-col items-center min-w-[90px] cursor-pointer"
+              className="flex flex-col items-center min-w-22.5 cursor-pointer"
               onClick={() => navigateToCategory(cat.name)}
             >
               <div
@@ -116,7 +121,7 @@ const Home = memo(() => {
         {products.length > 0 && (
           <Slider
             title="Featured Products"
-            items={products}
+            items={featuredProducts.slice(0,9)}
             renderItem={(item) => <ProductCard product={item} />}
             handleClick={handleProductClick}
           />
