@@ -4,7 +4,8 @@ import axios from "axios";
 
 export const wishlistAPI = {
   //ADD/REMOVE FROM WISHLIST
-  toggleWishlist: (productId) => {
+  toggleWishlist: (data) => {
+    const { productId } = data
     return makeRequest({
       method: "post",
       url: `api/user/wishlist/${productId}`

@@ -13,12 +13,11 @@ const Wishlist = () => {
 
   const { items: wishlist, loading } = useSelector(
     (state) => state.wishlist
-  );
+  )
 
   useEffect(() => {
-    dispatch(fetchWishlistThunk());
-  }, [dispatch]);
-
+    dispatch(fetchWishlistThunk())
+  }, [dispatch])
 
 const handleClick = (id) => {
      navigate(`/product/${id}`)
@@ -61,7 +60,9 @@ const handleClick = (id) => {
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
         {wishlist.map((product) => (
-          <ProductCard key={product._id} product={product} handleClick={handleClick} />
+          <div className="relative bg-red-500 ">
+            <ProductCard key={product._id} product={product} handleClick={handleClick} buttons={true} buttonText={['MOVE TO CART', 'REMOVE']} wishlistPage={true} />
+          </div>
         ))}
       </div>
     </div>

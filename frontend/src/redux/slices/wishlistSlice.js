@@ -3,9 +3,9 @@ import { wishlistAPI } from "../../services/wishlistService";
 
 export const toggleWishlistThunk = createAsyncThunk(
   "wishlist/toggle",
-  async (productId, { rejectWithValue }) => {
+  async (data, { rejectWithValue }) => {
     try {
-      const response = await wishlistAPI.toggleWishlist(productId)
+      const response = await wishlistAPI.toggleWishlist(data)
 console.log('tog res', response);
 
       return response.data
@@ -42,9 +42,9 @@ const wishlistSlice = createSlice({
   extraReducers: (builder) => {
     builder
       //TOGGLE WISHLIST
-       .addCase(toggleWishlistThunk.pending, (state) => {
-  state.loading = true;
-})
+//        .addCase(toggleWishlistThunk.pending, (state) => {
+//   state.loading = true;
+// })
 
 .addCase(toggleWishlistThunk.fulfilled, (state, action) => {
   state.loading = false;

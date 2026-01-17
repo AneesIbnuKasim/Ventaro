@@ -58,7 +58,7 @@ const SearchPage = memo(() => {
     <>
         <div className="flex ml-0 m-2">
           {/* filters */}
-          <div className="w-[20%]">
+          <div className="w-[50%] md:w-[40%] lg:w-[25%]">
             <ProductFilter
               filters={filters}
               setFilters={setFilters}
@@ -97,7 +97,7 @@ const SearchPage = memo(() => {
 
                 {/* GRID / EMPTY STATE */}
                 { !loading && products.length > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-2">
+                  <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-6 p-2">
                     {products.map((item) => (
                       <ProductCard
                         key={item._id}

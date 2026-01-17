@@ -283,7 +283,10 @@ html.dark {
   }
 }
 
-
+.card:hover {
+  transform: translate(-4px) scale(1.01);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4)
+}
 
 /* MOBILE RESPONSIVE <=640 */
 

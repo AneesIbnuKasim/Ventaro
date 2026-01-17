@@ -165,9 +165,6 @@ const cartSlice = createSlice({
       })
 
       //REMOVE ITEM FROM CART
-      .addCase(removeFromCartThunk.pending, (state) => {
-        state.loading = true;
-      })
       .addCase(removeFromCartThunk.fulfilled, (state, action) => {
         console.log("action.tremove from cart.payload", action.payload);
 

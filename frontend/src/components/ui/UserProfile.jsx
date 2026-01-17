@@ -18,7 +18,7 @@ const UserProfile = ({
         size={avatarSize} 
         className={isVertical ? 'mx-auto mb-3' : 'me-3'} 
       />
-      <div className={isVertical ? '' : 'flex-grow-1'}>
+      <div className={isVertical ? '' : 'grow'}>
         <h5 className={isVertical ? 'mb-1' : 'mb-0'}>{user?.name}</h5>
         <p className={`text-muted ${isVertical ? 'mb-3' : 'mb-0 small'}`}>
           {user?.email}

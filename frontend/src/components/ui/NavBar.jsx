@@ -34,8 +34,9 @@ export default function Navbar({
 
   const { logout } = useAuth();
   const [open, setOpen] = useState(false);
-  const categories = allCategories?.slice(0,5)
+  const categories = allCategories?.slice(1,5)
   categories?.unshift('Home')
+  // categories?.pull('Air conditioner')
 
   useEffect(() => {
     if ( allCategories?.length === 0 || !allCategories) {
@@ -123,9 +124,9 @@ export default function Navbar({
               {/* THEME ICON */}
             {
               mode === 'light' ? (
-                <ToggleLeft size={22} className={`cursor-pointer text-${wishlist.length>0 ? 'red-500' : ''}`} onClick={() => dispatch(toggleTheme())} />
+                <ToggleLeft size={22} className={`cursor-pointer`} onClick={() => dispatch(toggleTheme())} />
               ) :
-              <ToggleRight size={22} className={`cursor-pointer text-${wishlist.length>0 ? 'red-500' : ''}`} onClick={() => dispatch(toggleTheme())} />
+              <ToggleRight size={22} className={`cursor-pointer text-red-500`} onClick={() => dispatch(toggleTheme())} />
             }
               
             <div className="relative group inline-block">
@@ -189,7 +190,7 @@ export default function Navbar({
 
       {/* MOBILE SIDE MENU */}
       <div
-        className={`fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-50 transition-transform duration-300 ${
+        className={`fixed top-0 left-0 h-full w-64 bg-card shadow-lg z-50 transition-transform duration-300 ${
           menuOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >

@@ -8,8 +8,10 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import WishlistButton from "./wishlistButton";
 import { API_CONFIG } from "../../config/app";
+import Button from "./Button";
+import { toggleWishlistThunk } from "../../redux/slices/wishlistSlice";
 
-const ProductCard = memo(({ product, handleClick=()=>console.log('clicked'), buttons=false}) => {
+const ProductCard = memo(({ product, handleClick=()=>console.log('clicked'), buttons=false, buttonText= ['ADD TO CART', 'BUY NOW'], wishlistPage=false }) => {
   const {
     _id,
     name,
@@ -31,11 +33,23 @@ const ProductCard = memo(({ product, handleClick=()=>console.log('clicked'), but
 
     const addToCart = () => {
       dispatch(addCartThunk({ productId:_id, quantity: 1 })).unwrap()
-      toast.success('Product added to cart')
+      if (wishlistPage) {
+        dispatch(toggleWishlistThunk({productId: _id}))
+        toast.success('Product moved to cart')
+      }
+      else toast.success('Product added to cart')
     }
-  
-  const handleBuyNow = () => {
-    dispatch(setCheckoutItems([
+  const handleBuyNow = async() => {
+    if (wishlistPage) {
+      try {
+        const res = await dispatch(toggleWishlistThunk({productId: _id})).unwrap()
+      toast.success('Product removed from wishlist!')
+      } catch (error) {
+        toast.error(error?.message)
+      }
+    }
+    else {
+      dispatch(setCheckoutItems([
       {
         product: {
           _id,
@@ -48,14 +62,14 @@ const ProductCard = memo(({ product, handleClick=()=>console.log('clicked'), but
         itemTotal: sellingPrice,
       }
     ]));
-  
     navigate("/checkout?mode=buynow");
+    }
   };
   
 
   return (
     <div className=" min-h-100 rounded-xl border border-card-theme p-4 shadow-md hover:shadow-xl transition cursor-pointer
-    bg-card ">
+    bg-card card">
       
       {/* --- TOP BADGE + WISHLIST ICON --- */}
       <div className="flex items-start justify-between">
@@ -65,13 +79,8 @@ const ProductCard = memo(({ product, handleClick=()=>console.log('clicked'), but
             {(((originalPrice-sellingPrice)/originalPrice)*100).toFixed()}% OFF
           </span>
         )}
-
       </div>
-
       <div onClick={()=>handleClick(_id)}>
-
-      
-
       {/* --- PRODUCT IMAGE --- */}
       <div className="w-full flex justify-center my-4">
         <img
@@ -82,7 +91,7 @@ const ProductCard = memo(({ product, handleClick=()=>console.log('clicked'), but
       </div>
 
       {/* --- PRODUCT TITLE --- */}
-      <h3 className="font-semibold text-[15px] leading-tight">
+      <h3 className="font-semibold text-[15px] leading-tight product-title">
         {name}
       </h3>
       <span className="helper leading-tight">
@@ -109,13 +118,13 @@ const ProductCard = memo(({ product, handleClick=()=>console.log('clicked'), but
 </div>
 
       {/* BUTTONS */}
-             {buttons && (
+             {buttons  && buttonText && (
                <div className="flex gap-2 mt-6">
           <button onClick={()=>addToCart()} type="button" className='flex-1 outline-none text-xs px-3 py-2 text-white rounded-lg bg-violet-500 hover:bg-violet-700 whitespace-nowrap'>
-             ADD TO CART
+             {buttonText[0]}
           </button>
           <button onClick={handleBuyNow} type="button" className='flex-1 text-xs outline-none px-4 py-2 text-white rounded-lg bg-yellow-500 hover:bg-yellow-700 whitespace-nowrap '>
-             BUY NOW
+             {buttonText[1]}
           </button>
         </div>
              )}

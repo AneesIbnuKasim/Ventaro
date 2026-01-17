@@ -11,7 +11,7 @@ const WishlistButton = ({productId, className='', heartClass=''}) => {
 
   const handleClick = (e) => {
     e.stopPropagation();
-    dispatch(toggleWishlistThunk(productId));
+    dispatch(toggleWishlistThunk({productId}));
   };
 
   return (
