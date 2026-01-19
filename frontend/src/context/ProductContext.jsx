@@ -8,7 +8,7 @@ import {
   useReducer,
   useRef,
   useState,
-} from "react"
+} from "react";
 import { toast } from "react-toastify";
 import { productAPI } from "../services/productService";
 import useDebounce from "../hooks/useDebounce";
@@ -19,6 +19,7 @@ const ProductContext = createContext();
 
 const initialState = {
   loading: false,
+  loadingMore: false,
   error: null,
   products: [],
   featuredProducts: [],
@@ -42,6 +43,7 @@ const initialState = {
 
 const PRODUCT_ACTIONS = {
   SET_LOADING: "SET_LOADING",
+  SET_LOADING_MORE: "SET_LOADING_MORE",
   SET_PRODUCT: "SET_PRODUCTS",
   SET_HOMEPAGE_PRODUCTS: "SET_HOMEPAGE_PRODUCTS",
   ADD_PRODUCT: "ADD_PRODUCT",
@@ -52,6 +54,7 @@ const PRODUCT_ACTIONS = {
   CLEAR_FILTERS: "CLEAR_FILTERS",
   SET_PAGINATION: "SET_PAGINATION",
   SET_ALL_CATEGORIES: "SET_ALL_CATEGORIES",
+  SET_ERROR: "SET_ERROR",
   CLEAR_ERROR: "CLEAR_ERROR",
 };
 
@@ -73,6 +76,12 @@ const ProductReducer = (state, action) => {
     case PRODUCT_ACTIONS.SET_LOADING:
       return { ...state, loading: action.payload, error: null };
 
+    case PRODUCT_ACTIONS.SET_LOADING_MORE:
+      return {
+        ...state,
+        loadingMore: action.payload,
+      };
+
     case PRODUCT_ACTIONS.SET_FILTERS:
       return {
         ...state,
@@ -87,7 +96,7 @@ const ProductReducer = (state, action) => {
       };
 
     case PRODUCT_ACTIONS.SET_ERROR:
-      return { ...state, error: action.payload.error, loading: false };
+      return { ...state, error: action.payload.error, loading: false, loadingMore: false };
 
     case PRODUCT_ACTIONS.CLEAR_FILTERS:
       return {
@@ -100,14 +109,18 @@ const ProductReducer = (state, action) => {
       };
 
     case PRODUCT_ACTIONS.CLEAR_ERROR:
-      return { ...state, error: null, loading: false };
+      return { ...state, error: null, loading: false, loadingMore: false };
 
     case PRODUCT_ACTIONS.SET_PRODUCT:
       return {
         ...state,
-        products: action.payload.products || [],
+        products:
+          state.pagination.page > 1
+            ? [...state.products, ...(action.payload.products || [])]
+            : action.payload.products || [],
         pagination: action.payload.pagination || state.pagination,
         loading: false,
+        loadingMore: false
       };
 
     case PRODUCT_ACTIONS.SET_HOMEPAGE_PRODUCTS:
@@ -153,8 +166,6 @@ const ProductReducer = (state, action) => {
       };
 
     case PRODUCT_ACTIONS.TOGGLE_STATUS:
-      console.log("pay", action.payload);
-
       return {
         ...state,
         products: state.products.map((product) =>
@@ -177,32 +188,36 @@ export const ProductProvider = ({ children }) => {
   const [product, setProduct] = useState();
   const [globalCategory, setGlobalCategory] = useState();
   const [allCategories, setAllCategories] = useState();
+  //flag for infinite scroll
+  const [isInfinite, setIsInfinite] = useState(false);
   const location = useLocation();
 
-  const [state, dispatch] = useSyncedReducer(
-    ProductReducer,
-    initialState,
-    true,
-    {
-      filterKeys: [
-        "search",
-        "sortBy",
-        "sortOrder",
-        "rating",
-        "minPrice",
-        "maxPrice",
-        "category",
-      ],
-      paginationKeys: ["page", "limit"],
-      routes: ["/products", "/search"],
-    }
-  );
+  // const [state, dispatch] = useSyncedReducer(
+  //   ProductReducer,
+  //   initialState,
+  //   true,
+  //   {
+  //     filterKeys: [
+  //       "search",
+  //       "sortBy",
+  //       "sortOrder",
+  //       "rating",
+  //       "minPrice",
+  //       "maxPrice",
+  //       "category",
+  //     ],
+  //     paginationKeys: ["page", "limit"],
+  //     routes: ["/products", "/search"],
+  //   }
+  // );
+
+  const [state, dispatch] = useReducer(ProductReducer, initialState);
 
   const debouncedSearch = useDebounce(state.filters.search, 500);
 
   const { category, sortBy, sortOrder, minPrice, maxPrice, rating } =
     state.filters;
-    const { featuredProducts, bestSellerProducts } = state
+  const { featuredProducts, bestSellerProducts } = state;
   const { page, limit } = state.pagination;
 
   useEffect(() => {
@@ -212,15 +227,47 @@ export const ProductProvider = ({ children }) => {
     }
   }, [state.error]);
 
+  useEffect(() => {
+    if (!location.pathname.includes("/search")) return;
+
+    const run = async () => {
+      dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
+      await fetchSearch(state.filters.search);
+    };
+
+    run();
+  }, [
+    location.pathname,
+    state.filters.search,
+    category,
+    rating,
+    sortBy,
+    sortOrder,
+    minPrice,
+    maxPrice,
+    limit,
+  ]);
+
+  //pagination infinite scroll
+  useEffect(() => {
+  if (!location.pathname.includes("/search")) return;
+  if (state.pagination.page === 1) return;
+
+  fetchSearch(state.filters.search);
+}, [state.pagination.page]);
+
   useLayoutEffect(() => {
-    window.scrollTo(0, 0);
-  }, [state.pagination.page]);
+    if (!isInfinite && state.pagination.page === 1) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [state.pagination.page, isInfinite]);
 
   useEffect(() => {
     console.log("all filters:", state.filters);
   }, [state.filters]);
 
   const setPagination = useCallback((payload) => {
+    console.log("pagination set:", payload);
     dispatch({ type: PRODUCT_ACTIONS.SET_PAGINATION, payload });
   }, []);
 
@@ -337,7 +384,15 @@ export const ProductProvider = ({ children }) => {
   const fetchSearch = useCallback(
     async (search) => {
       try {
-        dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
+        if (page === 1) {
+          console.log('page:=', page);
+          
+          dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
+        } else {
+          console.log('page lo:=', page);
+          dispatch({ type: PRODUCT_ACTIONS.SET_LOADING_MORE, payload: true });
+        }
+        console.log("in fetch search");
 
         const res = await productAPI.fetchSearch({
           search,
@@ -347,6 +402,8 @@ export const ProductProvider = ({ children }) => {
           maxPrice,
           rating,
           category,
+          page,
+          limit,
         });
 
         console.log("search response :", res);
@@ -357,6 +414,7 @@ export const ProductProvider = ({ children }) => {
             products: res.data.products,
             pagination: res.data.pagination,
             loading: false,
+            loadingMore: false
           },
         });
         setAllCategories(res.data.allCategories);
@@ -377,9 +435,6 @@ export const ProductProvider = ({ children }) => {
       dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
 
       const response = await productAPI.fetchHomePageProducts();
-
-      console.log('fetch featured', response);
-      
 
       dispatch({
         type: PRODUCT_ACTIONS.SET_HOMEPAGE_PRODUCTS,
@@ -622,6 +677,7 @@ export const ProductProvider = ({ children }) => {
     () => ({
       products: state.products,
       loading: state.loading,
+      loadingMore: state.loadingMore,
       error: state.error,
       pagination: state.pagination,
       fetchProduct,
@@ -647,10 +703,12 @@ export const ProductProvider = ({ children }) => {
       searchSuggestion,
       loadCart,
       submitReview,
+      setIsInfinite,
     }),
     [
       state.products,
       state.loading,
+      state.loadingMore,
       state.error,
       state.pagination,
       fetchProduct,
@@ -675,6 +733,7 @@ export const ProductProvider = ({ children }) => {
       searchSuggestion,
       loadCart,
       submitReview,
+      setIsInfinite,
     ]
   );
 

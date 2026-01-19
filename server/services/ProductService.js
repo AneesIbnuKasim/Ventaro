@@ -341,6 +341,7 @@ class ProductService {
   static fetchSearch = async (req) => {
     try {
       const { search, sortBy, sortOrder = "asc" } = req.query;
+      
 
       console.log("query:", req.query);
 
@@ -350,7 +351,7 @@ class ProductService {
       const limit = parseInt(req.query.limit) || 10;
 
       const rawCategory = req.query?.category;
-      const rawRating = req.query?.rating;
+      let rating = req.query?.rating;
 
       const categoryNames = rawCategory
         ? Array.isArray(rawCategory)
@@ -363,13 +364,18 @@ class ProductService {
         : [];
       const categoryIds = categoryDoc.map((c) => c._id);
 
-      const rating = rawRating
-        ? Array.isArray(rawRating)
-          ? rawRating.map(Number)
-          : [Number(rawRating)]
-        : [];
+      if (rating) rating = rating.split(',')
 
-      const filter = {};
+      const ratings = Array.isArray(rating)
+  ? rating.map(Number).filter(Number.isFinite)
+  : [];
+
+  console.log('ratings::', ratings);
+  
+
+  const filter = {};
+     if (ratings.length)  filter.avgRating = { $gte: Math.min(...ratings) };
+
 
       if (search)
         filter.$or = [
@@ -380,10 +386,6 @@ class ProductService {
 
       if (categoryIds.length) {
         filter.categoryId = { $in: categoryIds };
-      }
-
-      if (rating.length) {
-        filter.ratings = { $gte: Math.max(...rating) };
       }
 
       if (minPrice || maxPrice) {
@@ -399,7 +401,7 @@ class ProductService {
       const productPerPage = limit || 6;
       const skipValue = (currentPage - 1) * productPerPage;
 
-      const totalProducts = await Product.find(filter);
+      const totalProducts = await Product.countDocuments(filter);
 
       const [products, categories] = await Promise.all([
         Product.find(filter).sort(sortObj).skip(skipValue).limit(limit),
@@ -413,8 +415,8 @@ class ProductService {
         pagination: {
           page: currentPage,
           limit,
-          totalPages: Math.ceil(totalProducts.length / limit),
-          totalProducts: totalProducts.length,
+          totalPages: Math.ceil(totalProducts / limit),
+          totalProducts: totalProducts,
         },
         allCategories: categories,
       };

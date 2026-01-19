@@ -100,7 +100,7 @@
 //   return [state, dispatch];
 // }
 
-// page doesnt work
+// page doesn't work
 import { useEffect, useReducer, useRef } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -149,8 +149,7 @@ const isAllowedRoute =
 
       // array support (category)
       else if (key === "category") {
-        filters[key] = value.split(",").filter((v) => v!=='');
-
+        filters[key] = value.split(",").filter((v) => v!=='')
       }
 
       // number support (price)
@@ -159,7 +158,7 @@ const isAllowedRoute =
       } else {
         filters[key] = value;
       }
-    });
+    })
 
     paginationKeys.forEach((key) => {
       if (params.has(key)) {
@@ -197,6 +196,8 @@ const isAllowedRoute =
 
     paginationKeys.forEach((key) => {
       const value = state.pagination[key];
+      console.log('page value:', value);
+      
       if (Number.isFinite(value)) {
         params.set(key, value);
       }
@@ -205,8 +206,6 @@ const isAllowedRoute =
     for (const [key, value] of params.entries()) {
   console.log(key, value);
 }
-    
-
     const newUrl = `${location.pathname}?${params.toString()}`;
 
     window.history.replaceState({}, "", newUrl);

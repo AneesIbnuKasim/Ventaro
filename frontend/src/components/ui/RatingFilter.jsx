@@ -14,14 +14,12 @@ const RatingFilter = memo(({
 console.log('updatedRating', updatedRating);
 
     setFilters({rating: updatedRating})
-    
   }
   
   return (
     <>
             <div className="mb-8">
         <h4 className="font-medium mb-3 text-[15px]">By Rating</h4>
-
         {[5,4,3,2,1].map((star) => (
           <label
             key={star}
@@ -32,7 +30,6 @@ console.log('updatedRating', updatedRating);
                 <span key={i}>⭐</span>
               ))}
             </div>
-
             <div className="flex items-center gap-2">
               <input
                 type="checkbox"

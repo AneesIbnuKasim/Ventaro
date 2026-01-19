@@ -60,9 +60,7 @@ const handleClick = (id) => {
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
         {wishlist.map((product) => (
-          <div className="relative bg-red-500 ">
             <ProductCard key={product._id} product={product} handleClick={handleClick} buttons={true} buttonText={['MOVE TO CART', 'REMOVE']} wishlistPage={true} />
-          </div>
         ))}
       </div>
     </div>

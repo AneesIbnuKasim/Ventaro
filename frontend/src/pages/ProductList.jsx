@@ -118,7 +118,7 @@ const ProductList = memo(() => {
   ) : (
     <div className="grid 
     items-stretch
-    grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-6 p-2">
+    grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-6 p-2">
       {products.map((item) => (
         <ProductCard
           key={item._id}
@@ -130,7 +130,6 @@ const ProductList = memo(() => {
     </div>
   )}
 </div>
-
             {/* PAGINATION */}
             {!loading && pagination.totalPages > 1 && (
               <div className="mt-5 w-[70vw]">
