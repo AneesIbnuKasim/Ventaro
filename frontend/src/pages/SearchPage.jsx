@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { LoaderPinwheel, LoaderPinwheelIcon } from "lucide-react";
+import { LoaderPinwheelIcon } from "lucide-react";
 
 import ProductFilter from "../components/ui/ProductFilter";
 import ProductCard from "../components/ui/ProductCard";
@@ -11,7 +11,6 @@ import { useProduct } from "../context/ProductContext";
 import useInfiniteScroll from "../hooks/useInfiniteScroll";
 import useUrlToState from "../hooks/useUrlToState";
 import useStateToUrl from "../hooks/useStateToUrl";
-import ProductsGridSkeleton from "../components/ui/ProductGridSkeleton";
 
 const SearchPage = memo(() => {
   const [searchParams] = useSearchParams();
@@ -30,10 +29,10 @@ const SearchPage = memo(() => {
     setIsInfinite,
   } = useProduct();
 
-  // 🔁 Sync URL → State
+  //Sync URL - State
   useUrlToState(setFilters, setPagination);
 
-  // 🔁 Sync State → URL
+  //Sync State - URL
   useStateToUrl(filters, pagination);
 
   const navigate = useNavigate();
@@ -42,7 +41,7 @@ const SearchPage = memo(() => {
     navigate(`/product/${id}`);
   };
 
-  // 🔄 Infinite loader
+  //Infinite loader
   const loadMore = () => {
     if (
       loading ||

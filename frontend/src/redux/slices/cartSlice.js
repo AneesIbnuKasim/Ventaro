@@ -129,6 +129,10 @@ const cartSlice = createSlice({
     cartSyncFailed(state, action) {
       state.error = action.payload;
     },
+
+        resetCart: (state) => {
+      state.items = [];
+    }
   },
 
   extraReducers: (builder) => {
@@ -215,5 +219,5 @@ const cartSlice = createSlice({
   },
 });
 
-export const { updateQuantity, cartSynced, cartSyncFailed } = cartSlice.actions;
+export const { updateQuantity, cartSynced, cartSyncFailed, resetCart } = cartSlice.actions;
 export default cartSlice.reducer;

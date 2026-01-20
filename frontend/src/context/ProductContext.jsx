@@ -115,7 +115,7 @@ const ProductReducer = (state, action) => {
       return {
         ...state,
         products:
-          state.pagination.page > 1
+          (state.pagination.page > 1 && action.payload.isInfinite)
             ? [...state.products, ...(action.payload.products || [])]
             : action.payload.products || [],
         pagination: action.payload.pagination || state.pagination,
@@ -257,8 +257,8 @@ export const ProductProvider = ({ children }) => {
 }, [state.pagination.page]);
 
   useLayoutEffect(() => {
-    if (!isInfinite && state.pagination.page === 1) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+    if (!isInfinite ) {
+      window.scrollTo({ top: 0, behavior: "auto" });
     }
   }, [state.pagination.page, isInfinite]);
 
@@ -302,7 +302,7 @@ export const ProductProvider = ({ children }) => {
 
       dispatch({
         type: PRODUCT_ACTIONS.SET_PRODUCT,
-        payload: { products: products, pagination },
+        payload: { products: products, pagination, isInfinite: false },
       });
 
       setAllCategories(allCategories);
@@ -353,6 +353,7 @@ export const ProductProvider = ({ children }) => {
           payload: {
             products: response.data.products,
             pagination: response.data.pagination,
+            isInfinite: false
           },
         });
       } catch (error) {
@@ -414,7 +415,8 @@ export const ProductProvider = ({ children }) => {
             products: res.data.products,
             pagination: res.data.pagination,
             loading: false,
-            loadingMore: false
+            loadingMore: false,
+            isInfinite: true
           },
         });
         setAllCategories(res.data.allCategories);

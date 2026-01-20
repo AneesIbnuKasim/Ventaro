@@ -39,6 +39,9 @@ const wishlistSlice = createSlice({
     ids: [],
     loading: false,
   },
+  reducers: {
+    resetWishlist: (state) => {state.items = []},
+  },
   extraReducers: (builder) => {
     builder
       //TOGGLE WISHLIST
@@ -79,4 +82,5 @@ const wishlistSlice = createSlice({
   },
 });
 
+export const { resetWishlist } = wishlistSlice.actions
 export default wishlistSlice.reducer;

@@ -3,6 +3,7 @@ import { clearTokens, getAuthToken, getUser, setUser } from "../utils/apiClient"
 import { authAPI } from "../services";
 import { Navigate, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { resetCart } from "../redux/slices/cartSlice";
 
 
 const AuthContext = createContext()
@@ -10,7 +11,7 @@ const AuthContext = createContext()
 const AUTH_ACTIONS = {
     LOGIN_START: 'LOGIN_START',
     LOGIN_SUCCESS: 'LOGIN_SUCCESS',
-    LOGIN_FAILURE: 'LOGIN_FAILURE',
+    LOGOUT: 'LOGOUT',
     SET_LOADING: 'SET_LOADING',
     SET_ERROR: 'SET_ERROR',
     CLEAR_ERROR: 'CLEAR_ERROR',
@@ -33,7 +34,10 @@ const authReducer = (state, action) => {
             error: null
         }
 
-        case AUTH_ACTIONS.LOGIN_FAILURE: 
+        case AUTH_ACTIONS.LOGOUT: return {
+            ...state,
+            isAuthenticated: false
+        }
         case AUTH_ACTIONS.SET_ERROR: return {
             ...state,
             error: action.payload,
@@ -90,11 +94,13 @@ export const AuthProvider = ({children}) => {
         console.log('in logout');
         
         clearTokens()
+        dispatch({ type: AUTH_ACTIONS.LOGOUT})
+
         setTimeout(() => {
             navigate('/', {replace: true})
             toast.success('Logged out successfully')
         }, 100)
-    }, [])
+    }, [dispatch])
 
     const value = {
         user: state.user,

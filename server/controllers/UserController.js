@@ -89,7 +89,7 @@ class UserController extends BaseController {
   });
 
   static fetchWishlist = BaseController.asyncHandler(async (req, res) => {
-    const wishlist = await UserService.fetchWishlist(req.user._id);
+    const wishlist = await UserService.fetchWishlist(req?.user?._id);
     BaseController.logAction(
       "FETCH_WISHLIST",
       "Wishlist fetched successfully",

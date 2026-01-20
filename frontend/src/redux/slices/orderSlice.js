@@ -118,87 +118,87 @@ const orderSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchOrderThunk.pending, (state) => {
-        state.pending = true;
+        state.loading = true;
       })
       .addCase(fetchOrderThunk.fulfilled, (state, action) => {
-        state.pending = false;
+        state.loading = false;
         state.orders = action.payload.orders;
         state.pagination = action.payload.pagination
         
       })
       .addCase(fetchOrderThunk.rejected, (state, action) => {
-        state.pending = false;
+        state.loading = false;
         state.error = action.payload.error;
       })
 
       //FETCH SINGLE ORDER DETAILS STATE MUTATIONS
       .addCase(fetchSingleOrderThunk.pending, (state) => {
-        state.pending = true;
+        state.loading = true;
         state.selectedOrder = null; 
       })
       .addCase(fetchSingleOrderThunk.fulfilled, (state, action) => {
         console.log("single action order:", action.payload.order);
 
-        state.pending = false;
+        state.loading = false;
         state.selectedOrder = action.payload.order;
       })
       .addCase(fetchSingleOrderThunk.rejected, (state, action) => {
-        state.pending = false;
+        state.loading = false;
         state.error = action.payload.error;
       })
 
       // CANCEL ORDER STATE MUTATIONS
       .addCase(cancelOrderThunk.pending, (state) => {
-        state.pending = true;
+        state.loading = true;
       })
       .addCase(cancelOrderThunk.fulfilled, (state, action) => {
         const cancelledOrder = action.payload?.order;
         console.log("cancelled in thunk", cancelledOrder);
 
-        state.pending = false;
+        state.loading = false;
         state.orders = state.orders.map((order) =>
           order._id === cancelledOrder?._id ? cancelledOrder : order
         );
       })
       .addCase(cancelOrderThunk.rejected, (state, action) => {
-        state.pending = false;
+        state.loading = false;
         state.error = action.payload.error;
       })
      
 
       // RETURN ORDER REQUEST STATE MUTATIONS
       .addCase(returnOrderRequestThunk.pending, (state) => {
-        state.pending = true;
+        state.loading = true;
       })
       .addCase(returnOrderRequestThunk.fulfilled, (state, action) => {
         const returnOrder = action.payload?.order;
         console.log("return in thunk", returnOrder);
 
-        state.pending = false;
+        state.loading = false;
         state.orders = state.orders.map((order) =>
           order._id === returnOrder._id ? returnOrder : order
         );
       })
       .addCase(returnOrderRequestThunk.rejected, (state, action) => {
-        state.pending = false;
+        state.loading = false;
         state.error = action.payload.error;
       })
 
       // ADMIN UPDATE ORDER STATUS STATE MUTATIONS
       .addCase(updateStatusThunk.pending, (state) => {
-        state.pending = true;
+        state.loading = true;
       })
       .addCase(updateStatusThunk.fulfilled, (state, action) => {
         const updatedOrder = action.payload?.order;
         console.log("updatedOrder in thunk", updatedOrder);
 
-        state.pending = false;
+        state.loading = false;
         state.orders = state.orders.map((order) =>
           order._id === updatedOrder?._id ? updatedOrder : order
         );
       })
       .addCase(updateStatusThunk.rejected, (state, action) => {
-        state.pending = false;
+        state.loading = false;
         state.error = action.payload.error;
       }) 
   },

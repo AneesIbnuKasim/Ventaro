@@ -9,8 +9,9 @@ import { useNavigateWithReset } from "../../hooks/useNavigateWithReset";
 import { useDispatch, useSelector } from "react-redux";
 import { BiNotification } from "react-icons/bi";
 import { useAuth } from "../../context/AuthContext";
-import { fetchWishlistThunk } from "../../redux/slices/wishlistSlice";
+import { fetchWishlistThunk, resetWishlist } from "../../redux/slices/wishlistSlice";
 import { toggleTheme } from "../../redux/slices/themeSlice";
+import { resetCart } from "../../redux/slices/cartSlice";
 
 export default function Navbar({
   logo = "Ventaro",
@@ -32,8 +33,7 @@ export default function Navbar({
 
     const { mode } = useSelector(state => state.theme)
 
-  const { logout } = useAuth();
-  const [open, setOpen] = useState(false);
+  const { logout, user, isAuthenticated } = useAuth();
   const categories = allCategories?.slice(1,5)
   categories?.unshift('Home')
   // categories?.pull('Air conditioner')
@@ -46,7 +46,11 @@ export default function Navbar({
 
 
   useEffect(() => {
-    if (!items) {
+    console.log('user', user);
+    
+    if (!items && user ) {
+      console.log('in fetch wish');
+      
       fetchWishlistThunk()
     }
   }, [items])
@@ -57,6 +61,14 @@ export default function Navbar({
     cat === 'Home' ? navigate(`/`) : navigateWithReset(`/products/${cat}`)
     ;
   };
+
+  //HANDLE LOGOUT
+  const handleLogout = (e) => {
+    e.preventDefault();
+    logout();
+    dispatch(resetCart());
+  dispatch(resetWishlist());
+  }
 
   return (
     <>
@@ -137,7 +149,9 @@ export default function Navbar({
                   className="cursor-pointer"
                 />
               )}
-              <div className="absolute hidden w-25 text-center group-hover:block bg-violet-300 top-4 right-1 rounded z-100">
+             {
+              isAuthenticated && (
+                 <div className="absolute hidden w-25 text-center group-hover:block bg-violet-300 top-4 right-1 rounded z-100">
                 <NavLink className="flex flex-col w-full ">
                   <Link
                     to={"/profile/account"}
@@ -149,14 +163,15 @@ export default function Navbar({
                     to="#"
                     className="hover:bg-violet-400 rounded p-1 "
                     onClick={(e) => {
-                      e.preventDefault();
-                      logout();
+                      handleLogout(e)
                     }}
                   >
                     Logout
                   </Link>
                 </NavLink>
               </div>
+              )
+             }
             </div>
             {showWishlist && (
               <div className="relative">

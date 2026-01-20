@@ -7,11 +7,11 @@ import {
   returnOrderRequestThunk,
   setPagination,
 } from "../redux/slices/orderSlice";
-import { Pagination } from "../components/ui";
+import { Loading, Pagination } from "../components/ui";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 export default function Orders() {
-  const { orders, pagination } = useSelector((state) => state.order);
+  const { orders, pagination, loading } = useSelector((state) => state.order);
   const navigate = useNavigate()
   const dispatch = useDispatch();
 
@@ -49,9 +49,23 @@ useEffect(() => {
   navigate(`?page=${page}`, { replace: true });
 };
 
+
   return (
     <>
-      <div className="max-w-6xl mx-auto px-4 flex gap-8">
+      {
+        orders.length === 0 && !loading ? (
+          <div className="flex w-full items-center justify-center">
+            No Orders found...
+          </div>
+        ) :
+        loading ? (
+          <div>
+            <Loading />
+          </div>
+        ) :
+        (
+          <> 
+          <div className="max-w-6xl mx-auto px-4 flex gap-8">
         {/* RIGHT CONTENT */}
         <main className="flex-1">
           <h1 className="text-xl font-semibold mb-6">My Orders</h1>
@@ -94,6 +108,9 @@ useEffect(() => {
         totalItems={pagination.totalOrders}
         onPageChange={handlePageChange}
       />
+          </>
+        )
+      }
     </>
   );
 }

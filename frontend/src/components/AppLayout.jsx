@@ -11,7 +11,7 @@ const AppLayout = memo(({
     children
 }) => {
     const dispatch = useDispatch()
-    const { isAuthenticated, token } = useAuth()
+    const { isAuthenticated, token, user } = useAuth()
     useEffect(() => {
       if (token) {
         dispatch(fetchCartThunk())
@@ -19,7 +19,9 @@ const AppLayout = memo(({
     }, [token, dispatch])
 
   useEffect(() => {
-    dispatch(fetchWishlistThunk());
+    if (user) {
+      dispatch(fetchWishlistThunk())
+    }
   }, [dispatch]);
 
   //APPLY THEME ON LOAD
