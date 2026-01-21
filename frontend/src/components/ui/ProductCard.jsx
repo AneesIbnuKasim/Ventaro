@@ -27,6 +27,7 @@ const ProductCard = memo(({ product, handleClick=()=>console.log('clicked'), but
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
+console.log('images:', images);
 
 
   // useEffect(())
@@ -84,7 +85,7 @@ const ProductCard = memo(({ product, handleClick=()=>console.log('clicked'), but
       {/* --- PRODUCT IMAGE --- */}
       <div className="w-full flex justify-center my-4">
         <img
-          src={`${API_CONFIG.imageURL2}${images[0]}`}
+          src={ images[0]?.url.startsWith('http') ? images[0]?.url : `${API_CONFIG.imageURL2}${images[0]?.url}`}
           alt={name}
           className="h-40 object-contain"
         />

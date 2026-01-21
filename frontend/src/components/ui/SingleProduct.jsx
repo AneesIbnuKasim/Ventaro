@@ -28,13 +28,16 @@ export default function SingleProduct({ product = {}, avgRating = '' }) {
   
 
   const changeMainImage = (e , i) => {
-    const image = e.target.src.split('http://localhost:5001')
-    setMainImage(image[1])
+    const img = resolveImageUrl(e.target.src)
+    setMainImage(img)
   }
 
     useEffect(() => {
     setMainImage(images[0]);
   }, [product, images]);
+    useEffect(() => {
+   console.log('main img:', mainImage);
+  }, [mainImage]);
 
   const addToCart = () => {
     
@@ -61,6 +64,29 @@ const handleBuyNow = () => {
 };
 
 
+const resolveImageUrl = (image, baseUrl = "http://localhost:5001") => {
+    if (!image) return "";
+
+    // Case 1: S3 or Cloudinary object
+    if (typeof image === "object" && image.url) {
+      // If already absolute (S3), return as-is
+      console.log('new img', image.url);
+      
+      return image.url.startsWith("http")
+        ? image.url
+        : `${baseUrl}${image.url}`
+    }
+
+    // Case 2: Old string path
+    if (typeof image === "string") {
+      console.log('old img', image);
+      return image.startsWith("http") ? image : `${baseUrl}${image}` ?? `${baseUrl}${image.url}`;
+    }
+
+    return "";
+  };
+
+
   return (
     <div className="w-full max-w-360 mx-auto px-4 py-10 grid grid-cols-1 lg:grid-cols-2 gap-10">
       <div className="flex flex-col items-center relative">
@@ -69,17 +95,17 @@ const handleBuyNow = () => {
         </div>
         <img
           
-          src={`http://localhost:5001${mainImage}`}
+          src={ resolveImageUrl(mainImage)}
           alt={product.name || "product"}
           className="w-[380px] h-[420px] object-contain rounded-lg mb-6"
         />
 
         <div className="flex gap-4 mt-4">
-          {images.map((src, i) => (
+          {images.map((img, i) => (
             <img
               key={i}
               onClick={(e, i)=> changeMainImage(e , i)}
-              src={`http://localhost:5001${src}`}
+              src={ resolveImageUrl(img)}
               alt={`${product.name || "thumb"}-${i}`}
               className="w-16 h-16 object-contain cursor-pointer border rounded-md p-1"
             />

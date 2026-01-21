@@ -35,7 +35,7 @@ export default function OrderItemCard({ order, onCancel, handleReturn }) {
   return (
     <div className="flex gap-6">
       <img
-        src={`${API_CONFIG.imageURL2}${order?.items[0]?.product?.images?.[0]}`}
+        src={`${API_CONFIG.imageURL2}${order?.items[0]?.product?.images?.[0]?.url}`}
         alt={order.title}
         className="w-24 h-24 rounded-xl object-cover"
       />

@@ -2,14 +2,38 @@ import { useEffect } from "react";
 import { ACTIVE_STATUS, ORDER_STATUS } from "../../config/app";
 
 const Table = ({
-  data = [{title:'banner'}],
+  data = [{ title: "banner" }],
   columns,
   actions,
   keyId,
   type = "",
   onStatusChange,
 }) => {
-  const STATUS_OPTIONS = type === "orders" ? ORDER_STATUS : type === "status" ? ACTIVE_STATUS : ''
+  const STATUS_OPTIONS =
+    type === "orders" ? ORDER_STATUS : type === "status" ? ACTIVE_STATUS : "";
+  console.log("data in table", data);
+
+  const resolveImageUrl = (image, baseUrl = "http://localhost:5001") => {
+    if (!image) return "";
+
+    // Case 1: S3 or Cloudinary object
+    if (typeof image === "object" && image.url) {
+      // If already absolute (S3), return as-is
+      console.log('new img', image.url);
+      
+      return image.url.startsWith("http")
+        ? image.url
+        : `${baseUrl}${image.url}`
+    }
+
+    // Case 2: Old string path
+    if (typeof image === "string") {
+      console.log('old img', image);
+      return image.startsWith("http") ? image : `${baseUrl}${image}` ?? `${baseUrl}${image.url}`;
+    }
+
+    return "";
+  };
 
   return (
     <table className="w-full border bg-white border-gray-300 text-left rounded-xl">
@@ -53,11 +77,9 @@ const Table = ({
                   <img
                     width={70}
                     height={70}
-                    src={
-                      col === "images"
-                        ? `http://localhost:5001${item[col][0]}`
-                        : `http://localhost:5001${item[col]}`
-                    }
+                    src={resolveImageUrl(
+                      col === "images" ? item[col]?.[0] : item[col] || item[col]?.[0]
+                    )}
                   />
                 ) : (
                   item[col.replace(" ", "")] ?? "---"

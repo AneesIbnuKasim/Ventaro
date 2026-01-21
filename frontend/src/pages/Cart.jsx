@@ -127,7 +127,7 @@ useEffect(()=> {
                       className="flex items-start gap-6 shadow-gray-200 bg-inner-card shadow-sm p-6"
                     >
                       <img
-                        src={`http://localhost:5001${item?.product?.images[0] ?? ''} `}
+                        src={`http://localhost:5001${item?.product?.images[0]?.url ?? ''} `}
                         alt="product"
                         className="w-28 h-36 object-contain"
                         onClick={() => navigate(`/product/${item._id}`)}

@@ -4,10 +4,12 @@ const BannerSchema = new mongoose.Schema(
   {
     title: String,
     subTitle: String,
-    image: {
-      type: String,
-      required: true,
-    },
+    image: 
+  {
+    url: { type: String, required: true },
+    key: { type: String, required: true }
+  }
+,
     linkValue: String, // redirect URL
     linkType: {
       type: String,

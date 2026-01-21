@@ -1,15 +1,21 @@
+const config = require("../config/config");
 const Banner = require("../models/Banner");
 const { NotFoundError } = require("../utils/errors");
 const logger = require("../utils/logger");
+const { DeleteObjectCommand } = require("@aws-sdk/client-s3");
+const { s3 } = require("../config/multer.js");
 
 class BannerService {
-  static createBanner = async (image, formData) => {
-    console.log('data', image);
+  static createBanner = async (file, formData) => {
+    console.log('data', file);
     
     try {
       const banner = new Banner({
         ...formData,
-        image: `/uploads/${image}`
+        image: {
+          url : file.location || `/uploads/${file.filename}`,
+          key: file.key || file.filename
+        }
       });
       await banner.save();
       return banner;
@@ -19,14 +25,17 @@ class BannerService {
   };
 
   //UPDATE BANNER
-  static async updateBanner(bannerId, data, image) {
+  static async updateBanner(bannerId, data, file) {
   try {
     const updateData = { ...data }
 
     console.log('image in service', image)
 
   if (image) {
-    updateData.image = `/uploads/${image}`
+    updateData.image = {
+          url : file.location || `/uploads/${file.filename}`,
+          key: file.key || file.filename
+        }
   }
 
   const updated = await Banner.findByIdAndUpdate(
@@ -55,6 +64,16 @@ class BannerService {
   static deleteBanner = async (bannerId) => {
     try {
       const banner = await Banner.findByIdAndDelete(bannerId)
+      //delete image from s3 in prod
+              if (config.NODE_ENV === "production") {
+                await s3.send(
+                  new DeleteObjectCommand({
+                    Bucket: config.AWS.BUCKET_NAME,
+                    Key: banner.image?.key,
+                  })
+                );
+              }
+
       return banner;
     } catch (error) {
       throw error;

@@ -1,7 +1,7 @@
 module.exports = {
     PORT: process.env.PORT,
     MONGODB_URI: process.env.MONGO_URI || 'mongodb://localhost:27017/Ventaro',
-    NODE_ENV: process.env.NODE_ENV || 'development',
+    NODE_ENV: process.env.NODE_ENV || 'production',
 
     BCRYPT_ROUND: 12,
 
@@ -61,5 +61,12 @@ module.exports = {
   REFUNDED: "REFUNDED"
 },
 
-OPENAI_API_KEY: process.env.OPEN_API_KEY
+OPENAI_API_KEY: process.env.OPEN_API_KEY,
+
+AWS: {
+  ACCESS_KEY: process.env.AWS_ACCESS_KEY_ID,
+  SECRET_KEY:process.env.AWS_SECRET_ACCESS_KEY,
+  REGION: process.env.AWS_REGION,
+  BUCKET_NAME: process.env.AWS_BUCKET_NAME
+}
 }

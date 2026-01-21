@@ -8,7 +8,7 @@ class BannerController extends BaseController {
     console.log("file in controller");
 
     const banner = await BannerService.createBanner(
-      req.file.filename,
+      req.file,
       formData
     );
     BaseController.logAction("CREATE-BANNER", "Banner created");
@@ -27,7 +27,7 @@ class BannerController extends BaseController {
     const { image, ...formData } = req.body
     console.log('image',  image)
 
-    const updated = await BannerService.updateBanner(bannerId, formData, req.file?.filename)
+    const updated = await BannerService.updateBanner(bannerId, formData, req.file)
 console.log('updated', updated);
 
     BaseController.sendSuccess(res, "Banner updated successfully", updated)

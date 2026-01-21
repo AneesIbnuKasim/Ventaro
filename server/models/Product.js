@@ -57,10 +57,12 @@ const ProductSchema = mongoose.Schema(
     //     required: true,
     //     min: 0
     // },
-    images: {
-      type: [String],
-      required: true,
-    },
+   images: [
+  {
+    url: { type: String, required: true },
+    key: { type: String, required: true }
+  }
+],
     //PRODUCT RATING ADDED BY USERS
     ratings: [
       {

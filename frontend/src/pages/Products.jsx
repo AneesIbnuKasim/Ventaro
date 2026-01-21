@@ -40,6 +40,7 @@ const Products = memo((setTitle) => {
     debouncedSearch,
     toggleProductStatus
   } = useProduct();
+console.log('productsss', products);
 
   //fetch products on page load
   useEffect(() => {

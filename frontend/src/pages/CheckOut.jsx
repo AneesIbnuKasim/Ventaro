@@ -215,7 +215,7 @@ const handlePlaceOrder = async() => {
             <div className="space-y-4">
               {items.map((item) => (
                 <div key={item._id} className="flex gap-3">
-                  <img src={`${API_CONFIG.imageURL2}${item?.product?.images[0] ?? item?.images[0]}`} alt="product" className="w-16 h-16 rounded" />
+                  <img src={`${API_CONFIG.imageURL2}${item?.product?.images[0]?.url ?? item?.images[0]?.url}`} alt="product" className="w-16 h-16 rounded" />
                   <div className="flex-1">
                     <p className="text-sm font-medium line-clamp-1">{item?.product?.name ?? item.name}</p>
                     <p className="text-sm text-secondary">₹{item.finalUnitPrice ?? item.sellingPrice} × {item.quantity}</p>

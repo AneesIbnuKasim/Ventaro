@@ -4,6 +4,9 @@ const Product = require("../models/Product");
 const { default: Order } = require("../models/Order");
 const { ConflictError, NotFoundError } = require("../utils/errors");
 const logger = require("../utils/logger");
+const { DeleteObjectCommand } = require("@aws-sdk/client-s3");
+const { s3 } = require("../config/multer.js");
+const config = require("../config/config.js");
 
 class ProductService {
   //GET ALL PRODUCTS
@@ -44,6 +47,7 @@ class ProductService {
       const skipValue = (page - 1) * productPerPage;
 
       const totalProducts = await Product.find(filter).countDocuments();
+      console.log("fil", req.file);
 
       const [products, categories] = await Promise.all([
         Product.find(filter).skip(skipValue).limit(limit),
@@ -83,7 +87,7 @@ class ProductService {
 
       const minPrice = parseInt(req.query.minPrice);
       const maxPrice = parseInt(req.query.maxPrice);
-      let rating = req.query.rating
+      let rating = req.query.rating;
       const page = parseInt(req.query.page);
       const limit = parseInt(req.query.limit) || 10;
 
@@ -98,22 +102,20 @@ class ProductService {
         else if (maxPrice) filter.sellingPrice = { $lte: maxPrice };
       }
 
-      if (rating) rating = rating.split(',')
+      if (rating) rating = rating.split(",");
 
       const ratings = Array.isArray(rating)
-  ? rating.map(Number).filter(Number.isFinite)
-  : [];
+        ? rating.map(Number).filter(Number.isFinite)
+        : [];
 
-  console.log('ratings::', ratings);
-  
+      console.log("ratings::", ratings);
 
-     if (ratings.length)  filter.avgRating = { $gte: Math.min(...ratings) };
+      if (ratings.length) filter.avgRating = { $gte: Math.min(...ratings) };
 
       sortOrder = sortOrder === "asc" ? 1 : -1;
       const sortObj = { [sortBy]: sortOrder };
 
-      console.log('sort-obj', sortObj);
-      
+      console.log("sort-obj", sortObj);
 
       const currentPage = page || 1;
       const productPerPage = limit || 6;
@@ -172,28 +174,28 @@ class ProductService {
   // GET FEATURED/BEST SELLER PRODUCTS
   static fetchHomePageProducts = async () => {
     try {
-      const featuredProducts = await Product.find({isFeatured: true})
+      const featuredProducts = await Product.find({ isFeatured: true });
 
-      return { featuredProducts }
+      return { featuredProducts };
     } catch (error) {
-      logger.error("Error fetching product")
-      throw error
+      logger.error("Error fetching product");
+      throw error;
     }
   };
 
   //TOGGLE PRODUCT STATUS
-  static toggleProductStatus = async(productId) => {
-  try {
-        const product = await Product.findById(productId)
-        if (!product) return new NotFoundError('Product not found')
-        product.status = product.status === 'active' ? 'inactive' : 'active'
-      
-      await product.save()
-        return product;
-      } catch (error) {
-        throw error;
-      }
-}
+  static toggleProductStatus = async (productId) => {
+    try {
+      const product = await Product.findById(productId);
+      if (!product) return new NotFoundError("Product not found");
+      product.status = product.status === "active" ? "inactive" : "active";
+
+      await product.save();
+      return product;
+    } catch (error) {
+      throw error;
+    }
+  };
 
   //SUBMIT PRODUCT REVIEW
   static async submitReview(productId, reviewData, userId) {
@@ -256,10 +258,24 @@ class ProductService {
         throw new NotFoundError("No images selected to upload");
       }
 
+      if (productData.images && !Array.isArray(productData.images)) {
+        productData.images = [
+          {
+            url: productData.images.url || productData.images,
+            key: productData.images.key || productData.images,
+          },
+        ];
+      }
+
       const product = new Product({
         ...productData,
-        images: req.files?.map((file) => `/uploads/${file.filename}`),
+        images: req.files?.map((file) => ({
+          url: file.location || `/uploads/${file.filename}`, //s3 for prod and local for dev
+          key: file.key || file.filename,
+        })),
       });
+
+      console.log("product in add:", product);
 
       await product.save();
 
@@ -282,8 +298,20 @@ class ProductService {
       if (req.files?.length > 0) {
         productData = {
           ...productData,
-          images: req.files?.map((file) => `/uploads/${file.filename}`),
+          images: req.files?.map((file) => ({
+            url: file.location || `/uploads/${file.filename}`,
+            key: file.key || file.filename,
+          })),
         };
+      }
+
+      if (productData.images && !Array.isArray(productData.images)) {
+        productData.images = [
+          {
+            url: productData.images.url || productData.images,
+            key: productData.images.key || productData.images,
+          },
+        ];
       }
 
       Object.assign(product, productData);
@@ -299,11 +327,23 @@ class ProductService {
 
   static deleteProduct = async (productId) => {
     try {
-      const existing = await Product.findById(productId);
+      const product = await Product.findById(productId);
 
-      if (!existing) {
+      if (!product) {
         logger.error("Product not found");
         throw NotFoundError("Product not found");
+      }
+
+      //delete image from s3 in prod
+      for (const img of product.images) {
+        if (config.NODE_ENV === "production") {
+          await s3.send(
+            new DeleteObjectCommand({
+              Bucket: config.AWS.BUCKET_NAME,
+              Key: img?.key,
+            })
+          );
+        }
       }
 
       logger.info("Product deleted successfully");
@@ -341,7 +381,6 @@ class ProductService {
   static fetchSearch = async (req) => {
     try {
       const { search, sortBy, sortOrder = "asc" } = req.query;
-      
 
       console.log("query:", req.query);
 
@@ -364,18 +403,16 @@ class ProductService {
         : [];
       const categoryIds = categoryDoc.map((c) => c._id);
 
-      if (rating) rating = rating.split(',')
+      if (rating) rating = rating.split(",");
 
       const ratings = Array.isArray(rating)
-  ? rating.map(Number).filter(Number.isFinite)
-  : [];
+        ? rating.map(Number).filter(Number.isFinite)
+        : [];
 
-  console.log('ratings::', ratings);
-  
+      console.log("ratings::", ratings);
 
-  const filter = {};
-     if (ratings.length)  filter.avgRating = { $gte: Math.min(...ratings) };
-
+      const filter = {};
+      if (ratings.length) filter.avgRating = { $gte: Math.min(...ratings) };
 
       if (search)
         filter.$or = [
