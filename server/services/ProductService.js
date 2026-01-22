@@ -241,6 +241,9 @@ class ProductService {
         throw new NotFoundError("No product to add");
       }
 
+      console.log('img add', req.files);
+      
+
       const { name, categoryId, brandName } = productData;
       const existing = await Product.findOne({
         name: name,
@@ -258,14 +261,14 @@ class ProductService {
         throw new NotFoundError("No images selected to upload");
       }
 
-      if (productData.images && !Array.isArray(productData.images)) {
-        productData.images = [
-          {
-            url: productData.images.url || productData.images,
-            key: productData.images.key || productData.images,
-          },
-        ];
-      }
+      // if (productData.images && !Array.isArray(productData.images)) {
+      //   productData.images = [
+      //     {
+      //       url: productData.images.url || productData.images,
+      //       key: productData.images.key || productData.images,
+      //     },
+      //   ];
+      // }
 
       const product = new Product({
         ...productData,
@@ -290,6 +293,9 @@ class ProductService {
     try {
       const product = await Product.findById(productId);
 
+      console.log('files', req.files);
+      
+
       if (!product) {
         logger.error("Product not found");
         throw new NotFoundError("Product not found");
@@ -305,6 +311,8 @@ class ProductService {
         };
       }
 
+      
+      
       if (productData.images && !Array.isArray(productData.images)) {
         productData.images = [
           {
@@ -313,6 +321,8 @@ class ProductService {
           },
         ];
       }
+      // console.log('prod data', productData);
+      // console.log('prod:', product);
 
       Object.assign(product, productData);
 

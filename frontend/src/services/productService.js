@@ -52,12 +52,31 @@ export const productAPI = {
     return res.data
   },
 
-  updateProduct: (productId, editData) => {
-    return makeRequest({
-      method: "put",
-      url: `api/products/${productId}`,
-      data: editData,
+  updateProduct: async(id, editData) => {
+
+    const formData = new FormData();
+
+    // Append all non-file fields
+    Object.keys(editData).forEach((key) => {
+      if (key !== "images") {
+        formData.append(key, editData[key]);
+      }
     });
+
+    // Append images array
+    editData.images.forEach((img) => {
+      formData.append("images", img); // "images"
+    });
+
+    const token = localStorage.getItem("adminToken");
+    
+    const res = await axios.put(`http://localhost:5001/api/products/${id}`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+
+    return res.data
   },
 
   deleteProduct: (productId) => {

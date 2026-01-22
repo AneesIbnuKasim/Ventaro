@@ -19,6 +19,7 @@ const Button = memo(({
   href,
   target,
   type = 'button',
+  baseClass = '',
   pill = false,
   block = false,
   ...props
@@ -28,7 +29,7 @@ const Button = memo(({
   const buttonClasses = useMemo(() => {
     const baseClasses =
       `inline-flex items-center justify-center font-medium transition-all duration-200
-       min-h-[44px] disabled:opacity-50 disabled:cursor-not-allowed`;
+       min-h-[40px] disabled:opacity-50 disabled:cursor-not-allowed ${baseClass}`;
 
     const variantClass = variant.includes('outline-')
       ? BUTTON_VARIANTS.outline?.[variant.replace('outline-', '')] ||

@@ -129,7 +129,7 @@ setOpen(false);
         />
       )}
 
-      <div className="sm:flex justify-around items-center bg-white mb-5 rounded-lg">
+      <div className="flex justify-around items-center bg-white mb-5 rounded-lg">
         <FormInput
           placeholder="Search"
           icon={<IoSearch />}
@@ -141,9 +141,9 @@ setOpen(false);
         <Button
           size="sm"
           variant={'custom'}
-          style={{ height: 30 }}
+          // style={{ height: 0 }}
           onClick={() => handleProductForm()}
-          className={'m-4'}
+          className={'m-4 min-h-[10px]'}
         >
           ADD PRODUCT
         </Button>

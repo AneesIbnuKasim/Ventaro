@@ -62,6 +62,8 @@ const upload = multer({
   limits: { fileSize: 3 * 1024 * 1024 }
 });
 
+console.log('upload', upload);
+
 
 export default upload
 

@@ -44,6 +44,8 @@ class ProductController extends BaseController {
     static addProduct = BaseController.asyncHandler(async(req, res)=>{
         const { images, ...formData } = req.body
         const validatedData = BaseController.validateRequest(productValidation, formData)
+        console.log('img add', images);
+        
         const product = await ProductService.addProduct(req)
         BaseController.logAction('ADD_PRODUCT', product)
         console.log('product in controller:', product);
@@ -53,6 +55,8 @@ class ProductController extends BaseController {
 
     static editProduct = BaseController.asyncHandler(async(req, res)=>{
         const { images, ...formData } = req.body
+        console.log('images', images);
+        
         const validatedData = BaseController.validateRequest(productValidation, formData)
         const updated = await ProductService.editProduct(req.params.id, validatedData, req)
         BaseController.logAction('EDIT_PRODUCT', updated)

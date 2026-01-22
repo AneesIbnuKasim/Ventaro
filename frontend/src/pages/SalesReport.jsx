@@ -17,6 +17,7 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { CURRENCY } from "../constants/ui";
 import { toast } from "react-toastify";
+import formatImageUrl from "../utils/formatImageUrl";
 
 const SalesReport = memo(() => {
   const {
@@ -270,7 +271,7 @@ const SalesReport = memo(() => {
                     <img
                       width={50}
                       height={50}
-                      src={`${API_CONFIG.imageURL2}${prod?.product?.images[0]}`}
+                      src={formatImageUrl(prod?.product?.images[0])}
                       alt="product image"
                     />
 

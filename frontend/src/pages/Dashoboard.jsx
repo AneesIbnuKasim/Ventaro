@@ -7,6 +7,7 @@ import SalesChart from "../components/ui/SalesChart";
 import { fetchSalesReport } from "../redux/slices/salesSlice";
 import { API_CONFIG } from "../config/app";
 import { CURRENCY } from "../constants/ui";
+import formatImageUrl from "../utils/formatImageUrl";
 
 const Dashoboard = memo(() => {
   const dispatch = useDispatch();
@@ -87,7 +88,8 @@ const Dashoboard = memo(() => {
               >
                 <div className="flex items-center gap-3">
                   <img
-                    src={`${API_CONFIG.imageURL2}${prod?.product?.images?.[0]}`}
+                    // src={`${prod?.product?.images?.[0].url.startsWith('http')}` ? `${prod?.product?.images?.[0].url}` : `${API_CONFIG.imageURL2}${prod?.product?.images?.[0].url}`}
+                    src={formatImageUrl(prod?.product?.images?.[0])}
                     alt={prod?.product?.name}
                     className="w-12 h-12 rounded object-cover"
                   />
