@@ -18,6 +18,7 @@ import autoTable from "jspdf-autotable";
 import { CURRENCY } from "../constants/ui";
 import { toast } from "react-toastify";
 import formatImageUrl from "../utils/formatImageUrl";
+import { DashboardSkeleton } from "../components/ui/dashboardSkeleton";
 
 const SalesReport = memo(() => {
   const {
@@ -28,7 +29,8 @@ const SalesReport = memo(() => {
     totalOrders,
     recentOrders,
     totalUsers,
-    returnedOrders
+    returnedOrders,
+    loading
   } = useSelector((state) => state.sales);
   const period = filters.period;
   const dispatch = useDispatch();
@@ -133,7 +135,10 @@ const SalesReport = memo(() => {
       toast.error("Failed to generate PDF. Please try again.");
     }
   };
-  return (
+  return loading ? (
+    <DashboardSkeleton />
+  ) :
+  (
     <>
       {/* {open && (
         <Modal
@@ -313,14 +318,8 @@ const SalesReport = memo(() => {
           </div>
         )}
       </div>
-
-      {/* {filters.search && !products?.length ? (
-        <SearchNotFound searchQuery={filters.search} />
-      ) : (
-
-      )} */}
     </>
-  );
+  )
 });
 
 export default SalesReport;

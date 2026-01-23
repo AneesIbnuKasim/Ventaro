@@ -1,9 +1,6 @@
 import {
   CheckCircle,
   Clock,
-  Cross,
-  CrossIcon,
-  PanelRightCloseIcon,
   X,
 } from "lucide-react";
 import { API_CONFIG } from "../../config/app";

@@ -81,7 +81,9 @@ const openRazorpay = (response) => {
           mode,
           buyNowItems: items
         });
-        navigate(`/order-success/${res.orderId}`)
+        console.log('res', res);
+        
+        navigate(`/order-success/${res.data.orderId}`)
       },
 
       modal: {
@@ -102,10 +104,8 @@ const handlePlaceOrder = async() => {
        openRazorpay(data)
     }
     else if (paymentMethod === 'COD' || paymentMethod === 'Wallet') {
-      const data = await paymentAPI.createOrder({paymentMethod, deliveryAddress, mode, buyNowItems:items})
-      console.log('data  order', data);
-      
-      navigate(`/order-success/${data.orderId}`)
+      const res = await paymentAPI.createOrder({paymentMethod, deliveryAddress, mode, buyNowItems:items})
+      navigate(`/order-success/${res.data.orderId}`)
     }
     } catch (error) {
       throw error

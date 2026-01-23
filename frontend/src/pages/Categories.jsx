@@ -15,6 +15,7 @@ import CategoryForm from "../components/ui/CategoryForm";
 import { useCategory } from "../context/CategoryContext";
 import SearchNotFound from "../components/ui/SearchNotFound";
 import { useSearchParams } from "react-router-dom";
+import { TableSkeleton } from "../components/ui/TableSkeleton";
 
 
 const Categories = memo(() => {
@@ -32,7 +33,8 @@ const Categories = memo(() => {
     addCategory,
     updateCategory,
     deleteCategory,
-    debouncedSearch
+    debouncedSearch,
+    loading
   } = useCategory();
   const [searchParams, setSearchParams] = useSearchParams();
   
@@ -160,7 +162,13 @@ const Categories = memo(() => {
         </Button>
       </div>
 
-      {filters.search && !categories?.length ? (
+      {
+        loading ? (
+          <TableSkeleton />
+        ) : 
+          (
+            <>
+            {filters.search && !categories?.length ? (
         <SearchNotFound searchQuery={filters.search} />
       ) : (
         <Table
@@ -181,6 +189,10 @@ const Categories = memo(() => {
           totalItems={totalItems}
         />
       )}
+      </>
+    )
+       
+      }
     </>
   );
 });

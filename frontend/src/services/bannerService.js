@@ -4,6 +4,8 @@ import axios from "axios";
 
 const bannerAPI = {
   fetchBanner: (params = {}) => {
+    console.log('par', params);
+    
     const urlParams = new URLSearchParams(params);
 
     return makeRequest({

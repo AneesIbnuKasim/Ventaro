@@ -90,6 +90,8 @@ export const returnOrderRequestThunk = createAsyncThunk(
 export const updateStatusThunk = createAsyncThunk(
   "update-status",
   async (orderData, { rejectWithValue }) => {
+    console.log('orderdata', orderData);
+    
     try {
       const res = await adminAPI.updateStatus(orderData);
 

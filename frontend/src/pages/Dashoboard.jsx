@@ -8,6 +8,7 @@ import { fetchSalesReport } from "../redux/slices/salesSlice";
 import { API_CONFIG } from "../config/app";
 import { CURRENCY } from "../constants/ui";
 import formatImageUrl from "../utils/formatImageUrl";
+import { DashboardSkeleton } from "../components/ui/dashboardSkeleton";
 
 const Dashoboard = memo(() => {
   const dispatch = useDispatch();
@@ -18,16 +19,21 @@ const Dashoboard = memo(() => {
     totalSales,
     totalOrders,
     returnedOrders,
+    loading
   } = useSelector((state) => state.sales);
 
-  // 🔒 Dashboard uses FIXED period (no filters)
+  // Dashboard uses FIXED period (no filters)
   useEffect(() => {
     dispatch(fetchSalesReport({ mode: "dashboard", period: "Monthly" }));
   }, [dispatch]);
 
-  return (
+  return loading ? (
+    <DashboardSkeleton />
+  ) :
+  (
+
     <div className="flex flex-col gap-6">
-      {/* ================= KPI CARDS ================= */}
+      {/* ================= CARDS ================= */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <ReportStatsCard
           title="Total Sales"
@@ -116,7 +122,7 @@ const Dashoboard = memo(() => {
         )}
       </div>
     </div>
-  );
+  )
 });
 
 export default Dashoboard;

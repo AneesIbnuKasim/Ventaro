@@ -10,6 +10,7 @@ import WishlistButton from "./wishlistButton";
 import { API_CONFIG } from "../../config/app";
 import Button from "./Button";
 import { toggleWishlistThunk } from "../../redux/slices/wishlistSlice";
+import formatImageUrl from "../../utils/formatImageUrl";
 
 const ProductCard = memo(({ product, handleClick=()=>console.log('clicked'), buttons=false, buttonText= ['ADD TO CART', 'BUY NOW'], wishlistPage=false }) => {
   const {
@@ -69,7 +70,7 @@ console.log('images:', images);
   
 
   return (
-    <div className=" min-h-100 rounded-xl border border-card-theme p-4 shadow-md hover:shadow-xl transition cursor-pointer
+    <div className=" min-h-100 rounded-xl border border-card-theme p-4 shadow-md hover:shadow-xl transition-all cursor-pointer
     bg-card card">
       
       {/* --- TOP BADGE + WISHLIST ICON --- */}
@@ -85,7 +86,7 @@ console.log('images:', images);
       {/* --- PRODUCT IMAGE --- */}
       <div className="w-full flex justify-center my-4">
         <img
-          src={ images[0]?.url.startsWith('http') ? images[0]?.url : `${API_CONFIG.imageURL2}${images[0]?.url}`}
+          src={ formatImageUrl(images[0])}
           alt={name}
           className="h-40 object-contain"
         />

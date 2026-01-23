@@ -6,6 +6,7 @@ import { fetchSingleOrderThunk } from "../redux/slices/orderSlice";
 import { API_CONFIG } from "../config/app";
 import { Loading } from "../components/ui";
 import { selectCodFee, selectShippingFee, selectSubTotal } from "../redux/selector/orderSelector";
+import formatImageUrl from "../utils/formatImageUrl";
 
 
 const formatDate = (date) =>
@@ -82,7 +83,7 @@ if (loading) {
             {selectedOrder?.items?.map((item) => (
               <div key={item._id} className="flex gap-4">
                 <img
-                  src={`${API_CONFIG.imageURL2}${item.product.images[0]}`}
+                  src={formatImageUrl(item.product.images[0])}
                   alt={item.product?.name}
                   className="w-24 h-24 rounded-xl object-cover"
                 />

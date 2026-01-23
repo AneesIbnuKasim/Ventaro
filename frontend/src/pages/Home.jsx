@@ -47,6 +47,10 @@ const Home = memo(() => {
     (b) => b.position === "HOME_BOTTOM" && b.status === "active"
   );
 
+  console.log('top banners', topBanners);
+  console.log('banners', banners);
+  
+
   const banner1 = middleBanners[0];
   const banner2 = middleBanners[1];
 
@@ -89,7 +93,7 @@ const Home = memo(() => {
           {categories.map((cat) => (
             <div
               key={cat._id}
-              className="flex flex-col items-center min-w-22.5 cursor-pointer"
+              className="flex flex-col items-center min-w-22.5 cursor-pointer hover:scale-110 transition-all"
               onClick={() => navigateToCategory(cat.name)}
             >
               <div

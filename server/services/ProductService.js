@@ -1,7 +1,7 @@
 const { sendError } = require("../controllers/baseController");
 const Category = require("../models/Category");
 const Product = require("../models/Product");
-const { default: Order } = require("../models/Order");
+const Order = require("../models/Order");
 const { ConflictError, NotFoundError } = require("../utils/errors");
 const logger = require("../utils/logger");
 const { DeleteObjectCommand } = require("@aws-sdk/client-s3");
@@ -240,9 +240,6 @@ class ProductService {
       if (!productData) {
         throw new NotFoundError("No product to add");
       }
-
-      console.log('img add', req.files);
-      
 
       const { name, categoryId, brandName } = productData;
       const existing = await Product.findOne({

@@ -5,7 +5,7 @@ const Cart = require("../models/Cart");
 const CouponService = require("./CouponService");
 const logger = require("../utils/logger");
 const { NotFoundError, ValidationError, AuthenticationError } = require("../utils/errors");
-const { default: Order } = require("../models/Order");
+const Order = require("../models/Order");
 const User = require("../models/User");
 const Product = require("../models/Product");
 const { default: mongoose } = require("mongoose");
@@ -16,13 +16,6 @@ const razorpay = new Razorpay({
 });
 
 class PaymentService {
-  static calculateGrandTotal(payableTotal, paymentMethod) {
-    const deliveryFee =
-      payableTotal > config.FREE_SHIPPING_THRESHOLD ? 0 : config.DELIVERY_FEE;
-    const codFee = paymentMethod === "COD" ? config.COD_FEE : 0;
-
-    return (payableTotal + deliveryFee + codFee);
-  }
 
   //CALCULATE TOTALS
 
@@ -38,14 +31,18 @@ class PaymentService {
   return subTotal;
 }
 
+static calculateGrandTotal(payableTotal, paymentMethod) {
+    const deliveryFee =
+      payableTotal > config.FREE_SHIPPING_THRESHOLD ? 0 : config.DELIVERY_FEE;
+    const codFee = paymentMethod === "COD" ? config.COD_FEE : 0;
+
+    return (payableTotal + deliveryFee + codFee);
+  }
+
 //CREATE RAZORPAY ORDER
   static async createRazorpayOrder(userId, data) {
     try {
       const { paymentMethod, mode='cart',  buyNowItems=[]} = data;
-
-      console.log('buynoeitems', buyNowItems);
-      console.log('buynow mode', mode);
-      
 
       let items = [];
     let appliedCoupon = null;
@@ -90,15 +87,11 @@ class PaymentService {
       paymentMethod
     );
 
-console.log('in razorpay GrandTotal:', grandTotal);
-
-
       const razorpayOrder = await razorpay.orders.create({
         amount: grandTotal * 100,
         currency: "INR",
         receipt: `rcpt_${Date.now()}`,
       });
-      console.log("here verified", razorpayOrder);
 
       return {
         razorpayOrderId: razorpayOrder.id,
@@ -126,8 +119,6 @@ console.log('in razorpay GrandTotal:', grandTotal);
         mode = 'cart',
         buyNowItems = [], 
       } = data;
-
-      console.log("dataa at verify server", data);
 
       if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature)
         throw new NotFoundError("Missing Razorpay details");
@@ -225,7 +216,7 @@ console.log('in razorpay GrandTotal:', grandTotal);
           razorpay_payment_id: razorpay_payment_id,
           razorpaySignature: razorpay_signature,
         },
-        deliveryAddress,
+        deliveryAddress: orderAddress,
         paidAt: Date.now(),
       });
 
@@ -238,7 +229,7 @@ console.log('in razorpay GrandTotal:', grandTotal);
 
       return {
         success: true,
-        orderId: order._id,
+        orderId: order.orderId,
       };
     } catch (error) {
       logger.error(error.message);

@@ -7,15 +7,13 @@ const { s3 } = require("../config/multer.js");
 
 class BannerService {
   static createBanner = async (file, formData) => {
-    console.log('data', file);
-    
     try {
       const banner = new Banner({
         ...formData,
         image: {
-          url : file.location || `/uploads/${file.filename}`,
-          key: file.key || file.filename
-        }
+          url: file.location || `/uploads/${file.filename}`,
+          key: file.key || file.filename,
+        },
       });
       await banner.save();
       return banner;
@@ -26,34 +24,37 @@ class BannerService {
 
   //UPDATE BANNER
   static async updateBanner(bannerId, data, file) {
-  try {
-    const updateData = { ...data }
+    try {
+      const updateData = { ...data };
 
-    console.log('image in service', image)
+      if (image) {
+        updateData.image = {
+          url: file.location || `/uploads/${file.filename}`,
+          key: file.key || file.filename,
+        };
+      }
 
-  if (image) {
-    updateData.image = {
-          url : file.location || `/uploads/${file.filename}`,
-          key: file.key || file.filename
-        }
+      const updated = await Banner.findByIdAndUpdate(bannerId, updateData, {
+        new: true,
+      });
+
+      return updated;
+    } catch (error) {
+      throw error;
+    }
   }
-
-  const updated = await Banner.findByIdAndUpdate(
-    bannerId,
-    updateData,
-    { new: true }
-  )
-
-  return updated
-  } catch (error) {
-    throw error
-  }
-}
 
   //FETCH BANNERS
   static fetchBanner = async (data) => {
+    console.log("search", data);
+    const { search = "" } = data;
     try {
-      const banner = await Banner.find()
+      const filter = {};
+      filter.$or = [
+        { title: { $regex: search, $options: "i" } },
+        { subTitle: { $regex: search, $options: "i" } },
+      ];
+      const banner = await Banner.find(filter);
       return banner;
     } catch (error) {
       throw error;
@@ -63,17 +64,16 @@ class BannerService {
   //DELETE BANNER
   static deleteBanner = async (bannerId) => {
     try {
-      const banner = await Banner.findByIdAndDelete(bannerId)
+      const banner = await Banner.findByIdAndDelete(bannerId);
       //delete image from s3 in prod
-              if (config.NODE_ENV === "production") {
-                await s3.send(
-                  new DeleteObjectCommand({
-                    Bucket: config.AWS.BUCKET_NAME,
-                    Key: banner.image?.key,
-                  })
-                );
-              }
-
+      if (config.NODE_ENV === "production") {
+        await s3.send(
+          new DeleteObjectCommand({
+            Bucket: config.AWS.BUCKET_NAME,
+            Key: banner.image?.key,
+          })
+        );
+      }
       return banner;
     } catch (error) {
       throw error;
@@ -83,12 +83,10 @@ class BannerService {
   //TOGGLE BANNER STATUS
   static toggleBannerStatus = async (bannerId) => {
     try {
-      const banner = await Banner.findById(bannerId)
-      if (!banner) return new NotFoundError('Banner not found')
-      banner.status = banner.status === 'active' ? 'inactive' : 'active'
-    
-    await banner.save()
-    console.log('BANN',banner.status);
+      const banner = await Banner.findById(bannerId);
+      if (!banner) return new NotFoundError("Banner not found");
+      banner.status = banner.status === "active" ? "inactive" : "active";
+      await banner.save();
       return banner;
     } catch (error) {
       throw error;

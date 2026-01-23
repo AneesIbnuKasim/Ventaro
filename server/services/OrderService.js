@@ -1,7 +1,7 @@
 const { default: mongoose } = require("mongoose");
 const { ORDER_STATUS, PAYMENT_STATUS } = require("../config/config");
 const { findById } = require("../models/Coupon");
-const { default: Order } = require("../models/Order");
+const Order = require("../models/Order");
 const User = require("../models/User");
 const {
   NotFoundError,

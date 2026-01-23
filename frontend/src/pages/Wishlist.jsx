@@ -58,7 +58,7 @@ const handleClick = (id) => {
         My Wishlist ({wishlist.length})
       </h1>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+      <div className="grid grid-cols-1 p-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
         {wishlist.map((product) => (
             <ProductCard key={product._id} product={product} handleClick={handleClick} buttons={true} buttonText={['MOVE TO CART', 'REMOVE']} wishlistPage={true} />
         ))}

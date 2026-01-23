@@ -86,13 +86,16 @@ export const toggleStatusThunk = createAsyncThunk(
 const bannerSlice = createSlice({
   name: "bannerSlice",
   initialState: initialState,
-  // reducers: {
-  //   toggleStatus: (state, action) => {
-  //     console.log('here', action);
+  reducers: {
+    // toggleStatus: (state, action) => {
+    //   console.log('here', action);
       
-  //     state.banners.map(banner => banner._id === action.payload._id ? banner.status === 'active' ? 'inactive' : 'active' : '' )
-  //   },
-  // },
+    //   state.banners.map(banner => banner._id === action.payload._id ? banner.status === 'active' ? 'inactive' : 'active' : '' )
+    // },
+    setFilters: (state, action) => {
+      state.filters = { ...state.filters, ...action.payload }
+    }
+  },
   extraReducers: (builder) => {
     builder
       //CREATE-BANNER
@@ -177,5 +180,5 @@ const bannerSlice = createSlice({
   },
 });
 
-// export const { toggleStatus } = bannerSlice.actions;
+export const { setFilters } = bannerSlice.actions;
 export default bannerSlice.reducer;

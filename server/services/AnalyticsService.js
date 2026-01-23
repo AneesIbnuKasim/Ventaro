@@ -509,7 +509,7 @@
 
 // module.exports = DashboardService;
 
-const { default: Order } = require("../models/Order");
+const Order = require("../models/Order");
 const User = require("../models/User");
 
 class AnalyticsService {

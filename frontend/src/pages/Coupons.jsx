@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addCouponThunk, fetchCouponThunk, removeCouponThunk, setSearch, updateCouponThunk } from "../redux/slices/couponSlice.js";
 import useDebounce from "../hooks/useDebounce.js";
 import { toast } from "react-toastify";
+import { TableSkeleton } from "../components/ui/TableSkeleton.jsx";
 
 ///Admin Coupon page
 
@@ -29,7 +30,7 @@ const Coupons = memo(() => {
   const [isDelete, setIsDelete] = useState(false);
   const [deleteData, setDeleteData] = useState(null);
   const { fetchCategories, categories, filters } = useCategory();
-  const {coupons, search} = useSelector(state=> state.coupon)
+  const {coupons, search, loading} = useSelector(state=> state.coupon)
   const dispatch = useDispatch()
 
   const debouncedSearch = useDebounce(search, 500)
@@ -154,7 +155,11 @@ const Coupons = memo(() => {
         </Button>
       </div>
 
-      {filters.search && !coupons?.length ? (
+      {loading ? (
+        <TableSkeleton/>
+      ) : (
+        <>
+        {filters.search && !coupons?.length ? (
         <SearchNotFound searchQuery={filters.search} />
       ) : (
         <Table
@@ -166,17 +171,8 @@ const Coupons = memo(() => {
           }}
         />
       )}
-
-      {/* {totalPages > 1 && (
-        <Pagination
-          setPagination={setPagination}
-          currentPage={pagination.page}
-          totalPages={pagination.totalPages}
-          itemsPerPage={pagination.limit}
-          totalItems={pagination.totalCoupons}
-          onPageChange={setPagination}
-        />
-      )} */}
+        </>
+      )}
     </>
   );
 });

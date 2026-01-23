@@ -1,4 +1,5 @@
-import mongoose, { mongo } from "mongoose";
+const mongoose = require("mongoose");
+
 const orderSchema = new mongoose.Schema(
   {
     user: {
@@ -71,5 +72,7 @@ const orderSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
 orderSchema.index({ "paymentInfo.razorpayPaymentId": 1 });
-export default mongoose.model("Order", orderSchema);
+
+module.exports = mongoose.model("Order", orderSchema);

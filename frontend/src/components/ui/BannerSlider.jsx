@@ -2,6 +2,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import { useNavigate } from "react-router-dom";
 import { getBannerLink } from "../../utils/bannerLink";
+import formatImageUrl from "../../utils/formatImageUrl";
+
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -28,7 +30,7 @@ return (
         return (
           <SwiperSlide key={banner._id}>
             <img
-              src={`${API_CONFIG.imageURL2}${banner.image}`}
+              src= {formatImageUrl(banner.image)}
               alt={banner.title}
               onClick={() => navigate(link)}
               className="w-full h-full object-fill cursor-pointer"

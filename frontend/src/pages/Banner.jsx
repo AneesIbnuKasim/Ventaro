@@ -11,10 +11,12 @@ import {
   createBannerThunk,
   deleteBannerThunk,
   fetchBannerThunk,
+  setFilters,
   toggleStatusThunk,
   updateBannerThunk,
 } from "../redux/slices/bannerSlice";
 import { toast } from "react-toastify";
+import { TableSkeleton } from "../components/ui/TableSkeleton";
 
 ///Admin product page
 
@@ -39,8 +41,8 @@ const Products = memo((setTitle) => {
   //   ]);
 
   useEffect(() => {
-    dispatch(fetchBannerThunk());
-  }, []);
+    dispatch(fetchBannerThunk({search:filters.search}));
+  }, [filters]);
 
   const handleDeleteBanner = useCallback((banner) => {
     setIsDelete(true);
@@ -99,7 +101,7 @@ const Products = memo((setTitle) => {
    toast.success('Status changed')
   }
   return (
-    <>
+      <>
       {open && (
         <Modal
           isOpen={open}
@@ -131,7 +133,7 @@ const Products = memo((setTitle) => {
           placeholder="Search"
           icon={<IoSearch />}
           value={filters.search || ""}
-          onChange={(e) => setFilters({ search: e.target.value })}
+          onChange={(e) => dispatch(setFilters({ search: e.target.value }))}
           className={"flex-1 m-5"}
         />
 
@@ -146,7 +148,13 @@ const Products = memo((setTitle) => {
         </Button>
       </div>
 
-      {filters.search && !banners?.length ? (
+      {
+        loading ? (
+          <TableSkeleton/>
+        ) :
+        (
+          <>
+          {filters.search && !banners?.length ? (
         <SearchNotFound searchQuery={filters.search} />
       ) : (
         <Table
@@ -168,8 +176,11 @@ const Products = memo((setTitle) => {
           onStatusChange={handleStatus}
         />
       )}
+          </>
+        )
+      }
     </>
-  );
+    )
 });
 
 export default Products;

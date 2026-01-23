@@ -81,9 +81,9 @@ export default function Navbar({
             </button>
 
             <div className="flex items-center gap-2 cursor-pointer">
-              <img width={40} src="LOGO.svg" alt="" />
+              <img width={40} src="LOGO.svg" alt="" onClick={()=>navigate('/')} />
 
-              <span className="font-semibold text-lg hidden sm:block">
+              <span className="font-semibold text-lg hidden sm:block" onClick={()=>navigate('/')}>
                 {logo}
               </span>
             </div>
@@ -105,25 +105,6 @@ export default function Navbar({
             </ul>
 
             {/* Search input */}
-            {/* <div className="hidden sm:block relative w-64">
-              <input
-                type="text"
-                value={query}
-                setSuggestion = {setSuggestion}
-                placeholder="Search products..."
-                className="w-full bg-[#F3F3F5] rounded-full py-2.5 pl-5 pr-12 text-sm outline-none border border-transparent focus:border-gray-300 transition"
-              />
-
-              <button className="absolute right-3 top-1/2 -translate-y-1/2"
-              onClick={handleSearchNavigate}
-              >
-                <Search color="orange"
-                  size={22}
-                  className="text-white bg-[#6D3CF8] p-1 rounded-full"
-                />
-              </button>
-            </div> */}
-
             <SearchInput />
           </div>
 
@@ -160,7 +141,7 @@ export default function Navbar({
                     Profile
                   </Link>
                   <Link
-                    to="#"
+                    to="/"
                     className="hover:bg-violet-400 rounded p-1 "
                     onClick={(e) => {
                       handleLogout(e)

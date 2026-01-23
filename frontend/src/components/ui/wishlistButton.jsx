@@ -20,7 +20,7 @@ const WishlistButton = ({productId, className='', heartClass=''}) => {
       className={`${className}`}
     >
       <Heart
-        className={`w-5 h-5 transition ${heartClass} ${
+        className={`w-5 h-5 transition hover:fill-red-500 hover:text-red-500 ${heartClass} ${
           isWishlisted ? "fill-red-500 text-red-500" : "text-gray-400"
         }`}
       />

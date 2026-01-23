@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import Button from "./Button";
 import { API_CONFIG } from "../../config/app";
+import formatImageUrl from "../../utils/formatImageUrl";
 
 const OfferBanner = ({
   title = "Mega Sale",
@@ -34,14 +35,21 @@ const OfferBanner = ({
         </div>
 
         {image && (
-          <div className="flex justify-end p-6">
-            <img
-              src={`${API_CONFIG.imageURL2}${image}`}
-              alt={title}
-              className="max-h-[260px] object-contain drop-shadow-xl"
-            />
-          </div>
-        )}
+  <div className="relative flex justify-end p-6">
+    {/* Glow Background */}
+    <div className="absolute -inset-4 bg-white/10 blur-2xl rounded-full" />
+
+    <motion.img
+      src={formatImageUrl(image)}
+      alt={title}
+      initial={{ rotate: -6, y: 10, opacity: 0 }}
+      animate={{ rotate: 0, y: 0, opacity: 1 }}
+      whileHover={{ y: -6, rotate: 1, scale: 1.05 }}
+      transition={{ type: "spring", stiffness: 120 }}
+      className="relative min-h-[260px] object-contain rounded-xl shadow-2xl bg-white/10 backdrop-blur-md p-3"
+    />
+  </div>
+)}
       </div>
     </motion.div>
   );

@@ -16,6 +16,7 @@ import { useProduct } from "../context/ProductContext";
 import SearchNotFound from "../components/ui/SearchNotFound";
 import ProductForm from "../components/ui/ProductForm";
 import { useCategory } from "../context/CategoryContext";
+import { TableSkeleton } from "../components/ui/TableSkeleton";
 
 ///Admin product page
 
@@ -38,7 +39,8 @@ const Products = memo((setTitle) => {
     updateProduct,
     deleteProduct,
     debouncedSearch,
-    toggleProductStatus
+    toggleProductStatus,
+    loading
   } = useProduct();
 console.log('productsss', products);
 
@@ -106,7 +108,11 @@ setOpen(false);
   const totalPages = pagination?.totalPages;
 
   return (
-    <>
+    loading ? (
+      <TableSkeleton />
+    ) :
+    (
+      <>
       {open && (
         <Modal
           isOpen={open}
@@ -175,6 +181,7 @@ setOpen(false);
         />
       )}
     </>
+    )
   );
 });
 
