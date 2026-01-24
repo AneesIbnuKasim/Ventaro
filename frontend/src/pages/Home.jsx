@@ -21,7 +21,7 @@ const Home = memo(() => {
   const navigate = useNavigate();
   const navigateWithReset = useNavigateWithReset();
 
-  const { fetchProduct, fetchSingleProduct, products, setGlobalCategory, fetchHomePageProducts, featuredProducts } =
+  const { fetchProduct, fetchSingleProduct, products, setGlobalCategory, fetchHomePageProducts, featuredProducts, clearanceProducts } =
     useProduct();
   const { categories, fetchCategories } = useCategory();
 
@@ -162,7 +162,7 @@ const Home = memo(() => {
         {products.length > 0 && (
           <Slider
             title="Clearance Sale"
-            items={products}
+            items={clearanceProducts}
             renderItem={(item) => <ProductCard product={item} />}
             handleClick={handleProductClick}
           />

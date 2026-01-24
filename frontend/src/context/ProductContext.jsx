@@ -24,6 +24,7 @@ const initialState = {
   products: [],
   featuredProducts: [],
   bestSellerProducts: [],
+  clearanceProducts: [],
   filters: {
     search: "",
     minPrice: "",
@@ -128,6 +129,7 @@ const ProductReducer = (state, action) => {
         ...state,
         featuredProducts: action.payload.featuredProducts || [],
         bestSellerProducts: action.payload.bestSellerProducts || [],
+        clearanceProducts: action.payload.clearanceProducts || [],
         loading: false,
       };
 
@@ -217,7 +219,7 @@ export const ProductProvider = ({ children }) => {
 
   const { category, sortBy, sortOrder, minPrice, maxPrice, rating } =
     state.filters;
-  const { featuredProducts, bestSellerProducts } = state;
+  const { featuredProducts, bestSellerProducts, clearanceProducts } = state;
   const { page, limit } = state.pagination;
 
   useEffect(() => {
@@ -431,18 +433,21 @@ export const ProductProvider = ({ children }) => {
     [category, rating, sortBy, sortOrder, minPrice, maxPrice, page, limit]
   );
 
-  //FETCH FEATURED AND BEST SELLERS
+  //HOMEPAGE SLIDER PRODUCTS
   const fetchHomePageProducts = useCallback(async () => {
     try {
       dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
 
       const response = await productAPI.fetchHomePageProducts();
+      console.log('home page products:', response);
+      
 
       dispatch({
         type: PRODUCT_ACTIONS.SET_HOMEPAGE_PRODUCTS,
         payload: {
           featuredProducts: response.data.featuredProducts,
           bestSellerProducts: response?.data?.bestSellerProducts,
+          clearanceProducts: response?.data?.clearanceProducts
         },
       });
     } catch (error) {
@@ -691,6 +696,7 @@ console.log('add product', response);
       fetchSingleProduct,
       fetchHomePageProducts,
       featuredProducts,
+      clearanceProducts,
       toggleProductStatus,
       // handleAddToCart,
       resetAllFilters,
@@ -722,6 +728,7 @@ console.log('add product', response);
       fetchSingleProduct,
       fetchHomePageProducts,
       featuredProducts,
+      clearanceProducts,
       toggleProductStatus,
       // handleAddToCart,
       resetAllFilters,

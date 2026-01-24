@@ -52,13 +52,14 @@ try {
 }, [login, navigate])
   const leftContent = useMemo(() => (
       <div className="text-white p-6 space-y-3 h-full flex justify-center ">
+      <img className='absolute top-20 right-50 w-50' src="../public/ecommerce.png" alt="ellipse" />
       <img className='absolute bottom-0 right-30 w-15' src="../public/Ellipse_1.svg" alt="ellipse" />
       <img className='absolute bottom-50 right-10  w-18' src="../public/Ellipse_1.svg" alt="ellipse" />
       <img className='absolute top-0 right-10 w-14' src="../public/Ellipse_5.svg" alt="ellipse" />
       <img className='absolute bottom-50 left-30 w-24' src="../public/Ellipse_6.svg" alt="ellipse" />
-      <img className='absolute top-30 left-40 w-20' src="../public/Ellipse_6.svg" alt="ellipse" />
+      <img className='absolute top-30 left-20 w-20' src="../public/Ellipse_6.svg" alt="ellipse" />
       <div className="text-white flex items-center justify-center">
-  <div className="flex flex-col gap-6 ">
+  <div className="flex flex-col gap-6 mt-30">
     <h2 className="text-3xl font-bold">Welcome to Ventaro</h2>
     <h3 className="text-xl opacity-80">Where Quality Finds You</h3>
     <h4 className="text-lg font-medium">Be part of something better</h4>
@@ -76,6 +77,7 @@ try {
       title="Create Your Account"
       subtitle="Join thousands of users who enjoys Ventaro"
       leftContent={leftContent}
+      page= 'registerPage'
     >
       <Formik 
       initialValues={{
@@ -194,9 +196,9 @@ try {
     )}
       </Formik>
 
-      <div className="text-center mt-6 text-gray-500">
+      <div className="text-center mt-6 mb-5 text-gray-500">
         Already have an account?{" "}
-        <Link to="/auth/login" className="text-primary font-bold no-underline">
+        <Link to="/login" className="text-primary font-bold no-underline">
           Sign in here
         </Link>
       </div>

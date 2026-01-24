@@ -11,6 +11,7 @@ const AuthLayout = memo(({
   rightContent,
   showLogo = true,
   className = "",
+  page = 'loginPage'
 }) => {
   const defaultLeftContent = (
     <div className="text-center p-6 animate-slide-left">
@@ -30,7 +31,7 @@ const AuthLayout = memo(({
     <div className=" flex flex-col lg:flex-row m-auto">
           {/* LEFT SIDE */}
       <div className="hidden lg:flex w-full lg:w-6/12 items-center">
-        <div className={`relative w-[570px] h-[85%] rounded-[20px_0px_0px_20px]  ${GRADIENTS.secondary.light}`}>
+        <div className={`relative w-142.5 h-${ page==='loginPage' ? '[75%]' : '[85%]' } rounded-[20px_0px_0px_20px]  ${GRADIENTS.secondary.light}`}>
          {leftContent}
         </div>
       </div>
@@ -38,7 +39,7 @@ const AuthLayout = memo(({
 
       {/* RIGHT SIDE */}
       <div className="flex w-full lg:w-6/12 items-center min-h-screen justify-items-start">
-        <div className="w-full p-5  lg:px-15 lg:py-10 sm:min-w-[470px] rounded-[20px] mx-5 md:mx-0 my-13 lg:rounded-[0px_20px_20px_0px] bg-white h-[85%]">
+        <div className={`w-full p-5  lg:px-15 lg:py-10 sm:min-w-117.5 rounded-[20px] mx-5 md:mx-0 my-13 lg:rounded-[0px_20px_20px_0px] bg-white h-${ page==='loginPage' ? '[75%]' : '[85%]' } `}>
           <div className="animate-slide-right delay-100">
             {showLogo && (
               <div className="text-center items-center mb-8">

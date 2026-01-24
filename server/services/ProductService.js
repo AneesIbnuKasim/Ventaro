@@ -174,9 +174,31 @@ class ProductService {
   // GET FEATURED/BEST SELLER PRODUCTS
   static fetchHomePageProducts = async () => {
     try {
-      const featuredProducts = await Product.find({ isFeatured: true });
+      const [ featuredProducts, clearanceProducts ] = await Promise.all([
+        Product.find({ isFeatured: true }).limit(10),
+        Product.find({
+          $expr: {
+            $gte: [
+              {
+                $multiply: [
+                  {
+                    $divide: [
+                      {
+                        $subtract: ["$originalPrice", "$sellingPrice"],
+                      },
+                      "$originalPrice",
+                    ],
+                  },
+                  100,
+                ],
+              },
+              30,
+            ],
+          },
+        }).limit(10),
+      ]);
 
-      return { featuredProducts };
+      return { featuredProducts,clearanceProducts };
     } catch (error) {
       logger.error("Error fetching product");
       throw error;
@@ -307,7 +329,11 @@ class ProductService {
         };
       }
 
-      prevImages = Array.isArray(prevImages) ? prevImages.map(img => typeof img === "string" ? JSON.parse(img) : img) : [JSON.stringify(prevImages)]
+      prevImages = Array.isArray(prevImages)
+        ? prevImages.map((img) =>
+            typeof img === "string" ? JSON.parse(img) : img
+          )
+        : [JSON.stringify(prevImages)];
 
       if (productData.images && !Array.isArray(productData.images)) {
         productData.images = [
@@ -319,11 +345,9 @@ class ProductService {
       }
 
       if (prevImages && !Array.isArray(prevImages)) {
-        prevImages = [
-          prevImages
-        ];
+        prevImages = [prevImages];
       }
-      console.log('prod data', prevImages);
+      console.log("prod data", prevImages);
       // console.log('prod:', product);
       const newImages = Array.isArray(productData.images)
         ? productData.images
