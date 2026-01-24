@@ -150,6 +150,8 @@ export const AdminProvider = ({ children }) => {
 
   useEffect(() => {
     if (state.admin) {
+      console.log('state admin:', state.admin);
+      
       setUser(state.admin);
     }
   }, [state.admin]);

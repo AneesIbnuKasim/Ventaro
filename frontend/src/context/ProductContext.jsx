@@ -458,15 +458,16 @@ export const ProductProvider = ({ children }) => {
       dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
 
       const response = await productAPI.addProduct(ProductData);
+console.log('add product', response);
 
       dispatch({
         type: PRODUCT_ACTIONS.ADD_PRODUCT,
         payload: response.data.product,
       });
 
-      toast(response.message);
+      toast(response.message)
 
-      return { success: true };
+      return { success: true }
     } catch (error) {
       dispatch({
         type: PRODUCT_ACTIONS.SET_ERROR,

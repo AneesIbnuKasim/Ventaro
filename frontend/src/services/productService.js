@@ -54,11 +54,16 @@ export const productAPI = {
 
   updateProduct: async(id, editData) => {
 
+    console.log('editData', editData);
+    
+
     const formData = new FormData();
 
     // Append all non-file fields
     Object.keys(editData).forEach((key) => {
-      if (key !== "images") {
+      if (key !== "images" && key !== "prevImages") {
+        console.log('keys', key);
+        
         formData.append(key, editData[key]);
       }
     });
@@ -66,6 +71,11 @@ export const productAPI = {
     // Append images array
     editData.images.forEach((img) => {
       formData.append("images", img); // "images"
+    });
+
+    // Append prev images array
+    editData.prevImages.forEach((img) => {
+      formData.append("prevImages[]", JSON.stringify(img))
     });
 
     const token = localStorage.getItem("adminToken");

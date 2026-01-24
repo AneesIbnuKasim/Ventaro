@@ -77,6 +77,8 @@ console.log('productsss', products);
   //open product form edit/add
   const handleProductForm = useCallback((product) => {
     if (product) setEditData(product);
+    console.log('editData', product);
+    
     setOpen(true);
   }, []);
 
@@ -93,16 +95,15 @@ console.log('productsss', products);
   const handleSubmit = async(values) => {
     if (editData?._id) {
       updateProduct(editData._id, values);
-        setEditData(null);
-        setOpen(false);
+      setEditData(null);
+      setOpen(false);
     } else {
         const res = await addProduct(values);
-        
         if (res.success) {
-setOpen(false);
+        setOpen(false);
         }
     }
-  };
+  }
 
   const totalItems = pagination?.totalProducts || 30;
   const totalPages = pagination?.totalPages;

@@ -18,8 +18,9 @@ const ProfileSchema = Yup.object({
 });
 
 export default function AdminProfile() {
-  const { admin, getProfile, updateProfile, updateAvatar, debouncedSearch, loading } =
+  const { admin, getProfile, updateProfile, updateAvatar } =
     useAdmin();
+
   const { name = "", email = "", phone = "" } = admin ?? {};
 
   const parts = name.split(" ");
@@ -32,8 +33,10 @@ export default function AdminProfile() {
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [avatarFile, setAvatarFile] = useState(null);
 
-  const navigate = useNavigate();
-  const location = useLocation();
+  // useEffect(() => {
+  //   const admin = getProfile()
+  //   setAdmin(admin)
+  // }, [])
 
   //   const userData = JSON.parse(localStorage.getItem("user"));
 
@@ -51,6 +54,9 @@ export default function AdminProfile() {
     setAvatarFile(file);
     setAvatarPreview(URL.createObjectURL(file));
   };
+
+  console.log('admin user', admin);
+  
 
   // HANDLE SAVING AVATAR TO BACKEND
   const handleAvatarSave = async () => {
@@ -78,14 +84,12 @@ export default function AdminProfile() {
     };
   }, [avatarPreview]);
 
-  //   useEffect(() => {
-  //     if (!admin) {
-  //         const load = async () => {
-  //         await getProfile()
-  //     }
-  //     load()
-  //     }
-  //   }, [])
+    // useEffect(() => {
+    //       const load = async () => {
+    //       await getProfile()
+    //   }
+    //   load()
+    // }, [])
 
   return (
     <main className="flex-1 p-10">

@@ -16,8 +16,9 @@ router.post('/login', AdminController.login)
 router.get('/orders', authenticateAdmin, OrderController.fetchOrders)
 router.put('/orders/:orderId', authenticateAdmin, OrderController.updateStatus)
 
-//profile
+//admin profile
 router.get('/me', authenticateAdmin, AdminController.getProfile)
+// router.get('/me', ()=>console.log('here'))
 router.put('/profile', authenticateAdmin, AdminController.updateProfile)
 router.put('/avatar', upload.single('avatar'), authenticateAdmin, AdminController.updateAvatar)
 

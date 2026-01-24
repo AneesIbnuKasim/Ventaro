@@ -57,10 +57,10 @@ if (loading) {
 
         {/* Header */}
         <div className="bg-gray-50 rounded-2xl p-6 shadow-sm mb-6">
-          <div className="flex justify-between flex-wrap gap-4">
+          <div className="flex justify-between flex-wrap gap-4 text-black">
             <div>
               <p className="text-sm text-gray-500">Order ID</p>
-              <p className="font-semibold">{selectedOrder.orderId}</p>
+              <p className="font-semibold text-black">{selectedOrder.orderId}</p>
               <p className="text-sm text-gray-500 mt-1">
                 Placed on {formatDate(selectedOrder.createdAt)}
               </p>
@@ -78,7 +78,7 @@ if (loading) {
 
         {/* Items */}
         <div className="bg-gray-50 rounded-2xl p-6 shadow-sm mb-6">
-          <h2 className="font-semibold mb-4">Items</h2>
+          <h2 className="font-semibold mb-4 text-black">Items</h2>
           <div className="space-y-4">
             {selectedOrder?.items?.map((item) => (
               <div key={item._id} className="flex gap-4">
@@ -88,8 +88,8 @@ if (loading) {
                   className="w-24 h-24 rounded-xl object-cover"
                 />
 
-                <div className="flex-1">
-                  <p className="font-medium">{item.product.name}</p>
+                <div className="flex-1 text-black">
+                  <p className="font-medium ">{item.product.name}</p>
                   <p className="text-sm text-gray-500">
                     ₹{item.finalUnitPrice} × {item.quantity}
                   </p>
@@ -111,7 +111,7 @@ if (loading) {
         </div>
 
         {/* Address & Summary */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-black">
           {/* Address */}
           <div className="bg-gray-50 rounded-2xl p-6 shadow-sm">
             <h2 className="font-semibold mb-3">Delivery Address</h2>

@@ -50,17 +50,6 @@ const Users = memo((setTitle) => {
 
   return (
     <>
-      {open && (
-        <Modal
-          isOpen={open}
-          size="xl"
-          onClose={closeProductForm}
-          className= 'overflow-y-auto'
-          title={editData ? "Edit Product" : "Add Product"}
-        >
-          <ProductForm onConfirm={handleSubmit} editData={editData} onCancel={handleCancel} />
-        </Modal>
-      )}
 
       {/* Delete confirmation modal */}
       {isDelete && (
@@ -81,15 +70,6 @@ const Users = memo((setTitle) => {
           className={'flex-1 m-5'}
         />
 
-        {/* <Button
-          size="sm"
-          variant={'custom'}
-          style={{ height: 30 }}
-          onClick={() => handleProductForm()}
-          className={'m-4'}
-        >
-          ADD PRODUCT
-        </Button> */}
       </div>
 
       {filters.search && !users?.length ? (

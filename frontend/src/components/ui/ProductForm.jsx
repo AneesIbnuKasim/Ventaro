@@ -10,6 +10,7 @@ import FormTextarea from "./FormTextArea";
 import FormSelect from "./FormSelect";
 import { ImageInput } from "./imageInput";
 import { productAddSchema } from "../../validation/userSchema";
+import formatImageUrl from "../../utils/formatImageUrl";
 
 export default function ProductForm({ onConfirm, onCancel, editData = '' }) {
   const { loading } = useProduct();
@@ -25,15 +26,40 @@ export default function ProductForm({ onConfirm, onCancel, editData = '' }) {
 
   const [previews, setPreviews] = useState([]);
   const [images, setImages] = useState([]);
+  const [prevImages, setPrevImages] = useState([])
 
   // ---- IMAGE HANDLING ----
   const handleMultiple = (e) => {
     const files = [...e.target.files];
     setImages((prev) => [...prev, ...files]);
 
-    const urls = files.map((file) => URL.createObjectURL(file));
-    setPreviews((prev) => [...prev, ...urls]);
+    const allPreviews = files.map((file) => URL.createObjectURL(file))
+    
+    setPreviews((prev) => [...prev, ...allPreviews]);
   };
+
+  //REMOVE PREVIEW + IMAGE FILE
+  const removePreview = (indexToRemove) => {
+  setPreviews((prev) =>
+    prev.filter((_, index) => index !== indexToRemove)
+  );
+
+  setImages((prev) =>
+    prev.filter((_, index) => index !== indexToRemove)
+  );
+};
+
+  useEffect(() => {
+    if (editData) {
+      setPreviews(editData.images.map(img=> img.url))
+      setPrevImages(editData.images)
+    }
+  }, [editData])
+
+  useEffect(()=>{
+    console.log('previes', previews);
+    
+  }, [previews])
 
   // ---- FORM STATE ----
   const formik = useFormik({
@@ -58,17 +84,23 @@ export default function ProductForm({ onConfirm, onCancel, editData = '' }) {
       isFeatured: false
     }
      ,
-
     validationSchema: productAddSchema,
 
     onSubmit: (values) => {
-      const finalData = {
+      let finalData = {}
+      if (editData) {
+        finalData = {
         ...values,
         images,
+        prevImages
       };
-
+      } else {
+        finalData = {
+          ...values,
+        images
+        }
+      }
       onConfirm(finalData)
-      
     },
   });
 
@@ -183,8 +215,24 @@ export default function ProductForm({ onConfirm, onCancel, editData = '' }) {
       <div className="flex flex-col gap-4">
         <div className="grid grid-cols-4 gap-3">
           {previews.map((src, i) => (
-            <img key={i} src={src} className="w-24 h-24 object-cover rounded" />
-          ))}
+    <div
+      key={i}
+      className="relative inline-block w-24 h-24 overflow-hidden rounded"
+    >
+      <img
+        src={formatImageUrl(src)}
+        className="w-full h-full object-cover"
+      />
+
+      <button
+        type="button"
+        onClick={() => removePreview(i)}
+        className="absolute top-0 right-1 bg-orange-200 text-black text-xs rounded-full w-5 h-5 flex items-center justify-center hover:bg-red-600"
+      >
+        ✕
+      </button>
+    </div>
+  ))}
         </div>
 
         <ImageInput handleMultiple={handleMultiple} editData={editData} />

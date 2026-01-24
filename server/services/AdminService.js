@@ -64,8 +64,11 @@ class AdminService {
             logger.error("Admin not found");
             throw NotFoundError("Admin not found");
           }
+
+          const sanitizedAdmin = await admin.getPublicProfile()
+    console.log('sanitized admin:', sanitizedAdmin);
     
-          return { admin: await admin.getPublicProfile() };
+          return { admin: sanitizedAdmin };
         } catch (error) {
           logger.error("Profile update failed");
           throw error;
@@ -111,7 +114,8 @@ class AdminService {
         logger.error("Admin not found", adminId);
         throw sendError(res, "Admin not found", 404);
       }
-      const profileData = admin.getPublicProfile();
+      const profileData = await admin.getPublicProfile();
+console.log('admin profile:', profileData);
 
       return { admin: profileData };
     } catch (error) {

@@ -70,8 +70,6 @@ const resolveImageUrl = (image, baseUrl = "http://localhost:5001") => {
     // Case 1: S3 or Cloudinary object
     if (typeof image === "object" && image.url) {
       // If already absolute (S3), return as-is
-      console.log('new img', image.url);
-      
       return image.url.startsWith("http")
         ? image.url
         : `${baseUrl}${image.url}`

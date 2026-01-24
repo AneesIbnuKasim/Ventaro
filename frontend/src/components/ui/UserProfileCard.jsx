@@ -3,7 +3,7 @@ import { API_CONFIG } from "../../config/app";
 
 export default function UserProfileCard({ user, onBlock, unBlock, onVerify, onView }) {
   return (
-    <div className="bg-white rounded-xl shadow-sm border p-4 flex gap-4 hover:shadow-md transition">
+    <div className="bg-slate-100 rounded-xl shadow-sm border border-gray-300 p-4 flex gap-4 hover:shadow-md hover:scale-102 transition">
 
       {/* Avatar */}
       <div className="shrink-0">

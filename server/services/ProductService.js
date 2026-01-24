@@ -286,12 +286,11 @@ class ProductService {
     }
   };
 
-  static editProduct = async (productId, productData, req) => {
+  static editProduct = async (productId, productData, prevImages, req) => {
     try {
       const product = await Product.findById(productId);
 
-      console.log('files', req.files);
-      
+      console.log("files", req.files);
 
       if (!product) {
         logger.error("Product not found");
@@ -308,8 +307,8 @@ class ProductService {
         };
       }
 
-      
-      
+      prevImages = Array.isArray(prevImages) ? prevImages.map(img => typeof img === "string" ? JSON.parse(img) : img) : [JSON.stringify(prevImages)]
+
       if (productData.images && !Array.isArray(productData.images)) {
         productData.images = [
           {
@@ -318,12 +317,24 @@ class ProductService {
           },
         ];
       }
-      // console.log('prod data', productData);
-      // console.log('prod:', product);
 
+      if (prevImages && !Array.isArray(prevImages)) {
+        prevImages = [
+          prevImages
+        ];
+      }
+      console.log('prod data', prevImages);
+      // console.log('prod:', product);
+      const newImages = Array.isArray(productData.images)
+        ? productData.images
+        : [];
+
+      productData.images = [...prevImages, ...newImages];
+      console.log("prod images:", productData.images);
       Object.assign(product, productData);
 
       await product.save();
+      console.log("edited product", product);
 
       return product;
     } catch (error) {

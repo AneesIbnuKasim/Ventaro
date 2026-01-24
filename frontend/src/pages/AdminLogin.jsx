@@ -40,7 +40,8 @@ const AdminLogin = memo(() => {
           name: adminData.name,
           email: adminData.email,
           role: adminData.role,
-          avatar: adminData.avatar || null
+          avatar: adminData.avatar || null,
+          phone: adminData.phone
         }
         
       setUser(admin)
