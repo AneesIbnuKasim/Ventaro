@@ -1,7 +1,7 @@
 const express = require('express')
 const AdminController = require('../controllers/adminController')
 const { authenticateAdmin } = require('../middlewares/auth')
-const CategoryController = require('../controllers/categoryController')
+const CategoryController = require('../controllers/CategoryController')
 const ProductController = require('../controllers/ProductController')
 const { default:upload } = require('../config/multer')
 const OrderController = require('../controllers/orderController')

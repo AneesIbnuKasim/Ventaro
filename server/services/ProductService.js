@@ -5,8 +5,8 @@ const Order = require("../models/Order");
 const { ConflictError, NotFoundError } = require("../utils/errors");
 const logger = require("../utils/logger");
 const { DeleteObjectCommand } = require("@aws-sdk/client-s3");
-const { s3 } = require("../config/multer.js");
-const config = require("../config/config.js");
+const { s3 } = require("../config/multer");
+const config = require("../config/config");
 
 class ProductService {
   //GET ALL PRODUCTS

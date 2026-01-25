@@ -3,7 +3,7 @@ const Banner = require("../models/Banner");
 const { NotFoundError } = require("../utils/errors");
 const logger = require("../utils/logger");
 const { DeleteObjectCommand } = require("@aws-sdk/client-s3");
-const { s3 } = require("../config/multer.js");
+const { s3 } = require("../config/multer");
 
 class BannerService {
   static createBanner = async (file, formData) => {

@@ -1,6 +1,6 @@
 const express = require('express')
 const { authenticateAdmin, authenticateUser } = require('../middlewares/auth')
-const CategoryController = require('../controllers/categoryController')
+const CategoryController = require('../controllers/CategoryController')
 const CouponController = require('../controllers/couponController')
 
 const router = express.Router()

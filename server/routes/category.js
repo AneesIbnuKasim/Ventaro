@@ -1,6 +1,6 @@
 const express = require('express')
 const { authenticateAdmin } = require('../middlewares/auth')
-const CategoryController = require('../controllers/categoryController')
+const CategoryController = require('../controllers/CategoryController')
 const { default: upload } = require('../config/multer')
 
 const router = express.Router()
