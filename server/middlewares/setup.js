@@ -67,6 +67,8 @@ const setupMiddleware = (app) => {
   }
   app.use(cors(corsOptions))
 
+
+  app.get('/', (req, res) => res.status(200).send('OK'));
   // --- Health check routes ---
   app.get('/health', (req, res) => {
     res.status(200).json({ success: true, message: 'Server is up' })
