@@ -1,11 +1,9 @@
 const { default: mongoose } = require("mongoose");
 const { ORDER_STATUS, PAYMENT_STATUS } = require("../config/config");
-const { findById } = require("../models/Coupon");
 const Order = require("../models/Order");
 const User = require("../models/User");
 const {
   NotFoundError,
-  AuthenticationError,
   ValidationError,
 } = require("../utils/errors");
 const Product = require("../models/Product");

@@ -1,5 +1,5 @@
 const openai = require("../config/openai");
-const { default: Order } = require("../models/Order");
+const Order = require("../models/Order");
 
 
 class ChatService {
@@ -34,10 +34,13 @@ class ChatService {
         text: `Your order #${orderId} is currently **${order.orderStatus}**.`,
       });
         case 'RETURN_INITIATED' : return ({
-        text: `Your order #${orderId} is **${order.orderStatus}**. process now.`,
+        text: `Your order #${orderId} is in **${order.orderStatus}**. process now.`,
       });
         case 'RETURNED' : return ({
         text: `Your order #${orderId} is **${order.orderStatus}**.`,
+      });
+        case 'DELIVERED' : return ({
+        text: `Your order #${orderId} is **${order.orderStatus} already**.`,
       });
       default:       return ({
         text: `Your order #${orderId} is processing.**.`,

@@ -15,14 +15,22 @@ import { fetchBannerThunk } from "../redux/slices/bannerSlice";
 import { getBannerLink } from "../utils/bannerLink";
 import { API_CONFIG } from "../config/app";
 import HomeSkelton from "../components/ui/HomeSkelton";
+import ToggleChat from "../components/ui/ToggleChat";
 
 const Home = memo(() => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const navigateWithReset = useNavigateWithReset();
 
-  const { fetchProduct, fetchSingleProduct, products, setGlobalCategory, fetchHomePageProducts, featuredProducts, clearanceProducts } =
-    useProduct();
+  const {
+    fetchProduct,
+    fetchSingleProduct,
+    products,
+    setGlobalCategory,
+    fetchHomePageProducts,
+    featuredProducts,
+    clearanceProducts,
+  } = useProduct();
   const { categories, fetchCategories } = useCategory();
 
   const { banners } = useSelector((state) => state.banner);
@@ -63,17 +71,16 @@ const Home = memo(() => {
 
   // FEATURED PRODUCTS
   useEffect(() => {
-    fetchHomePageProducts()
-  }, [])
+    fetchHomePageProducts();
+  }, []);
 
-  if (products.length === 0 ) {
-    return <HomeSkelton />
+  if (products.length === 0) {
+    return <HomeSkelton />;
   }
 
   /* ================= UI ================= */
   return (
     <main className="min-h-screen ">
-
       {/* ================= HERO / TOP BANNER ================= */}
       {topBanners.length > 0 && (
         <section className="max-w-7xl mx-auto px-4 py-8">
@@ -121,7 +128,7 @@ const Home = memo(() => {
         {products.length > 0 && (
           <Slider
             title="Featured Products"
-            items={featuredProducts.slice(0,9)}
+            items={featuredProducts.slice(0, 9)}
             renderItem={(item) => <ProductCard product={item} />}
             handleClick={handleProductClick}
           />
@@ -171,7 +178,7 @@ const Home = memo(() => {
           <BannerSlider banners={bottomBanners} />
         </section>
       )}
-
+      <ToggleChat />
     </main>
   );
 });

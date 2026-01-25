@@ -37,9 +37,9 @@ export default function ToggleChat() {
             transition={{ duration: 0.25 }}
             className="absolute bottom-20 right-0"
           >
-            <div className="w-80 h-[420px] bg-white rounded-2xl shadow-xl flex flex-col overflow-hidden">
+            <div className="w-80 h-105 bg-chat-card rounded-2xl shadow-xl flex flex-col overflow-hidden">
               {/* Header */}
-              <div className="px-4 py-3 font-semibold shadow-xl bg-gray-50">
+              <div className="px-4 py-3 font-semibold shadow-xl bg-card">
                 Live Chat
               </div>
 
@@ -60,7 +60,7 @@ export default function ToggleChat() {
               </div>
 
               {/* Input */}
-              <div className="p-3 shadow-xl bg-gray-100 flex gap-2">
+              <div className="p-3 shadow-xl bg-card flex gap-2">
                 <input
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}

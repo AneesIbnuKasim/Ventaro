@@ -1,5 +1,5 @@
 const Admin = require("../models/Admin")
-const { NotFoundError, ConflictError, AuthorizationError, AuthenticationError, ValidationError } = require("../utils/errors")
+const { NotFoundError, AuthorizationError, AuthenticationError, ValidationError } = require("../utils/errors")
 const { generateAdminToken } = require("../utils/jwt")
 const logger = require("../utils/logger")
 const path = require('path')

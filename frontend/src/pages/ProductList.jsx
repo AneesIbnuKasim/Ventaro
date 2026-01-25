@@ -140,8 +140,6 @@ const ProductList = memo(() => {
             )}
           </div>
           </div>
-        
-        <ToggleChat />
     </>
   );
 });

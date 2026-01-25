@@ -6,10 +6,11 @@ const ProductController = require('../controllers/ProductController')
 const { default:upload } = require('../config/multer')
 const OrderController = require('../controllers/orderController')
 const checkUserStatus = require('../middlewares/checkUserStatus')
+const loginLimiter = require('../middlewares/rateLimiter')
 
 const router = express.Router()
 
-router.post('/login', AdminController.login)
+router.post('/login', loginLimiter , AdminController.login)
 
 // orders
 
