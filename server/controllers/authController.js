@@ -1,6 +1,6 @@
 const BaseController = require("./baseController")
 const { registerValidation, loginValidation, emailValidation, resetPasswordValidation } = require('../utils/validation')
-const AuthService = require("../services/AuthService")
+const AuthService = require("../services/authService")
 
 class AuthController extends BaseController {
     static register = BaseController.asyncHandler(async(req, res)=>{
