@@ -12,7 +12,7 @@ const {
 const Order = require("../models/Order");
 const User = require("../models/User");
 const Product = require("../models/Product");
-const { default: mongoose } = require("mongoose");
+const mongoose = require("mongoose");
 
 const razorpay = new Razorpay({
   key_id: config.RAZORPAY.API_KEY,

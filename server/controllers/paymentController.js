@@ -1,4 +1,4 @@
-const PaymentService = require("../services/PaymentService");
+const PaymentService = require("../services/paymentService");
 const BaseController = require("./baseController");
 
 

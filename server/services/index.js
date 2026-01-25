@@ -11,5 +11,5 @@ module.exports = {
   ChatService: require('./ChatService'),
   CouponService: require('./CouponService'),
   OrderService: require('./OrderService'),
-  PaymentService: require('./PaymentService'),
+  PaymentService: require('./paymentService'),
 }
