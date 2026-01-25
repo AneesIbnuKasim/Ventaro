@@ -56,11 +56,6 @@ export default function ProductForm({ onConfirm, onCancel, editData = '' }) {
     }
   }, [editData])
 
-  useEffect(()=>{
-    console.log('previes', previews);
-    
-  }, [previews])
-
   // ---- FORM STATE ----
   const formik = useFormik({
     initialValues:

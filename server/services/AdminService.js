@@ -45,8 +45,6 @@ class AdminService {
 
     //UPDATE ADMIN PROFILE
     static updateProfile = async (adminId, updateData) => {
-        console.log('in admin uopdate', updateData);
-        
         try {
           delete updateData?.password;
           delete updateData?.email;
@@ -58,7 +56,6 @@ class AdminService {
             new: true,
             runValidators: true,
           });
-    console.log('admin', admin);
     
           if (!admin) {
             logger.error("Admin not found");
@@ -66,7 +63,6 @@ class AdminService {
           }
 
           const sanitizedAdmin = await admin.getPublicProfile()
-    console.log('sanitized admin:', sanitizedAdmin);
     
           return { admin: sanitizedAdmin };
         } catch (error) {
@@ -115,7 +111,6 @@ class AdminService {
         throw sendError(res, "Admin not found", 404);
       }
       const profileData = await admin.getPublicProfile();
-console.log('admin profile:', profileData);
 
       return { admin: profileData };
     } catch (error) {

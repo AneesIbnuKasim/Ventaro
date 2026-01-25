@@ -189,11 +189,7 @@ class AuthService {
     static async resetPassword(passwordData) {
         try {
 
-            logger.warn('Its hereeeeeeeeee')
             const { resetToken, newPassword } = passwordData
-
-            console.log('resetToken:', resetToken)
-            console.log('newPassword::', newPassword)
             const decoded = verifyResetToken(resetToken)
 
         if (!decoded) {

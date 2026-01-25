@@ -18,7 +18,6 @@ export default function formatImageUrl (image, baseUrl = "http://localhost:5001"
 
     // Case 2: Old string path
     if (typeof image === "string") {
-      console.log('old img', image);
       if(image.startsWith("blob")) {
         return image
       }

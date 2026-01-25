@@ -37,8 +37,6 @@ class ProductService {
         } else if (minPrice) filter.sellingPrice = { $gte: minPrice };
         else if (maxPrice) filter.sellingPrice = { $lte: maxPrice };
       }
-      console.log("rating", rating);
-
       if (rating) filter.ratings.rating = { $gte: rating };
 
       const sortObj = { [sortBy]: sortOrder };
@@ -47,7 +45,6 @@ class ProductService {
       const skipValue = (page - 1) * productPerPage;
 
       const totalProducts = await Product.find(filter).countDocuments();
-      console.log("fil", req.file);
 
       const [products, categories] = await Promise.all([
         Product.find(filter).skip(skipValue).limit(limit),
@@ -108,19 +105,14 @@ class ProductService {
         ? rating.map(Number).filter(Number.isFinite)
         : [];
 
-      console.log("ratings::", ratings);
-
       if (ratings.length) filter.avgRating = { $gte: Math.min(...ratings) };
 
       sortOrder = sortOrder === "asc" ? 1 : -1;
       const sortObj = { [sortBy]: sortOrder };
 
-      console.log("sort-obj", sortObj);
-
       const currentPage = page || 1;
       const productPerPage = limit || 6;
       const skipValue = (currentPage - 1) * productPerPage;
-      console.log("category filter", filter);
 
       const totalProducts = await Product.countDocuments(filter);
 
@@ -149,8 +141,6 @@ class ProductService {
     try {
       const product = await Product.findById(productId).populate("categoryId");
 
-      console.log("userid", userId);
-
       const orders = await Order.exists({
         user: userId,
         "items.product": productId,
@@ -174,7 +164,7 @@ class ProductService {
   // GET FEATURED/BEST SELLER PRODUCTS
   static fetchHomePageProducts = async () => {
     try {
-      const [ featuredProducts, clearanceProducts ] = await Promise.all([
+      const [featuredProducts, clearanceProducts] = await Promise.all([
         Product.find({ isFeatured: true }).limit(10),
         Product.find({
           $expr: {
@@ -198,7 +188,7 @@ class ProductService {
         }).limit(10),
       ]);
 
-      return { featuredProducts,clearanceProducts };
+      return { featuredProducts, clearanceProducts };
     } catch (error) {
       logger.error("Error fetching product");
       throw error;
@@ -226,8 +216,6 @@ class ProductService {
       if (!productId) return new NotFoundError("Product Not found");
       if (!reviewData) return new NotFoundError("No review data provided");
 
-      console.log("", typeof rating);
-
       const product = await Product.findById(productId);
 
       if (!product) return new NotFoundError("Product not found");
@@ -246,7 +234,6 @@ class ProductService {
         product.ratingCount;
 
       await product.save();
-      console.log("return product", product);
 
       return product;
     } catch (error) {
@@ -297,8 +284,6 @@ class ProductService {
         })),
       });
 
-      console.log("product in add:", product);
-
       await product.save();
 
       return { product };
@@ -311,8 +296,6 @@ class ProductService {
   static editProduct = async (productId, productData, prevImages, req) => {
     try {
       const product = await Product.findById(productId);
-
-      console.log("files", req.files);
 
       if (!product) {
         logger.error("Product not found");
@@ -347,18 +330,14 @@ class ProductService {
       if (prevImages && !Array.isArray(prevImages)) {
         prevImages = [prevImages];
       }
-      console.log("prod data", prevImages);
-      // console.log('prod:', product);
       const newImages = Array.isArray(productData.images)
         ? productData.images
         : [];
 
       productData.images = [...prevImages, ...newImages];
-      console.log("prod images:", productData.images);
       Object.assign(product, productData);
 
       await product.save();
-      console.log("edited product", product);
 
       return product;
     } catch (error) {
@@ -424,8 +403,6 @@ class ProductService {
     try {
       const { search, sortBy, sortOrder = "asc" } = req.query;
 
-      console.log("query:", req.query);
-
       const minPrice = parseInt(req.query.minPrice);
       const maxPrice = parseInt(req.query.maxPrice);
       const page = parseInt(req.query.page);
@@ -450,8 +427,6 @@ class ProductService {
       const ratings = Array.isArray(rating)
         ? rating.map(Number).filter(Number.isFinite)
         : [];
-
-      console.log("ratings::", ratings);
 
       const filter = {};
       if (ratings.length) filter.avgRating = { $gte: Math.min(...ratings) };
@@ -487,8 +462,6 @@ class ProductService {
         Category.distinct("name"),
       ]);
 
-      console.log("page:", page);
-
       return {
         products,
         pagination: {
@@ -504,76 +477,6 @@ class ProductService {
       throw error;
     }
   };
-
-  //   static fetchSearch = async (req) => {
-  //     try {
-  //       const { search, sortBy, sortOrder = "asc", category } = req.query;
-
-  //       console.log('query:', req.query);
-
-  //       const minPrice = parseInt(req.query.minPrice);
-  //       const maxPrice = parseInt(req.query.maxPrice);
-  //       const rating = parseInt(req.query.rating);
-  //       const page = parseInt(req.query.page);
-  //       const limit = parseInt(req.query.limit) || 10;
-
-  //       console.log('rating:', rating);
-  //       console.log('minPrice:', minPrice);
-
-  //       const filter = {};
-
-  //       if (search)
-  //         filter.$or = [
-  //           { name: { $regex: search, $options: "i" } },
-  //           { description: { $regex: search, $options: "i" } },
-  //           { brandName: { $regex: search, $options: "i" } },
-  //         ];
-  //         console.log('isArray: ', search);
-
-  //       if (Array.isArray(category) && category.length > 0)
-  //         filter.category = { $in: category };
-
-  //       console.log('filter cat', filter);
-
-  //       if (minPrice || maxPrice) {
-  //         if (minPrice && maxPrice) {
-  //           filter.sellingPrice = { $gte: minPrice, $lte: maxPrice };
-  //         } else if (minPrice) filter.sellingPrice = { $gte: minPrice };
-  //         else if (maxPrice) filter.sellingPrice = { $lte: maxPrice };
-  //       }
-
-  //       if (rating) filter.rating = { $gte: rating };
-
-  //       const sortObj = { [sortBy]: sortOrder };
-
-  //       const currentPage = page || 1;
-  //       const productPerPage = limit || 6;
-  //       const skipValue = (currentPage - 1) * productPerPage;
-
-  //       const totalProducts = await Product.find(filter);
-
-  //       const [products, categories] = await Promise.all([
-  //         Product.find(filter).sort(sortObj).skip(skipValue).limit(limit),
-  //         Category.distinct("name"),
-  //       ]);
-
-  //       console.log("page:", page);
-
-  //       return {
-  //         products,
-  //         pagination: {
-  //           page: currentPage,
-  //           limit,
-  //           totalPages: Math.ceil(totalProducts.length / limit),
-  //           totalProducts: totalProducts.length,
-  //         },
-  //         allCategories: categories,
-  //       };
-  //     } catch (error) {
-  //       logger("Search product failed", error);
-  //       throw error;
-  //     }
-  //   };
 }
 
 module.exports = ProductService;

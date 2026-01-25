@@ -34,15 +34,6 @@ const SalesReport = memo(() => {
   } = useSelector((state) => state.sales);
   const period = filters.period;
   const dispatch = useDispatch();
-  // const totalSales = useSelector(selectTotalSales)
-  // const totalOrders = useSelector(selectTotalOrders)
-
-  useEffect(() => {
-    console.log("startDate", filters.startDate);
-  }, [filters.startDate]);
-
-  // const lastDaily = Daily
-  // console.log('last'), lastDaily;
 
   const query = {
     period: filters.period,

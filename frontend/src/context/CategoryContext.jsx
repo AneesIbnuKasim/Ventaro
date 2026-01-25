@@ -115,10 +115,6 @@ const categoryReducer = (state, action) => {
 };
 
 const isCategoryPage = /^\/admin\/[^/]+$/.test(location.pathname);
-console.log("isCategoryPage:", isCategoryPage);
-
-console.log("location.pathname", location.pathname);
-
 export const CategoryProvider = ({ children }) => {
   const [state, dispatch] = useSyncedReducer(
     categoryReducer,
@@ -126,10 +122,6 @@ export const CategoryProvider = ({ children }) => {
     isCategoryPage,
     []
   );
-
-  useEffect(()=> {
-    console.log("STATE ON FIRST RENDER:", state.pagination.page, state.pagination.limit);
-  }, [state.pagination.page, state.pagination.limit])
 
   const debouncedSearch = useDebounce(state?.filters?.search, 500);
 
@@ -186,9 +178,6 @@ export const CategoryProvider = ({ children }) => {
   const addCategory = async (categoryData) => {
     try {
       dispatch({ type: CATEGORY_ACTIONS.SET_LOADING, payload: true });
-      console.log('categoryData', categoryData);
-      
-
       const response = await adminAPI.addCategory(categoryData);
 
       dispatch({ type: CATEGORY_ACTIONS.ADD_CATEGORY, payload: response.data });

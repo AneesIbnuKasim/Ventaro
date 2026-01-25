@@ -144,7 +144,6 @@ const isAllowedRoute =
       // array support (rating)
       if (key === "rating") {   
         filters[key] = value.split(",").map(Number).filter(v=> v!==0)
-        console.log('filters.rating:', filters['rating']);
       }
 
       // array support (category)
@@ -196,15 +195,12 @@ const isAllowedRoute =
 
     paginationKeys.forEach((key) => {
       const value = state.pagination[key];
-      console.log('page value:', value);
-      
       if (Number.isFinite(value)) {
         params.set(key, value);
       }
     });
 
     for (const [key, value] of params.entries()) {
-  console.log(key, value);
 }
     const newUrl = `${location.pathname}?${params.toString()}`;
 

@@ -54,15 +54,11 @@ export const productAPI = {
 
   updateProduct: async(id, editData) => {
 
-    console.log('editData', editData);
-    
-
     const formData = new FormData();
 
     // Append all non-file fields
     Object.keys(editData).forEach((key) => {
       if (key !== "images" && key !== "prevImages") {
-        console.log('keys', key);
         
         formData.append(key, editData[key]);
       }
@@ -99,7 +95,6 @@ export const productAPI = {
   //USER PRODUCT PAGES
   fetchSingleProduct: (data) => {
     const { productId, userId } = data
-    console.log('here', data);
     
     return makeRequest({
       method: "get",
@@ -131,8 +126,6 @@ export const productAPI = {
   //SEARCH SUGGESTION 
  searchSuggestion: (params) => {
 
-  console.log(params);
-  
   return makeRequest({
       method: "get",
       url: `api/products/suggestions`,
@@ -143,8 +136,6 @@ export const productAPI = {
   //GLOBAL SEARCH 
  fetchSearch: (params) => {
 
-  console.log('search para:',params);
-  
   return makeRequest({
       method: "get",
       url: `api/search`,

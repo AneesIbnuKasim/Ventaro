@@ -27,9 +27,6 @@ const AdminLogin = memo(() => {
       const { setAdminToken } = await import('../utils/apiClient')
 
         const response = await adminAPI.login(values)
-        console.log('admin login response:', response);
-        
-
         const adminData = response?.data.admin
         const adminToken = response?.data?.token
 

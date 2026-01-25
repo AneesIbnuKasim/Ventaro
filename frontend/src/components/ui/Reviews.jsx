@@ -5,8 +5,6 @@ import RatingStars from "./RatingStars";
 
 export function ReviewsList({ reviews = [], avgRating }) {
 
-  console.log('reviews', reviews);
-  
   return (
     <div className="flex flex-col gap-6 mb-10">
       <div className="flex">

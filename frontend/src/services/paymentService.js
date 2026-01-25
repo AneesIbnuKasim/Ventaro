@@ -19,7 +19,6 @@ export const paymentAPI = {
     },
 
     verifyRazorpayOrder: (data) => {
-        console.log('data in verify', data);
         
         return makeRequest({
             method: 'post',

@@ -33,9 +33,6 @@ useEffect(() => {
   );
 }, [dispatch, pagination.page]);
 
-  // useEffect(() => {
-  //   console.log("pagination:::", pagination);
-  // }, [pagination]);
   const handleCancel = async (orderId) => {
     await dispatch(cancelOrderThunk(orderId)).unwrap();
   };

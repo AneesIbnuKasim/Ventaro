@@ -15,9 +15,6 @@ class CartService {
       const cart = await Cart.findOne({ user: userId }).populate(
         "items.product")
 
-      //   if (!cart) return []
-      console.log('carrrrt:', cart);
-      
       return cart;
     } catch (error) {
       throw error;
@@ -146,7 +143,6 @@ class CartService {
 
       // await cart.populate("items.product").populate( "appliedCoupon")
       cart = await cart.populate('items.product')
-      console.log("populated cart", cart.items);
 
       return { cart, warnings };
     } catch (error) {
@@ -158,7 +154,6 @@ class CartService {
   static async removeFromCart(itemId, userId) {
     try {
         const warnings = []
-      console.log("here in remove cart handler:", itemId);
 
       const cart = await Cart.findOneAndUpdate(
         { user: userId },
@@ -167,9 +162,6 @@ class CartService {
           new: true,
         }
       ).populate("items.product").populate( "appliedCoupon")
-
-      console.log('remove cart', cart);
-      
 
       if (!cart) {
         throw new NotFoundError("Product not found", 404);
@@ -199,11 +191,9 @@ class CartService {
       const products = await Product.find({
         _id: { $in: productIds },
       });
-      console.log("prods", products);
 
       //products from DB stored in Map object for minimal queries,
       const productMap = new Map(products.map((p) => [p._id.toString(), p]));
-      console.log("prod map", productMap);
 
       const warnings = [];
       const cartItems = items
@@ -253,9 +243,7 @@ class CartService {
 
       cart.items = cartItems;
 
-      console.log("cart check", cart);
       //recalculate totals
-
       cart.totalQuantity = this.recalculateTotalQuantity(cart);
       cart.subTotal = this.recalculateSubTotal(cart);
 
@@ -282,7 +270,6 @@ class CartService {
         cart.subTotal,
         cart.items
     )
-    console.log('result coupon', result.coupon);
     
     cart.appliedCoupon = result.coupon
 
@@ -293,7 +280,6 @@ class CartService {
     
     
     await cart.save()
-    console.log('applied cart:', cart);
     await cart.populate('appliedCoupon')
     return {cart}
   }
@@ -301,7 +287,6 @@ class CartService {
   static removeCoupon = async (userId) => {
     const cart = await Cart.findOne({user: userId})
     if (!cart) throw new NotFoundError('Cart not found')
-console.log('here in remove api:', cart);
     
     cart.appliedCoupon = null
     cart.discountTotal = 0
@@ -309,7 +294,6 @@ console.log('here in remove api:', cart);
     
     await cart.save()
     
-    console.log('here in remove api:', cart);
     return {cart}
   }
 }

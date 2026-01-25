@@ -27,9 +27,6 @@ const Login = memo(() => {
 
         const response = await authAPI.login(values)
 
-        console.log('login response:', response);
-        
-
         setAuthToken(response?.data?.token)
       
       const userData = response?.data.user

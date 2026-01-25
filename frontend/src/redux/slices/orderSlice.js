@@ -23,9 +23,7 @@ export const fetchOrderThunk = createAsyncThunk(
   "fetch-orders",
   async ({role='', ...params}, { rejectWithValue }) => {
     try {
-        console.log("fetch order params:", params);
       const res = role === 'admin' ? await adminAPI.fetchOrder(params) : await orderAPI.fetchOrder(params)
-      console.log("fetch order res:", res.data);
 
       return res.data;
     } catch (error) {
@@ -39,10 +37,7 @@ export const fetchSingleOrderThunk = createAsyncThunk(
   "fetch-order",
   async (orderId, { rejectWithValue }) => {
     try {
-      console.log("in fetch single order");
-
       const res = await orderAPI.fetchSingleOrderThunk(orderId);
-      console.log("fetch single order res:", res.data);
 
       return res.data;
     } catch (error) {
@@ -56,11 +51,7 @@ export const cancelOrderThunk = createAsyncThunk(
   "cancel-order",
   async (orderId, { rejectWithValue }) => {
     try {
-
-        console.log("cancelled thunk start api call:", orderId);
       const res = await orderAPI.cancelOrder(orderId);
-
-      console.log("cancelled res:", res.data);
 
       return res.data;
     } catch (error) {
@@ -76,8 +67,6 @@ export const returnOrderRequestThunk = createAsyncThunk(
     try {
       const res = await orderAPI.returnOrderRequest(returnData);
 
-      console.log("cancelled res:", res.data);
-
       return res.data;
     } catch (error) {
       rejectWithValue(error.message);
@@ -90,12 +79,8 @@ export const returnOrderRequestThunk = createAsyncThunk(
 export const updateStatusThunk = createAsyncThunk(
   "update-status",
   async (orderData, { rejectWithValue }) => {
-    console.log('orderdata', orderData);
-    
     try {
       const res = await adminAPI.updateStatus(orderData);
-
-      console.log("cancelled res:", res.data);
 
       return res.data;
     } catch (error) {
@@ -139,8 +124,6 @@ const orderSlice = createSlice({
         state.selectedOrder = null; 
       })
       .addCase(fetchSingleOrderThunk.fulfilled, (state, action) => {
-        console.log("single action order:", action.payload.order);
-
         state.loading = false;
         state.selectedOrder = action.payload.order;
       })
@@ -155,8 +138,6 @@ const orderSlice = createSlice({
       })
       .addCase(cancelOrderThunk.fulfilled, (state, action) => {
         const cancelledOrder = action.payload?.order;
-        console.log("cancelled in thunk", cancelledOrder);
-
         state.loading = false;
         state.orders = state.orders.map((order) =>
           order._id === cancelledOrder?._id ? cancelledOrder : order
@@ -174,8 +155,6 @@ const orderSlice = createSlice({
       })
       .addCase(returnOrderRequestThunk.fulfilled, (state, action) => {
         const returnOrder = action.payload?.order;
-        console.log("return in thunk", returnOrder);
-
         state.loading = false;
         state.orders = state.orders.map((order) =>
           order._id === returnOrder._id ? returnOrder : order
@@ -192,8 +171,6 @@ const orderSlice = createSlice({
       })
       .addCase(updateStatusThunk.fulfilled, (state, action) => {
         const updatedOrder = action.payload?.order;
-        console.log("updatedOrder in thunk", updatedOrder);
-
         state.loading = false;
         state.orders = state.orders.map((order) =>
           order._id === updatedOrder?._id ? updatedOrder : order

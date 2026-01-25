@@ -35,9 +35,6 @@ export default function SingleProduct({ product = {}, avgRating = '' }) {
     useEffect(() => {
     setMainImage(images[0]);
   }, [product, images]);
-    useEffect(() => {
-   console.log('main img:', mainImage);
-  }, [mainImage]);
 
   const addToCart = () => {
     
@@ -77,7 +74,6 @@ const resolveImageUrl = (image, baseUrl = "http://localhost:5001") => {
 
     // Case 2: Old string path
     if (typeof image === "string") {
-      console.log('old img', image);
       return image.startsWith("http") ? image : `${baseUrl}${image}` ?? `${baseUrl}${image.url}`;
     }
 

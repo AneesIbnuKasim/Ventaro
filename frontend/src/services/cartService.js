@@ -29,8 +29,6 @@ const cartAPI = {
             quantity: i.quantity
         }))
 
-        console.log('date in api:', data);
-        
         return makeRequest(({
             method: 'put',
             url: `/api/cart`,
@@ -47,8 +45,6 @@ const cartAPI = {
 
     //validate and apply coupon
     applyCoupon: (data) => {
-        console.log('in apply coupon sender');
-        
         return makeRequest(({
             method: 'post',
             url: `/api/cart/apply-coupon`,
@@ -58,8 +54,6 @@ const cartAPI = {
 
     //remove coupon
     removeCoupon: () => {
-        console.log('seending remove');
-        
         return makeRequest(({
             method: 'delete',
             url: `/api/cart/remove-coupon`,

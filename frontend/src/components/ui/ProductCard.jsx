@@ -28,8 +28,6 @@ const ProductCard = memo(({ product, handleClick=()=>console.log('clicked'), but
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
-console.log('images:', images);
-
 
   // useEffect(())
 

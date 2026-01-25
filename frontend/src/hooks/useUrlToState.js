@@ -9,7 +9,6 @@ export default function useUrlToState(
 
   useEffect(() => {
     const params = Object.fromEntries(searchParams.entries());
-    console.log("params:::", params.search);
 
     setFilters((prev) => ({
       ...prev,

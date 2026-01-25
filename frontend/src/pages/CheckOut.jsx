@@ -55,10 +55,6 @@ useEffect(() => {
        getProfile(userProfile.id)
     }
 }, [])
-useEffect(() => {
-    console.log('items', items);
-    
-}, [items])
 
 const openRazorpay = (response) => {
     const options = {
@@ -71,9 +67,6 @@ const openRazorpay = (response) => {
 
       handler: async function (paymentResponse) {
 
-        console.log('paymentResponse:',paymentResponse);
-        
-        
         const res = await paymentAPI.verifyRazorpayOrder({
           ...paymentResponse,
           deliveryAddress,
@@ -81,7 +74,6 @@ const openRazorpay = (response) => {
           mode,
           buyNowItems: items
         });
-        console.log('res', res);
         
         navigate(`/order-success/${res.data.orderId}`)
       },

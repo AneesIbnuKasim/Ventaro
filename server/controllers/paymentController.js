@@ -18,8 +18,6 @@ const BaseController = require("./baseController");
 
     //COD-WALLET ORDER CREATION
     static createOrder = BaseController.asyncHandler(async(req, res) => {
-        console.log('in order cont', req.body);
-        
         const data = await PaymentService.createOrder(req.user._id, req.body)
         BaseController.logAction(res, 'CREATE-ORDER', 'Order created')
         BaseController.sendSuccess(res, 'Order created', data, 201)

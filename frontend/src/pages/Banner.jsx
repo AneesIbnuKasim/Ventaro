@@ -64,7 +64,6 @@ const Products = memo((setTitle) => {
 
   //open product form edit/add
   const handleBannerForm = useCallback((banner) => {
-    console.log('editData', editData);
     if (banner) setEditData(banner);
     setOpen(true);
   }, []);
@@ -80,8 +79,6 @@ const Products = memo((setTitle) => {
   }, []);
 
   const handleSubmit = async (values) => {
-    console.log('gere');
-    
     if (editData?._id) {
       const data = await dispatch(
         updateBannerThunk({ bannerId: editData._id, values })

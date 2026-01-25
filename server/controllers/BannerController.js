@@ -3,10 +3,7 @@ const BaseController = require("./baseController");
 
 class BannerController extends BaseController {
   static createBanner = BaseController.asyncHandler(async (req, res) => {
-    console.log("data in controller", req.body);
     const { image, ...formData } = req.body;
-    console.log("file in controller");
-
     const banner = await BannerService.createBanner(
       req.file,
       formData
@@ -23,13 +20,8 @@ class BannerController extends BaseController {
 
   static updateBanner = BaseController.asyncHandler(async (req, res) => {
     const { bannerId } = req.params
-    
     const { image, ...formData } = req.body
-    console.log('image',  image)
-
     const updated = await BannerService.updateBanner(bannerId, formData, req.file)
-console.log('updated', updated);
-
     BaseController.sendSuccess(res, "Banner updated successfully", updated)
   })
 

@@ -264,12 +264,7 @@ export const ProductProvider = ({ children }) => {
     }
   }, [state.pagination.page, isInfinite]);
 
-  useEffect(() => {
-    console.log("all filters:", state.filters);
-  }, [state.filters]);
-
   const setPagination = useCallback((payload) => {
-    console.log("pagination set:", payload);
     dispatch({ type: PRODUCT_ACTIONS.SET_PAGINATION, payload });
   }, []);
 
@@ -338,8 +333,6 @@ export const ProductProvider = ({ children }) => {
       try {
         dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
 
-        console.log("in prod", category);
-
         const response = await productAPI.fetchProductByCategory(category, {
           sortBy,
           sortOrder,
@@ -388,15 +381,10 @@ export const ProductProvider = ({ children }) => {
     async (search) => {
       try {
         if (page === 1) {
-          console.log('page:=', page);
-          
           dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
         } else {
-          console.log('page lo:=', page);
           dispatch({ type: PRODUCT_ACTIONS.SET_LOADING_MORE, payload: true });
         }
-        console.log("in fetch search");
-
         const res = await productAPI.fetchSearch({
           search,
           sortBy,
@@ -408,8 +396,6 @@ export const ProductProvider = ({ children }) => {
           page,
           limit,
         });
-
-        console.log("search response :", res);
 
         dispatch({
           type: PRODUCT_ACTIONS.SET_PRODUCT,
@@ -439,8 +425,6 @@ export const ProductProvider = ({ children }) => {
       dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
 
       const response = await productAPI.fetchHomePageProducts();
-      console.log('home page products:', response);
-      
 
       dispatch({
         type: PRODUCT_ACTIONS.SET_HOMEPAGE_PRODUCTS,
@@ -463,7 +447,6 @@ export const ProductProvider = ({ children }) => {
       dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
 
       const response = await productAPI.addProduct(ProductData);
-console.log('add product', response);
 
       dispatch({
         type: PRODUCT_ACTIONS.ADD_PRODUCT,
@@ -540,8 +523,6 @@ console.log('add product', response);
         userId,
       });
 
-      console.log("fetch single response", response.data);
-
       dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: false });
 
       setProduct(response.data.product);
@@ -566,8 +547,6 @@ console.log('add product', response);
     try {
       const response = await productAPI.toggleProductStatus(productId);
 
-      console.log("fetch status response", response.data);
-
       dispatch({ type: PRODUCT_ACTIONS.TOGGLE_STATUS, payload: response.data });
       toast.success("Product status changed successfully");
       return { success: true };
@@ -587,8 +566,6 @@ console.log('add product', response);
       dispatch({ type: PRODUCT_ACTIONS.SET_LOADING, payload: true });
 
       const response = await productAPI.submitReview(values);
-
-      console.log("review respo:", response);
 
       dispatch({
         type: PRODUCT_ACTIONS.UPDATE_PRODUCT,
@@ -620,67 +597,6 @@ console.log('add product', response);
     }
   };
 
-  // //CLEAN PRODUCT BEFORE ADDING TO CART
-  // const cleanCartItem = (product) => ({
-  //   _id: product._id,
-  //   name: product.name,
-  //   price: product.price,
-  //   image: product.images?.[0] || "",
-  //   quantity: 1,
-  // });
-
-  // //ADDING PRODUCT TO TEMP CART FOR NON LOGGED IN USERS
-  // const handleAddToCart = useCallback((product) => {
-  //   try {
-  //     const token = getAuthToken();
-  //     const isAuthenticated = !!token;
-
-  //     if (isAuthenticated) {
-  //       console.log("logged in user cart");
-  //       return;
-  //     } else {
-  //       const existingCart = loadCart();
-
-  //       //validate if cart value is valid
-  //       if (!Array.isArray(existingCart)) {
-  //         toast.error("Cart is corrupted, Resetting cart...");
-  //         return;
-  //       }
-
-  //       product = cleanCartItem(product);
-
-  //       const exist = existingCart.find((item) => item._id === product._id);
-
-  //       let updatedCart;
-
-  //       if (exist) {
-  //         // product already exist increase quantity
-  //         const updatedCart = existingCart.map((item) =>
-  //           item._id === product._id
-  //             ? { ...item, quantity: item.quantity + 1 }
-  //             : item
-  //         );
-
-  //         localStorage.setItem("cart", JSON.stringify(updatedCart));
-  //       } else {
-  //         //add new product
-  //         updatedCart = [...existingCart, { ...product, quantity: 1 }];
-
-  //         localStorage.setItem("cart", JSON.stringify(updatedCart));
-  //       }
-
-  //       toast.success("Product added to cart");
-  //     }
-  //   } catch (error) {
-  //     dispatch({
-  //       type: PRODUCT_ACTIONS.SET_ERROR,
-  //       payload: { error: error.message },
-  //     });
-  //     console.log(error.message);
-  //     return { success: false, error: error.message };
-  //   }
-  // }, []);
-
   const values = useMemo(
     () => ({
       products: state.products,
@@ -698,7 +614,6 @@ console.log('add product', response);
       featuredProducts,
       clearanceProducts,
       toggleProductStatus,
-      // handleAddToCart,
       resetAllFilters,
       filters: state.filters,
       setFilters,
@@ -730,7 +645,6 @@ console.log('add product', response);
       featuredProducts,
       clearanceProducts,
       toggleProductStatus,
-      // handleAddToCart,
       resetAllFilters,
       setFilters,
       setPagination,

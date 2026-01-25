@@ -21,8 +21,6 @@ const checkoutSlice = createSlice({
         },
 
         setCheckoutItems: (state, action) => {
-            console.log('buy now log', action.payload);
-            
             state.items = action.payload
         }
     }

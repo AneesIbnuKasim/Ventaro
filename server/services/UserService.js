@@ -200,8 +200,6 @@ class UserService {
 
   //FETCH WISHLIST
  static fetchWishlist = async (userId) => {
-  console.log('userId:::::', userId);
-  
   const user = await User.findById(userId)
     .populate("wishlist");
 
@@ -233,8 +231,6 @@ class UserService {
   // AFTER save
 const updatedProduct = await Product.findById(productId);
 return updatedProduct;
-
-  return user.wishlist;
 };
 
 }

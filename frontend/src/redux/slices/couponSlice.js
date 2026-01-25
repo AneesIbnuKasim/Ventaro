@@ -13,13 +13,9 @@ const initialState = {
 
 //ADD COUPON
 export const addCouponThunk = createAsyncThunk('coupon/add', async(data, {rejectWithValue}) => {
-    console.log('here in thunk', data);
-    
     try {
         const response = await couponAPI.addCoupon(data)
 
-        console.log('add to coupon response:', response.data);
-        
         return response.data
     } catch (error) {
         return rejectWithValue(error.message)
@@ -28,13 +24,9 @@ export const addCouponThunk = createAsyncThunk('coupon/add', async(data, {reject
 
 //UPDATE COUPON
 export const updateCouponThunk = createAsyncThunk('coupon/update', async({ couponId, data } , {rejectWithValue}) => {
-    console.log('here in update thunk', data);
-    
     try {
         const response = await couponAPI.updateCoupon(couponId, data)
 
-        console.log('add to coupon response:', response.data);
-        
         return response.data
     } catch (error) {
         return rejectWithValue(error.message)
@@ -44,10 +36,7 @@ export const updateCouponThunk = createAsyncThunk('coupon/update', async({ coupo
 //FETCH USER COUPON
 export const fetchCouponThunk = createAsyncThunk('coupon/fetch', async(data, {rejectWithValue}) => {
     try {
-        console.log('in fetch thunk');
-        
         const response = await couponAPI.fetchCoupon(data)
-        console.log('fetch response', response.data);
         return response.data
     } catch (error) {
         return rejectWithValue(error.message)
@@ -57,11 +46,8 @@ export const fetchCouponThunk = createAsyncThunk('coupon/fetch', async(data, {re
 // REMOVE COUPON THUNK
 export const removeCouponThunk = createAsyncThunk('coupon/remove', async(couponId, {rejectWithValue})=> {
     try {
-        console.log('in remove coupon thunk');
-        
         const response = await couponAPI.removeCoupon(couponId)
 
-        console.log('delete rs:', response.data)
         return response.data
     } catch (error) {
         return rejectWithValue(error)
@@ -84,8 +70,6 @@ const couponSlice = createSlice({
         .addCase(addCouponThunk.pending, (state) => { state.loading = true })
         .addCase(addCouponThunk.fulfilled, (state, action) => {
 
-            console.log('state.items', action.payload);
-            
             state.coupons.push(action.payload)
             state.loading = false
         })
@@ -97,8 +81,6 @@ const couponSlice = createSlice({
         //FETCH USER COUPON STATE UPDATE
         .addCase(fetchCouponThunk.pending, (state) => { state.loading = true })
         .addCase(fetchCouponThunk.fulfilled, (state, action) => {
-            console.log('action.payload', action.payload);
-            
             state.coupons = action.payload.coupons
             state.loading = false
         })
@@ -110,7 +92,6 @@ const couponSlice = createSlice({
         //UPDATE COUPON  STATE
         .addCase(updateCouponThunk.pending, (state) => { state.loading = true })
         .addCase(updateCouponThunk.fulfilled, (state, action) => {
-            console.log('action.payload', action.payload);
             const updated = action.payload.coupon
             state.coupons = state.coupons.map(c => c._id === updated._id ? updated : c )
             state.loading = false
@@ -123,8 +104,6 @@ const couponSlice = createSlice({
         //REMOVE COUPON
         .addCase(removeCouponThunk.pending, (state) => { state.loading = true })
         .addCase(removeCouponThunk.fulfilled, (state, action) => {
-            console.log('action.payload', action.payload);
-            
             state.coupons = state.coupons.filter(c => c._id !== action.payload)
             state.loading = false
         })

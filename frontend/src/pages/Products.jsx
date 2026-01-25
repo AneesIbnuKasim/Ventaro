@@ -42,7 +42,6 @@ const Products = memo((setTitle) => {
     toggleProductStatus,
     loading
   } = useProduct();
-console.log('productsss', products);
 
   //fetch products on page load
   useEffect(() => {
@@ -77,8 +76,6 @@ console.log('productsss', products);
   //open product form edit/add
   const handleProductForm = useCallback((product) => {
     if (product) setEditData(product);
-    console.log('editData', product);
-    
     setOpen(true);
   }, []);
 

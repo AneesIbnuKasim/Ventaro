@@ -75,13 +75,6 @@ const Coupons = memo(() => {
     setDeleteData(null);
   }, [deleteData]);
 
-  //open Coupon form edit/add
-  // const handleCouponForm = useCallback(() => {
-  //   console.log('edit ', editData);
-    
-  //   setOpen(true);
-  // }, []);
-
   const closeCouponForm = useCallback(() => {
     setEditData(null);
     setOpen(false);

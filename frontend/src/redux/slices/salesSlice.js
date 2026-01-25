@@ -23,10 +23,7 @@ const initialState = {
 
 export const fetchSalesReport = createAsyncThunk('fetch-report', async(query, {rejectWithValue}) => {
     try {
-        console.log('Query in fetch sales report async thunk', query)
-        
         const res = await dashboardAPI.fetchSalesReport(query)
-        console.log('fetch sales report response:', res.data);
         return res.data
         
     } catch (error) {

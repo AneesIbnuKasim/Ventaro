@@ -3,9 +3,6 @@ import cartAPI from "../../services/cartService";
 import { selectPayableTotal, selectSubTotal } from "../selector/cartSelector";
 import { useSelector } from "react-redux";
 
-// const persistedCart = JSON.parse(localStorage.getItem("cart"));
-// console.log("cart reducer initialized", persistedCart);
-
 const initialState = {
   items: [],
   appliedCoupon: null,
@@ -23,8 +20,6 @@ export const addCartThunk = createAsyncThunk(
     try {
       const response = await cartAPI.addToCart(data);
 
-      console.log("add to cart response:", response);
-
       return response.data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -38,7 +33,6 @@ export const fetchCartThunk = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await cartAPI.fetchCart();
-      console.log("fetch thunk response", response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -52,8 +46,6 @@ export const applyCouponThunk = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await cartAPI.applyCoupon(data);
-      console.log("apply coupon res:", response.data);
-
       return response.data;
     } catch (error) {
       return (
@@ -70,7 +62,6 @@ export const removeFromCartThunk = createAsyncThunk(
     try {
       const response = await cartAPI.removeFromCart(itemId);
 
-      console.log("delete rs:", response);
       return response.data;
     } catch (error) {
       return rejectWithValue(error);
@@ -83,10 +74,7 @@ export const removeCouponThunk = createAsyncThunk(
   "cart/removeCoupon",
   async (_, { rejectWithValue }) => {
     try {
-      console.log("in remove coupon thunk");
-
       const response = await cartAPI.removeCoupon();
-      console.log("remove response:", response.data);
 
       return response.data;
     } catch (error) {
@@ -141,7 +129,6 @@ const cartSlice = createSlice({
         state.loading = true;
       })
       .addCase(addCartThunk.fulfilled, (state, action) => {
-        console.log("state.items.cart", action.payload.cart);
         const cart = action.payload.cart;
         state.items = cart.items;
         state.loading = false;
@@ -156,12 +143,10 @@ const cartSlice = createSlice({
         state.loading = true;
       })
       .addCase(fetchCartThunk.fulfilled, (state, action) => {
-        console.log("fetch action.payload", action.payload);
         const cart = action.payload.cart;
         state.items = cart.items;
         state.appliedCoupon = cart.appliedCoupon;
         state.loading = false;
-        console.log("fetch cart final", cart);
       })
       .addCase(fetchCartThunk.rejected, (state, action) => {
         state.loading = false;
@@ -170,8 +155,6 @@ const cartSlice = createSlice({
 
       //REMOVE ITEM FROM CART
       .addCase(removeFromCartThunk.fulfilled, (state, action) => {
-        console.log("action.tremove from cart.payload", action.payload);
-
         const cart = action.payload.cart;
         state.items = cart.items;
         state.loading = false;
@@ -187,8 +170,6 @@ const cartSlice = createSlice({
         state.couponError = null;
       })
       .addCase(applyCouponThunk.fulfilled, (state, action) => {
-        console.log("action.payload.applycoupon", action.payload);
-
         const cart = action.payload.cart;
         state.applyingCoupon = false;
         state.appliedCoupon = cart.appliedCoupon;

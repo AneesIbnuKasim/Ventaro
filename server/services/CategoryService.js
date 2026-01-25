@@ -10,9 +10,6 @@ class CategoryService {
             const page = parseInt(req.query.page)
             const limit = parseInt(req.query.limit)
 
-            console.log('page and limit', page, limit);
-            
-
             const skip = (page-1)*limit
             const filter = {}
 
@@ -47,9 +44,6 @@ class CategoryService {
     static addCategory = async (categoryData, image)=>{
         try {
             const { name, description } = categoryData
-
-            console.log('image', image);
-            
 
             const category = new Category({
             name,

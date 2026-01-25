@@ -16,7 +16,6 @@ export const createBannerThunk = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await bannerAPI.createBanner(data);
-      console.log("res in create banner thunk", response);
 
       return response.data;
     } catch (error) {
@@ -44,7 +43,6 @@ export const updateBannerThunk = createAsyncThunk(
   async ({ bannerId, values }, { rejectWithValue }) => {
     try {
       const response = await bannerAPI.updateBanner({ bannerId, values });
-      console.log("res in update", response);
 
       return response.data;
     } catch (error) {
@@ -59,7 +57,6 @@ export const deleteBannerThunk = createAsyncThunk(
   async (bannerId, { rejectWithValue }) => {
     try {
       const response = await bannerAPI.deleteBanner(bannerId);
-      console.log("res in update", response);
 
       return response.data;
     } catch (error) {
@@ -74,7 +71,6 @@ export const toggleStatusThunk = createAsyncThunk(
   async (bannerId, { rejectWithValue }) => {
     try {
       const response = await bannerAPI.toggleStatus(bannerId);
-      console.log("res in toggle", response);
 
       return response.data;
     } catch (error) {
@@ -103,8 +99,6 @@ const bannerSlice = createSlice({
         state.loading = true;
       })
       .addCase(createBannerThunk.fulfilled, (state, action) => {
-        console.log("payload", action.payload);
-
         state.loading = false;
         state.banners = [...state.banners, action.payload];
       })
@@ -118,7 +112,6 @@ const bannerSlice = createSlice({
         state.loading = true;
       })
       .addCase(fetchBannerThunk.fulfilled, (state, action) => {
-        console.log("payload", action.payload);
         state.loading = false;
         state.banners = action.payload;
       })
@@ -133,7 +126,6 @@ const bannerSlice = createSlice({
       })
       .addCase(updateBannerThunk.fulfilled, (state, action) => {
         const updatedBanner = action.payload;
-        console.log("payload", action.payload);
         state.banners = state.banners.map((banner) =>
           banner._id === updatedBanner._id ? updatedBanner : banner
         );
@@ -150,7 +142,6 @@ const bannerSlice = createSlice({
       })
       .addCase(deleteBannerThunk.fulfilled, (state, action) => {
         const deletedBanner = action.payload;
-        console.log("payload", action.payload);
         state.banners = state.banners.filter((banner) =>
           banner._id !== deletedBanner._id
         );
@@ -167,7 +158,6 @@ const bannerSlice = createSlice({
       })
       .addCase(toggleStatusThunk.fulfilled, (state, action) => {
         const updatedBanner = action.payload;
-        console.log("payload", action.payload);
         state.banners = state.banners.map((banner) =>
           banner._id === updatedBanner._id ? updatedBanner : banner
         );

@@ -6,7 +6,6 @@ export const toggleWishlistThunk = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await wishlistAPI.toggleWishlist(data)
-console.log('tog res', response);
 
       return response.data
     } catch (err) {
@@ -20,10 +19,7 @@ export const fetchWishlistThunk = createAsyncThunk(
   "wishlist/fetch",
   async (_, { rejectWithValue }) => {
     try {
-        console.log('in ftch wishlist');
-        
       const response = await wishlistAPI.fetchWishlist();
-      console.log('fetch wishlist res', response);
       
       return response.data
     } catch (err) {

@@ -150,8 +150,6 @@ export const AdminProvider = ({ children }) => {
 
   useEffect(() => {
     if (state.admin) {
-      console.log('state admin:', state.admin);
-      
       setUser(state.admin);
     }
   }, [state.admin]);
@@ -226,9 +224,6 @@ export const AdminProvider = ({ children }) => {
       dispatch({ type: ADMIN_ACTIONS.SET_LOADING, payload: true });
 
       const response = await adminAPI.updateProfile(adminData);
-
-      console.log('admin update prof resp', response);
-      
 
       dispatch({ type: ADMIN_ACTIONS.UPDATE_ADMIN, payload: response.data.admin });
       toast.success(response.message);
@@ -329,8 +324,6 @@ export const AdminProvider = ({ children }) => {
   const unBanUser = useCallback(async (userId) => {
     try {
       const response = await adminAPI.unBanUser(userId);
-      console.log('un ban resp', response);
-      
       dispatch({
         type: ADMIN_ACTIONS.UPDATE_USER,
         payload: response.data.user,
@@ -350,9 +343,6 @@ export const AdminProvider = ({ children }) => {
   
       const res = await adminAPI.updateAvatar(formData);
 
-      console.log('avatar res', res);
-      
-  
       dispatch({
         type: ADMIN_ACTIONS.UPDATE_AVATAR,
         payload: res.data.avatar,

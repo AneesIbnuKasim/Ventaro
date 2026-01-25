@@ -46,11 +46,7 @@ export default function Navbar({
 
 
   useEffect(() => {
-    console.log('user', user);
-    
     if (!items && user ) {
-      console.log('in fetch wish');
-      
       fetchWishlistThunk()
     }
   }, [items])

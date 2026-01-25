@@ -16,9 +16,6 @@ const AdminLayout = React.memo(({
   const user = admin
   const location = useLocation();
   const titleName = location.pathname.split('/')
-  console.log('title', titleName);
-  
-  console.log('location of admin', location);
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [title, setTitle] = useState('')

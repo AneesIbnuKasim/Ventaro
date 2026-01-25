@@ -4,7 +4,6 @@ import { useAdmin } from "../../context/AdminContext";
 
 const syncCartDebounced = debounce(async (items, store) => {
   try {
-    console.log('in sync cart debounced', items);
     const res = await cartAPI.syncCart(items)
 
     //dispatch to update state as per returned data from BE
@@ -23,16 +22,12 @@ const syncCartDebounced = debounce(async (items, store) => {
 
 export const cartSyncMiddleware = store => next => action => {
   const result = next(action);
-  console.log('in sync cart debounced', action.meta);
-
   const { items } = store.getState().cart;
 
   switch (action.type) {
     case "cartSlice/updateQuantity":
       if (    action.meta?.isAuthenticated
  && items.length) {
-        console.log('in sync cart calling', action.payload);
-        
         syncCartDebounced(items, store);
       }
       break;

@@ -47,10 +47,6 @@ const Home = memo(() => {
     (b) => b.position === "HOME_BOTTOM" && b.status === "active"
   );
 
-  console.log('top banners', topBanners);
-  console.log('banners', banners);
-  
-
   const banner1 = middleBanners[0];
   const banner2 = middleBanners[1];
 

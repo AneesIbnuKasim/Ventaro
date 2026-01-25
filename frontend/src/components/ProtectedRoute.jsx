@@ -12,15 +12,11 @@ export const ProtectedRoute = memo(({
     const { isAuthenticated, loading } = useAuth()
     const location = useLocation()
 
-    console.log("ProtectedRoute auth:", isAuthenticated, loading);
-
     if (loading) {
     return <Loading fullScreen text="Authenticating..." />
     }
 
     if (!isAuthenticated) {
-        console.log('redirecting to login');
-        
         return <Navigate to={redirectTo} state={{from: location}} replace />
     }
 
@@ -30,9 +26,6 @@ export const ProtectedRoute = memo(({
 export const PublicRoute = memo(({ children }) => {
   const { isAuthenticated, user } = useAuth()
   const { admin } = useAdmin()
-
-  console.log('admin in public:', admin);
-  
 
   if (isAuthenticated) {
     if (admin?.role === 'admin') {
@@ -49,13 +42,8 @@ export const AdminRoute = memo(({
     redirectTo='/admin/login'
 })=>{
     const { isAuthenticated, loading, admin } = useAdmin()
-    console.log('in adminroute', isAuthenticated);
     const location = useLocation()
 
-    console.log('isauth', isAuthenticated);
-    
-    console.log('admin', admin);
-    
     if (loading) {
     return <Loading fullScreen text="Verifying admin access..." />
   }

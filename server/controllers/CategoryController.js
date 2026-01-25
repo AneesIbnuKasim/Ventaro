@@ -17,8 +17,6 @@ class CategoryController extends BaseController {
     })
 
     static updateCategory = BaseController.asyncHandler(async(req, res)=>{
-        console.log('reqbody', req.body);
-        
         const validatedData = BaseController.validateRequest(categoryValidation, req.body)
         const updated = await CategoryService.updateCategory(req.params.id, validatedData)
         BaseController.sendSuccess(res, 'Category updated successfully', updated)

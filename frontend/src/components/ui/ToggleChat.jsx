@@ -8,12 +8,7 @@ export default function ToggleChat() {
   const [open, setOpen] = useState(false)
   const [ message, setMessage ] = useState('')
   const dispatch = useDispatch()
-  const { messages } = useSelector(state => state.chat)
-
-  useEffect(() => {
-    console.log('messages:', messages)
-  }, [messages])
-  
+  const { messages } = useSelector(state => state.chat) 
 
   const sendMessage = () => {
     if (!message.trim()) return

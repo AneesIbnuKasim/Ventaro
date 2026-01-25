@@ -16,7 +16,6 @@ class OrderService {
       const { search = "", status } = query;
 
       const page = parseInt(query.page) || 1;
-      console.log("page query", page);
 
       const limit = parseInt(query.limit) || 10;
 
@@ -27,8 +26,6 @@ class OrderService {
       if (search) filter.orderId = { $regex: search, $options: "i" };
 
       if (status) filter.orderStatus = status;
-
-      console.log("filter", filter);
 
       const [orders, totalOrders] = await Promise.all([
         Order.find(filter)
@@ -172,7 +169,6 @@ class OrderService {
     try {
         
         const { updateStatus } = status
-        console.log('in order status update', orderId, updateStatus);
         
       const order = await Order.findById(orderId).populate("items.product");
 
@@ -192,18 +188,12 @@ class OrderService {
 
           if (!user) throw new NotFoundError("User not found");
 
-          console.log(user.wallet);
-          
-
-          console.log('in status change paid cancel')
-
           user.wallet.balance += order.totalAmount
 
           await user.save()
         }  
     }
     else if (updateStatus === ORDER_STATUS.PENDING || updateStatus === ORDER_STATUS.SHIPPED || updateStatus === ORDER_STATUS.RETURN_INITIATED) {
-        console.log('in status change pending');
         
         order.orderStatus = updateStatus
     }
@@ -211,7 +201,6 @@ class OrderService {
     // order.orderStatus = status
 
       await order.save();
-      console.log("status updated Order:", order);
 
       return { order };
     } catch (error) {

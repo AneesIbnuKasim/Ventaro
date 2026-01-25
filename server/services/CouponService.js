@@ -27,8 +27,6 @@ class CouponService {
     try {
       const { search = "" } = query;
 
-      console.log("search:::", search);
-
       const page = parseInt(query.page);
       const limit = parseInt(query.limit);
 
@@ -194,7 +192,6 @@ class CouponService {
   }
 
   static async validateCouponCheckout(code, cartTotal, cartItems) {
-    console.log("code:", code, cartTotal, cartItems);
 
     if (!code || !cartTotal)
       throw new NotFoundError("Coupon code & cart total required", 404);

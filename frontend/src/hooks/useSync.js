@@ -628,11 +628,7 @@ export default function useSyncReducer(
       if (excludeKeys.includes(key)) continue;
 
       if (key === "page" || key === "limit") {
-        console.log('value:', value);
-        
         newPagination[key] = Number(value);
-        console.log('newPagination:', newPagination);
-        
       } else {
         newFilters[key] = value;
       }

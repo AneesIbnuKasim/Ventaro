@@ -12,8 +12,6 @@ import { API_CONFIG } from "../../config/app";
 
 const BannerSlider = ({ banners = [] }) => {
   const navigate = useNavigate();
-console.log('banners in swiper', banners);
-
 return (
     <>
     <Swiper

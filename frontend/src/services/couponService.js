@@ -22,7 +22,6 @@ const couponAPI = {
     },
 
     updateCoupon: (couponId, data={}) => {
-        console.log('data update', data);
         
         return makeRequest(({
             method: 'put',
@@ -32,7 +31,6 @@ const couponAPI = {
     },
 
     removeCoupon: (couponId) => {
-        console.log('coup:', couponId);
         
         return makeRequest(({
             method: 'delete',

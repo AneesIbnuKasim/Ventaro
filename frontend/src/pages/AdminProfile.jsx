@@ -55,9 +55,6 @@ export default function AdminProfile() {
     setAvatarPreview(URL.createObjectURL(file));
   };
 
-  console.log('admin user', admin);
-  
-
   // HANDLE SAVING AVATAR TO BACKEND
   const handleAvatarSave = async () => {
     if (!avatarFile) return;

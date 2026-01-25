@@ -29,8 +29,6 @@ class ProductController extends BaseController {
 
     static toggleProductStatus = BaseController.asyncHandler(async(req, res)=>{
         const result = await ProductService.toggleProductStatus(req.params.id)
-        console.log('status product', result);
-        
         BaseController.logAction('TOGGLE_STATUS', result)
         BaseController.sendSuccess(res, 'Product status changed successfully', result, 200)
     })
@@ -44,21 +42,13 @@ class ProductController extends BaseController {
     static addProduct = BaseController.asyncHandler(async(req, res)=>{
         const { images, ...formData } = req.body
         const validatedData = BaseController.validateRequest(productValidation, formData)
-        console.log('img add', images);
-        
         const product = await ProductService.addProduct(req)
         BaseController.logAction('ADD_PRODUCT', product)
-        console.log('product in controller:', product);
-        
         BaseController.sendSuccess(res, 'Product added successfully', product, 201)
     })
 
     static editProduct = BaseController.asyncHandler(async(req, res)=>{
-        console.log('req.body', req.body);
-        
         const { images, prevImages, ...formData } = req.body
-        console.log('controller prev', prevImages);
-        
         const validatedData = BaseController.validateRequest(productValidation, formData)
         const updated = await ProductService.editProduct(req.params.id, validatedData, prevImages, req)
         BaseController.logAction('EDIT_PRODUCT', updated)
@@ -79,15 +69,9 @@ class ProductController extends BaseController {
 
     static fetchSearch = BaseController.asyncHandler(async(req, res)=>{
         const result = await ProductService.fetchSearch(req)
-        console.log('search result:',result);
-        
         BaseController.logAction('SEARCH_PRODUCT', result)
         BaseController.sendSuccess(res, 'Search products fetched successfully', result, 200)
     })
-
-    // static fetchSearch = (req) => {
-    //     console.log('req:'. req.query);
-    // }
 }
 
 module.exports = ProductController

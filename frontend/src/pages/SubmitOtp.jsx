@@ -28,8 +28,6 @@ const SubmitOtp = memo(() => {
             otp
         })
 
-        console.log(response.data.resetToken);
-        
         navigate(`/reset-password?resetToken=${response.data.resetToken}&userId=${response.data.userId}`)
 
     })

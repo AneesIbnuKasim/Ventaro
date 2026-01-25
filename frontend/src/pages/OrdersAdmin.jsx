@@ -67,17 +67,11 @@ const OrdersAdmin = memo((setTitle) => {
     value: status,
   }));
 
-  console.log("statuses", statuses);
-
   //HANDLE PAGINATION PAGE CHANGE
   const handlePageChange = ({ page }) => {
     dispatch(setPagination({ page }));
     navigate(`?page=${page}`, { replace: true });
   };
-
-  useEffect(() => {
-    console.log("status in admin", filters.status);
-  }, [filters.status]);
 
   //CHANGE FILTER FROM SELECT ONCHANGE VALUE
   const handleStatusChange = (e) => {
@@ -86,8 +80,6 @@ const OrdersAdmin = memo((setTitle) => {
 
   //HANDLE ADMIN STATUS UPDATE
   const updateStatusHandler = async(orderId, updateStatus) => {
-    console.log('update status',updateStatus);
-    
         await dispatch(updateStatusThunk({orderId, updateStatus})).unwrap()
         toast.success('Status updated successfully')
   }

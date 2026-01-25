@@ -19,15 +19,11 @@ function ProductDetails() {
     const [ reviews, setReviews ] = useState([])
     const user = getUser()
 
-    console.log('ratings', reviews);
-    
     const totalRating = (reviews ?? []).reduce((acc, item) => (
       (acc + item?.rating)
     ), 0)
 
     const avgRating = totalRating/reviews?.length
-    console.log('avg rating', avgRating);
-    
 
     useEffect(() => {
       setReviews(product?.ratings)
@@ -37,8 +33,6 @@ function ProductDetails() {
     useEffect(() => {
       if (!products.length > 0) {
         fetchProduct()
-        console.log('prods', products);
-        
       }
     }, [products])
 
@@ -57,11 +51,6 @@ function ProductDetails() {
     loadProduct()
       window.scrollTo(0, 0)
   }, [id])
-
-    useEffect(() => {
-      console.log('has', hasPurchased);
-      
-    }, [hasPurchased])
     
   const handleClick = (id) => {
     navigate(`/product/${id}`)

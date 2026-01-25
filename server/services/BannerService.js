@@ -46,7 +46,6 @@ class BannerService {
 
   //FETCH BANNERS
   static fetchBanner = async (data) => {
-    console.log("search", data);
     const { search = "" } = data;
     try {
       const filter = {};

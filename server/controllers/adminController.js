@@ -11,8 +11,6 @@ class AdminController extends BaseController {
     })
 
     static getProfile = BaseController.asyncHandler(async(req, res)=>{
-        console.log('get profile controller');
-        
         const adminData = await AdminService.getProfile(req.admin._id)
         BaseController.logAction('GET_PROFILE',adminData.admin)
         BaseController.sendSuccess(res, 'Admin profile fetched successfully', adminData)

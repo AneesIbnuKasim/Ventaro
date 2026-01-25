@@ -91,8 +91,6 @@ export const AuthProvider = ({children}) => {
     },[])
 
     const logout = useCallback(() => {
-        console.log('in logout');
-        
         clearTokens()
         dispatch({ type: AUTH_ACTIONS.LOGOUT})
 

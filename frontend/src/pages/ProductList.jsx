@@ -49,11 +49,6 @@ const ProductList = memo(() => {
 
   const navigate = useNavigate();
 
-  useEffect(()=> {
-    console.log('search:', filters.search);
-    
-  }, [filters.search])
-
   const handleClick = (id) => {
     navigate(`/product/${id}`);
   };

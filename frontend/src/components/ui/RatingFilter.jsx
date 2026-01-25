@@ -11,8 +11,6 @@ const RatingFilter = memo(({
     const rating = filters.rating ?? []
 
     const updatedRating = rating.includes(star) ? rating.filter(r => r !== star) : [...rating, star]
-console.log('updatedRating', updatedRating);
-
     setFilters({rating: updatedRating})
   }
   

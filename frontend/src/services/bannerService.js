@@ -4,8 +4,6 @@ import axios from "axios";
 
 const bannerAPI = {
   fetchBanner: (params = {}) => {
-    console.log('par', params);
-    
     const urlParams = new URLSearchParams(params);
 
     return makeRequest({
@@ -68,8 +66,6 @@ const bannerAPI = {
 },
 
   deleteBanner: (bannerId) => {
-    console.log("coup:", bannerId);
-
     return makeRequest({
       method: "delete",
       url: `/api/banner/${bannerId}`,
@@ -77,8 +73,6 @@ const bannerAPI = {
   },
 
   toggleStatus: (bannerId) => {
-    console.log("coup:", bannerId);
-
     return makeRequest({
       method: "patch",
       url: `/api/banner/${bannerId}`,

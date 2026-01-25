@@ -37,26 +37,6 @@ const Categories = memo(() => {
     loading
   } = useCategory();
   const [searchParams, setSearchParams] = useSearchParams();
-  
-
-  // useEffect(() => {
-  //   const page = Number(searchParams.get('page')) || 1
-  //   const search = searchParams.get('search') || ''
-  //   setPagination({ page })
-  //   setFilters({ search })
-  // }, [searchParams])
-
-  //   const updateURL = (field, value) => {
-  //   const params = new URLSearchParams(searchParams);
-  //   params.set(field, value);
-  //   params.set("limit", pagination.limit);
-  //   setSearchParams(params);
-
-  //   if (field === "page") setPagination({ page: Number(value) });
-  //   if (field === "search") setFilters({ search: value });
-
-  // }
-  // console.log('page', pagination.totalPages)
 
   //fetch categories on load
   useEffect(() => {

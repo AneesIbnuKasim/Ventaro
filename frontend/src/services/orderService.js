@@ -2,7 +2,6 @@ import makeRequest from "../utils/apiClient";
 
 export const orderAPI = {
   fetchOrder: (params={}) => {
-    console.log('url params', params);
     
     const urlParams = new URLSearchParams(params)
     return makeRequest({
@@ -12,7 +11,6 @@ export const orderAPI = {
   },
 
   fetchSingleOrderThunk: (orderId) => {
-    console.log('in apo single', orderId);
     
     return makeRequest({
       method: "get",
@@ -21,7 +19,6 @@ export const orderAPI = {
   },
 
   cancelOrder: (orderId) => {
-    console.log("cancel in api call", orderId);
 
     return makeRequest({
       method: "put",
@@ -31,7 +28,6 @@ export const orderAPI = {
   },
 
   returnOrderRequest: (returnData) => {
-    console.log("returnData in api call", returnData);
     const { returnId:orderId, ...data } = returnData;
     
     return makeRequest({

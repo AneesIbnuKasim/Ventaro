@@ -22,8 +22,6 @@ function SortFilter({ setFilters, filters }) {
     setFilters({ sortBy: e.target.value });
   };
   const handleSortOrder = () => {
-    console.log('filter sort order:', filters.sortOrder);
-    
     filters.sortOrder === 'asc' ? setFilters({sortOrder: 'desc'}) : setFilters({sortOrder: 'asc'})
   }
   return (

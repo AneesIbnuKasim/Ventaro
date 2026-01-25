@@ -32,8 +32,6 @@ export const setAdminToken = (token) => {
 
 export const setResetToken = (token) => {
   if (token) {
-    console.log("reset:", token);
-
     localStorage.setItem(AUTH_CONFIG.resetTokenKey, token);
   } else {
     localStorage.removeItem(AUTH_CONFIG.resetTokenKey);
@@ -71,7 +69,6 @@ const createApiClient = () => {
 
   client.interceptors.request.use(
     (config) => {
-      console.log("req interceptor:");
       const token = getAuthToken() || getAdminToken();
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
@@ -84,8 +81,6 @@ const createApiClient = () => {
   client.interceptors.response.use(
     (response) => response,
     (error) => {
-      console.log('Error in interceptor:', error);
-      
       if (error.response?.status === 401) {
         clearTokens();
         toast.error("Session expired. Please login again.");

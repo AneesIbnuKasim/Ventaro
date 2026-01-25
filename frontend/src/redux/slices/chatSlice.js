@@ -12,8 +12,6 @@ export const sendChatMessage = createAsyncThunk(
   async (message, { rejectWithValue }) => {
     try {
       const response = await chatAPI.sendChatMessage(message);
-      console.log("res in send chat thunk", response);
-
       return response.data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -36,10 +34,6 @@ const chatSlice = createSlice({
         state.loading = true;
       })
       .addCase(sendChatMessage.fulfilled, (state, action) => {
-        console.log('payload', action.payload);
-        console.log('message type', state.messages);
-        
-        
         state.loading = false;
         state.messages.push(action.payload);
       })

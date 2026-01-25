@@ -30,7 +30,6 @@ export const adminAPI = {
   //ADMIN USERS ACTION
   //GET USERS
   getUsers: (params={}) => {
-    console.log('params', params);
     
     return makeRequest({
       method: "get",
@@ -57,7 +56,6 @@ export const adminAPI = {
 
   //UPDATE ADMIN PROFILE AVATAR
   updateAvatar: async (formData) => {
-    console.log("formdata", formData);
 
     const token = localStorage.getItem("adminToken");
     
@@ -84,7 +82,6 @@ export const adminAPI = {
 
     getAllCategory: (params = {})=>{
         const { limit, page } = params
-        console.log('last page, limit', limit, page);
         
         return makeRequest({
             method: 'get',
@@ -134,7 +131,6 @@ export const adminAPI = {
 
     //fetch orders
     fetchOrder: (params={}) => {
-    console.log('url params', params);
     
     const urlParams = new URLSearchParams(params)
     return makeRequest({
@@ -145,7 +141,6 @@ export const adminAPI = {
 
   //update order status
     updateStatus: (orderData) => {
-    console.log("returnData in api call", orderData);
     const { orderId, ...data } = orderData;
     
     return makeRequest({

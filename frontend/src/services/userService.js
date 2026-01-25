@@ -14,8 +14,6 @@ export const userAPI = {
 
   //GET PROFILE DETAILS
   getProfile: (editData) => {
-    console.log("editData", editData);
-
     return makeRequest({
       method: "get",
       url: "api/user/me",
@@ -24,8 +22,6 @@ export const userAPI = {
 
   //UPDATE USER PROFILE AVATAR
   updateAvatar: async (formData) => {
-    console.log("formdata", formData);
-
     const token = localStorage.getItem("authToken");
     const res = await axios.put(
       "http://localhost:5001/api/user/avatar",
@@ -51,7 +47,6 @@ export const userAPI = {
 
   // UPDATE ADDRESS
   editAddress: (addressId, addressData) => {
-    console.log("addressId", addressId);
 
     return makeRequest({
       method: "put",

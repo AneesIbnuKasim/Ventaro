@@ -57,13 +57,8 @@ export default function BannerForm({ onConfirm, onCancel, editData = "" }) {
       fetchProduct()
     }
   },[])
-  useEffect(()=>{
-    console.log('products', products);
-  }, [products])
   
   const handleProductSelect = (product) => {
-    console.log('prod', product._id);
-    
     formik.setFieldValue('linkValue', product._id)
   }
 
@@ -95,8 +90,6 @@ export default function BannerForm({ onConfirm, onCancel, editData = "" }) {
         ...values,
         image,
       };
-      console.log("on submit", finalData);
-
       onConfirm(finalData);
     },
   });
