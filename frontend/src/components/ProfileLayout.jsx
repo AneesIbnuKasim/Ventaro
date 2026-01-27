@@ -7,6 +7,7 @@ import { Button, FormInput, Loading } from "../components/ui";
 import { MdEmail } from "react-icons/md";
 import { useUser } from "../context/UserContext";
 import { API_CONFIG } from "../config/app";
+import formatImageUrl from "../utils/formatImageUrl";
 
 const menuItems = [
   { label: "Account info", path: "account" },
@@ -80,9 +81,25 @@ const ProfileLayout = () => {
               {/* AVATAR PREVIEW AND EDIT SAVE SECTION */}
               <div className="flex flex-col items-center gap-5 mb-5">
                 <div className="relative">
-                  <img
+                  {/* {(avatarPreview || user.avatar) ? (
+                    <img
                     src={
                       avatarPreview || `${API_CONFIG.imageURL}${user.avatar}`
+                    }
+                    alt="avatar"
+                    className="w-30 h-30 rounded-xl object-cover  cursor-pointer border"
+                    onClick={() => document.getElementById("avatarInput").click()}
+                  />
+                  ) :
+                  (
+                    <div
+                    className="w-30 text-8xl bg-amber-100 h-30 rounded-xl p-3 mb-2 object-cover  cursor-pointer border"
+                    onClick={() => document.getElementById("avatarInput").click()}
+                  > M</div>
+                  )} */}
+                  <img
+                    src={
+                      avatarPreview || formatImageUrl(user.avatar)
                     }
                     alt="avatar"
                     className="w-30 h-30 rounded-xl object-cover  cursor-pointer border"

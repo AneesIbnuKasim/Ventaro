@@ -1,3 +1,4 @@
+import { API_CONFIG } from "../config/app";
 import ResetPassword from "../pages/ResetPassword";
 import { makeRequest } from "../utils/apiClient";
 import axios from "axios";
@@ -24,7 +25,7 @@ export const userAPI = {
   updateAvatar: async (formData) => {
     const token = localStorage.getItem("authToken");
     const res = await axios.put(
-      "http://localhost:5001/api/user/avatar",
+      `${API_CONFIG.baseURL}api/user/avatar`,
       formData,
       {
         headers: {

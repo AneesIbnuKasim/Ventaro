@@ -27,4 +27,7 @@ router.get('/users', AdminController.getUsers)
 router.patch('/users/:userId/ban', AdminController.banUser)
 router.patch('/users/:userId/UNban', AdminController.unBanUser)
 
+//orders
+router.get('/orders', authenticateAdmin, OrderController.fetchOrders)
+
 module.exports = router

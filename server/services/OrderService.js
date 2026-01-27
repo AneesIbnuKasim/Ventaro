@@ -9,7 +9,7 @@ const {
 const Product = require("../models/Product");
 
 class OrderService {
-  static async fetchOrders(query) {
+  static async fetchOrders(userId, query) {
     try {
       const { search = "", status } = query;
 
@@ -20,6 +20,8 @@ class OrderService {
       const skipValue = (page - 1) * limit;
 
       const filter = {};
+
+      if (userId) filter.user = userId
 
       if (search) filter.orderId = { $regex: search, $options: "i" };
 

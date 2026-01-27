@@ -11,6 +11,7 @@ import { BsLightningChargeFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { setCheckoutItems } from "../../redux/slices/checkoutSlice";
 import WishlistButton from "./wishlistButton";
+import { API_CONFIG } from "../../config/app";
 
 export default function SingleProduct({ product = {}, avgRating = '' }) {
 
@@ -35,6 +36,7 @@ export default function SingleProduct({ product = {}, avgRating = '' }) {
     useEffect(() => {
     setMainImage(images[0]);
   }, [product, images]);
+
 
   const addToCart = () => {
     
@@ -61,7 +63,7 @@ const handleBuyNow = () => {
 };
 
 
-const resolveImageUrl = (image, baseUrl = "http://localhost:5001") => {
+const resolveImageUrl = (image, baseUrl = API_CONFIG.imageURL2) => {
     if (!image) return "";
 
     // Case 1: S3 or Cloudinary object

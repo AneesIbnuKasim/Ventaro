@@ -7,6 +7,9 @@ const fs = require("fs");
 const Address = require("../models/Address");
 const mongoose = require("mongoose");
 const Product = require("../models/Product");
+const { NODE_ENV } = require("../config/config");
+const { DeleteObjectCommand } = require("@aws-sdk/client-s3");
+const { s3 } = require("../config/multer");
 
 class UserService {
   static getProfile = async (req, res) => {
@@ -62,18 +65,30 @@ class UserService {
       const userId = req.user._id.toString();
       const user = await User.findById(userId);
 
-      if (user.avatar) {
+      if (user.avatar && NODE_ENV === "development") {
         const oldPath = path.join("uploads/avatars", user.avatar);
 
         if (fs.existsSync(oldPath)) {
           fs.unlinkSync(oldPath);
         }
+      }else {
+         await s3.send(new DeleteObjectCommand({
+        Bucket: "ventaro-assets",
+        Key: user.avatar.key
+      }))
       }
 
-      user.avatar = req.file.filename;
+      const file = req.file
+      console.log('filr', file);
+      
+
+      user.avatar = {
+        url: file.location || `/uploads/${file.filename}`,
+        key: file.key || file.filename
+      };
       await user.save();
 
-      return { avatar: req.file.filename };
+      return { avatar: file.filename };
     } catch (error) {
       logger.error("Avatar updating failed");
       throw error;

@@ -11,6 +11,7 @@ import { bannerSchema } from "../../validation/userSchema";
 import { useSelector } from "react-redux";
 import { API_CONFIG } from "../../config/app";
 import ProductSearchInput from "./ProductSearchInput";
+import formatImageUrl from "../../utils/formatImageUrl";
 
 export default function BannerForm({ onConfirm, onCancel, editData = "" }) {
   const { loading } = useSelector((state) => state.banner);
@@ -46,9 +47,8 @@ export default function BannerForm({ onConfirm, onCancel, editData = "" }) {
   //PREVIEW EDIT DATA IMAGE
   useEffect(() => {
     if (editData?.image) {
-      const imageUrl = `${API_CONFIG.imageURL2}${editData.image}`;
+      const imageUrl = formatImageUrl(editData.image)
       setPreview(imageUrl);
-      setImage(null);
     }
   }, [editData]);
 
@@ -222,7 +222,7 @@ export default function BannerForm({ onConfirm, onCancel, editData = "" }) {
 
             {preview ? (
               <img
-                src={preview}
+                src={formatImageUrl(preview)}
                 alt="preview"
                 className="w-full h-48 object-scale-down rounded-xl border border-dashed hover:opacity-90 transition"
               />

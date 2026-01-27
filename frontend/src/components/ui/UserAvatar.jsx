@@ -38,7 +38,7 @@ const UserAvatar = ({
 
   const avatarElement = user?.avatar ? (
     <img
-      src={`${API_CONFIG.imageURL}${user.avatar}` || "../public/LOGO.png"}
+      src={`${API_CONFIG.imageURL}${user.avatar}` || "/LOGO.png"}
       alt={user?.name || "User"}
       className={`${variantClass} ${className} bg-gray-400 rounded-full p-0.5`}
       style={sizeStyle}

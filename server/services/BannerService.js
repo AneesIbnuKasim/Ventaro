@@ -27,7 +27,11 @@ class BannerService {
     try {
       const updateData = { ...data };
 
-      if (image) {
+      console.log('up data', updateData);
+      console.log('image data', file);
+      
+
+      if (file) {
         updateData.image = {
           url: file.location || `/uploads/${file.filename}`,
           key: file.key || file.filename,

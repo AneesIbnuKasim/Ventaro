@@ -1,4 +1,8 @@
-export default function formatImageUrl (image, baseUrl = "http://localhost:5001") {
+import { API_CONFIG } from "../config/app";
+
+export default function formatImageUrl (image, baseUrl = API_CONFIG.imageURL2) {
+  console.log('image:', image);
+  
     if (!image) return "";
     // Case 1: S3 or Cloudinary object
     if (typeof image === "object" && image.url) {

@@ -77,7 +77,7 @@ export default function Navbar({
             </button>
 
             <div className="flex items-center gap-2 cursor-pointer">
-              <img width={40} src="LOGO.svg" alt="" onClick={()=>navigate('/')} />
+              <img width={40} src="/LOGO.svg" alt="" onClick={()=>navigate('/')} />
 
               <span className="font-semibold text-lg hidden sm:block" onClick={()=>navigate('/')}>
                 {logo}

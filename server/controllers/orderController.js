@@ -3,7 +3,7 @@ const BaseController = require("./baseController");
 
 class OrderController extends BaseController {
     static fetchOrders = BaseController.asyncHandler(async(req, res)=>{
-        const orders = await OrderService.fetchOrders(req.query)
+        const orders = await OrderService.fetchOrders(req.user._id='', req.query)
         BaseController.logAction('FETCH-ORDERS',orders)
         BaseController.sendSuccess(res,'Orders fetched',orders)
     })

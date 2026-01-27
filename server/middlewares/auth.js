@@ -55,8 +55,6 @@ const authenticateUser = async(req, res, next)=>{
         const decoded = verifyAdminToken(token)
         logger.info('Admin token verified successfully', { adminId: decoded.id });
 
-        
-
         const admin = await Admin.findById(decoded.id)
         
         if (!admin || admin.role !== 'admin') {

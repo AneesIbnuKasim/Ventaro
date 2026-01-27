@@ -294,6 +294,9 @@ class ProductService {
   };
 
   static editProduct = async (productId, productData, prevImages, req) => {
+    console.log('prod data:', productData)
+    
+    
     try {
       const product = await Product.findById(productId);
 
@@ -316,7 +319,32 @@ class ProductService {
         ? prevImages.map((img) =>
             typeof img === "string" ? JSON.parse(img) : img
           )
-        : [JSON.stringify(prevImages)];
+        : [JSON.stringify(prevImages)]
+        
+        console.log('prev Image:', prevImages)
+      const deletedImages = product.images.filter(
+        (image) => (
+          !prevImages.some((prev) => (
+            prev?.key === image?.key
+          ))
+        )
+      );
+      console.log('deleted', deletedImages)
+
+      if (deletedImages?.length > 0 ) {
+        console.log('in deleted');
+        
+        await Promise.all(
+        deletedImages.map((img) =>
+          s3.send(
+            new DeleteObjectCommand({
+              Bucket: config.AWS.BUCKET_NAME,
+              Key: img.key,
+            })
+          )
+        )
+      )
+      }
 
       if (productData.images && !Array.isArray(productData.images)) {
         productData.images = [

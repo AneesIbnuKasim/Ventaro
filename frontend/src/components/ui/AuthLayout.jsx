@@ -31,7 +31,7 @@ const AuthLayout = memo(({
     <div className=" flex flex-col lg:flex-row m-auto">
           {/* LEFT SIDE */}
       <div className="hidden lg:flex w-full lg:w-6/12 items-center">
-        <div className={`relative w-142.5 h-${ page==='loginPage' ? '[75%]' : '[85%]' } rounded-[20px_0px_0px_20px]  ${GRADIENTS.secondary.light}`}>
+        <div className={`relative w-142.5 ${page === 'loginPage' ? 'h-[75%]' : 'h-[85%]'} rounded-[20px_0px_0px_20px]  ${GRADIENTS.secondary.light}`}>
          {leftContent}
         </div>
       </div>
@@ -44,7 +44,7 @@ const AuthLayout = memo(({
             {showLogo && (
               <div className="text-center items-center mb-8">
                 <Link to="/" >
-                <img className="inline-block w-15" src="../public/LOGO.svg" alt="logo" />
+                <img className="inline-block w-15" src="/LOGO.svg" alt="logo" />
                 </Link>
                 {title && <h3 className=" h2 mb-2">{title}</h3>}
                 {subtitle && <p className="text-muted">{subtitle}</p>}

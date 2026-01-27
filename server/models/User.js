@@ -32,8 +32,14 @@ const userSchema = new mongoose.Schema(
       maxlength: [128, "Password cant exceed 20 characters"],
     },
     avatar: {
-      type: String,
-      default: null,
+      url: {
+        type: String,
+        default: "",
+      },
+      key: {
+        type: String,
+        default: "",
+      },
     },
     role: {
       type: String,
@@ -81,11 +87,13 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
-    wishlist: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Products',
-      default: null
-    }]
+    wishlist: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Products",
+        default: null,
+      },
+    ],
   },
   { timestamps: true }
 );
