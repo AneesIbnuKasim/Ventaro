@@ -7,7 +7,7 @@ const fs = require("fs");
 const Address = require("../models/Address");
 const mongoose = require("mongoose");
 const Product = require("../models/Product");
-const { NODE_ENV } = require("../config/config");
+const { NODE_ENV, AWS } = require("../config/config");
 const { DeleteObjectCommand } = require("@aws-sdk/client-s3");
 const { s3 } = require("../config/multer");
 
@@ -64,6 +64,7 @@ class UserService {
       }
       const userId = req.user._id.toString();
       const user = await User.findById(userId);
+      const hasEmpty = Object.values(user.avatar).some((value) => value === "");
 
       if (user.avatar && NODE_ENV === "development") {
         const oldPath = path.join("uploads/avatars", user.avatar);
@@ -71,24 +72,28 @@ class UserService {
         if (fs.existsSync(oldPath)) {
           fs.unlinkSync(oldPath);
         }
-      }else {
-         await s3.send(new DeleteObjectCommand({
-        Bucket: "ventaro-assets",
-        Key: user.avatar.key
-      }))
+      } else if (!hasEmpty) {
+        console.log("user avatar", user.avatar);
+        console.log("user avatar2", AWS.BUCKET_NAME);
+
+        await s3.send(
+          new DeleteObjectCommand({
+            Bucket: AWS.BUCKET_NAME,
+            Key: user?.avatar?.key,
+          })
+        );
       }
 
-      const file = req.file
-      console.log('filr', file);
-      
+      const file = req.file;
+      console.log("filr", file);
 
       user.avatar = {
         url: file.location || `/uploads/${file.filename}`,
-        key: file.key || file.filename
+        key: file.key || file.filename,
       };
       await user.save();
 
-      return { avatar: file.filename };
+      return { avatar: user.avatar };
     } catch (error) {
       logger.error("Avatar updating failed");
       throw error;
@@ -214,40 +219,38 @@ class UserService {
   };
 
   //FETCH WISHLIST
- static fetchWishlist = async (userId) => {
-  const user = await User.findById(userId)
-    .populate("wishlist");
+  static fetchWishlist = async (userId) => {
+    const user = await User.findById(userId).populate("wishlist");
 
-  if (!user) throw new NotFoundError("User not found");
+    if (!user) throw new NotFoundError("User not found");
 
-  return user.wishlist;
-};
+    return user.wishlist;
+  };
 
   //TOGGLE TO WISHLIST
   static toggleWishlist = async (productId, userId) => {
-  const user = await User.findById(userId);
+    const user = await User.findById(userId);
 
-  if (!user) throw new NotFoundError("User not found");
+    if (!user) throw new NotFoundError("User not found");
 
-  const productObjectId = productId.toString();
+    const productObjectId = productId.toString();
 
-  const exists = user.wishlist.some(
-    (id) => id.toString() === productObjectId
-  );
+    const exists = user.wishlist.some(
+      (id) => id.toString() === productObjectId
+    );
 
-  if (exists) {
-    user.wishlist.pull(productObjectId);
-  } else {
-    user.wishlist.addToSet(productObjectId); // prevents duplicates
-  }
+    if (exists) {
+      user.wishlist.pull(productObjectId);
+    } else {
+      user.wishlist.addToSet(productObjectId); // prevents duplicates
+    }
 
-  await user.save();
+    await user.save();
 
-  // AFTER save
-const updatedProduct = await Product.findById(productId);
-return updatedProduct;
-};
-
+    // AFTER save
+    const updatedProduct = await Product.findById(productId);
+    return updatedProduct;
+  };
 }
 
 module.exports = UserService;

@@ -1,5 +1,6 @@
 import { ShieldCheck, ShieldOff, UserX, Eye } from "lucide-react";
 import { API_CONFIG } from "../../config/app";
+import formatImageUrl from "../../utils/formatImageUrl";
 
 export default function UserProfileCard({ user, onBlock, unBlock, onVerify, onView }) {
   return (
@@ -9,7 +10,7 @@ export default function UserProfileCard({ user, onBlock, unBlock, onVerify, onVi
       <div className="shrink-0">
         {user.avatar ? (
           <img
-            src={`${API_CONFIG.imageURL}${user.avatar}` || "../public/LOGO.png"}
+            src={`${formatImageUrl(user.avatar)}` || "../public/LOGO.png"}
             alt={user.name}
             className="w-14 h-14 rounded-full object-cover"
           />

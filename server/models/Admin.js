@@ -32,8 +32,8 @@ const adminSchema = new mongoose.Schema({
       default: null,
     },
     avatar: {
-      type: String,
-      default: null,
+      url : String,
+      key: String
     },
     permissions: {
         type: String,

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { API_CONFIG } from "../../config/app";
+import formatImageUrl from "../../utils/formatImageUrl";
 
 const UserAvatar = ({
   user,
@@ -38,7 +39,7 @@ const UserAvatar = ({
 
   const avatarElement = user?.avatar ? (
     <img
-      src={`${API_CONFIG.imageURL}${user.avatar}` || "/LOGO.png"}
+      src={`${formatImageUrl(user.avatar)}` || "/LOGO.png"}
       alt={user?.name || "User"}
       className={`${variantClass} ${className} bg-gray-400 rounded-full p-0.5`}
       style={sizeStyle}

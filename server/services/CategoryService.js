@@ -41,14 +41,17 @@ class CategoryService {
         }
     }
 
-    static addCategory = async (categoryData, image)=>{
+    static addCategory = async (categoryData, file)=>{
         try {
             const { name, description } = categoryData
 
             const category = new Category({
             name,
             description,
-            image: `/uploads/${image}`
+            image: {
+                url: file.location || `/uploads/${file.filename}`,
+                key: file.key || file.filename
+            }
         })
         
         await category.save()

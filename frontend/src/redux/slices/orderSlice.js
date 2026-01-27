@@ -109,7 +109,7 @@ const orderSlice = createSlice({
       })
       .addCase(fetchOrderThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.orders = action.payload.orders;
+        state.orders = action.payload?.orders;
         state.pagination = action.payload.pagination
         
       })

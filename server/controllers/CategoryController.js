@@ -12,7 +12,7 @@ class CategoryController extends BaseController {
     static addCategory = BaseController.asyncHandler(async (req, res)=>{
         const { image, ...formData } = req.body
         const validatedData = BaseController.validateRequest(categoryValidation, formData)
-        const category = await CategoryService.addCategory(validatedData, req.file.filename)
+        const category = await CategoryService.addCategory(validatedData, req.file)
         BaseController.sendSuccess(res,'Category added successfully', category, 201)
     })
 

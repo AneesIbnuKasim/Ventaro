@@ -8,6 +8,7 @@ import { useUser } from "../context/UserContext";
 import { API_CONFIG } from "../config/app";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAdmin } from "../context/AdminContext";
+import formatImageUrl from "../utils/formatImageUrl";
 
 const ProfileSchema = Yup.object({
   fName: Yup.string().required("First name is required"),
@@ -114,7 +115,7 @@ export default function AdminProfile() {
       <div className="flex flex-col gap-5 mb-5">
         <div className="relative">
           <img
-            src={avatarPreview || `${API_CONFIG.imageURL}${admin.avatar}`}
+            src={avatarPreview || `${formatImageUrl(admin.avatar)}`}
             alt="avatar"
             className="w-30 h-30 rounded-xl object-cover  cursor-pointer border border-gray-300"
             onClick={() => document.getElementById("avatarInput").click()}

@@ -9,9 +9,11 @@ const {
 const Product = require("../models/Product");
 
 class OrderService {
-  static async fetchOrders(userId, query) {
+  static async fetchOrders(userId=null, query) {
     try {
       const { search = "", status } = query;
+      console.log('status',status);
+      
 
       const page = parseInt(query.page) || 1;
 
