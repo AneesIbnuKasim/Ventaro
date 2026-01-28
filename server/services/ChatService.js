@@ -1,5 +1,6 @@
-const openai = require("../config/openai");
+const client = require("../config/openai");
 const Order = require("../models/Order");
+
 
 
 class ChatService {
@@ -51,22 +52,40 @@ class ChatService {
     }
 
      /* ---------- OPENAI FALLBACK ---------- */
-    const aiResponse = await openai.responses.create({
-  model: "gpt-4o-mini",
-  input: [
+//     const aiResponse = await openai.responses.create({
+//   model: "gpt-4o-mini",
+//   input: [
+//     {
+//       role: "system",
+//       content: "You are a helpful ecommerce assistant. Answer briefly and clearly.",
+//     },
+//     {
+//       role: "user",
+//       content: message,
+//     },
+//   ],
+// });
+
+const response = await client.chat.completions.create({
+  model: "allam-2-7b",
+  messages: [
     {
       role: "system",
-      content: "You are a helpful ecommerce assistant. Answer briefly and clearly.",
+      content: "You are a helpful e-commerce website assistant. Always reply in English."
     },
     {
       role: "user",
-      content: message,
-    },
-  ],
-});
+      content: "ask me anything you want."
+    }
+  ]
+})
+
+const aiText = response.choices[0].message.content
+
+console.log('chat:', aiText);
 
 return {
-  text: aiResponse.output_text,
+  text: aiText,
 };
 
     // return ({

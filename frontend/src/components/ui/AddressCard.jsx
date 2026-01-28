@@ -6,7 +6,7 @@ import Button from "./Button";
 import Modal from "./Modal";
 import AddressForm from "./AddressForm";
 import ConfirmDialog from "./ConfirmDialog";
-import { Delete, DeleteIcon, Edit } from "lucide-react";
+import { Delete, DeleteIcon, UserPen } from "lucide-react";
 
 export default function AddressCard({
   name = "Jhon doe",
@@ -53,7 +53,7 @@ export default function AddressCard({
 
   const handleDeleteSubmit = async (deleteId) => {
     const res = await deleteAddress(deleteId);
-    res.success ? setDeleteId(null) : null;
+    setDeleteId(null)
   };
 
   //HANDLE FORM MODAL CLOSE BUTTON
@@ -89,7 +89,7 @@ export default function AddressCard({
         {user.addresses?.length > 0 ? (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
             {user.addresses.map((address) => (
-              <div className="max-w-125 lg:max-w-105 bg-inner-card hover:outline-1 outline-violet-300 rounded-xl p-6 shadow-sm">
+              <div key={address._id} className="max-w-125 lg:max-w-105 bg-inner-card hover:outline-1 outline-violet-300 rounded-xl p-6 shadow-sm">
                 {/* NAME */}
                 <h3 className="font-semibold  mb-2">
                   {address.fullName}
@@ -113,13 +113,13 @@ export default function AddressCard({
 
                 {/* ACTIONS */}
                 <div className="flex gap-10 mt-6">
-                  <Edit
+                  <UserPen
                     onClick={() => handleEditButton(address)}
-                    className=" text-green-700 h-10 w-10 hover:text-green-500 cursor-pointer py-2 rounded-lg "
+                    className=" text-green-700 h-12 w-12 hover:text-green-500 cursor-pointer py-2 rounded-lg "
                   />
                   <DeleteIcon
                     onClick={() => handleDeleteButton(address._id)}
-                    className=" py-2 text-red-700 hover:text-red-500 cursor-pointer rounded-lg h-10 w-10"
+                    className=" py-2 text-red-700 hover:text-red-500 cursor-pointer rounded-lg h-12 w-12"
                   >
                     REMOVE
                   </DeleteIcon>

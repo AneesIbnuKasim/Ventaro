@@ -22,6 +22,7 @@
   --text-primary: #0f172a;
   --text-secondary: #64748b;
   --text-muted: #94a3b8;
+  --text-blue: #0066f5;
 
   --border-color: #b6b6b8;
   --card-border-color: #e7e7e7;
@@ -74,6 +75,7 @@ html.dark {
   --text-primary: #f8fafc;
   --text-secondary: #cbd5e1;
   --text-muted: #94a3b8;
+  --text-blue: #a3cefe;
 
   --border-color: #1e293b;
   --card-border-color: #1e293b;
@@ -219,6 +221,10 @@ html.dark {
 
   .text-secondary {
     color: var(--text-secondary);
+  }
+
+  .text-blue {
+    color: var(--text-blue)
   }
 
   .text-muted {

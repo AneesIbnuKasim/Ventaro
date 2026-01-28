@@ -66,15 +66,15 @@ const userReducer = (state, action) => {
       return {
         ...state,
         user: { ...state.user, ...action.payload },
-        loading: false,
+        loading: false
       };
 
     case USER_ACTIONS.DELETE_ADDRESS:
       return {
         ...state,
-        user: { ...state.user, addresses: [state.user.addresses.filter(address => address._id !== action.payload )] },
-        loading: false,
-      };
+        user: { ...state.user, addresses: state.user.addresses.filter(address => address._id !== action.payload ) },
+        loading: false
+      }
 
     case USER_ACTIONS.UPDATE_AVATAR:
       return {
@@ -210,6 +210,9 @@ const deleteAddress = useCallback(async(addressId) => {
     dispatch({ type: USER_ACTIONS.SET_LOADING, payload: true })
     try {
         const response = await userAPI.deleteAddress(addressId)
+
+        console.log('delete response:',response)
+        
 
         dispatch({type: USER_ACTIONS.DELETE_ADDRESS, payload: addressId})
         

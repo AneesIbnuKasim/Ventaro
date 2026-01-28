@@ -23,18 +23,18 @@ const ConfirmDialog = memo(({
         exit={{ opacity: 0 }}
       >
         <motion.div
-          className="bg-white rounded-2xl shadow-2xl p-6 w-[90%] max-w-md"
+          className="bg-inner-card rounded-2xl shadow-2xl p-6 w-[90%] max-w-md"
           initial={{ scale: 0.85, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.85, opacity: 0 }}
         >
           {/* Title */}
-          <h2 className="text-xl font-semibold text-gray-800 mb-2">
+          <h2 className="text-xl font-semibold text-primary mb-2">
             {title}
           </h2>
 
           {/* Message */}
-          <p className="text-gray-500 mb-5">
+          <p className="text-secondary mb-5">
             {message}
           </p>
 
@@ -42,7 +42,7 @@ const ConfirmDialog = memo(({
           <div className="flex justify-end gap-3">
             <button
               onClick={onCancel}
-              className="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100"
+              className="px-4 py-2 rounded-lg border border-gray-400 hover:bg-gray-500"
             >
               {cancelText}
             </button>

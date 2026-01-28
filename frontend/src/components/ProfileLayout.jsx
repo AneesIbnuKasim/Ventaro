@@ -33,9 +33,6 @@ const ProfileLayout = () => {
       }
     }, [user?.id]);
   
-  
-  
-  
     //HANDLE AVATAR PREVIEW WHEN SELECTED
     const handleAvatarSelect = (e) => {
       const file = e.target.files[0];
@@ -80,30 +77,20 @@ const ProfileLayout = () => {
               {/* AVATAR PREVIEW AND EDIT SAVE SECTION */}
               <div className="flex flex-col items-center gap-5 mb-5">
                 <div className="relative">
-                  {/* {(avatarPreview || user.avatar) ? (
+                  {user.avatar ? (
                     <img
-                    src={
-                      avatarPreview || `${API_CONFIG.imageURL}${user.avatar}`
-                    }
-                    alt="avatar"
-                    className="w-30 h-30 rounded-xl object-cover  cursor-pointer border"
-                    onClick={() => document.getElementById("avatarInput").click()}
-                  />
-                  ) :
-                  (
-                    <div
-                    className="w-30 text-8xl bg-amber-100 h-30 rounded-xl p-3 mb-2 object-cover  cursor-pointer border"
-                    onClick={() => document.getElementById("avatarInput").click()}
-                  > M</div>
-                  )} */}
-                  <img
                     src={
                       avatarPreview || formatImageUrl(user.avatar)
                     }
                     alt="avatar"
-                    className="w-30 h-30 rounded-xl object-cover  cursor-pointer border"
+                    className="w-30 h-30 rounded-xl object-cover  cursor-pointer border border-gray-400"
                     onClick={() => document.getElementById("avatarInput").click()}
                   />
+                  ) : (
+                    <div className="bg-gray-300 animate-pulse w-30 rounded h-30 border border-gray-400">
+
+                    </div>
+                  )}
                   <input
                     id="avatarInput"
                     type="file"
@@ -150,7 +137,7 @@ const ProfileLayout = () => {
             </aside>
                   {/* RIGHT SECTION (DYNAMIC) */}
       <section className="flex-1 bg-card rounded-lg p-6">
-        {loading ? <Loading fullScreen /> : <Outlet />}
+        {loading ? <Loading /> : <Outlet />}
       </section>
             
           </div>

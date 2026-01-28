@@ -75,7 +75,7 @@ export default function OrderItemCard({ order, onCancel, handleReturn }) {
         <div className="flex gap-4 mt-4 text-sm">
           <button
             onClick={() => navigate(`/profile/order-details/${order._id}`)}
-            className="text-blue-600 hover:underline"
+            className="text-blue hover:underline"
           >
             Details
           </button>

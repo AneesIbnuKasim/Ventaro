@@ -1,5 +1,5 @@
 const User = require("../models/User");
-const { NotFoundError } = require("../utils/errors");
+const { NotFoundError, AuthorizationError } = require("../utils/errors");
 const logger = require("../utils/logger");
 const { sendError } = require("../utils/response");
 const path = require("path");
@@ -153,7 +153,7 @@ class UserService {
       const user = await User.findOne(req.user._id);
 
       if (user.addresses.length === 1) {
-        return sendError(res, "Primary address cannot be deleted");
+        throw new AuthorizationError("Primary address cannot be deleted");
       }
 
       const res = await User.findOneAndUpdate(

@@ -56,18 +56,18 @@ if (loading) {
         </button>
 
         {/* Header */}
-        <div className="bg-gray-50 rounded-2xl p-6 shadow-sm mb-6">
-          <div className="flex justify-between flex-wrap gap-4 text-black">
+        <div className="bg-inner-card rounded-2xl p-6 shadow-sm mb-6">
+          <div className="flex justify-between flex-wrap gap-4 text-primary">
             <div>
-              <p className="text-sm text-gray-500">Order ID</p>
-              <p className="font-semibold text-black">{selectedOrder.orderId}</p>
-              <p className="text-sm text-gray-500 mt-1">
+              <p className="text-sm text-secondary">Order ID</p>
+              <p className="font-semibold text-primary">{selectedOrder.orderId}</p>
+              <p className="text-sm text-secondary mt-1">
                 Placed on {formatDate(selectedOrder.createdAt)}
               </p>
             </div>
 
             <div className="text-right">
-              <p className="text-sm text-gray-500">Payment</p>
+              <p className="text-sm text-secondary">Payment</p>
               <p className="font-medium">{selectedOrder.paymentMethod}</p>
               <p className="text-green-600 text-sm font-medium">
                 {selectedOrder.paymentStatus}
@@ -77,8 +77,8 @@ if (loading) {
         </div>
 
         {/* Items */}
-        <div className="bg-gray-50 rounded-2xl p-6 shadow-sm mb-6">
-          <h2 className="font-semibold mb-4 text-black">Items</h2>
+        <div className="bg-inner-card rounded-2xl p-6 shadow-sm mb-6">
+          <h2 className="font-semibold mb-4 text-primary">Items</h2>
           <div className="space-y-4">
             {selectedOrder?.items?.map((item) => (
               <div key={item._id} className="flex gap-4">
@@ -88,9 +88,9 @@ if (loading) {
                   className="w-24 h-24 rounded-xl object-cover"
                 />
 
-                <div className="flex-1 text-black">
+                <div className="flex-1 text-primary">
                   <p className="font-medium ">{item.product.name}</p>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-secondary">
                     ₹{item.finalUnitPrice} × {item.quantity}
                   </p>
                   <p className="font-semibold mt-1">₹{item.itemTotal}</p>
@@ -111,18 +111,18 @@ if (loading) {
         </div>
 
         {/* Address & Summary */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-black">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-primary">
           {/* Address */}
-          <div className="bg-gray-50 rounded-2xl p-6 shadow-sm">
+          <div className="bg-inner-card rounded-2xl p-6 shadow-sm">
             <h2 className="font-semibold mb-3">Delivery Address</h2>
             <p className="font-medium">{selectedOrder.deliveryAddress.name}</p>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-secondary">
               {selectedOrder.deliveryAddress.addressLine}
             </p>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-secondary">
               {selectedOrder.deliveryAddress.city}, {selectedOrder.deliveryAddress.state} - {selectedOrder.deliveryAddress.pincode}
             </p>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-secondary">
               Phone: {selectedOrder.deliveryAddress.phone}
             </p>
             <span className="inline-block mt-2 text-xs bg-purple-300 px-3 py-1 rounded-full">
@@ -131,7 +131,7 @@ if (loading) {
           </div>
 
           {/* Summary */}
-          <div className="bg-gray-50 rounded-2xl p-6 shadow-sm">
+          <div className="bg-inner-card rounded-2xl p-6 shadow-sm">
             <h2 className="font-semibold mb-3">Order Summary</h2>
             <div className="flex justify-between text-sm mb-2">
               <span>Sub Total</span>

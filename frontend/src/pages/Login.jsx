@@ -100,6 +100,7 @@ onSubmit={submitLogin}
           onBlur= {handleBlur}
           error= {touched.email && errors.email}
           placeholder="Enter your email"
+          className='text-black'
           required
         />
 
@@ -108,6 +109,7 @@ onSubmit={submitLogin}
           type="password"
           icon={<FaLock />}
           name= 'password'
+          className='text-black'
           value= {values.password}
           onChange= {handleChange}
           onBlur= {handleBlur}

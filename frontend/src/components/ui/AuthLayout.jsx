@@ -46,7 +46,7 @@ const AuthLayout = memo(({
                 <Link to="/" >
                 <img className="inline-block w-15" src="/LOGO.svg" alt="logo" />
                 </Link>
-                {title && <h3 className=" h2 mb-2">{title}</h3>}
+                {title && <h3 className=" h2 mb-2 text-black">{title}</h3>}
                 {subtitle && <p className="text-muted">{subtitle}</p>}
               </div>
             )}
