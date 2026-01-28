@@ -12,9 +12,6 @@ class OrderService {
   static async fetchOrders(userId=null, query) {
     try {
       const { search = "", status } = query;
-      console.log('status',status);
-      
-
       const page = parseInt(query.page) || 1;
 
       const limit = parseInt(query.limit) || 10;

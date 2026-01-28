@@ -342,8 +342,6 @@ export const AdminProvider = ({ children }) => {
       formData.append("avatar", file);
   
       const res = await adminAPI.updateAvatar(formData);
-console.log('res.vatar', res.data.avatar);
-
       dispatch({
         type: ADMIN_ACTIONS.UPDATE_AVATAR,
         payload: res.data.avatar,

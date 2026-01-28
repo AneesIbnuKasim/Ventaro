@@ -45,16 +45,9 @@ export default function ProductForm({ onConfirm, onCancel, editData = '' }) {
   );
 
   const prevLength = prevImages?.length
-  console.log('prev length;', prevLength);
-  console.log('prev length;', indexToRemove);
-  
-
   if (prevLength-1 >= indexToRemove) {
-    console.log('removing prev');
-    
     setPrevImages((prev) => prev.filter((_, index) => index !== indexToRemove))
   }else {
-    console.log('removing new');
       setImages((prev) =>
     prev.filter((_, index) => index !== indexToRemove)
   );

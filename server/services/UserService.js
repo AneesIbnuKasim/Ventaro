@@ -73,9 +73,6 @@ class UserService {
           fs.unlinkSync(oldPath);
         }
       } else if (!hasEmpty) {
-        console.log("user avatar", user.avatar);
-        console.log("user avatar2", AWS.BUCKET_NAME);
-
         await s3.send(
           new DeleteObjectCommand({
             Bucket: AWS.BUCKET_NAME,
@@ -85,8 +82,6 @@ class UserService {
       }
 
       const file = req.file;
-      console.log("filr", file);
-
       user.avatar = {
         url: file.location || `/uploads/${file.filename}`,
         key: file.key || file.filename,

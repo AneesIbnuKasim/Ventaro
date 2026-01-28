@@ -102,10 +102,6 @@ export const UserProvider = ({ children }) => {
     }
   }, [state.error]);
 
-  useEffect(() => {
-    console.log("user", state.user);
-  }, [state.user]);
-
   const getProfile = useCallback(async (id) => {
     try {
       dispatch({ type: USER_ACTIONS.SET_LOADING, payload: true });

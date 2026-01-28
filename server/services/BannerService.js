@@ -26,11 +26,6 @@ class BannerService {
   static async updateBanner(bannerId, data, file) {
     try {
       const updateData = { ...data };
-
-      console.log('up data', updateData);
-      console.log('image data', file);
-      
-
       if (file) {
         updateData.image = {
           url: file.location || `/uploads/${file.filename}`,

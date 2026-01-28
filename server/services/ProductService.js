@@ -294,9 +294,6 @@ class ProductService {
   };
 
   static editProduct = async (productId, productData, prevImages, req) => {
-    console.log('prod data:', productData)
-    
-    
     try {
       const product = await Product.findById(productId);
 
@@ -321,7 +318,6 @@ class ProductService {
           )
         : [JSON.stringify(prevImages)]
         
-        console.log('prev Image:', prevImages)
       const deletedImages = product.images.filter(
         (image) => (
           !prevImages.some((prev) => (
@@ -329,11 +325,8 @@ class ProductService {
           ))
         )
       );
-      console.log('deleted', deletedImages)
 
       if (deletedImages?.length > 0 ) {
-        console.log('in deleted');
-        
         await Promise.all(
         deletedImages.map((img) =>
           s3.send(

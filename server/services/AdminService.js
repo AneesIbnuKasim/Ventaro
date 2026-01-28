@@ -84,9 +84,6 @@ class AdminService {
             const adminId = req.admin._id.toString();
             const admin = await Admin.findById(adminId);
 
-            console.log('admin avatar', admin.avatar);
-            
-      
             const hasEmpty = (admin.avatar !== null) ? Object.values(admin.avatar).some((value) => value === "") : admin.avatar === null ? true : false;
             
                   if (admin.avatar && NODE_ENV === "development") {
@@ -96,9 +93,6 @@ class AdminService {
                       fs.unlinkSync(oldPath);
                     }
                   } else if (hasEmpty) {
-                    console.log("user avatar", admin.avatar);
-                    console.log("user avatar2", AWS.BUCKET_NAME);
-            
                     await s3.send(
                       new DeleteObjectCommand({
                         Bucket: AWS.BUCKET_NAME,
@@ -108,8 +102,6 @@ class AdminService {
                   }
             
                   const file = req.file;
-                  console.log("filr", file);
-            
                   admin.avatar = {
                     url: file.location || `/uploads/${file.filename}`,
                     key: file.key || file.filename,

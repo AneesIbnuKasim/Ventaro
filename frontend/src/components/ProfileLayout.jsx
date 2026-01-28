@@ -27,9 +27,6 @@ const ProfileLayout = () => {
     const location = useLocation()
   
     const userData = JSON.parse(localStorage.getItem("user"));
-    console.log('user',user);
-    
-  
     useEffect(() => {
       if (!user?.id && userData?.id) {
         getProfile(userData.id);

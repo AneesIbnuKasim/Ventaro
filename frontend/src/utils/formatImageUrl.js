@@ -1,7 +1,6 @@
 import { API_CONFIG } from "../config/app";
 
 export default function formatImageUrl (image, baseUrl = API_CONFIG.imageURL2) {
-  console.log('image avatar:', image);
     if (!image) return "";
     // Case 1: S3 or Cloudinary object
     if (typeof image === "object" && image.url) {
@@ -21,7 +20,6 @@ export default function formatImageUrl (image, baseUrl = API_CONFIG.imageURL2) {
 
     // Case 2: Old string path
     if (typeof image === "string") {
-      console.log('image avatar3:', image);
       if(image.startsWith("blob")) {
         return image
       }

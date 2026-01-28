@@ -25,7 +25,7 @@ export const userAPI = {
   updateAvatar: async (formData) => {
     const token = localStorage.getItem("authToken");
     const res = await axios.put(
-      `${API_CONFIG.baseURL}api/user/avatar`,
+      `${API_CONFIG.baseURL}/api/user/avatar`,
       formData,
       {
         headers: {

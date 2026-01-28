@@ -79,7 +79,7 @@ export const AdminSidebar = () => {
             <div className="flex items-center justify-center w-12 h-12 ">
               { !isOpen && 
               <Link to="/" >
-                <img className="inline-block w-12" src="../public/LOGO.svg" alt="logo" />
+                <img className="inline-block w-12" src="/LOGO.svg" alt="logo" />
                 </Link>
               }
             </div>
