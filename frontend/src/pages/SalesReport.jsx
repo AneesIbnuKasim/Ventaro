@@ -36,10 +36,9 @@ const SalesReport = memo(() => {
   const dispatch = useDispatch();
 
   const query = {
-    period: filters.period,
+    period,
     startDate: filters.startDate,
     endDate: filters.endDate,
-    period: filters.period,
   };
 
   useEffect(() => {
