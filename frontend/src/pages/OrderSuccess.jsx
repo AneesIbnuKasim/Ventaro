@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { CheckCircle2 } from "lucide-react";
-import api from "../utils/apiClient";
 import { Button } from "../components/ui";
 
 export default function OrderSuccess() {

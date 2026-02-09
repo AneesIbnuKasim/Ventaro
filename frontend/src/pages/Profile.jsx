@@ -1,14 +1,11 @@
 
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import { ChevronRight } from "lucide-react";
 import { Button, FormInput } from "../components/ui";
 import { MdEmail } from "react-icons/md";
 import { useUser } from "../context/UserContext";
-import { API_CONFIG } from "../config/app";
-import { useLocation, useNavigate } from "react-router-dom";
 
 const ProfileSchema = Yup.object({
   fName: Yup.string().required("First name is required"),

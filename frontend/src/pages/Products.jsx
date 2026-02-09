@@ -4,18 +4,13 @@ import {
   FormInput,
   Modal,
   Pagination,
-  StatCard,
-  UserCard,
-  UserTableRow,
 } from "../components/ui";
 import Table from "../components/ui/Table";
 import { IoSearch } from "react-icons/io5";
 import ConfirmDialog from "../components/ui/ConfirmDialog";
-import CategoryForm from "../components/ui/CategoryForm";
 import { useProduct } from "../context/ProductContext";
 import SearchNotFound from "../components/ui/SearchNotFound";
 import ProductForm from "../components/ui/ProductForm";
-import { useCategory } from "../context/CategoryContext";
 import { TableSkeleton } from "../components/ui/TableSkeleton";
 
 ///Admin product page
@@ -25,8 +20,6 @@ const Products = memo((setTitle) => {
   const [editData, setEditData] = useState(null);
   const [isDelete, setIsDelete] = useState(false);
   const [deleteData, setDeleteData] = useState(null);
-  const { fetchCategories, categories } = useCategory();
-  
 
   const {
     products,

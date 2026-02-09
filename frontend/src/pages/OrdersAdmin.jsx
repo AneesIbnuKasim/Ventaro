@@ -10,12 +10,7 @@ import {
 } from "../components/ui";
 import Table from "../components/ui/Table";
 import { IoSearch } from "react-icons/io5";
-import ConfirmDialog from "../components/ui/ConfirmDialog";
-import CategoryForm from "../components/ui/CategoryForm";
-import { useProduct } from "../context/ProductContext";
 import SearchNotFound from "../components/ui/SearchNotFound";
-import ProductForm from "../components/ui/ProductForm";
-import { useCategory } from "../context/CategoryContext";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchOrderThunk,

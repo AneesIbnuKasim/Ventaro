@@ -9,11 +9,8 @@ import { FaLongArrowAltRight } from "react-icons/fa"
 import { MdEmail } from "react-icons/md"
 import { FaLock } from "react-icons/fa6"
 import { FaSignInAlt } from "react-icons/fa";
-import { FaGoogle } from "react-icons/fa";
-import { FaGithub } from "react-icons/fa";
 import { loginSchema } from '../validation/userSchema'
 import { authAPI } from '../services/authService'
-import { adminAPI } from '../services/adminService'
 import { toast } from 'react-toastify'
 import { useAuth } from '../context/AuthContext'
 

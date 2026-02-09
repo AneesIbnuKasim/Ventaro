@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import ReportStatsCard from "../components/ui/ReportStatsCard";
 import SalesChart from "../components/ui/SalesChart";
 import { fetchSalesReport } from "../redux/slices/salesSlice";
-import { API_CONFIG } from "../config/app";
 import { CURRENCY } from "../constants/ui";
 import formatImageUrl from "../utils/formatImageUrl";
 import { DashboardSkeleton } from "../components/ui/DashboardSkeleton.jsx";

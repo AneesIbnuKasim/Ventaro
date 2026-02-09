@@ -1,5 +1,4 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
 import { Button } from "../components/ui";
 import { useUser } from "../context/UserContext";
 import { passwordChangeSchema } from "../validation/userSchema";

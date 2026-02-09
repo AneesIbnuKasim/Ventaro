@@ -4,7 +4,6 @@ import Table from "../components/ui/Table";
 import { IoSearch } from "react-icons/io5";
 import ConfirmDialog from "../components/ui/ConfirmDialog";
 import SearchNotFound from "../components/ui/SearchNotFound";
-import { useCategory } from "../context/CategoryContext";
 import { useDispatch, useSelector } from "react-redux";
 import BannerForm from "../components/ui/BannerForm";
 import {

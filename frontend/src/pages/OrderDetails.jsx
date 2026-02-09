@@ -3,7 +3,6 @@ import { ArrowLeft, CheckCircle, Clock } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchSingleOrderThunk } from "../redux/slices/orderSlice";
-import { API_CONFIG } from "../config/app";
 import { Loading } from "../components/ui";
 import { selectCodFee, selectShippingFee, selectSubTotal } from "../redux/selector/orderSelector";
 import formatImageUrl from "../utils/formatImageUrl";

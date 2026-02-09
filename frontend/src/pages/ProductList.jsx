@@ -1,20 +1,13 @@
 import React, { memo, useEffect, useState } from "react";
-import AppLayout from "../components/AppLayout";
-import ProductFilter from "../components/ui/ProductFilter";
 import { Card, FormInput, Pagination } from "../components/ui";
 import ProductCard from "../components/ui/ProductCard";
-import { IoSearch } from "react-icons/io5";
 import { useProduct } from "../context/ProductContext";
-import { Search } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import PriceFilter from "../components/ui/PriceFilter";
 import RatingFilter from "../components/ui/RatingFilter";
-import CategoryFilter from "../components/ui/CategoryFilter";
 import SortFilter from "../components/ui/SortFilter";
 import SearchNotFound from "../components/ui/SearchNotFound";
 import ProductNotFound from "../components/ui/ProductNotFound";
-import Loading from "../components/ui/Loading";
-import ToggleChat from "../components/ui/ToggleChat";
 import ProductsGridSkeleton from "../components/ui/ProductGridSkeleton";
 
 //USER PRODUCTS UI PAGE

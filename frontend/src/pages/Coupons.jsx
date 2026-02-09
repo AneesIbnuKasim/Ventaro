@@ -3,16 +3,10 @@ import {
   Button,
   FormInput,
   Modal,
-  Pagination,
-  StatCard,
-  UserCard,
-  UserTableRow,
 } from "../components/ui/index.js";
 import Table from "../components/ui/Table.jsx";
 import { IoSearch } from "react-icons/io5";
 import ConfirmDialog from "../components/ui/ConfirmDialog.jsx";
-import CategoryForm from "../components/ui/CategoryForm.jsx";
-// import { useCoupon } from "../context/CouponContext";
 import SearchNotFound from "../components/ui/SearchNotFound.jsx";
 import CouponForm from "../components/ui/CouponForm.jsx";
 import { useCategory } from "../context/CategoryContext.jsx";

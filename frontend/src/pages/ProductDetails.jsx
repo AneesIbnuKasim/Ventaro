@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import AppLayout from '../components/AppLayout'
 import SingleProduct from '../components/ui/SingleProduct'
 import { ReviewsList } from '../components/ui/Reviews';
 import { ReviewForm } from '../components/ui/ReviewForm';

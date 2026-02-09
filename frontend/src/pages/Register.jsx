@@ -1,13 +1,13 @@
 import '../styles/animations.css'
-import React, { useState, useCallback, useMemo, memo } from 'react'
+import React, { useCallback, useMemo, memo } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import AuthLayout from '../components/ui/AuthLayout'
 import FormInput from '../components/ui/FormInput'
 import Button from '../components/ui/Button'
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form } from "formik";
 import { FaLongArrowAltRight } from "react-icons/fa"
 import { FaUserPlus } from "react-icons/fa6"
-import { MdEmail, MdPassword } from "react-icons/md"
+import { MdEmail } from "react-icons/md"
 import { FaLock } from "react-icons/fa6"
 import { registerSchema } from '../validation/userSchema'
 import { authAPI } from '../services'

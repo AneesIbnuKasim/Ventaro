@@ -6,13 +6,11 @@ import { getUser } from "../utils/apiClient";
 import { MdDeliveryDining } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { API_CONFIG, RAZORPAY } from "../config/app";
-import { selectCartTotals } from "../redux/selector/cartSelector";
 import { CURRENCY } from "../constants/ui";
 import { setDeliveryAddress, setPaymentMethod } from "../redux/slices/checkoutSlice";
 import { selectCheckoutTotals } from "../redux/selector/checkoutSelector";
 import {paymentAPI} from "../services/paymentService";
 import { toast } from "react-toastify";
-import NotFound from "./NotFound";
 
 const  CheckOut = memo(() => {
   const { user, getProfile } = useUser()

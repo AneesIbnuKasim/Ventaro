@@ -1,24 +1,18 @@
 import React, { memo, useEffect } from "react";
-import { Button, StatCard } from "../components/ui";
-import { Box, Currency, ShieldAlert, ShoppingCart, User } from "lucide-react";
+import { Button } from "../components/ui";
+import { Box, ShoppingCart, User } from "lucide-react";
 import ReportStatsCard from "../components/ui/ReportStatsCard";
 import DateFilter from "../components/ui/DateFilter";
 import SalesChart from "../components/ui/SalesChart";
 import Table from "../components/ui/Table";
 import { fetchSalesReport, setFilters } from "../redux/slices/salesSlice";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  selectDaily,
-  selectTotalOrders,
-  selectTotalSales,
-} from "../redux/selector/dashboardSelector";
-import { API_CONFIG } from "../config/app";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { CURRENCY } from "../constants/ui";
 import { toast } from "react-toastify";
 import formatImageUrl from "../utils/formatImageUrl";
-import { DashboardSkeleton } from "../components/ui/dashboardSkeleton";
+import { DashboardSkeleton } from "../components/ui/DashboardSkeleton.jsx";
 
 const SalesReport = memo(() => {
   const {
