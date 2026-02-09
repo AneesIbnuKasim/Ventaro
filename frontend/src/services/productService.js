@@ -1,5 +1,6 @@
 import axios from "axios";
 import { makeRequest } from "../utils/apiClient";
+import { API_CONFIG } from "../config/app";
 
 export const productAPI = {
   getAllProduct: (params = {}) => {
@@ -43,7 +44,7 @@ export const productAPI = {
 
     const token = localStorage.getItem("adminToken");
     
-    const res = await axios.post("http://localhost:5001/api/products", formData, {
+    const res = await axios.post(`${API_CONFIG.baseURL}/api/products`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -76,7 +77,7 @@ export const productAPI = {
 
     const token = localStorage.getItem("adminToken");
     
-    const res = await axios.put(`http://localhost:5001/api/products/${id}`, formData, {
+    const res = await axios.put(`${API_CONFIG.baseURL}/api/products/${id}`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

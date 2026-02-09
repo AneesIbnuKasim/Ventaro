@@ -22,6 +22,7 @@ import { useAuth } from "../context/AuthContext";
 import ApplyCouponForm from "../components/ui/ApplyCouponForm";
 import { CURRENCY } from "../constants/ui";
 import { setCheckoutItems } from "../redux/slices/checkoutSlice";
+import formatImageUrl from "../utils/formatImageUrl";
 
 const Cart = memo(() => {
   const { products, fetchProduct, loadCart } = useProduct();
@@ -51,14 +52,6 @@ useEffect(()=> {
 
 
   const hasCartItems = items?.length ;
-
-  // const totalQuantity = useSelector(selectTotalQuantity);
-  // const totalPrice = useSelector(selectTotalPrice);
-
-  // useEffect(() => {
-  //   const items = loadCart()
-  //   setCartItems(items)
-  // }, [])
 
   useEffect(() => {
     const load = async () => {
@@ -127,7 +120,7 @@ useEffect(()=> {
                       className="flex items-start gap-6 shadow-gray-200 bg-inner-card shadow-sm p-6"
                     >
                       <img
-                        src={`http://localhost:5001${item?.product?.images[0]?.url ?? ''} `}
+                        src={`${formatImageUrl(item?.product?.images[0])} `}
                         alt="product"
                         className="w-28 h-36 object-contain"
                         onClick={() => navigate(`/product/${item._id}`)}

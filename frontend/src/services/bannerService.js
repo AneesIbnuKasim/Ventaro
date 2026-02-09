@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 import makeRequest from "../utils/apiClient";
 import axios from "axios";
+import { API_CONFIG } from "../config/app";
 
 const bannerAPI = {
   fetchBanner: (params = {}) => {
@@ -28,7 +29,7 @@ const bannerAPI = {
 
     const token = localStorage.getItem("adminToken");
 
-    const res = await axios.post(`http://localhost:5001/api/banner`, formData, {
+    const res = await axios.post(API_CONFIG.baseURL, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -53,7 +54,7 @@ const bannerAPI = {
   }
 
   const res = await axios.put(
-    `http://localhost:5001/api/banner/${bannerId}`,
+    `${API_CONFIG.baseURL}/api/banner/${bannerId}`,
     formData,
     {
       headers: {
