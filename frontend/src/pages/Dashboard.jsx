@@ -8,7 +8,7 @@ import { fetchSalesReport } from "../redux/slices/salesSlice";
 import { API_CONFIG } from "../config/app";
 import { CURRENCY } from "../constants/ui";
 import formatImageUrl from "../utils/formatImageUrl";
-import { DashboardSkeleton } from "../components/ui/dashboardSkeleton";
+import { DashboardSkeleton } from "../components/ui/DashboardSkeleton.jsx";
 
 const Dashboard = memo(() => {
   const dispatch = useDispatch();
