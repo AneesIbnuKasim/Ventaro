@@ -8,7 +8,7 @@ import { useCategory } from "../../context/CategoryContext";
 import FormInput from "./FormInput";
 import FormTextarea from "./FormTextArea";
 import FormSelect from "./FormSelect";
-import { ImageInput } from "./imageInput";
+import { ImageInput } from "./ImageInput";
 import { productAddSchema } from "../../validation/userSchema";
 import formatImageUrl from "../../utils/formatImageUrl";
 
