@@ -1,10 +1,4 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-
-import Dashoboard from "./pages/Dashoboard";
-import ResetPassword from "./pages/ResetPassword";
-import ForgotPassword from "./pages/ForgotPassword";
-import SubmitOtp from "./pages/SubmitOtp";
-import NotFound from "./pages/NotFound";
 import {
   AdminRoute,
   ProtectedRoute,
@@ -19,6 +13,10 @@ import { CategoryProvider } from "./context/CategoryContext.jsx";
 import { lazy } from "react";
 
 const ScrollToTop = lazy(() => import("./components/ScrollToTop.jsx"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"))
+const ForgotPassword = lazy(() => import("./pages/ForgotPassword"))
+const SubmitOtp = lazy(() => import("./pages/SubmitOtp"))
+const NotFound = lazy(() => import("./pages/NotFound"))
 const Login = lazy(() => import("./pages/Login.jsx"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin.jsx"));
 const Dashboard = lazy(() => import("./pages/Dashboard.jsx"));
@@ -228,8 +226,8 @@ const App = () => (
                     // {/* </CategoryProvider> */}
                   }
                 >
-                  <Route index element={<Dashoboard />} />
-                  <Route path="dashboard" element={<Dashoboard />} />
+                  <Route index element={<Dashboard />} />
+                  <Route path="dashboard" element={<Dashboard />} />
                   <Route path="users" element={<Users />} />
                   <Route path="categories" element={<Categories />} />
                   <Route
