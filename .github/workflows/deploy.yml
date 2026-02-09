@@ -1,5 +1,4 @@
-name: Deploy MERN App
-
+name: ventaro
 on:
   push:
     branches: [ main ]
@@ -37,17 +36,15 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Upload to S3
-        run: |
-          aws s3 sync build s3://${{ secrets.S3_BUCKET_NAME }} --delete
+        run: aws s3 sync build s3://${{ secrets.S3_BUCKET_NAME }} --delete
 
       - name: Invalidate CloudFront
         run: |
           aws cloudfront create-invalidation \
-          --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
-          --paths "/*"
+            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
+            --paths "/*"
 
-
-        backend:
+  backend:
     name: Deploy Backend (Elastic Beanstalk)
     runs-on: ubuntu-latest
 
@@ -84,4 +81,4 @@ jobs:
           environment_name: ${{ secrets.EB_ENVIRONMENT_NAME }}
           version_label: ${{ github.sha }}
           region: ${{ secrets.AWS_REGION }}
-          deployment_package: server/deploy.zip
+          deployment_package: deploy.zip
