@@ -1,12 +1,8 @@
 import { Outlet, useNavigate, useLocation, NavLink } from "react-router-dom";
-import React, { useEffect, useState, useRef } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
+import React, { useEffect, useState } from "react";
 import { ChevronRight } from "lucide-react";
-import { Button, FormInput, Loading } from "../components/ui";
-import { MdEmail } from "react-icons/md";
+import { Button, Loading } from "../components/ui";
 import { useUser } from "../context/UserContext";
-import { API_CONFIG } from "../config/app";
 import formatImageUrl from "../utils/formatImageUrl";
 
 const menuItems = [

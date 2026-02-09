@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
-// import useProduct from "../hooks/useProduct";
 
 export default function PriceFilter({
   filters,

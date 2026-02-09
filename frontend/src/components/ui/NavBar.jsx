@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
 import { Search, User, Heart, ShoppingBag, Menu, X, ToggleLeft, ToggleRight } from "lucide-react";
-import { FormInput } from ".";
-import Footer from "./Footer";
 import { useProduct } from "../../context/ProductContext";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import SearchInput from "./SearchInput";
 import { useNavigateWithReset } from "../../hooks/useNavigateWithReset";
 import { useDispatch, useSelector } from "react-redux";
-import { BiNotification } from "react-icons/bi";
 import { useAuth } from "../../context/AuthContext";
 import { fetchWishlistThunk, resetWishlist } from "../../redux/slices/wishlistSlice";
 import { toggleTheme } from "../../redux/slices/themeSlice";

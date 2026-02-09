@@ -1,7 +1,6 @@
 import { Heart } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleWishlistThunk } from "../../redux/slices/wishlistSlice";
-import { useWishlist } from "../../hooks/useWishlist";
 
 const WishlistButton = ({productId, className='', heartClass=''}) => {
   const dispatch = useDispatch();

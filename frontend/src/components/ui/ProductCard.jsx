@@ -1,14 +1,11 @@
-import { Heart, ShoppingCart } from "lucide-react";
-import { memo, useEffect } from "react";
+import { memo } from "react";
 import RatingStars from "./RatingStars";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setCheckoutItems } from "../../redux/slices/checkoutSlice";
 import { addCartThunk } from "../../redux/slices/cartSlice";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import WishlistButton from "./wishlistButton";
-import { API_CONFIG } from "../../config/app";
-import Button from "./Button";
 import { toggleWishlistThunk } from "../../redux/slices/wishlistSlice";
 import formatImageUrl from "../../utils/formatImageUrl";
 

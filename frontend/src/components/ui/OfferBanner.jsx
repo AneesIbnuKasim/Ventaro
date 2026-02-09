@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import Button from "./Button";
-import { API_CONFIG } from "../../config/app";
 import formatImageUrl from "../../utils/formatImageUrl";
 
 const OfferBanner = ({

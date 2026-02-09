@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { useAuth } from "../context/AuthContext";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
-import Loading from './ui/Loading'
+import { Navigate, useLocation } from "react-router-dom";
+import Loading from './ui/Loading.jsx'
 import { useAdmin } from "../context/AdminContext";
 
 

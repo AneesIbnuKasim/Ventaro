@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { applyCouponThunk, removeCouponThunk } from "../../redux/slices/cartSlice";
 import Button from "./Button";
 import FormInput from "./FormInput";
-import { toast } from "react-toastify";
 
 const CouponSchema = Yup.object({
   code: Yup.string()

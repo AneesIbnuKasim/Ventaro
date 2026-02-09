@@ -1,7 +1,5 @@
 import { Formik, Form } from "formik";
-import * as Yup from "yup";
 import FormInput from "./FormInput";
-import FormTextarea from "./FormTextArea";
 import Button from "./Button";
 import { IoIosAddCircle } from "react-icons/io";
 import FormSelect from "../ui/FormSelect";

@@ -1,5 +1,4 @@
-import { ShieldCheck, ShieldOff, UserX, Eye } from "lucide-react";
-import { API_CONFIG } from "../../config/app";
+import { ShieldOff, UserX, Eye } from "lucide-react";
 import formatImageUrl from "../../utils/formatImageUrl";
 
 export default function UserProfileCard({ user, onBlock, unBlock, onVerify, onView }) {

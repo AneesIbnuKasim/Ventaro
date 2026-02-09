@@ -4,7 +4,7 @@ import FormInput from "./FormInput";
 import FormTextarea from "./FormTextArea";
 import Button from "./Button";
 import { IoIosAddCircle } from "react-icons/io";
-import { ImageInput } from "./imageInput";
+import { ImageInput } from "./ImageInput.jsx";
 import { useState } from "react";
 
 const CategoryForm = ({ initialData= null, handleSubmit }) => {

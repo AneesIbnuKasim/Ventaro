@@ -1,6 +1,5 @@
 import React from "react";
 import PriceFilter from "./PriceFilter";
-import GenderFilter from "./GenderFilter";
 import RatingFilter from "./RatingFilter";
 import CategoryFilter from "./CategoryFilter";
 import SortFilter from "./SortFilter";

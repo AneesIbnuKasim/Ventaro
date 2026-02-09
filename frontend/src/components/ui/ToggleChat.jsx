@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { MessageCircle, X, Send } from "lucide-react"
 import { useDispatch, useSelector } from "react-redux"

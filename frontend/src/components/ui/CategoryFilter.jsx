@@ -1,6 +1,5 @@
 import { Search } from 'lucide-react'
-import React, { memo, useEffect, useState } from 'react'
-import { useProduct } from '../../context/ProductContext'
+import React, { memo, useState } from 'react'
 
 const CategoryFilter = memo(({
   filters,

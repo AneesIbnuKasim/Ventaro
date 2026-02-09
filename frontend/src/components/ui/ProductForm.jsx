@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useFormik, FieldArray } from "formik";
+import { useFormik } from "formik";
 
 import Button from "./Button";
 import { useProduct } from "../../context/ProductContext";

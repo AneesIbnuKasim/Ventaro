@@ -2,21 +2,16 @@ import { NavLink } from "./NavLink";
 import {
   FiLayout,
   FiUsers,
-  FiPackage,
-  FiFeather,
   FiShoppingCart,
   FiCreditCard,
   FiStar,
-  FiZap,
   FiBell,
-  FiBarChart,
   FiSettings,
   FiUserCheck,
   FiMenu,
   FiX,
   FiChevronDown,
   FiBox,
-  FiDatabase,
 } from "react-icons/fi";
 
 import { useState } from "react";

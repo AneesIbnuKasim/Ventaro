@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import OrderViewCard from "./OrderViewCard";
+import OrderViewCard from "./OrderViewCard.jsx";
 
 // ================= MODAL WRAPPER =================
 export const OrderDetailModal = ({ open, onClose, order, onStatusChange }) => {

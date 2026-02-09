@@ -3,12 +3,9 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import { useNavigate } from "react-router-dom";
 import { getBannerLink } from "../../utils/bannerLink";
 import formatImageUrl from "../../utils/formatImageUrl";
-
-
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { API_CONFIG } from "../../config/app";
 
 const BannerSlider = ({ banners = [] }) => {
   const navigate = useNavigate();

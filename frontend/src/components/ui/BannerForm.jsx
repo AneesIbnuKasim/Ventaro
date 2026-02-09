@@ -3,13 +3,10 @@ import { useFormik, FieldArray } from "formik";
 
 import Button from "./Button";
 import { useProduct } from "../../context/ProductContext";
-import { useCategory } from "../../context/CategoryContext";
-
 import FormInput from "./FormInput";
 import FormSelect from "./FormSelect";
 import { bannerSchema } from "../../validation/userSchema";
 import { useSelector } from "react-redux";
-import { API_CONFIG } from "../../config/app";
 import ProductSearchInput from "./ProductSearchInput";
 import formatImageUrl from "../../utils/formatImageUrl";
 

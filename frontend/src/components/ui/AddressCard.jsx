@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useUser } from "../../context/UserContext";
-import SearchNotFound from "./SearchNotFound";
 import ProductNotFound from "./ProductNotFound";
 import Button from "./Button";
 import Modal from "./Modal";

@@ -1,5 +1,4 @@
-import React, { memo, useState } from 'react'
-import { useProduct } from '../../context/ProductContext'
+import React, { memo } from 'react'
 
 const RatingFilter = memo(({
   filters,

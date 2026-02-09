@@ -1,6 +1,5 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
-import { API_CONFIG } from "../../config/app";
+import { Link } from "react-router-dom";
 import formatImageUrl from "../../utils/formatImageUrl";
 
 const UserAvatar = ({

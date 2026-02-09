@@ -1,6 +1,6 @@
 // ReviewsList.jsx
 import React from "react";
-import { Star, ThumbsUp, MessageCircle } from "lucide-react";
+import { Star } from "lucide-react";
 import RatingStars from "./RatingStars";
 
 export function ReviewsList({ reviews = [], avgRating }) {

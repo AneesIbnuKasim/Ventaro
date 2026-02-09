@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Heart, ShoppingCart } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 import { useProduct } from "../../context/ProductContext";
 import { useDispatch } from "react-redux";
 import { addCartThunk } from "../../redux/slices/cartSlice";
 import { toast } from "react-toastify";
 import RatingStars from "./RatingStars";
 import Button from "./Button";
-import { GiBuyCard } from "react-icons/gi";
 import { BsLightningChargeFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { setCheckoutItems } from "../../redux/slices/checkoutSlice";

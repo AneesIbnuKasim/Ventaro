@@ -1,10 +1,8 @@
-import React, { useState, useCallback, useMemo, useRef, useEffect } from "react";
-import { Link, Outlet, useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { IoMdHome } from "react-icons/io";
-import { useAuth } from "../context/AuthContext";
-import AdminWrapper from "./ui/AdminWrapper";
-import { AdminHeader, FormInput, UserAvatar } from "./ui";
-import { AdminSidebar } from "./ui/AdminSidebar";
+import React, { useState, useCallback, useEffect } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import AdminWrapper from "./ui/AdminWrapper.jsx";
+import { AdminHeader, UserAvatar } from "./ui";
+import { AdminSidebar } from "./ui/AdminSidebar.jsx";
 import { useAdmin } from "../context/AdminContext";
 
 
