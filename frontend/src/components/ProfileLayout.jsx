@@ -67,9 +67,9 @@ const ProfileLayout = () => {
     return (
       <div className="min-h-[70vh] bg-page flex flex-col">
         <div className="max-w-7xl w-full mx-auto p-6">
-          <div className="bg-card rounded-2xl shadow-sm flex overflow-hidden">
+          <div className="bg-card rounded-2xl shadow-sm sm:flex sm:flex-col md:flex-row overflow-hidden">
             {/* SIDEBAR */}
-            <aside className="w-64 bg-slate-200 p-6">
+            <aside className="sm:w-64 bg-slate-200 p-4 sm:p-6">
               {/* AVATAR PREVIEW AND EDIT SAVE SECTION */}
               <div className="flex flex-col items-center gap-5 mb-5">
                 <div className="relative">
@@ -114,19 +114,19 @@ const ProfileLayout = () => {
                 )}
               </div>
               {/* NAVIGATION MENU SECTION */}
-              <nav className="space-y-2">
+              <nav className="space-y-2 flex">
                 {menuItems.map(({ label, path}) => {
                   return (<NavLink
                     key={label}
                     to={path}
-                    className={({isActive}) => `w-full flex items-center justify-between px-4 py-3 rounded-lg text-sm font-medium ${
+                    className={({isActive}) => `w-full flex items-center justify-between px-1 sm:px-4 py-3 rounded-lg text-sm text-[10px] sm:font-medium ${
                       isActive
                         ? "bg-violet-600 text-white"
                         : "hover:bg-gray-100 text-gray-700"
                     }`}
                   >
                     {label}
-                    <ChevronRight size={16} />
+                    <ChevronRight className="w-4 sm:w-8" />
                   </NavLink>)
   })}
               </nav>

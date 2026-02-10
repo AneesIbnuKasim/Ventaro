@@ -41,7 +41,7 @@ const sendOtpEmail = (userId, name, email, otp, purpose)=>{
             subject: "Email verification",
             text: "Hello world?", // plain‑text body
             html: `<b>hello ${name}! please click on the link below and enter OTP to ${purpose === 'EMAIL_VERIFICATION' ? 'verify Email' : 'verify Password'} 
-            <a href=http://localhost:3000/api/auth/user/${purpose === 'EMAIL_VERIFICATION' ? 'verify-email' : 'reset-password-otp'}?userId=${userId}&&purpose=${purpose}></a><br><br><br>
+            <a href=${process.env.FRONTEND_URL}/api/auth/user/${purpose === 'EMAIL_VERIFICATION' ? 'verify-email' : 'reset-password-otp'}?userId=${userId}&&purpose=${purpose}></a><br><br><br>
             <h1>${otp}</h1>
             </b>`, // HTML body
           }

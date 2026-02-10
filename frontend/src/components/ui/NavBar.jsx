@@ -9,6 +9,7 @@ import { useAuth } from "../../context/AuthContext";
 import { fetchWishlistThunk, resetWishlist } from "../../redux/slices/wishlistSlice";
 import { toggleTheme } from "../../redux/slices/themeSlice";
 import { resetCart } from "../../redux/slices/cartSlice";
+import { GRADIENTS } from "../../constants/ui";
 
 export default function Navbar({
   logo = "Ventaro",
@@ -66,7 +67,7 @@ export default function Navbar({
   return (
     <>
       <nav className="w-full shadow-lg sticky top-0 z-50 bg-card">
-        <div className="max-w-360 mx-auto px-4 h-18 flex items-center justify-between gap-4">
+        <div className={`max-w-360 mx-auto px-4 h-18 flex items-center justify-between gap-4 `}>
           {/* LEFT: Mobile menu + Logo */}
           <div className="flex items-center gap-3">
             <button className="lg:hidden" onClick={() => setMenuOpen(true)}>
@@ -103,10 +104,6 @@ export default function Navbar({
 
           {/* RIGHT: Icons */}
           <div className="flex items-center gap-5">
-            {/* Search icon mobile */}
-            <button className="sm:hidden">
-              <Search size={22} />
-            </button>
               {/* THEME ICON */}
             {
               mode === 'light' ? (

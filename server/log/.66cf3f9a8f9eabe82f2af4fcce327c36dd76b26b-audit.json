@@ -6,31 +6,6 @@
     "auditLog": "/Users/macair/Desktop/Mentor/ventaro/server/log/.66cf3f9a8f9eabe82f2af4fcce327c36dd76b26b-audit.json",
     "files": [
         {
-            "date": 1769108169114,
-            "name": "/Users/macair/Desktop/Mentor/ventaro/server/log/error-2026-01-23.log",
-            "hash": "571a099ff8397b840c0bd07e1aea1fbc181ad0e2725bd8dc2c77875df5c9c678"
-        },
-        {
-            "date": 1769194890092,
-            "name": "/Users/macair/Desktop/Mentor/ventaro/server/log/error-2026-01-24.log",
-            "hash": "87ca816c65409715a54e7e324f41756b92dabf20b1e6ad8c068d1d4c2c090b56"
-        },
-        {
-            "date": 1769281423784,
-            "name": "/Users/macair/Desktop/Mentor/ventaro/server/log/error-2026-01-25.log",
-            "hash": "4d1f440790b1134a08251f51dce5c0b974fd68040d00e471deab6ee60b199a18"
-        },
-        {
-            "date": 1769369075517,
-            "name": "/Users/macair/Desktop/Mentor/ventaro/server/log/error-2026-01-26.log",
-            "hash": "4a612be32bc2588e226102bc14d4ccaa2a69ac07905ee0223383a4ad8100d3bb"
-        },
-        {
-            "date": 1769462918046,
-            "name": "/Users/macair/Desktop/Mentor/ventaro/server/log/error-2026-01-27.log",
-            "hash": "33f9c2006b18cb4d4823275e6f8deebb16d08771a949388423404c411a87f83d"
-        },
-        {
             "date": 1769538795810,
             "name": "/Users/macair/Desktop/Mentor/ventaro/server/log/error-2026-01-28.log",
             "hash": "141de0250ff2db02cf36ebd467b33d5a5aa2eaa37987cd6b2e09943ce16c7844"
@@ -39,6 +14,11 @@
             "date": 1770302441664,
             "name": "/Users/macair/Desktop/Mentor/ventaro/server/log/error-2026-02-05.log",
             "hash": "449bd03d6a0b33720d548e83606b2a5e67ebcd1dadc68aaafe58f9dec11f9371"
+        },
+        {
+            "date": 1770679582143,
+            "name": "/Users/macair/Desktop/Mentor/ventaro/server/log/error-2026-02-10.log",
+            "hash": "f67225f7c188768b1fe5cbaa051dd8dd59d9f38154aee6d4f61902f2cb7d31be"
         }
     ],
     "hashType": "sha256"

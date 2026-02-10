@@ -78,7 +78,7 @@ export default function AccountInfo() {
                 isSubmitting,
               }) => (
                 <Form className="space-y-6 max-w-2xl text">
-                  <div className="grid md:grid-cols-2 gap-6">
+                  <div className="grid md:grid-cols-2 sm:gap-6">
                     <FormInput
                       label="First Name"
                       name="fName"

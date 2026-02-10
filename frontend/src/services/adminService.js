@@ -102,7 +102,7 @@ export const adminAPI = {
 
         const token = localStorage.getItem("adminToken");
         
-        const res = await axios.post(`http://localhost:5001/api/category`, formData, {
+        const res = await axios.post(`${API_CONFIG.baseURL}/api/category`, formData, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
