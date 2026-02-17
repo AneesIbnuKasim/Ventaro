@@ -40,7 +40,7 @@ export const fetchCartThunk = createAsyncThunk(
   }
 );
 
-// //validate And ApplyCouponThunk
+//validate And ApplyCouponThunk
 export const applyCouponThunk = createAsyncThunk(
   "cart/applyCoupon",
   async (data, { rejectWithValue }) => {
@@ -69,7 +69,7 @@ export const removeFromCartThunk = createAsyncThunk(
   }
 );
 
-// REMOVE PRODUCTS FROM CART THUNK
+// REMOVE COUPON FROM CART
 export const removeCouponThunk = createAsyncThunk(
   "cart/removeCoupon",
   async (_, { rejectWithValue }) => {
@@ -111,7 +111,7 @@ const cartSlice = createSlice({
       },
     },
     cartSynced(state, action) {
-      return action.payload.cart; // FULL cart replace
+      return action.payload.cart; // full cart replace
     },
 
     cartSyncFailed(state, action) {

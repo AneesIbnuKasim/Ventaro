@@ -23,17 +23,6 @@ const  CheckOut = memo(() => {
   const location = useLocation();
 const mode =
   new URLSearchParams(location.search).get("mode") ?? 'cart'
-  
-// const {
-//   items,
-//   totalQuantity,
-//   subTotal,
-//   discountTotal,
-//   payableTotal,
-//   shippingFee,
-//   grandTotal,
-
-// } = useSelector(selectCartTotals);
 
 const {
   items,
@@ -43,8 +32,6 @@ const {
   grandTotal,
   discountTotal
 } = useSelector(selectCheckoutTotals);
-
-// const { finalPayable } = useSelector(selectCheckoutTotals)
 
 const { paymentMethod, deliveryAddress } = useSelector(state => state.checkout)
   
