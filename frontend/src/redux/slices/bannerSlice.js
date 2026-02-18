@@ -83,11 +83,6 @@ const bannerSlice = createSlice({
   name: "bannerSlice",
   initialState: initialState,
   reducers: {
-    // toggleStatus: (state, action) => {
-    //   console.log('here', action);
-      
-    //   state.banners.map(banner => banner._id === action.payload._id ? banner.status === 'active' ? 'inactive' : 'active' : '' )
-    // },
     setFilters: (state, action) => {
       state.filters = { ...state.filters, ...action.payload }
     }
