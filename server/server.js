@@ -41,7 +41,7 @@ class Server {
         try {
             await this.initialize()
 
-            this.server.listen(this.port,()=>{
+            this.server.listen(this.port, '0.0.0.0', ()=>{
                 logger.info(`Server running in ${config.NODE_ENV} Mode on port ${this.port}`)
 
                 setTimeout(async () => {

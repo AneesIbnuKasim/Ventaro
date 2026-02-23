@@ -33,7 +33,7 @@ module.exports = {
   },
 
   LOGGING: {
-    LEVEL: process.env.LOG_LEVEL || "info",
+    LEVEL: "info",
     MAX_FILES: 5,
     MAX_SIZE: "20m",
   },
