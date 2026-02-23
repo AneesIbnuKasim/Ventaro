@@ -133,12 +133,12 @@ useEffect(()=> {
                         <p className="text-sm text-secondary">
                           {item.product.brandName}
                         </p>
-                        <p className="text-sm text-secondary">
+                        {/* <p className="text-sm text-secondary">
                           Memory Size: 128GB
                         </p>
                         <p className="text-sm text-secondary">
                           Color Variant: White
-                        </p>
+                        </p> */}
 
                         <p className="font-semibold mt-2">{CURRENCY}{item.basePrice}</p>
                       </div>

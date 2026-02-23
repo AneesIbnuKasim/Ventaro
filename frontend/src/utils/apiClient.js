@@ -81,12 +81,13 @@ const createApiClient = () => {
   client.interceptors.response.use(
     (response) => response,
     (error) => {
-      if (error.response?.status === 401) {
-        clearTokens();
-        toast.error("Session expired. Please login again.");
-        window.location.href = "/login";
-        return Promise.reject(error);
-      }
+      // if (error.response?.status === 401) {
+      //   clearTokens();
+      //   toast.error("Session expired. Please login again.");
+        
+      //   return Promise.reject(error);
+      // }
+      console.log('err', error)
 
       if (error.response?.status === 403) {
         if (error.response?.data?.banned) {
@@ -98,6 +99,10 @@ const createApiClient = () => {
         toast.error("Access denied. Insufficient permissions.");
         return Promise.reject(error);
       }
+      if (error.response?.status === 429) {
+    const msg = error.response.data
+    toast.error(msg)   // or setError(msg)
+  }
 
       //backend actual response
       const backendError = error.response?.data?.error;
@@ -106,14 +111,15 @@ const createApiClient = () => {
       const normalizedError = {
         message: backendError?.message || "Request failed",
         code: backendError?.code || error.code,
-        statusCode: backendError?.statusCode || error.response?.status,
+        statusCode: backendError?.statusCode || error.response?.status || error.status,
         raw: error,
       };
+      console.log('sts code', normalizedError.statusCode);
+      
+      
 
-      if (normalizedError.statusCode >= 500) {
+      if (normalizedError.statusCode !== 401 && normalizedError.statusCode !== 403 && normalizedError.statusCode !== 429) {
         toast.error("Server error. Please try again later.");
-      } else {
-        toast.error(normalizedError.message || "Bad request");
       }
       return Promise.reject(normalizedError);
     }

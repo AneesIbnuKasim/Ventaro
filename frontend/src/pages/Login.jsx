@@ -45,6 +45,7 @@ const Login = memo(() => {
 
     } catch (error) {
       console.error({error: error, status: error.statusCode , message: error.message})
+      
     }
 }, [navigate])
   const leftContent = useMemo(() => (

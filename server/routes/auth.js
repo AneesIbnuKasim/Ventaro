@@ -7,9 +7,9 @@ const router = express.Router()
 
 router.post('/register', AuthController.register)
 router.post('/login', loginLimiter, AuthController.login)
-router.post('/verify-otp', AuthController.verifyOtp)
-router.post('/forgot-password', AuthController.requestPasswordReset)
-router.post('/verify-reset-otp', AuthController.verifyOtp)
-router.put('/reset-password', AuthController.resetPassword)
+router.post('/verify-otp', loginLimiter, AuthController.verifyOtp)
+router.post('/forgot-password', loginLimiter, AuthController.requestPasswordReset)
+router.post('/verify-reset-otp', loginLimiter, AuthController.verifyOtp)
+router.put('/reset-password', loginLimiter, AuthController.resetPassword)
 
 module.exports = router

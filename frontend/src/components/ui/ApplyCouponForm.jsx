@@ -29,7 +29,6 @@ const ApplyCouponForm = () => {
           dispatch(
           removeCouponThunk()
         )
-
           .then(() => {
             resetForm();
           })
