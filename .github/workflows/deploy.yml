@@ -81,6 +81,6 @@ jobs:
           environment_name: ${{ secrets.EB_ENVIRONMENT_NAME }}
           version_label: ventaro-${{ github.run_id }}-${{ github.sha }}
           region: ${{ secrets.AWS_REGION }}
-          deployment_package: server/deploy.zip
+          deployment_package: deploy.zip
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
