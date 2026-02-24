@@ -57,7 +57,6 @@ const setupMiddleware = (app) => {
   // Static files
   app.use('/uploads', express.static('uploads'))
 
-  CORS
   const corsOptions = {
     origin: config.CORS.ORIGIN,
     credentials: config.CORS.CREDENTIALS,
