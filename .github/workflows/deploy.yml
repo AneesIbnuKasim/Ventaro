@@ -62,7 +62,7 @@ jobs:
           node-version: 18
 
       - name: Install deps
-        run: npm install --production
+        run: npm ci --omit=dev
 
       - name: Zip backend
         run: zip -r deploy.zip . -x "*.git*"

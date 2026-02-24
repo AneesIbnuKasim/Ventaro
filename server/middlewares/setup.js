@@ -57,38 +57,37 @@ const setupMiddleware = (app) => {
   // Static files
   app.use('/uploads', express.static('uploads'))
 
-  // CORS
-  // const corsOptions = {
-  //   origin: config.CORS.ORIGIN,
-  //   credentials: config.CORS.CREDENTIALS,
-  //   optionsSuccessStatus: 200,
-  //   methods: config.CORS.METHODS,
-  //   allowedHeaders: config.CORS.ALLOWED_HEADERS
-  // }
-
+  CORS
   const corsOptions = {
-  origin: (origin, callback) => {
-    if (!origin || config.CORS.ORIGIN.includes(origin)) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  },
-  credentials: true,
-  methods: config.CORS.METHODS,
-  allowedHeaders: config.CORS.ALLOWED_HEADERS
-}
+    origin: config.CORS.ORIGIN,
+    credentials: config.CORS.CREDENTIALS,
+    optionsSuccessStatus: 200,
+    methods: config.CORS.METHODS,
+    allowedHeaders: config.CORS.ALLOWED_HEADERS
+  }
+
+//   const corsOptions = {
+//   origin: (origin, callback) => {
+//     if (!origin || config.CORS.ORIGIN.includes(origin)) {
+//       callback(null, true)
+//     } else {
+//       callback(new Error('Not allowed by CORS'))
+//     }
+//   },
+//   credentials: true,
+//   methods: config.CORS.METHODS,
+//   allowedHeaders: config.CORS.ALLOWED_HEADERS
+// }
 
   app.use(cors(corsOptions))
 
-    app.get('/', (req, res) => {
-  res.status(200).json({ status: 'Ventaro backend running' })
+app.get('/', (req, res) => {
+  res.status(200).send('OK')
 })
 
-  // --- Health check routes ---
-  app.get('/health', (req, res) => {
-    res.status(200).json({ success: true, message: 'Server is up' })
-  })
+app.get('/health', (req, res) => {
+  res.status(200).json({ success: true, message: 'Server is up' })
+})
 }
 
 module.exports = setupMiddleware
