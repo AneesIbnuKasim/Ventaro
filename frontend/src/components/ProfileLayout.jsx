@@ -27,7 +27,7 @@ const ProfileLayout = () => {
       if (!user?.id && userData?.id) {
         getProfile(userData.id);
       }
-    }, [user?.id]);
+    }, [user?.id, userData?.id]);
   
     //HANDLE AVATAR PREVIEW WHEN SELECTED
     const handleAvatarSelect = (e) => {
@@ -67,9 +67,9 @@ const ProfileLayout = () => {
     return (
       <div className="min-h-[70vh] bg-page flex flex-col">
         <div className="max-w-7xl w-full mx-auto p-3 sm:p-6">
-          <div className="bg-card rounded-2xl shadow-sm sm:flex sm:flex-col md:flex-row overflow-hidden">
+          <div className="bg-card rounded-2xl shadow-sm flex flex-col md:flex-row overflow-hidden">
             {/* SIDEBAR */}
-            <aside className="sm:w-64 bg-slate-200 p-4 sm:p-6">
+            <aside className="w-full md:w-64 bg-slate-200 p-3 sm:p-6">
               {/* AVATAR PREVIEW AND EDIT SAVE SECTION */}
               <div className="flex flex-col items-center gap-5 mb-5">
                 <div className="relative">
@@ -79,11 +79,11 @@ const ProfileLayout = () => {
                       avatarPreview || formatImageUrl(user.avatar)
                     }
                     alt="avatar"
-                    className="w-30 h-30 rounded-xl object-cover  cursor-pointer border border-gray-400"
+                    className="w-20 h-20 sm:w-28 sm:h-28 md:w-30 md:h-30 rounded-xl object-cover  cursor-pointer border border-gray-400"
                     onClick={() => document.getElementById("avatarInput").click()}
                   />
                   ) : (
-                    <div className="bg-gray-300 animate-pulse w-30 rounded h-30 border border-gray-400">
+                    <div className="bg-gray-300 animate-pulse w-20 h-20 sm:w-28 sm:h-28 md:w-30 md:h-30 rounded border border-gray-400">
 
                     </div>
                   )}
@@ -97,16 +97,17 @@ const ProfileLayout = () => {
                 </div>
                 {/* AVATAR PREVIEW */}
                 {avatarPreview && (
-                  <div className="flex gap-3">
+                  <div className="flex gap-3 w-full sm:w-auto">
                     <Button
                       onClick={handleAvatarSave}
                       variant={'success'}
+                      className="flex-1 sm:flex-none"
                     >
                       SAVE
                     </Button>
                     <button
                       onClick={handleAvatarCancel}
-                      className="bg-gray-300 px-4 py-1 rounded-md"
+                      className="bg-gray-300 px-4 py-1 rounded-md flex-1 sm:flex-none"
                     >
                       CANCEL
                     </button>
@@ -114,25 +115,38 @@ const ProfileLayout = () => {
                 )}
               </div>
               {/* NAVIGATION MENU SECTION */}
-              <nav className="space-y-2 flex">
-                {menuItems.map(({ label, path}) => {
-                  return (<NavLink
-                    key={label}
-                    to={path}
-                    className={({isActive}) => `w-full flex items-center justify-between px-1 sm:px-4 py-3 rounded-lg text-sm text-[10px] sm:font-medium ${
-                      isActive
-                        ? "bg-violet-600 text-white"
-                        : "hover:bg-gray-100 text-gray-700"
-                    }`}
-                  >
-                    {label}
-                    <ChevronRight className="w-4 sm:w-8" />
-                  </NavLink>)
-  })}
-              </nav>
+             <nav className="
+  flex md:flex-col 
+  gap-2 
+  overflow-x-auto md:overflow-visible
+  scrollbar-hide
+">
+  {menuItems.map(({ label, path }) => (
+    <NavLink
+      key={label}
+      to={path}
+      className={({ isActive }) => `
+        shrink-0 md:w-full
+        flex items-center justify-between
+        px-4 py-2 sm:py-3
+        rounded-lg
+        text-sm sm:font-medium
+        whitespace-nowrap
+        ${
+          isActive
+            ? "bg-violet-600 text-white"
+            : "hover:bg-gray-100 text-gray-700"
+        }
+      `}
+    >
+      {label}
+      <ChevronRight className="w-4 hidden md:block" />
+    </NavLink>
+  ))}
+</nav>
             </aside>
                   {/* RIGHT SECTION (DYNAMIC) */}
-      <section className="flex-1 bg-card rounded-lg p-6">
+      <section className="flex-1 bg-card rounded-lg p-3 sm:p-6">
         {loading ? <Loading /> : <Outlet />}
       </section>
             
