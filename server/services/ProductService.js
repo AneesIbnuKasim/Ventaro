@@ -47,7 +47,7 @@ class ProductService {
       const totalProducts = await Product.find(filter).countDocuments();
 
       const [products, categories] = await Promise.all([
-        Product.find(filter).skip(skipValue).limit(limit),
+        Product.find(filter).skip(skipValue).limit(limit).lean(),
         Category.distinct("name"),
       ]);
 

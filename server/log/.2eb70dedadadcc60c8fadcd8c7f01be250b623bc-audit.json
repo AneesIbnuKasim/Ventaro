@@ -6,11 +6,6 @@
     "auditLog": "/Users/macair/Desktop/Mentor/ventaro/server/log/.2eb70dedadadcc60c8fadcd8c7f01be250b623bc-audit.json",
     "files": [
         {
-            "date": 1770771182017,
-            "name": "/Users/macair/Desktop/Mentor/ventaro/server/log/info-2026-02-11.log",
-            "hash": "a1f7bad1621755c51d6427d4188a33c779a8379d9ac702eea81e94d980d6b106"
-        },
-        {
             "date": 1771400556908,
             "name": "/Users/macair/Desktop/Mentor/ventaro/server/log/info-2026-02-18.log",
             "hash": "31d0c7dbb56ff9b5c9c55aa39f4d5a1201f1129a0b359f93c9d0df60c6593ade"
@@ -24,6 +19,31 @@
             "date": 1771969245371,
             "name": "/Users/macair/Desktop/Mentor/ventaro/server/log/info-2026-02-25.log",
             "hash": "0bfba93c735c141f8000ac3c255b99ae6327298750f724b85020b998d052adaa"
+        },
+        {
+            "date": 1772044625493,
+            "name": "/Users/macair/Desktop/Mentor/ventaro/server/log/info-2026-02-26.log",
+            "hash": "c0d5dd088bae2b00fd9918254c143054c2114d68819ad95b40f4750566e0c98e"
+        },
+        {
+            "date": 1772132119812,
+            "name": "/Users/macair/Desktop/Mentor/ventaro/server/log/info-2026-02-27.log",
+            "hash": "7e02588cef0d0e8507af441ea6f74cd46ac9145db14d34ad4737b0a95a0d8c49"
+        },
+        {
+            "date": 1772217163581,
+            "name": "/Users/macair/Desktop/Mentor/ventaro/server/log/info-2026-02-28.log",
+            "hash": "acb17a5d03a48044501907593c0a54cfd58a3ddd8b26f50aa97fe6ac14485c26"
+        },
+        {
+            "date": 1772305483028,
+            "name": "/Users/macair/Desktop/Mentor/ventaro/server/log/info-2026-03-01.log",
+            "hash": "174fcecef61386ea285b00754bec71572d005e716d0c6f93ec55981b4b39e0d0"
+        },
+        {
+            "date": 1772398360141,
+            "name": "/Users/macair/Desktop/Mentor/ventaro/server/log/info-2026-03-02.log",
+            "hash": "a47dd3f84fa9c093ea07b3e3374a1b88a86bb000d8ea77b41d695f52bbf483a4"
         }
     ],
     "hashType": "sha256"

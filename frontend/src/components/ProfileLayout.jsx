@@ -66,7 +66,7 @@ const ProfileLayout = () => {
   
     return (
       <div className="min-h-[70vh] bg-page flex flex-col">
-        <div className="max-w-7xl w-full mx-auto p-6">
+        <div className="max-w-7xl w-full mx-auto p-3 sm:p-6">
           <div className="bg-card rounded-2xl shadow-sm sm:flex sm:flex-col md:flex-row overflow-hidden">
             {/* SIDEBAR */}
             <aside className="sm:w-64 bg-slate-200 p-4 sm:p-6">
