@@ -19,8 +19,9 @@ export const ForgotPassword = memo(() => {
         e.preventDefault()
         const email = inputRef.current.value
         const res = await authAPI.forgetPassword({email})
+        console.log('res', res);
         
-        toast.success(res.message)
+        toast.success(res)
 
         setTimeout(()=>{
             navigate(`/verify-otp?userId=${res.data.userId}&purpose=${res.data.purpose}`)
@@ -63,7 +64,7 @@ export const ForgotPassword = memo(() => {
                     account. We will sent a password reset OTP.`}
         content= {content}
         >
-            <p className='helper mt-5 cursor-pointer' to >BACK TO LOGIN</p>
+            <p className='helper mt-5 cursor-pointer' onClick={()=> navigate('/login')} >BACK TO LOGIN</p>
 
         </AuthInnerBox>
     </AdminWrapper>

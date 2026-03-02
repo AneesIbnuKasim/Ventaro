@@ -150,7 +150,7 @@ onSubmit={submitLogin}
 
       <div className="text-center mt-10 text-gray-500 ">
         Don't have an account?{" "}
-        <Link to="/auth/register" className="text-primary font-bold no-underline">
+        <Link to="/auth/register" className="text-black font-bold no-underline">
           Sign up for free
         </Link>
           {/* <div className='small-muted m-6'>Or Continue with</div> */}
