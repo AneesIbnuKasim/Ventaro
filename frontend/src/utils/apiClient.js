@@ -103,6 +103,11 @@ const createApiClient = () => {
     const msg = error.response.data
     toast.error(msg)   // or setError(msg)
   }
+      if (error?.response?.status === 401) {
+    const msg = error?.response?.data?.message
+    window.location.href = "/login"
+    toast.error(msg)   // or setError(msg)
+  }
 
       //backend actual response
       const backendError = error.response?.data?.error;
