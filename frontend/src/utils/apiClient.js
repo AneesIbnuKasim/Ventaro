@@ -105,8 +105,10 @@ const createApiClient = () => {
   }
       if (error?.response?.status === 401) {
     const msg = error?.response?.data?.message
+    clearTokens()
     window.location.href = "/login"
-    toast.error(msg)   // or setError(msg)
+    toast.error(msg)
+    return Promise.reject(error);
   }
 
       //backend actual response
