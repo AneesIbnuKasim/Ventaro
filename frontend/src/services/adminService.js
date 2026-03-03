@@ -60,7 +60,7 @@ export const adminAPI = {
     const token = localStorage.getItem("adminToken");
     
     const res = await axios.put(
-      `${API_CONFIG.baseURL}api/admin/avatar`,
+      `${API_CONFIG.baseURL}/api/admin/avatar`,
       formData,
       {
         headers: {
