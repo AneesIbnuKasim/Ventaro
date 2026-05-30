@@ -6,12 +6,12 @@ import SortFilter from "./SortFilter";
 
 function ProductFilter({ resetAll, filters, setFilters, allCategories }) {
   return (
-    <aside className="w-full p-5 shadow-md bg-card">
+    <aside className="w-full">
       {/* Header */}
       <div className="flex justify-between items-center mb-3">
-        <h3 className="font-semibold text-[18px]">FILTERS</h3>
+        <h3 className="font-black text-[15px] tracking-wide">Filters</h3>
         <button
-          className="text-sm text-purple-600 font-medium hover:underline"
+          className="text-sm font-bold text-[var(--color-primary)] hover:underline"
           onClick={resetAll}
         >
           Reset All

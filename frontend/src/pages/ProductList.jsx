@@ -1,3 +1,145 @@
+// // import React, { memo, useEffect, useState } from "react";
+// // import { Card, FormInput, Pagination } from "../components/ui";
+// // import ProductCard from "../components/ui/ProductCard";
+// // import { useProduct } from "../context/ProductContext";
+// // import { useNavigate, useParams } from "react-router-dom";
+// // import PriceFilter from "../components/ui/PriceFilter";
+// // import RatingFilter from "../components/ui/RatingFilter";
+// // import SortFilter from "../components/ui/SortFilter";
+// // import SearchNotFound from "../components/ui/SearchNotFound";
+// // import ProductNotFound from "../components/ui/ProductNotFound";
+// // import ProductsGridSkeleton from "../components/ui/ProductGridSkeleton";
+
+// // //USER PRODUCTS UI PAGE
+// // const ProductList = memo(() => {
+// //   const {
+// //     filters,
+// //     setFilters,
+// //     setPagination,
+// //     pagination,
+// //     products,
+// //     loading,
+// //     fetchProductByCategory,
+// //     resetAllFilters,
+// //     fetchSingleProduct,
+// //     allCategories,
+// //     debouncedSearch,
+// //   } = useProduct();
+// //   const { category } = useParams();
+
+// //   //CLEAR CATEGORY FILTER IF ANY
+// //   //   useEffect(() => {
+// //   //   if (filters.category !== null) {
+// //   //     setFilters({category: null});
+// //   //   }
+// //   // }, [filters.category]);
+
+  
+
+// //   useEffect(() => {
+// //     fetchProductByCategory(category);
+// //   }, [category, fetchProductByCategory]);
+
+// //   const navigate = useNavigate();
+
+// //   const handleClick = (id) => {
+// //     navigate(`/product/${id}`);
+// //   };
+
+// //   return (
+// //     <>
+// //         <div className="flex ml-0 m-2">
+// //           {/* filters */}
+// //           <div className="w-[50%] md:w-[20%] lg:w-[25%]">
+// //             <aside className="w-full p-5 bg-card shadow-md">
+// //               {/* Header */}
+// //               <div className="flex justify-between items-center mb-3">
+// //                 <h3 className="font-semibold text-[18px]">FILTERS</h3>
+// //                 <button
+// //                   className="text-sm text-purple-500 font-medium hover:underline"
+// //                   onClick={resetAllFilters}
+// //                 >
+// //                   Reset All
+// //                 </button>
+// //               </div>
+// //               <div className="flex flex-col gap-5">
+// //                 <SortFilter setFilters={setFilters} filters={filters} />
+// //                 {/* <PRICE FILTER /> */}
+// //                 <PriceFilter setFilters={setFilters} filters={filters} />
+// //                 {/* <RATING FILTER /> */}
+// //                 <RatingFilter
+// //                   filters={filters}
+// //                   setFilters={setFilters}
+// //                   ratingsCount={2}
+// //                 />
+// //               </div>
+// //             </aside>
+// //           </div>
+
+// //           {/* MAIN CONTENT AREA */}
+
+// //           <div className="w-full flex flex-col justify-between p-5">
+
+// // <div className="min-h-60vh">
+    
+// //   {/* HEADER */}
+// //   {!loading && products.length > 0 && (
+// //     <div className="w-full flex justify-between p-5">
+// //       <h1 className="text-xl font-semibold">
+// //         {category.charAt(0).toUpperCase() + category.slice(1)}
+// //       </h1>
+// //     </div>
+// //   )}
+
+// //   {/* CONTENT STATES */}
+
+// //   {loading ? (
+// //       <ProductsGridSkeleton length={8} />
+// //   ) : filters.search && products.length === 0 ? (
+// //     <div className="w-full flex justify-center items-center min-h-[50vh]">
+// //       <SearchNotFound searchQuery={filters.search} />
+// //     </div>
+// //   ) : products.length === 0  ? (
+// //     <div className="w-full flex justify-center items-center min-h-[50vh]">
+// //       <ProductNotFound content= 'Product not found' sub='Please use other filters...' />
+// //     </div>
+// //   ) : (
+// //     <div className="grid 
+// //     items-stretch
+// //     grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-6 p-2">
+// //       {products.map((item) => (
+// //         <ProductCard
+// //           key={item._id}
+// //           buttons={true}
+// //           product={item}
+// //           handleClick={handleClick}
+// //         />
+// //       ))}
+// //     </div>
+// //   )}
+// // </div>
+// //             {/* PAGINATION */}
+// //             {!loading && pagination.totalPages > 1 && (
+// //               <div className="mt-5 w-[70vw]">
+// //                 <Pagination
+// //                   className="mr-20"
+// //                   totalPages={pagination.totalPages}
+// //                   itemsPerPage={pagination.limit}
+// //                   totalItems={pagination.totalProducts}
+// //                   currentPage={pagination.page}
+// //                   onPageChange={setPagination}
+// //                 />
+// //               </div>
+// //             )}
+// //           </div>
+// //           </div>
+// //     </>
+// //   );
+// // });
+
+// // export default ProductList;
+
+
 // import React, { memo, useEffect, useState } from "react";
 // import { Card, FormInput, Pagination } from "../components/ui";
 // import ProductCard from "../components/ui/ProductCard";
@@ -10,7 +152,6 @@
 // import ProductNotFound from "../components/ui/ProductNotFound";
 // import ProductsGridSkeleton from "../components/ui/ProductGridSkeleton";
 
-// //USER PRODUCTS UI PAGE
 // const ProductList = memo(() => {
 //   const {
 //     filters,
@@ -21,26 +162,16 @@
 //     loading,
 //     fetchProductByCategory,
 //     resetAllFilters,
-//     fetchSingleProduct,
-//     allCategories,
-//     debouncedSearch,
 //   } = useProduct();
+
 //   const { category } = useParams();
+//   const navigate = useNavigate();
 
-//   //CLEAR CATEGORY FILTER IF ANY
-//   //   useEffect(() => {
-//   //   if (filters.category !== null) {
-//   //     setFilters({category: null});
-//   //   }
-//   // }, [filters.category]);
-
-  
+//   const [showFilters, setShowFilters] = useState(false);
 
 //   useEffect(() => {
 //     fetchProductByCategory(category);
 //   }, [category, fetchProductByCategory]);
-
-//   const navigate = useNavigate();
 
 //   const handleClick = (id) => {
 //     navigate(`/product/${id}`);
@@ -48,91 +179,133 @@
 
 //   return (
 //     <>
-//         <div className="flex ml-0 m-2">
-//           {/* filters */}
-//           <div className="w-[50%] md:w-[20%] lg:w-[25%]">
-//             <aside className="w-full p-5 bg-card shadow-md">
-//               {/* Header */}
-//               <div className="flex justify-between items-center mb-3">
-//                 <h3 className="font-semibold text-[18px]">FILTERS</h3>
-//                 <button
-//                   className="text-sm text-purple-500 font-medium hover:underline"
-//                   onClick={resetAllFilters}
-//                 >
-//                   Reset All
-//                 </button>
+//       {/* MOBILE HEADER */}
+//       <div className="md:hidden flex justify-between items-center p-3">
+//         <h1 className="text-lg font-semibold capitalize">
+//           {category}
+//         </h1>
+//         <button
+//           onClick={() => setShowFilters(true)}
+//           className="px-4 py-2 text-sm bg-purple-600 text-white rounded"
+//         >
+//           Filters
+//         </button>
+//       </div>
+
+//       <div className="flex gap-4 m-2">
+//         {/* DESKTOP FILTERS */}
+//         <div className="hidden md:block md:w-[25%]">
+//           <aside className="w-full p-5 bg-card shadow-md">
+//             <div className="flex justify-between items-center mb-3">
+//               <h3 className="font-semibold text-[18px]">FILTERS</h3>
+//               <button
+//                 className="text-sm text-purple-500 font-medium hover:underline"
+//                 onClick={resetAllFilters}
+//               >
+//                 Reset All
+//               </button>
+//             </div>
+
+//             <div className="flex flex-col gap-5">
+//               <SortFilter setFilters={setFilters} filters={filters} />
+//               <PriceFilter setFilters={setFilters} filters={filters} />
+//               <RatingFilter
+//                 filters={filters}
+//                 setFilters={setFilters}
+//                 ratingsCount={2}
+//               />
+//             </div>
+//           </aside>
+//         </div>
+
+//         {/* MAIN CONTENT */}
+//         <div className="w-full flex flex-col justify-between p-3 md:p-5">
+//           <div className="min-h-[60vh]">
+//             {!loading && products.length > 0 && (
+//               <div className="hidden md:flex justify-between mb-5">
+//                 <h1 className="text-xl font-semibold capitalize">
+//                   {category}
+//                 </h1>
 //               </div>
-//               <div className="flex flex-col gap-5">
-//                 <SortFilter setFilters={setFilters} filters={filters} />
-//                 {/* <PRICE FILTER /> */}
-//                 <PriceFilter setFilters={setFilters} filters={filters} />
-//                 {/* <RATING FILTER /> */}
-//                 <RatingFilter
-//                   filters={filters}
-//                   setFilters={setFilters}
-//                   ratingsCount={2}
+//             )}
+
+//             {loading ? (
+//               <ProductsGridSkeleton length={8} />
+//             ) : filters.search && products.length === 0 ? (
+//               <div className="flex justify-center items-center min-h-[50vh]">
+//                 <SearchNotFound searchQuery={filters.search} />
+//               </div>
+//             ) : products.length === 0 ? (
+//               <div className="flex justify-center items-center min-h-[50vh]">
+//                 <ProductNotFound
+//                   content="Product not found"
+//                   sub="Please use other filters..."
 //                 />
 //               </div>
-//             </aside>
-//           </div>
-
-//           {/* MAIN CONTENT AREA */}
-
-//           <div className="w-full flex flex-col justify-between p-5">
-
-// <div className="min-h-60vh">
-    
-//   {/* HEADER */}
-//   {!loading && products.length > 0 && (
-//     <div className="w-full flex justify-between p-5">
-//       <h1 className="text-xl font-semibold">
-//         {category.charAt(0).toUpperCase() + category.slice(1)}
-//       </h1>
-//     </div>
-//   )}
-
-//   {/* CONTENT STATES */}
-
-//   {loading ? (
-//       <ProductsGridSkeleton length={8} />
-//   ) : filters.search && products.length === 0 ? (
-//     <div className="w-full flex justify-center items-center min-h-[50vh]">
-//       <SearchNotFound searchQuery={filters.search} />
-//     </div>
-//   ) : products.length === 0  ? (
-//     <div className="w-full flex justify-center items-center min-h-[50vh]">
-//       <ProductNotFound content= 'Product not found' sub='Please use other filters...' />
-//     </div>
-//   ) : (
-//     <div className="grid 
-//     items-stretch
-//     grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-6 p-2">
-//       {products.map((item) => (
-//         <ProductCard
-//           key={item._id}
-//           buttons={true}
-//           product={item}
-//           handleClick={handleClick}
-//         />
-//       ))}
-//     </div>
-//   )}
-// </div>
-//             {/* PAGINATION */}
-//             {!loading && pagination.totalPages > 1 && (
-//               <div className="mt-5 w-[70vw]">
-//                 <Pagination
-//                   className="mr-20"
-//                   totalPages={pagination.totalPages}
-//                   itemsPerPage={pagination.limit}
-//                   totalItems={pagination.totalProducts}
-//                   currentPage={pagination.page}
-//                   onPageChange={setPagination}
-//                 />
+//             ) : (
+//               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+//                 {products.map((item) => (
+//                   <ProductCard
+//                     key={item._id}
+//                     buttons
+//                     product={item}
+//                     handleClick={handleClick}
+//                   />
+//                 ))}
 //               </div>
 //             )}
 //           </div>
+
+//           {!loading && pagination.totalPages > 1 && (
+//             <div className="mt-6">
+//               <Pagination
+//                 totalPages={pagination.totalPages}
+//                 itemsPerPage={pagination.limit}
+//                 totalItems={pagination.totalProducts}
+//                 currentPage={pagination.page}
+//                 onPageChange={setPagination}
+//               />
+//             </div>
+//           )}
+//         </div>
+//       </div>
+
+//       {/* MOBILE FILTER DRAWER */}
+//       {showFilters && (
+//         <div className="fixed inset-0 z-50 bg-black/40 md:hidden">
+//           <div className="absolute right-0 top-0 h-full w-[65%] bg-card p-5 overflow-y-auto">
+//             <div className="flex justify-between items-center mb-4">
+//               <h3 className="font-semibold text-lg">FILTERS</h3>
+//               <button
+//                 onClick={() => setShowFilters(false)}
+//                 className="text-sm text-red-500"
+//               >
+//                 Close
+//               </button>
+//             </div>
+
+//             <div className="flex flex-col gap-5">
+//               <SortFilter setFilters={setFilters} filters={filters} />
+//               <PriceFilter setFilters={setFilters} filters={filters} />
+//               <RatingFilter
+//                 filters={filters}
+//                 setFilters={setFilters}
+//                 ratingsCount={2}
+//               />
+
+//               <button
+//                 onClick={() => {
+//                   resetAllFilters();
+//                   setShowFilters(false);
+//                 }}
+//                 className="mt-5 py-2 text-sm bg-purple-600 text-white rounded"
+//               >
+//                 Reset Filters
+//               </button>
+//             </div>
 //           </div>
+//         </div>
+//       )}
 //     </>
 //   );
 // });
@@ -140,8 +313,9 @@
 // export default ProductList;
 
 
+
 import React, { memo, useEffect, useState } from "react";
-import { Card, FormInput, Pagination } from "../components/ui";
+import { Pagination } from "../components/ui";
 import ProductCard from "../components/ui/ProductCard";
 import { useProduct } from "../context/ProductContext";
 import { useNavigate, useParams } from "react-router-dom";
@@ -180,26 +354,26 @@ const ProductList = memo(() => {
   return (
     <>
       {/* MOBILE HEADER */}
-      <div className="md:hidden flex justify-between items-center p-3">
-        <h1 className="text-lg font-semibold capitalize">
+      <div className="container-shell flex items-center justify-between py-4 md:hidden">
+        <h1 className="text-lg font-black capitalize">
           {category}
         </h1>
         <button
           onClick={() => setShowFilters(true)}
-          className="px-4 py-2 text-sm bg-purple-600 text-white rounded"
+          className="primary-action px-4 py-2 text-sm"
         >
           Filters
         </button>
       </div>
 
-      <div className="flex gap-4 m-2">
+      <div className="container-shell flex gap-6 py-6">
         {/* DESKTOP FILTERS */}
-        <div className="hidden md:block md:w-[25%]">
-          <aside className="w-full p-5 bg-card shadow-md">
+        <div className="hidden md:block md:w-72 lg:w-80">
+          <aside className="surface-panel sticky top-24 w-full p-5">
             <div className="flex justify-between items-center mb-3">
-              <h3 className="font-semibold text-[18px]">FILTERS</h3>
+              <h3 className="font-black text-[15px] tracking-wide">Filters</h3>
               <button
-                className="text-sm text-purple-500 font-medium hover:underline"
+                className="text-sm font-bold text-[var(--color-primary)] hover:underline"
                 onClick={resetAllFilters}
               >
                 Reset All
@@ -219,13 +393,19 @@ const ProductList = memo(() => {
         </div>
 
         {/* MAIN CONTENT */}
-        <div className="w-full flex flex-col justify-between p-3 md:p-5">
+        <div className="w-full min-w-0 xl:mr-10 sm:m-8">
           <div className="min-h-[60vh]">
             {!loading && products.length > 0 && (
-              <div className="hidden md:flex justify-between mb-5">
-                <h1 className="text-xl font-semibold capitalize">
-                  {category}
-                </h1>
+              <div className="mb-5 hidden items-end justify-between md:flex">
+                <div>
+                  <span className="section-kicker">Category</span>
+                  <h1 className="text-3xl font-black capitalize tracking-tight">
+                    {category}
+                  </h1>
+                </div>
+                <p className="text-sm font-medium text-muted">
+                  {pagination.totalProducts || products.length} products
+                </p>
               </div>
             )}
 
@@ -243,7 +423,7 @@ const ProductList = memo(() => {
                 />
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
                 {products.map((item) => (
                   <ProductCard
                     key={item._id}
@@ -273,12 +453,12 @@ const ProductList = memo(() => {
       {/* MOBILE FILTER DRAWER */}
       {showFilters && (
         <div className="fixed inset-0 z-50 bg-black/40 md:hidden">
-          <div className="absolute right-0 top-0 h-full w-[65%] bg-card p-5 overflow-y-auto">
+          <div className="absolute right-0 top-0 h-full w-[86%] max-w-sm overflow-y-auto bg-card p-5 shadow-lg">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="font-semibold text-lg">FILTERS</h3>
+              <h3 className="font-black text-lg">Filters</h3>
               <button
                 onClick={() => setShowFilters(false)}
-                className="text-sm text-red-500"
+                className="text-sm font-bold text-red-500"
               >
                 Close
               </button>
@@ -298,7 +478,7 @@ const ProductList = memo(() => {
                   resetAllFilters();
                   setShowFilters(false);
                 }}
-                className="mt-5 py-2 text-sm bg-purple-600 text-white rounded"
+                className="primary-action mt-5 py-2 text-sm"
               >
                 Reset Filters
               </button>

@@ -146,10 +146,10 @@ export default function Navbar({
             </div>
             {showWishlist && (
               <div className="relative">
-                <Heart size={22} className={`cursor-pointer text-${wishlist.length>0 ? 'red-500' : ''}`} onClick={() => navigate("/wishlist", { replace: true })} />
-                  {wishlist.length > 0 && (
+                <Heart size={22} className={`cursor-pointer text-${wishlist?.length>0 ? 'red-500' : ''}`} onClick={() => navigate("/wishlist", { replace: true })} />
+                  {wishlist?.length > 0 && (
                   <span className="absolute flex rounded-xl text-xs bottom-4 left-3  text-white bg-red-600 w-4 h-4 justify-center items-center">
-                    {wishlist.length}
+                    {wishlist?.length}
                   </span>
                 )}
               </div>
@@ -163,9 +163,9 @@ export default function Navbar({
                   className="cursor-pointer"
                   onClick={() => navigate("/cart", { replace: true })}
                 />
-                {items.length > 0 && (
+                {items?.length > 0 && (
                   <span className="absolute flex rounded-xl text-xs bottom-3 left-3  text-white bg-red-600 w-4 h-4 justify-center items-center">
-                    {items.length}
+                    {items?.length}
                   </span>
                 )}
               </div>

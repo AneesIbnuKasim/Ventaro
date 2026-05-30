@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import Button from "./Button";
+import { ArrowRight } from "lucide-react";
+
 import formatImageUrl from "../../utils/formatImageUrl";
 
 const OfferBanner = ({
@@ -9,48 +10,42 @@ const OfferBanner = ({
   buttonText = "Shop Now",
   onClick,
   image,
-  className='',
-  bgGradient = "from-indigo-600 to-purple-600",
+  className = "",
 }) => {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
-      className={`rounded-2xl overflow-hidden bg-gradient-to-r ${bgGradient} text-white ${className}`}
+    <motion.article
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.35 }}
+      className={`group relative overflow-hidden rounded-lg border border-card-theme bg-slate-950 text-white shadow-md ${className}`}
     >
-      <div className={`grid grid-cols-1 md:grid-cols-2 items-center`}>
-        <div className="p-8 space-y-4 ">
-          <h2 className="text-3xl font-bold">{title}</h2>
-          <h3 className="text-xl font-semibold text-white/90">{subtitle}</h3>
-          <p className="text-sm text-white/80 max-w-md">{description}</p>
+      {image && (
+        <img
+          src={formatImageUrl(image)}
+          alt={title}
+          className="absolute inset-0 h-full w-full object-cover opacity-90 transition duration-500 group-hover:scale-105"
+        />
+      )}
+      <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/25 to-slate-950/10" />
 
-          <Button
-            onClick={onClick}
-            className="bg-purple-500 text-slate-900 hover:bg-purple-700 mt-4"
-          >
-            {buttonText}
-          </Button>
-        </div>
-
-        {image && (
-  <div className="relative flex justify-end p-6">
-    {/* Glow Background */}
-    <div className="absolute -inset-4 bg-white/10 blur-2xl rounded-full" />
-
-    <motion.img
-      src={formatImageUrl(image)}
-      alt={title}
-      initial={{ rotate: -6, y: 10, opacity: 0 }}
-      animate={{ rotate: 0, y: 0, opacity: 1 }}
-      whileHover={{ y: -6, rotate: 1, scale: 1.05 }}
-      transition={{ type: "spring", stiffness: 120 }}
-      className="relative min-h-[260px] object-contain rounded-xl shadow-2xl bg-white/10 backdrop-blur-md p-3"
-    />
-  </div>
-)}
+      <div className="relative z-10 flex min-h-[280px] max-w-md flex-col justify-end p-6 md:p-8">
+        <span className="mb-3 w-fit rounded-full bg-white/15 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em]">
+          Limited Deal
+        </span>
+        <h2 className="text-2xl font-black leading-tight md:text-3xl">{title}</h2>
+        {subtitle && <p className="mt-2 text-sm font-semibold text-white/90">{subtitle}</p>}
+        {description && <p className="mt-2 text-sm text-white/75">{description}</p>}
+        <button
+          type="button"
+          onClick={onClick}
+          className="mt-5 inline-flex w-fit items-center gap-2 rounded-md bg-white px-4 py-2.5 text-sm font-bold text-slate-950 transition hover:bg-slate-100"
+        >
+          {buttonText}
+          <ArrowRight size={16} />
+        </button>
       </div>
-    </motion.div>
+    </motion.article>
   );
 };
 

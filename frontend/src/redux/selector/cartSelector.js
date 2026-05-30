@@ -7,13 +7,13 @@ export const selectAppliedCoupon = state => state.cart.appliedCoupon;
 
 export const selectTotalQuantity = createSelector(
   [selectCartItems],
-  (items) => items.reduce((sum, item) => sum + item.quantity, 0)
+  (items) => items?.reduce((sum, item) => sum + item.quantity, 0)
 );
 
 export const selectSubTotal = createSelector(
   [selectCartItems],
   (items=[]) =>
-    items.reduce((sum, item) => sum + item.basePrice * item.quantity, 0)
+    items?.reduce((sum, item) => sum + item.basePrice * item.quantity, 0)
 );
 
 export const selectDiscountTotal = createSelector(

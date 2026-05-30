@@ -268,6 +268,307 @@
 
 
 
+// import React, { memo, useEffect } from "react";
+// import Slider from "../components/ui/Slider";
+// import { useProduct } from "../context/ProductContext";
+// import ProductCard from "../components/ui/ProductCard";
+// import { useNavigate } from "react-router-dom";
+// import { useDispatch, useSelector } from "react-redux";
+// import { Button, Loading } from "../components/ui";
+// import {
+//   selectCartTotals,
+// } from "../redux/selector/cartSelector";
+// import {
+//   fetchCartThunk,
+//   removeFromCartThunk,
+//   updateQuantity,
+// } from "../redux/slices/cartSlice";
+// import { toast } from "react-toastify";
+// import { useAuth } from "../context/AuthContext";
+// import ApplyCouponForm from "../components/ui/ApplyCouponForm";
+// import { CURRENCY } from "../constants/ui";
+// import { setCheckoutItems } from "../redux/slices/checkoutSlice";
+// import formatImageUrl from "../utils/formatImageUrl";
+
+// const Cart = memo(() => {
+//   const { products, fetchProduct } = useProduct();
+//   const { isAuthenticated } = useAuth();
+//   const navigate = useNavigate();
+//   const dispatch = useDispatch();
+
+//   const {
+//     items,
+//     discountTotal,
+//     subTotal,
+//     payableTotal,
+//     shippingFee,
+//     grandTotal,
+//     remainingForFreeDelivery,
+//   } = useSelector(selectCartTotals);
+
+//   const { loading } = useSelector((state) => state.cart);
+
+//   useEffect(() => {
+//     dispatch(fetchCartThunk());
+//   }, []);
+
+//   useEffect(() => {
+//     if (products.length === 0) fetchProduct();
+//   }, []);
+
+//   const decreaseQuantity = (itemId) => {
+//     dispatch(updateQuantity({ itemId, delta: -1 }, { isAuthenticated }));
+//   };
+
+//   const addQuantity = (itemId) => {
+//     dispatch(updateQuantity({ itemId, delta: +1 }, { isAuthenticated }));
+//   };
+
+//   const handleRemoveButton = async (itemId) => {
+//     try {
+//       await dispatch(removeFromCartThunk(itemId)).unwrap();
+//       toast.success("Product removed from cart");
+//     } catch (error) {
+//       toast.error("Failed to remove item");
+//     }
+//   };
+
+//   const handleCheckoutButton = () => {
+//     dispatch(setCheckoutItems(items));
+//     navigate("/checkout");
+//   };
+
+//   const hasCartItems = items?.length;
+
+//   return (
+//     <div className="py-6 sm:py-10 px-3 sm:px-5">
+//       <div className="max-w-7xl mx-auto">
+
+//         {loading ? (
+//           <Loading />
+//         ) : !hasCartItems ? (
+//           <div className="text-gray-500 min-h-[50vh] flex justify-center items-center text-center flex-col gap-5">
+//             <p>Your cart is empty</p>
+//             <Button size="md" onClick={() => navigate("/")}>
+//               HOME
+//             </Button>
+//           </div>
+//         ) : (
+//           <>
+//             <h1 className="h2 mb-5">Shopping Cart</h1>
+
+//             <div className="flex flex-col lg:flex-row gap-6 lg:gap-12">
+
+//               {/* CART ITEMS */}
+//               <div className="flex-1 space-y-4">
+
+//                 {items?.map((item) => (
+//                   <div
+//                     key={item._id}
+//                     className="
+//                     relative
+//                       flex flex-col sm:flex-row gap-4
+//                       bg-inner-card shadow-sm p-4 sm:p-6 rounded-xl
+//                     "
+//                   >
+//                     {/* IMAGE */}
+//                     <img
+//                       src={formatImageUrl(item?.product?.images[0])}
+//                       alt="product"
+//                       className="
+//                         w-full sm:w-28
+//                         h-40 sm:h-36
+//                         object-contain cursor-pointer
+//                       "
+//                       onClick={() => navigate(`/product/${item.product._id}`)}
+//                     />
+
+//                     {/* INFO */}
+//                     <div className="flex-1">
+//                       <h3 className="font-semibold">
+//                         {item.product.name}
+//                       </h3>
+
+//                       <p className="text-sm text-secondary">
+//                         {item.product.brandName}
+//                       </p>
+
+//                       <p className="font-semibold mt-2">
+//                         {CURRENCY}{item.basePrice}
+//                       </p>
+
+//                       {/* MOBILE CONTROLS */}
+//                       <div className="flex items-center justify-between mt-4 sm:hidden">
+//                         <div className="flex items-center border rounded-lg">
+//                           <button
+//                             onClick={() => decreaseQuantity(item._id)}
+//                             className="px-3 py-1"
+//                           >
+//                             −
+//                           </button>
+//                           <span className="px-3">{item.quantity}</span>
+//                           <button
+//                             onClick={() => addQuantity(item._id)}
+//                             className="px-3 py-1"
+//                           >
+//                             +
+//                           </button>
+//                         </div>
+
+//                         <button
+//                           onClick={() => handleRemoveButton(item._id)}
+//                           className="absolute top-1 right-2 text-red-500 text-2xl"
+//                         >
+//                           ×
+//                         </button>
+//                       </div>
+//                     </div>
+
+//                     {/* DESKTOP CONTROLS */}
+//                     <div className="hidden sm:flex items-center gap-4">
+//                       <div className="flex items-center border rounded-lg">
+//                         <button
+//                           onClick={() => decreaseQuantity(item._id)}
+//                           className="px-3 py-1"
+//                         >
+//                           −
+//                         </button>
+//                         <span className="px-3">{item.quantity}</span>
+//                         <button
+//                           onClick={() => addQuantity(item._id)}
+//                           className="px-3 py-1"
+//                         >
+//                           +
+//                         </button>
+//                       </div>
+
+//                       <button
+//                         onClick={() => handleRemoveButton(item._id)}
+//                         className="text-red-500 text-2xl"
+//                       >
+//                         ×
+//                       </button>
+//                     </div>
+//                   </div>
+//                 ))}
+//               </div>
+
+//               {/* SUMMARY */}
+//               <div className="
+//                 w-full lg:w-96
+//                 bg-inner-card rounded-xl
+//                 shadow-sm p-5 sm:p-6
+//                 h-fit lg:sticky lg:top-6
+//               ">
+//                 <h2 className="text-lg font-semibold mb-4">
+//                   Cart Summary
+//                 </h2>
+
+//                 <ApplyCouponForm />
+
+//                 {shippingFee === 0 ? (
+//                   <div className="bg-green-100 text-green-700 text-sm px-4 py-2 rounded-lg font-medium">
+//                     🎉 You have unlocked FREE DELIVERY
+//                   </div>
+//                 ) : (
+//                   <div className="bg-yellow-100 text-yellow-800 text-sm px-4 py-2 rounded-lg font-medium">
+//                     🚚 Add {CURRENCY}{remainingForFreeDelivery} more for FREE DELIVERY
+//                   </div>
+//                 )}
+
+//                 <div className="space-y-3 text-sm mt-4">
+//                   <div className="flex justify-between">
+//                     <span className="text-secondary">Subtotal</span>
+//                     <span>{CURRENCY}{subTotal}</span>
+//                   </div>
+
+//                   <div className="flex justify-between">
+//                     <span className="text-secondary">Discount</span>
+//                     <span className="text-green-600">
+//                       -{CURRENCY}{discountTotal}
+//                     </span>
+//                   </div>
+
+//                   <div className="flex justify-between">
+//                     <span className="text-secondary">Shipping Fee</span>
+//                     <span>
+//                       {shippingFee === 0
+//                         ? <span className="text-green-600 font-medium">FREE</span>
+//                         : `${CURRENCY}${shippingFee}`}
+//                     </span>
+//                   </div>
+
+//                   <hr />
+
+//                   <div className="flex justify-between font-semibold text-base">
+//                     <span>Grand Total</span>
+//                     <span>{CURRENCY}{grandTotal}</span>
+//                   </div>
+//                 </div>
+
+//                 <button
+//                   onClick={handleCheckoutButton}
+//                   className="w-full bg-purple-600 hover:bg-purple-700 transition text-white py-3 rounded-lg font-medium mt-5"
+//                 >
+//                   CHECKOUT
+//                 </button>
+//               </div>
+
+//             </div>
+//           </>
+//         )}
+//       </div>
+
+//       {/* RELATED */}
+//       <Slider
+//         title="Related Products"
+//         items={products}
+//         renderItem={(item) => (
+//           <ProductCard
+//             product={item}
+//             handleClick={(id) => navigate(`/product/${id}`)}
+//           />
+//         )}
+//       />
+
+//       <Slider
+//         title="You May Also Like"
+//         items={products}
+//         renderItem={(item) => (
+//           <ProductCard
+//             product={item}
+//             handleClick={(id) => navigate(`/product/${id}`)}
+//           />
+//         )}
+//       />
+//     </div>
+//   );
+// });
+
+// export default Cart;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import React, { memo, useEffect } from "react";
 import Slider from "../components/ui/Slider";
 import { useProduct } from "../context/ProductContext";
@@ -306,7 +607,7 @@ const Cart = memo(() => {
     remainingForFreeDelivery,
   } = useSelector(selectCartTotals);
 
-  const { loading } = useSelector((state) => state.cart);
+  const { loading, appliedCoupon } = useSelector((state) => state.cart);
 
   useEffect(() => {
     dispatch(fetchCartThunk());
@@ -315,6 +616,10 @@ const Cart = memo(() => {
   useEffect(() => {
     if (products.length === 0) fetchProduct();
   }, []);
+
+  useEffect(()=> {
+    console.log('cart coup:', appliedCoupon)
+  }, [appliedCoupon])
 
   const decreaseQuantity = (itemId) => {
     dispatch(updateQuantity({ itemId, delta: -1 }, { isAuthenticated }));
@@ -341,21 +646,29 @@ const Cart = memo(() => {
   const hasCartItems = items?.length;
 
   return (
-    <div className="py-6 sm:py-10 px-3 sm:px-5">
-      <div className="max-w-7xl mx-auto">
+    <div className="py-6 sm:py-10">
+      <div className="container-shell">
 
         {loading ? (
           <Loading />
         ) : !hasCartItems ? (
-          <div className="text-gray-500 min-h-[50vh] flex justify-center items-center text-center flex-col gap-5">
-            <p>Your cart is empty</p>
+          <div className="surface-panel flex min-h-[50vh] flex-col items-center justify-center gap-5 text-center text-muted">
+            <p className="text-lg font-bold">Your cart is empty</p>
             <Button size="md" onClick={() => navigate("/")}>
-              HOME
+              Continue Shopping
             </Button>
           </div>
         ) : (
           <>
-            <h1 className="h2 mb-5">Shopping Cart</h1>
+            <div className="mb-6 flex items-end justify-between gap-4">
+              <div>
+                <span className="section-kicker">Your bag</span>
+                <h1 className="text-3xl font-black tracking-tight">Shopping Cart</h1>
+              </div>
+              <p className="hidden text-sm font-medium text-muted sm:block">
+                {items.length} item{items.length > 1 ? "s" : ""}
+              </p>
+            </div>
 
             <div className="flex flex-col lg:flex-row gap-6 lg:gap-12">
 
@@ -368,7 +681,7 @@ const Cart = memo(() => {
                     className="
                     relative
                       flex flex-col sm:flex-row gap-4
-                      bg-inner-card shadow-sm p-4 sm:p-6 rounded-xl
+                      surface-panel p-4 sm:p-5
                     "
                   >
                     {/* IMAGE */}
@@ -395,11 +708,15 @@ const Cart = memo(() => {
 
                       <p className="font-semibold mt-2">
                         {CURRENCY}{item.basePrice}
+                         {item?.product?.originalPrice > item?.basePrice && (
+            <span className="pb-0.5 ml-1 text-xs font-medium text-muted line-through">
+              {CURRENCY}{item?.product?.originalPrice}
+            </span>
+          )}
                       </p>
-
                       {/* MOBILE CONTROLS */}
                       <div className="flex items-center justify-between mt-4 sm:hidden">
-                        <div className="flex items-center border rounded-lg">
+                        <div className="flex items-center rounded-md border border-card-theme bg-card">
                           <button
                             onClick={() => decreaseQuantity(item._id)}
                             className="px-3 py-1"
@@ -426,7 +743,7 @@ const Cart = memo(() => {
 
                     {/* DESKTOP CONTROLS */}
                     <div className="hidden sm:flex items-center gap-4">
-                      <div className="flex items-center border rounded-lg">
+                      <div className="flex items-center rounded-md border border-card-theme bg-card">
                         <button
                           onClick={() => decreaseQuantity(item._id)}
                           className="px-3 py-1"
@@ -456,11 +773,10 @@ const Cart = memo(() => {
               {/* SUMMARY */}
               <div className="
                 w-full lg:w-96
-                bg-inner-card rounded-xl
-                shadow-sm p-5 sm:p-6
+                surface-panel p-5 sm:p-6
                 h-fit lg:sticky lg:top-6
               ">
-                <h2 className="text-lg font-semibold mb-4">
+                <h2 className="text-lg font-black mb-4">
                   Cart Summary
                 </h2>
 
@@ -468,11 +784,11 @@ const Cart = memo(() => {
 
                 {shippingFee === 0 ? (
                   <div className="bg-green-100 text-green-700 text-sm px-4 py-2 rounded-lg font-medium">
-                    🎉 You have unlocked FREE DELIVERY
+                    You have unlocked free delivery
                   </div>
                 ) : (
                   <div className="bg-yellow-100 text-yellow-800 text-sm px-4 py-2 rounded-lg font-medium">
-                    🚚 Add {CURRENCY}{remainingForFreeDelivery} more for FREE DELIVERY
+                    Add {CURRENCY}{remainingForFreeDelivery} more for free delivery
                   </div>
                 )}
 
@@ -508,9 +824,9 @@ const Cart = memo(() => {
 
                 <button
                   onClick={handleCheckoutButton}
-                  className="w-full bg-purple-600 hover:bg-purple-700 transition text-white py-3 rounded-lg font-medium mt-5"
+                  className="primary-action mt-5 w-full py-3 font-bold"
                 >
-                  CHECKOUT
+                  Checkout
                 </button>
               </div>
 
@@ -520,6 +836,7 @@ const Cart = memo(() => {
       </div>
 
       {/* RELATED */}
+      <div className="container-shell">
       <Slider
         title="Related Products"
         items={products}
@@ -541,6 +858,7 @@ const Cart = memo(() => {
           />
         )}
       />
+      </div>
     </div>
   );
 });

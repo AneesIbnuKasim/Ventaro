@@ -46,7 +46,7 @@ const ApplyCouponForm = () => {
             <Field
               name="code"
               as={FormInput}
-              disabled={appliedCoupon !== null ? true : false}
+              // disabled={ (appliedCoupon !== null || appliedCoupon !== undefined) ? true : false}
               placeholder="Enter coupon code"
               autoComplete="off"
             />
@@ -62,8 +62,8 @@ const ApplyCouponForm = () => {
       
                 {/* Success */}
                 {appliedCoupon && (
-                  <p className="text-sm text-green-600 mt-1 ">
-                    Coupon <b>{appliedCoupon.code}</b> applied 🎉
+                  <p className="text-sm text-green-600 mt-1">
+                    Coupon <b>{appliedCoupon.code}</b> applied
                   </p>
                 )}
           </div>
@@ -71,9 +71,9 @@ const ApplyCouponForm = () => {
           <Button
             variant='custom'
             type="submit"
-            disabled={isSubmitting || applyingCoupon}
+            disabled={applyingCoupon}
           >
-            {applyingCoupon ? "Please wait..." : appliedCoupon !== null ? 'REMOVE' : 'APPLY'}
+            {applyingCoupon ? "Please wait..." : (appliedCoupon === null || appliedCoupon === undefined) ? 'APPLY' : 'REMOVE'}
           </Button>
          
           

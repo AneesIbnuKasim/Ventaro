@@ -57,7 +57,7 @@ const Footer = memo(() => {
 
           {/* BRAND */}
           <div>
-            <h3 className="font-bold text-[15px] tracking-wide text-center md:text-left">
+            <h3 className="font-bold text-sm tracking-wide text-center md:text-left">
               VENTARO - WHERE QUALITY MEETS YOU
             </h3>
 
@@ -87,7 +87,7 @@ const Footer = memo(() => {
                 onClick={() => toggleColumn(index)}
                 className="w-full flex items-center justify-between md:block"
               >
-                <h3 className="font-semibold text-[15px] mb-2 md:mb-4">
+                <h3 className="font-semibold text-sm mb-2 md:mb-4">
                   {col.title}
                 </h3>
 
@@ -105,7 +105,7 @@ const Footer = memo(() => {
                   overflow-hidden transition-all duration-300
                   ${openIndex === index ? "max-h-96" : "max-h-0"}
                   md:max-h-none
-                  flex flex-col gap-2 text-sm text-gray-600
+                  flex flex-col gap-2 text-sm
                 `}
               >
                 {col.links.map((item) => (

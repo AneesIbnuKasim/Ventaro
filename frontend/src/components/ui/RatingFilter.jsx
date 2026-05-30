@@ -16,11 +16,11 @@ const RatingFilter = memo(({
   return (
     <>
             <div className="mb-8">
-        <h4 className="font-medium mb-3 text-[15px]">By Rating</h4>
+        <h4 className="mb-3 text-sm font-bold">By Rating</h4>
         {[5,4,3,2,1].map((star) => (
           <label
             key={star}
-            className="flex items-center justify-between mb-2 text-sm cursor-pointer"
+            className="mb-2 flex cursor-pointer items-center justify-between rounded-md px-2 py-1.5 text-sm transition hover:bg-inner-card"
           >
             <div className="flex items-center gap-1">
               {Array.from({ length: star }).map((_, i) => (

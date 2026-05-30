@@ -26,10 +26,10 @@ export default function PriceFilter({
 
   return (
     <div className="w-full">
-      <h4 className="text-lg font-semibold text-secondary mb-4">Price Range</h4>
+        <h4 className="mb-4 text-sm font-bold text-secondary">Price Range</h4>
 
       {/* Slider */}
-     <div className="flex items-center gap-5  ">
+     <div className="flex items-center gap-3">
          <RangeSlider
         min={0}
         max={100000}
@@ -37,9 +37,10 @@ export default function PriceFilter({
         value={values}
         thumbSize={4}
         onInput={handleChange}
-        className="accent-purple-500"
+        className="accent-blue-500"
         />
-        <button className= " border border-purple-500 p-1 hover:bg-purple-500 hover:text-white rounded-xl" type="button" onClick={handlePriceFilter}>Go</button>
+                <button className="primary-action px-3 py-2 text-xs" type="button" onClick={handlePriceFilter}>Go</button>
+
      </div>
       
 

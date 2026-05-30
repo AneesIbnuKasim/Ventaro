@@ -143,10 +143,13 @@ const cartSlice = createSlice({
         state.loading = true;
       })
       .addCase(fetchCartThunk.fulfilled, (state, action) => {
-        const cart = action.payload.cart;
-        state.items = cart.items;
-        state.appliedCoupon = cart.appliedCoupon;
+        const cart = action.payload?.cart;
+        console.log('cart:', cart)
+        if(cart) {
+          state.items = cart?.items;
+        state.appliedCoupon = cart?.appliedCoupon;
         state.loading = false;
+        }
       })
       .addCase(fetchCartThunk.rejected, (state, action) => {
         state.loading = false;

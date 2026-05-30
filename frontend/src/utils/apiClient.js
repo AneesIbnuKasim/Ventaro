@@ -121,12 +121,13 @@ const createApiClient = () => {
         statusCode: backendError?.statusCode || error.response?.status || error.status,
         raw: error,
       };
-      console.log('sts code', normalizedError.statusCode);
+      console.log('norm err', normalizedError
+      );
       
       
 
       if (normalizedError.statusCode !== 401 && normalizedError.statusCode !== 403 && normalizedError.statusCode !== 429) {
-        toast.error("Server error. Please try again later.");
+        toast.error(normalizedError.message);
       }
       return Promise.reject(normalizedError);
     }
