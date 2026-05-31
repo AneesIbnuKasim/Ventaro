@@ -91,22 +91,22 @@ const Home = memo(() => {
       {/* ================= POPULAR CATEGORIES ================= */}
       <section className="max-w-7xl mx-auto px-4 py-8">
         <h2 className="text-lg font-semibold mb-6">Popular Categories</h2>
-
-        <div className="flex gap-8 overflow-x-auto">
+        <div className="grid grid-flow-col auto-cols-[minmax(96px,1fr)] gap-3 overflow-x-auto pb-2 md:grid-flow-row md:grid-cols-6 lg:grid-cols-8">
           {categories.map((cat) => (
-            <div
+            <button
+              type="button"
               key={cat._id}
-              className="flex flex-col items-center min-w-22.5 cursor-pointer hover:scale-110 transition-all"
+              className="group flex flex-col items-center rounded-lg border border-card-theme bg-card p-3 text-center shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
               onClick={() => navigateToCategory(cat.name)}
             >
               <div
-                className="w-20 h-20 rounded-full bg-cover bg-center"
+                className="h-20 w-20 rounded-full border border-card-theme bg-inner-card bg-cover bg-center transition group-hover:scale-105"
                 style={{
                   backgroundImage: `url(${API_CONFIG.imageURL2}${cat.image[0]})`,
                 }}
               />
-              <span className="mt-2 text-sm">{cat.name}</span>
-            </div>
+              <span className="mt-3 line-clamp-1 text-sm font-bold">{cat.name}</span>
+            </button>
           ))}
         </div>
       </section>

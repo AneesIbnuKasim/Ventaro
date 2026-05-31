@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Search, User, Heart, ShoppingBag, Menu, X, ToggleLeft, ToggleRight } from "lucide-react";
+import { Search, User, Heart, ShoppingBag, Menu, X, ToggleLeft, ToggleRight, Moon, Sun } from "lucide-react";
 import { useProduct } from "../../context/ProductContext";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import SearchInput from "./SearchInput";
@@ -105,12 +105,15 @@ export default function Navbar({
           {/* RIGHT: Icons */}
           <div className="flex items-center gap-5">
               {/* THEME ICON */}
-            {
-              mode === 'light' ? (
-                <ToggleLeft size={22} className={`cursor-pointer`} onClick={() => dispatch(toggleTheme())} />
-              ) :
-              <ToggleRight size={22} className={`cursor-pointer text-red-500`} onClick={() => dispatch(toggleTheme())} />
-            }
+            
+            <button
+              type="button"
+              className="icon-button"
+              onClick={() => dispatch(toggleTheme())}
+              aria-label={mode === "light" ? "Switch to dark mode" : "Switch to light mode"}
+            >
+              {mode === "light" ? <Moon size={20} /> : <Sun size={20} />}
+            </button>
               
             <div className="relative group inline-block">
               {showProfile && (
